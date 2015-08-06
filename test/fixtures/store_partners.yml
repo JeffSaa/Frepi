@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nit: MyString
+  manager_name: MyString
+  manager_email: MyString
+  manager_phone_number: MyString
+
+two:
+  nit: MyString
+  manager_name: MyString
+  manager_email: MyString
+  manager_phone_number: MyString

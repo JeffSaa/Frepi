@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reference_code: MyString
+  name: MyString
+  store_price: 9.99
+  frepi_price: 9.99
+  image: MyString
+
+two:
+  reference_code: MyString
+  name: MyString
+  store_price: 9.99
+  frepi_price: 9.99
+  image: MyString
