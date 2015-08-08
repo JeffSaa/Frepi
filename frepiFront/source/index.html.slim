@@ -8,6 +8,7 @@ html
 		/! Add semantic's CSS
 		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
 		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
+		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
 	body
 		.ui.fixed.inverted.menu
 		.ui.login-main
@@ -17,7 +18,7 @@ html
 						|Hola de nuevo!
 						.sub.header Ingresa y ten acceso a los mejores productos.
 					form.ui.form
-						.ui.raised.segment
+						#login-form.ui.raised.segment
 							.field
 								.ui.left.icon.input
 									i.user.icon
@@ -31,5 +32,8 @@ html
 							button#login-fb.ui.fluid.large.labeled.icon.facebook.button type="submit"
 								i.facebook.icon
 								|Entra con Facebook
+					#login-message.ui.center.aligned.stacked.segment
+						|No tienes cuenta? 
+						a href="#" Crea una
 		script src="javascripts/jquery/jquery-2.1.4.min.js"
 		script src="semantic/out/semantic.min.js"
