@@ -1,0 +1,26 @@
+.menu {
+  background-color: rgb(34, 182, 118) !important;
+  height: 55px;
+}
+
+.login-main {
+  padding-top: 8em;
+  background-image: url(../images/landing/login-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.login-main .header {
+  font-size: 3rem !important;
+  font-weight: 500;
+  margin-bottom: 1.45em;
+  color: #727272;
+}
+
+.login-main .sub.header {
+  padding: 0 0.4em;
+  font-size: 1.3rem !important;
+  color: #727272 !important;
+  padding-top: 1em !important;
+}

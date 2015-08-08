@@ -1,0 +1,35 @@
+doctype html
+html
+	head
+		meta charset="utf-8" /
+		title Frepi
+		/! Sets initial viewport load and disables zooming
+		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
+		/! Add semantic's CSS
+		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
+		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
+	body
+		.ui.fixed.inverted.menu
+		.ui.login-main
+			.ui.three.column.centered.stackable.grid
+				.column
+					h1.ui.center.aligned.header 
+						|Hola de nuevo!
+						.sub.header Ingresa y ten acceso a los mejores productos.
+					form.ui.form
+						.ui.raised.segment
+							.field
+								.ui.left.icon.input
+									i.user.icon
+									input type="text" name="username" placeholder="Usuario"
+							.field
+								.ui.left.icon.input
+									i.lock.icon
+									input type="password" name="password" placeholder="Contraseña"
+							button#login.ui.fluid.large.green.button type="submit" Iniciar
+							.ui.horizontal.divider o
+							button#login-fb.ui.fluid.large.labeled.icon.facebook.button type="submit"
+								i.facebook.icon
+								|Entra con Facebook
+		script src="javascripts/jquery/jquery-2.1.4.min.js"
+		script src="semantic/out/semantic.min.js"
