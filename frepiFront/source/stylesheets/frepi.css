@@ -1,20 +1,33 @@
+
+/* Login */
+
 .menu {
   background-color: rgb(34, 182, 118) !important;
-  height: 4.5em;
+  height: 85px;
+}
+
+#frepi-logo {
+  padding: 10px 0;
+}
+
+#frepi-logo img {
+  min-height: 40px;
+  max-height: 65px;
 }
 
 .login-main {
-  padding-top: 8em;
-  background-image: url(../images/landing/login-bg.jpg);
-  background-repeat: no-repeat;
+  padding-top: 7em;
+  background: url(../images/landing/login-bg.jpg) no-repeat fixed;
   background-size: cover;
-  height: 100%;
+  background-position: 0 50px;
+  min-height: 100%;
+  min-width: 100%;
 }
 
 .login-main .header {
   font-size: 3rem !important;
   font-weight: 500;
-  margin-bottom: 1.35em;
+  margin-bottom: 0.65em;
   color: #727272;
 }
 
@@ -22,7 +35,7 @@
   padding: 0 0.4em !important;
   font-size: 1.3rem !important;
   color: #727272 !important;
-  padding-top: 1em !important;
+  padding-top: 0.65em !important;
 }
 
 #login-form {
@@ -30,5 +43,8 @@
 }
 
 #login-message {
-  font-size: 16px;
+  padding-top: 1em;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
 }

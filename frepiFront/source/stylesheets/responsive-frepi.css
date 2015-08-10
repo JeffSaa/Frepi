@@ -2,4 +2,12 @@
   .ui.stackable.grid>.column:not(.row) {
     padding: 1rem 2rem !important;
   }
+
+  .login-main .header {
+    font-size: 2.6rem !important;
+  }
+
+  .login-main .sub.header {
+    font-size: 1.1rem !important;
+  }
 }
