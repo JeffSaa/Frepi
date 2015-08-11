@@ -9,15 +9,17 @@ class CreateUsers < ActiveRecord::Migration
       t.string  :identification,    null: false
       t.string  :address,           null: false
       t.string  :phone_number,      null: false
-      t.integer :user_type,         default: 0
-      t.string  :state
-      t.string  :country
+      t.integer :user_type,         null: false, default: 0
+      t.boolean :active,            null: false, default: true
       t.string  :image
 
-      # Extra information
-      t.decimal :latitude
-      t.decimal :longitude
 
+      # Extra information
+      t.decimal :latitude,          null: false, precision: 15, scale: 10
+      t.decimal :longitude,         null: false, precision: 15, scale: 10
+
+      # Associations
+      t.references :city,           index: true, foreign_key: true
       t.timestamps null: false
     end
   end

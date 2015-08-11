@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8) do
+ActiveRecord::Schema.define(version: 15) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "complaints", force: :cascade do |t|
     t.string   "message",    null: false
@@ -46,15 +53,72 @@ ActiveRecord::Schema.define(version: 8) do
   add_index "orders_products", ["order_id"], name: "index_orders_products_on_order_id"
   add_index "orders_products", ["product_id"], name: "index_orders_products_on_product_id"
 
+  create_table "orders_schedules", force: :cascade do |t|
+    t.integer  "order_id"
+    t.integer  "schedule_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "orders_schedules", ["order_id"], name: "index_orders_schedules_on_order_id"
+  add_index "orders_schedules", ["schedule_id"], name: "index_orders_schedules_on_schedule_id"
+
   create_table "products", force: :cascade do |t|
     t.string   "reference_code"
     t.string   "name"
     t.decimal  "store_price"
     t.decimal  "frepi_price"
     t.string   "image"
+    t.integer  "subcategory_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
+
+  add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id"
+
+  create_table "schedules", force: :cascade do |t|
+    t.string   "day"
+    t.time     "start_hour"
+    t.time     "end_hour"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "shoppers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "identification"
+    t.string   "last_name"
+    t.string   "phone_number"
+    t.string   "address"
+    t.string   "company_email"
+    t.string   "personal_email"
+    t.integer  "status"
+    t.string   "image_url"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "shoppers_orders", force: :cascade do |t|
+    t.integer  "shopper_id"
+    t.integer  "order_id"
+    t.datetime "accepted_date"
+    t.time     "delivery_time"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "shoppers_orders", ["order_id"], name: "index_shoppers_orders_on_order_id"
+  add_index "shoppers_orders", ["shopper_id"], name: "index_shoppers_orders_on_shopper_id"
+
+  create_table "shoppers_schedules", force: :cascade do |t|
+    t.integer  "shopper_id"
+    t.integer  "schedule_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "shoppers_schedules", ["schedule_id"], name: "index_shoppers_schedules_on_schedule_id"
+  add_index "shoppers_schedules", ["shopper_id"], name: "index_shoppers_schedules_on_shopper_id"
 
   create_table "store_partners", force: :cascade do |t|
     t.string   "nit"
@@ -65,6 +129,15 @@ ActiveRecord::Schema.define(version: 8) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
+
+  create_table "subcategories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "subcategories", ["category_id"], name: "index_subcategories_on_category_id"
 
   create_table "sucursals", force: :cascade do |t|
     t.string   "name"
