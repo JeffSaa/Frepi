@@ -6,11 +6,11 @@
   height: 85px;
 }
 
-#frepi-logo {
+#landing-logo {
   padding: 10px 0;
 }
 
-#frepi-logo img {
+#landing-logo img {
   min-height: 40px;
   max-height: 65px;
 }
@@ -24,14 +24,14 @@
   min-width: 100%;
 }
 
-.login-main .header {
+#login-grid .header {
   font-size: 3rem !important;
   font-weight: 500;
   margin-bottom: 0.65em;
   color: #727272;
 }
 
-.login-main .sub.header {
+#login-grid .sub.header {
   padding: 0 0.4em !important;
   font-size: 1.3rem !important;
   color: #727272 !important;
@@ -47,4 +47,69 @@
   text-align: center;
   font-size: 17px;
   font-weight: 500;
+}
+
+/* Store */
+
+#store-main-navbar {
+  background-color: rgb(34, 182, 118) !important;
+  height: 60px;
+}
+
+#store-frepi-logo {
+  border-right: 1px solid #64CC9F;
+  width: 200px;
+}
+
+#store-frepi-logo img {
+  height: 50px;
+  margin: 5px 37px;
+}
+
+#target-store {
+  border-right: 1px solid #64CC9F;
+  height: 60px;
+  padding: 2.5px 0;
+  width: 210px;
+}
+
+#target-store .content {
+  font-size: 0.85em;
+  text-align: center;
+  width: 180px;
+}
+
+#target-store .sub.header {
+  color: #fff;
+  font-size: 1.05em;
+}
+
+#user-account i {
+  margin-left: 5px;
+}
+
+#user-account .menu>.item {
+  color: #fff !important;
+}
+
+#store-banner {
+  background-color: #c20010;
+  color: #fff;
+  height: 250px;
+  margin-top: 60px;
+  padding: 20px 50px;
+  width: 100%
+}
+
+#store-banner a {
+  color: #fff;
+}
+
+#about-icon {
+  float: right;
+}
+
+#frepi-categories section {
+  margin: 40px 0;
+  padding: 0 7%;
 }

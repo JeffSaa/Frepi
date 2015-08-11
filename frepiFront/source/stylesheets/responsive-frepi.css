@@ -1,4 +1,12 @@
+/**
+ ** Responsiveness for Frepi
+ **/
+
 @media only screen and (max-width: 767px){
+  /**
+   ** Login rules
+   **/
+
   .ui.stackable.grid>.column:not(.row) {
     padding: 1rem 2rem !important;
   }
@@ -9,5 +17,22 @@
 
   .login-main .sub.header {
     font-size: 1.1rem !important;
+  }
+
+  /**
+   ** Store rules
+   **/
+
+  #store-frepi-logo {
+    width: 35%;
+  }
+
+  #store-frepi-logo img {
+    margin: 5px 0.25%;
+  }
+
+  #target-store,
+  #user-account {
+    display: none;
   }
 }

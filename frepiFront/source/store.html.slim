@@ -1,0 +1,74 @@
+doctype html
+html
+	head
+		meta charset="utf-8" /
+		title Frepi
+		/! Sets initial viewport load and disables zooming
+		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
+		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
+
+		/! Add semantic's CSS
+		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
+		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
+		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
+	body
+		.ui.store-wrapper
+			#store-main-navbar.ui.fixed.inverted.menu
+				a#store-frepi-logo.ui.image href="#"
+					img.ui.middle.aligned src="images/landing/logo.png"
+				a#target-store href="#"
+					.item
+						.content
+							.ui.sub.header Olímpica Tanganazo
+							|Calle 72 # 60 - 12
+				#product-searcher.item
+					.ui.icon.input
+						input type="text" placeholder="Buscar en Olímpica..."
+						i.circular.search.link.icon
+				#user-account.ui.simple.dropdown.item
+						.text Hola, Ernesto
+						i.chevron.down.icon
+						.menu
+							.item
+								i.user.icon
+								|Ver perfil
+							.item
+								i.book.icon
+								|Mis pedidos
+							.divider
+							.item
+								i.sign.out.icon
+								|Salir
+
+			#store-banner
+				a#about-icon href="#"
+					i.big.help.circle.link.icon
+				/ i.big.icons
+				/ 	i.large.thin.circle.icon
+				/ 	i.help.icon
+				
+				img.ui.centered.image src="images/landing/stores/olimpica2.png"
+
+			#frepi-categories.ui.container data-bind="foreach: categories"
+				section
+					h2.ui.header data-bind="text: $data.name"
+					#products-x-cattgories.ui.link.cards data-bind="foreach: $data.products"
+						.card
+							.image
+								img src="images/landing/image.png"
+							.content
+								.header data-bind="text: $data.name"
+								.meta data-bind="text: $data.subCategory"
+							.extra.content
+								span
+									i.dollar.icon
+								span data-bind="text: $data.price"
+									
+
+
+					
+						
+		script src="javascripts/jquery/jquery-2.1.4.min.js"
+		script src="semantic/out/semantic.min.js"
+		script src="javascripts/knockout.js"
+		script src="javascripts/viewmodels/store.js"
