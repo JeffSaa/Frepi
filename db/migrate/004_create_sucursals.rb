@@ -7,8 +7,8 @@ class CreateSucursals < ActiveRecord::Migration
       t.string  :manager_phone_number
       t.string  :phone_number
       t.string  :address,               null: false
-      t.decimal :latitude,              precision: 15, scale: 10, null: false
-      t.decimal :longitude,             precision: 15, scale: 10, null: false
+      t.decimal :latitude,              null: false, precision: 15, scale: 10
+      t.decimal :longitude,             null: false, precision: 15, scale: 10
 
       # Associations
       t.references :store_partner, null: false, index: true, foreign_key: true

@@ -1,7 +1,7 @@
 class Order < ActiveRecord::Base
 
   # Enumerators
-  enum status: [:received, :delivering, :dispatched]
+  enum status: %w[received delivering dispatched]
 
   # Associations
   belongs_to  :user
@@ -12,5 +12,11 @@ class Order < ActiveRecord::Base
   has_one     :shoppers_order
   has_many    :orders_products
   has_many    :orders_schedules
+
+  # Validations
+  validates :user, :sucursal, :date, presence: true
+  validates :status, inclusion: { in: %w(received delivering dispatched)}
+  validates :active, inclusion: { in: [true, false] }
+  validates_datetime :date
 
 end

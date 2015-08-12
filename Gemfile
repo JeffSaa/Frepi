@@ -13,4 +13,8 @@ end
 
 group :production do
   gem 'puma'
+  gem 'pg'
 end
+
+# General
+gem 'validates_timeliness'

@@ -1,10 +1,14 @@
 class Product < ActiveRecord::Base
 
   # Associations
+  belongs_to :subcategory
   has_many   :orders_products
   has_many   :sucursals_products
   has_many   :orders, through: :orders_products
   has_many   :sucursals, through: :sucursals_products
   has_one    :category, through: :subcategory
-  belongs_to :subcategory
+
+  # Validations
+  validates :name, :store_price, :frepi_price, :image, :subcategory, presence: true
+  validates :store_price, :frepi_price, numericality: true
 end

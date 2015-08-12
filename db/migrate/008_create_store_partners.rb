@@ -3,6 +3,7 @@ class CreateStorePartners < ActiveRecord::Migration
     create_table :store_partners do |t|
       t.string :nit,         null: false
       t.string :store_name,  null: false
+      t.string :logo,        null: false
 
       t.timestamps null: false
     end

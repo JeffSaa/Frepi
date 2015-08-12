@@ -2,7 +2,7 @@ class CreateUsers < ActiveRecord::Migration
   def change
     create_table :users do |t|
 
-      # User Profile
+      # User information
       t.string  :name,              null: false
       t.string  :last_name,         null: false
       t.string  :email,             null: false
@@ -20,6 +20,7 @@ class CreateUsers < ActiveRecord::Migration
 
       # Associations
       t.references :city,           index: true, foreign_key: true
+
       t.timestamps null: false
     end
   end
