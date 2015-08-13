@@ -51,9 +51,21 @@
 
 /* Store */
 
-#store-main-navbar {
+#store-primary-navbar {
   background-color: rgb(34, 182, 118) !important;
   height: 60px;
+}
+
+#store-secondary-navbar {
+  background-color: #fcf8e3 !important;
+  height: 40px;
+  padding: 2.5px 10px;
+  top: 60px;
+  z-index: 100;
+}
+
+#store-secondary-navbar button {
+  height: 35px;
 }
 
 #store-frepi-logo {
@@ -84,8 +96,16 @@
   font-size: 1.05em;
 }
 
+#product-searcher {
+  width: 60%;
+}
+
 #user-account i {
   margin-left: 5px;
+}
+
+#user-account .menu {
+  z-index: 110;
 }
 
 #user-account .menu>.item {
@@ -96,7 +116,7 @@
   background-color: #c20010;
   color: #fff;
   height: 250px;
-  margin-top: 60px;
+  margin-top: 100px;
   padding: 20px 50px;
   width: 100%
 }
@@ -110,6 +130,5 @@
 }
 
 #frepi-categories section {
-  margin: 40px 0;
-  padding: 0 7%;
+  margin: 50px 0;
 }

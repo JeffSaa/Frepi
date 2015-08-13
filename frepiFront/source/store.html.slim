@@ -13,9 +13,9 @@ html
 		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
 	body
 		.ui.store-wrapper
-			#store-main-navbar.ui.fixed.inverted.menu
+			#store-primary-navbar.ui.fixed.inverted.menu
 				a#store-frepi-logo.ui.image href="#"
-					img.ui.middle.aligned src="images/landing/logo.png"
+					img.ui.middle.aligned src="images/landing/logo.png" alt="Frepi's logo"
 				a#target-store href="#"
 					.item
 						.content
@@ -40,30 +40,44 @@ html
 								i.sign.out.icon
 								|Salir
 
+			#store-secondary-navbar.ui.fixed.menu
+				.item
+					button.ui.basic.grey.button
+						i.sidebar.icon
+						|Departamentos
+				.link.item
+					i.home.large.grey.icon
+				.link.item
+					i.money.large.grey.icon
+					|Haz plata con amigos!
+
 			#store-banner
 				a#about-icon href="#"
 					i.big.help.circle.link.icon
-				/ i.big.icons
-				/ 	i.large.thin.circle.icon
-				/ 	i.help.icon
 				
 				img.ui.centered.image src="images/landing/stores/olimpica2.png"
 
 			#frepi-categories.ui.container data-bind="foreach: categories"
 				section
 					h2.ui.header data-bind="text: $data.name"
-					#products-x-cattgories.ui.link.cards data-bind="foreach: $data.products"
-						.card
-							.image
-								img src="images/landing/image.png"
-							.content
-								.header data-bind="text: $data.name"
-								.meta data-bind="text: $data.subCategory"
-							.extra.content
-								span
-									i.dollar.icon
-								span data-bind="text: $data.price"
-									
+					#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.products"
+						.column
+							.ui.fluid.card
+								.image
+									img src="images/landing/image.png" alt="Product's image"
+								.content
+									.header data-bind="text: $data.name"
+									.meta
+										a data-bind="text: $data.subCategory"
+								.extra.content
+									span
+										i.dollar.icon
+									span data-bind="text: $data.price"
+									.ui.right.floated.vertical.animated.green.button
+										.hidden.content Agregar
+										.visible.content
+											i.shop.icon		
+				.ui.divider					
 
 
 					

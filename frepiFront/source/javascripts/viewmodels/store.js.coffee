@@ -19,6 +19,11 @@ class LoginVM
               price: '3000 x und',
               subCategory: 'Panadería'
             }
+            {
+              name: 'Pan Chino',
+              price: '300 x und',
+              subCategory: 'Panadería'
+            }
           ]
         }
         {
@@ -39,9 +44,20 @@ class LoginVM
               price: '2000 x lb',
               subCategory: 'Frutas'
             }
+            {
+              name: 'Uva',
+              price: '2000 x lb',
+              subCategory: 'Frutas'
+            }
           ]
         }
       ])
+    @loadDimmers()
+  
+  loadDimmers: ->
+    $('#products-x-categories .image').dimmer({
+        on: 'hover'
+      })
 
 
 login = new LoginVM

@@ -31,8 +31,13 @@
     margin: 5px 0.25%;
   }
 
+  #store-banner {
+    margin-top: 60px;
+  }
+
   #target-store,
-  #user-account {
+  #user-account,
+  #store-secondary-navbar {
     display: none;
   }
 }
