@@ -59,6 +59,9 @@ class LoginVM
         on: 'hover'
       })
 
+  showStoreInfo: ->
+    $('#store-banner').dimmer('show')
+
 
 login = new LoginVM
 ko.applyBindings(login)

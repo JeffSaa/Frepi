@@ -2,7 +2,7 @@ doctype html
 html
 	head
 		meta charset="utf-8" /
-		title Frepi
+		title Frepi - Haz tu mercado fácil y rápido
 		/! Sets initial viewport load and disables zooming
 		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
 		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
@@ -40,7 +40,7 @@ html
 								i.sign.out.icon
 								|Salir
 
-			#store-secondary-navbar.ui.fixed.menu
+			#store-secondary-navbar.ui.fixed.borderless.menu
 				.item
 					button.ui.basic.grey.button
 						i.sidebar.icon
@@ -53,9 +53,14 @@ html
 
 			#store-banner
 				a#about-icon href="#"
-					i.big.help.circle.link.icon
-				
+					i.big.help.circle.link.icon data-bind="click: showStoreInfo"		
 				img.ui.centered.image src="images/landing/stores/olimpica2.png"
+				.ui.dimmer
+					.content
+						.center
+							h1.ui.inverted.header
+								|Olímpica
+								.sub.header Here goes the store's description and other stuff
 
 			#frepi-categories.ui.container data-bind="foreach: categories"
 				section
