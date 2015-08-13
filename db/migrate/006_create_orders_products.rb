@@ -3,6 +3,7 @@ class CreateOrdersProducts < ActiveRecord::Migration
     create_table :orders_products do |t|
       t.references :order,    index: true, foreign_key: true
       t.references :product,  index: true, foreign_key: true
+      t.integer    :quantity, null: false, default: 0
 
       t.timestamps null: false
     end

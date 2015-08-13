@@ -11,4 +11,5 @@ class Product < ActiveRecord::Base
   # Validations
   validates :name, :store_price, :frepi_price, :image, :subcategory, presence: true
   validates :store_price, :frepi_price, numericality: true
+  validates :available, inclusion: { in: [true, false] }
 end

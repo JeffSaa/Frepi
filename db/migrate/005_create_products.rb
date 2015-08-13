@@ -6,6 +6,8 @@ class CreateProducts < ActiveRecord::Migration
       t.decimal :store_price,   null: false
       t.decimal :frepi_price,   null: false
       t.string  :image,         null: false
+      t.boolean :available,     null: false, default: true
+      t.integer :sales_count,   default: 0
 
       # Association
       t.references :subcategory, index: true, foreign_key: true

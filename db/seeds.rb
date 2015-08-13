@@ -39,7 +39,7 @@ if Rails.env.development?
     subcategory = Subcategory.find(Faker::Number.between(1, 15))
     sucursal.products.create!(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,
                               store_price: Faker::Commerce.price, frepi_price: Faker::Commerce.price, image: Faker::Company.logo,
-                              subcategory_id: subcategory.id)
+                              subcategory_id: subcategory.id, available: [true, false].sample)
   end
 
   # Users
@@ -52,11 +52,14 @@ if Rails.env.development?
   end
 
   # Orders
-  10.times do |_|
+  10.times do |item|
     user = User.find(Faker::Number.between(1, 10))
     sucursal = Sucursal.find(Sucursal.find([1, 2, 3].sample))
-    user.orders.create!(active: [true, false].sample, status: %w(received delivering dispatched).sample,
-                        sucursal_id: sucursal.id, date: Faker::Time.backward(3))
+    order = user.orders.create!(active: [true, false].sample, status: %w(received delivering dispatched).sample,
+                                sucursal_id: sucursal.id, date: Faker::Time.backward(3))
+    #order.products << Product.find(item + 1)
+    quantity = Faker::Number.between(1, 10)
+    item = order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity)
   end
 
   # Complaints

@@ -12,7 +12,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :user_type,         null: false, default: 0
       t.boolean :active,            null: false, default: true
       t.string  :image
-
+      t.integer :counter_orders,    null: false, default: 0
 
       # Extra information
       t.decimal :latitude,          null: false, precision: 15, scale: 10

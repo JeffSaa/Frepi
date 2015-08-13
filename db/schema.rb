@@ -62,8 +62,9 @@ ActiveRecord::Schema.define(version: 18) do
   create_table "orders_products", force: :cascade do |t|
     t.integer  "order_id"
     t.integer  "product_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "quantity",   default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "orders_products", ["order_id"], name: "index_orders_products_on_order_id"
@@ -81,13 +82,15 @@ ActiveRecord::Schema.define(version: 18) do
 
   create_table "products", force: :cascade do |t|
     t.string   "reference_code"
-    t.string   "name",           null: false
-    t.decimal  "store_price",    null: false
-    t.decimal  "frepi_price",    null: false
-    t.string   "image",          null: false
+    t.string   "name",                          null: false
+    t.decimal  "store_price",                   null: false
+    t.decimal  "frepi_price",                   null: false
+    t.string   "image",                         null: false
+    t.boolean  "available",      default: true, null: false
+    t.integer  "sales_count",    default: 0
     t.integer  "subcategory_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id"
@@ -200,6 +203,7 @@ ActiveRecord::Schema.define(version: 18) do
     t.integer  "user_type",                                default: 0,    null: false
     t.boolean  "active",                                   default: true, null: false
     t.string   "image"
+    t.integer  "counter_orders",                           default: 0,    null: false
     t.decimal  "latitude",       precision: 15, scale: 10,                null: false
     t.decimal  "longitude",      precision: 15, scale: 10,                null: false
     t.integer  "city_id"

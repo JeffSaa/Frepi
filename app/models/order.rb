@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   enum status: %w[received delivering dispatched]
 
   # Associations
-  belongs_to  :user
+  belongs_to  :user, counter_cache: :counter_orders
   belongs_to  :sucursal
   has_one     :shopper, through: :shoppers_order
   has_many    :products, through: :orders_products

@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   validates :latitude, :longitude, presence: true, numericality: true
   validates :user_type, inclusion: { in: %w(user administrator) }
   validates :identification, uniqueness: true, allow_nil: true
+  validates :counter_orders, numericality: { only_integer: true }
   validates :email, presence: true, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
   validates :name, :last_name, presence: true, length: { minimum: 3 }, format: { with: /\A[^0-9`!@#\$%\^&*+_=]+\z/ }
 
