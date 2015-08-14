@@ -10,7 +10,7 @@ if Rails.env.development?
 
   # Store Partners
   2.times do |_|
-    StorePartner.create!(nit: Faker::Company.duns_number, store_name: Faker::Company.name, logo: Faker::Company.logo)
+    StorePartner.create!(nit: Faker::Company.duns_number, name: Faker::Company.name, logo: Faker::Company.logo, description: Faker::Lorem.sentence)
   end
 
   # Sucursals
