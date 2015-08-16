@@ -154,7 +154,7 @@ ActiveRecord::Schema.define(version: 18) do
     t.string   "nit",         null: false
     t.string   "name",        null: false
     t.string   "logo",        null: false
-    t.text     "description"
+    t.text     "description", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
