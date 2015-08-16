@@ -1,9 +1,16 @@
 class ProductsController < ApplicationController
 
+  before_action :find_store_partner, :find_sucursals
   before_action :find_product, except: [:index, :create]
 
   def index
-    render(json: Product.all, status: :ok)
+    categories = @sucursal.categories.uniq
+    render(json: categories.as_json(include: {
+                                      subcategories:  {
+                                        include: { products:
+                                          { except: [:created_at, :updated_at] }},
+                                      except: [:created_at, :updated_at] }
+                                    }, except: [:created_at, :updated_at]))
   end
 
   def show
@@ -41,8 +48,28 @@ class ProductsController < ApplicationController
 
   # Methods
   private
+  def find_store_partner
+    begin
+      @store_partner = StorePartner.find(params[:store_partner_id])
+    rescue => e
+      render(json: { error: e.message }, status: :not_found)
+    end
+  end
+
+  def find_sucursals
+    begin
+      @sucursal = @store_partner.sucursals.find(params[:sucursal_id])
+    rescue => e
+      render(json: { error: e.message }, status: :not_found)
+    end
+  end
+
   def find_product
-    @product = Product.where(id: params[:id]).first
+    begin
+      @product = Product.find(id: params[:id])
+    rescue => e
+      render(json: { error: e.message }, status: :not_found)
+    end
   end
 
   def product_params
