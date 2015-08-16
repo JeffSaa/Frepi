@@ -7,19 +7,17 @@ class ProductsController < ApplicationController
     categories = @sucursal.categories.uniq
     render(json: categories.as_json(include: {
                                       subcategories:  {
-                                        include: { products:
-                                          { except: [:created_at, :updated_at] }},
-                                      except: [:created_at, :updated_at] }
+                                        include: { products: { except: [:created_at, :updated_at] }
+                                        }, except: [:created_at, :updated_at] }
                                     }, except: [:created_at, :updated_at]))
   end
 
   def show
-    @product ? render(json: @product, status: :ok) : head(:not_found)
+    render(json: @product)
   end
 
   def create
-    # TODO: Valid when the subcategory_id does not exist
-    product = Product.new(product_params)
+    product = @sucursal.products.create(product_params)
     if product.save
       render(json: product, status: :created)
     else
@@ -31,19 +29,15 @@ class ProductsController < ApplicationController
     # TODO: Valid when the subcategory_id does not exist
     @product.assign_attributes(product_params)
     if @product.save
-      render(json: @product, status: :accepted)
+      render(json: @product)
     else
       render(json: { errors: @product.errors }, status: :bad_request)
     end
   end
 
   def destroy
-    if @product
-      @product.destroy
-      render(json: @product, status: :accepted)
-    else
-      head(:not_found)
-    end
+    @product.destroy
+    render(json: @product)
   end
 
   # Methods
@@ -66,7 +60,7 @@ class ProductsController < ApplicationController
 
   def find_product
     begin
-      @product = Product.find(id: params[:id])
+      @product = @sucursal.products.find(params[:id])
     rescue => e
       render(json: { error: e.message }, status: :not_found)
     end
@@ -75,5 +69,4 @@ class ProductsController < ApplicationController
   def product_params
     params.permit(:reference_code, :name, :store_price, :frepi_price, :image, :available, :sales_count, :subcategory_id)
   end
-
 end
