@@ -3,11 +3,11 @@ class CategoriesController < ApplicationController
   before_action :find_category, except: [:index, :create]
 
   def index
-    render(json: Category.all, status: :ok)
+    render(json: Category.all)
   end
 
   def show
-    @category ? render(json: @category, status: :ok) : head(:not_found)
+    render(json: @category)
   end
 
   def create
@@ -29,18 +29,18 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    if @category
-      @category.destroy
-      render(json: @category, status: :accepted)
-    else
-      head(:not_found)
-    end
+    @category.destroy
+    render(json: @category)
   end
 
   # Methods
   private
   def find_category
-    @category = Category.where(id: params[:id]).first
+    begin
+      @category = Category.find(params[:id])
+    rescue => e
+      render(json: { error: e.message }, status: :not_found)
+    end
   end
 
   def category_params

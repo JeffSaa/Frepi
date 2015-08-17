@@ -1,18 +1,18 @@
 class SubcategoriesController < ApplicationController
 
+  before_action :find_category
   before_action :find_subcategory, except: [:index, :create]
 
   def index
-    render(json: Subcategory.all, status: :ok)
+    render(json: @category.subcategories , status: :ok)
   end
 
   def show
-    @subcategory ? render(json: @subcategory, status: :ok) : head(:not_found)
+    render(json: @subcategory, status: :ok)
   end
 
   def create
-    # TODO: Valid when the category_id does not exist
-    subcategory = Subcategory.new(subcategory_params)
+    subcategory = @category.subcategories.create(subcategory_params)
     if subcategory.save
       render(json: subcategory, status: :created)
     else
@@ -21,7 +21,6 @@ class SubcategoriesController < ApplicationController
   end
 
   def update
-    # TODO: Valid when the category_id does not exist
     @subcategory.assign_attributes(subcategory_params)
     if @subcategory.save
       render(json: @subcategory, status: :accepted)
@@ -31,21 +30,30 @@ class SubcategoriesController < ApplicationController
   end
 
   def destroy
-    if @subcategory
-      @subcategory.destroy
-      render(json: @subcategory, status: :accepted)
-    else
-      head(:not_found)
-    end
+    @subcategory.destroy
+    render(json: @subcategory)
   end
 
   # Methods
   private
+
+  def find_category
+    begin
+      @category = Category.find(params[:category_id])
+    rescue => e
+      render(json: { error: e.message }, status: :not_found)
+    end
+  end
+
   def find_subcategory
-    @subcategory = Subcategory.where(id: params[:id]).first
+    begin
+      @subcategory = @category.subcategories.find(params[:id])
+    rescue => e
+      render(json: { error: e.message }, status: :not_found)
+    end
   end
 
   def subcategory_params
-    params.permit(:name, :category_id)
+    params.permit(:name)
   end
 end

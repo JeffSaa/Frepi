@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   match '*path' => 'application#handle_options_request', :constraints => { method: 'OPTIONS'}, via: :options
 
 
-  resources :categories, :subcategories, except: [:new, :edit]
+  resources :categories, except: [:new, :edit] do
+    resources :subcategories, except: [:new, :edit]
+  end
 
   resources :store_partners, path: 'stores', except: [:new, :edit] do
     resources :sucursals, except: [:new, :edit] do
@@ -12,14 +14,9 @@ Rails.application.routes.draw do
     end
   end
 
-
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
+  resources :countries, except: [:new, :edit] do
+    resources :states, except: [:new, :edit] do
+      resources :cities, except: [:new, :edit]
+    end
+  end
 end

@@ -9,7 +9,8 @@ class Product < ActiveRecord::Base
   has_one    :category, through: :subcategory
 
   # Validations
-  validates :name, :store_price, :frepi_price, :image, :subcategory, presence: true
+  validates :name, :store_price, :frepi_price, :image, presence: true
   validates :store_price, :frepi_price, numericality: true
   validates :available, inclusion: { in: [true, false] }
+  validates :subcategory, presence: true
 end
