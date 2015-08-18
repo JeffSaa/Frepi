@@ -132,3 +132,12 @@
 #frepi-categories section {
   margin: 50px 0;
 }
+
+#departments-menu {
+  background-color: #fcf8e3 !important;
+  padding-top: 100px;
+}
+
+.centering {
+  line-height: 2.5;
+}

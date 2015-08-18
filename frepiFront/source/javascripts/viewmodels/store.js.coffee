@@ -1,67 +1,49 @@
 class LoginVM
   constructor: ->
-    @categories = ko.observableArray([
-        {
-          name: 'Populares',
-          products: [
-            {
-              name: 'Arroz Marca O',
-              price: '2000 x lb',
-              subCategory: 'Granos'
-            }
-            {
-              name: 'Granola Olímpica',
-              price: '5000 x und',
-              subCategory: 'Cereales'
-            }
-            {
-              name: 'Pan fránces',
-              price: '3000 x und',
-              subCategory: 'Panadería'
-            }
-            {
-              name: 'Pan Chino',
-              price: '300 x und',
-              subCategory: 'Panadería'
-            }
-          ]
-        }
-        {
-          name: 'Frutas & Verduras',
-          products: [
-            {
-              name: 'Yuca',
-              price: '600 x lb',
-              subCategory: 'Tubérculos'
-            }
-            {
-              name: 'Ñame',
-              price: '1400 x lb',
-              subCategory: 'Tubérculos'
-            }
-            {
-              name: 'Fresa',
-              price: '2000 x lb',
-              subCategory: 'Frutas'
-            }
-            {
-              name: 'Uva',
-              price: '2000 x lb',
-              subCategory: 'Frutas'
-            }
-          ]
-        }
-      ])
-    @loadDimmers()
-  
-  loadDimmers: ->
-    $('#products-x-categories .image').dimmer({
-        on: 'hover'
+    @categories = ko.observableArray()
+    @getCategories()
+
+  showDepartments: ->
+    $('#departments-menu').sidebar({
+        context: $('.main-content')
+        transition: 'overlay'
       })
+    $('#departments-menu').sidebar('toggle')
 
   showStoreInfo: ->
     $('#store-banner').dimmer('show')
 
+  getCategories: ->
+    storeID = 1
+    sucursalID = 1
+    data = ''
+    RESTfulService.makeRequest('GET', "/stores/#{storeID}/sucursals/#{sucursalID}/products", data, (error, success) =>
+      if error
+        console.log 'An error has ocurried while fetching the categories!'
+      else
+        @setProductsToShow(success)
+    )
+
+  # Set the products that are going to be showed on the Store's view
+  setProductsToShow: (categories) ->
+    console.log categories
+    for category in categories
+      productsToShow = []
+      allProductsCategory = []
+      for subCategory in category.subcategories
+        for product in subCategory.products
+          product.subcategoryName = subCategory.name
+        allProductsCategory = allProductsCategory.concat(subCategory.products)
+
+      while productsToShow.length < 4
+        random = Math.floor(Math.random()*(allProductsCategory.length - 1))
+        if productsToShow.indexOf(allProductsCategory[random]) == -1
+          productsToShow.push(allProductsCategory[random])
+
+      category.productsToShow = productsToShow
+
+    @categories(categories)
+      
 
 login = new LoginVM
 ko.applyBindings(login)

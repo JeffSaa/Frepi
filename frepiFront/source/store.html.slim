@@ -39,50 +39,52 @@ html
 							.item
 								i.sign.out.icon
 								|Salir
-
 			#store-secondary-navbar.ui.fixed.borderless.menu
 				.item
-					button.ui.basic.grey.button
+					button.ui.basic.grey.button data-bind="click: showDepartments"
 						i.sidebar.icon
 						|Departamentos
 				.link.item
 					i.home.large.grey.icon
-				.link.item
-					i.money.large.grey.icon
-					|Haz plata con amigos!
 
-			#store-banner
-				a#about-icon href="#"
-					i.big.help.circle.link.icon data-bind="click: showStoreInfo"		
-				img.ui.centered.image src="images/landing/stores/olimpica2.png"
-				.ui.dimmer
-					.content
-						.center
-							h1.ui.inverted.header
-								|Olímpica
-								.sub.header Here goes the store's description and other stuff
+			.main-content
+				#departments-menu.ui.vertical.left.sidebar.menu data-bind="foreach: categories"
+					a.item 
+						.header data-bind="text: $data.name"
 
-			#frepi-categories.ui.container data-bind="foreach: categories"
-				section
-					h2.ui.header data-bind="text: $data.name"
-					#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.products"
-						.column
-							.ui.fluid.card
-								.image
-									img src="images/landing/image.png" alt="Product's image"
-								.content
-									.header data-bind="text: $data.name"
-									.meta
-										a data-bind="text: $data.subCategory"
-								.extra.content
-									span
-										i.dollar.icon
-									span data-bind="text: $data.price"
-									.ui.right.floated.vertical.animated.green.button
-										.hidden.content Agregar
-										.visible.content
-											i.shop.icon		
-				.ui.divider					
+				.pusher
+					#store-banner
+						a#about-icon href="#"
+							i.big.help.circle.link.icon data-bind="click: showStoreInfo"		
+						img.ui.centered.image src="images/landing/stores/olimpica2.png"
+						.ui.dimmer
+							.content
+								.center
+									h1.ui.inverted.header
+										|Olímpica
+										.sub.header Here goes the store's description and other stuff
+
+					#frepi-categories.ui.container data-bind="foreach: categories"
+						section
+							h2.ui.header data-bind="text: $data.name"
+							#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
+								.column
+									.ui.fluid.link.card
+										.image
+											img src="images/landing/image.png" alt="Product's image"
+										.content
+											.header data-bind="text: $data.name"
+											.meta
+												a data-bind="text: $data.subcategoryName"
+										.extra.content
+											span.centering
+												i.dollar.icon
+											span.centering data-bind="text: $data.frepi_price"
+											.ui.right.floated.vertical.animated.green.button
+												.hidden.content Agregar
+												.visible.content
+													i.shop.icon		
+						.ui.divider					
 
 
 					
@@ -90,4 +92,5 @@ html
 		script src="javascripts/jquery/jquery-2.1.4.min.js"
 		script src="semantic/out/semantic.min.js"
 		script src="javascripts/knockout.js"
+		script src="javascripts/classes/RESTfulService.js"
 		script src="javascripts/viewmodels/store.js"
