@@ -2,13 +2,23 @@ class LoginVM
   constructor: ->
     @categories = ko.observableArray()
     @getCategories()
-
-  showDepartments: ->
     $('#departments-menu').sidebar({
         context: $('.main-content')
         transition: 'overlay'
       })
+    # Modal variables
+    @selectedProductCategory = ko.observable()
+    @selectedProductName = ko.observable()
+    @selectedProductPrice = ko.observable()
+
+  showDepartments: ->    
     $('#departments-menu').sidebar('toggle')
+
+  showProduct: (name, price, category) ->
+    @selectedProductCategory(category)
+    @selectedProductName(name)
+    @selectedProductPrice("$#{price}")
+    $('.ui.modal').modal('show')
 
   showStoreInfo: ->
     $('#store-banner').dimmer('show')

@@ -52,11 +52,23 @@ html
 					a.item 
 						.header data-bind="text: $data.name"
 
+				.ui.modal
+					i.close.icon
+					
+					.image.content
+						.ui.large.image
+							img src="images/landing/image.png"
+						.description
+							h1.ui.header data-bind="text: selectedProductName"
+							p data-bind="text: selectedProductCategory"
+							h2.header data-bind="text: selectedProductPrice"
+							button.ui.fluid.green.button Agregar a carrito
+
 				.pusher
 					#store-banner
 						a#about-icon href="#"
 							i.big.help.circle.link.icon data-bind="click: showStoreInfo"		
-						img.ui.centered.image src="images/landing/stores/olimpica2.png"
+						img.ui.centered.image src="images/landing/stores/olimpica2.png" alt="Store's logo"
 						.ui.dimmer
 							.content
 								.center
@@ -69,7 +81,7 @@ html
 							h2.ui.header data-bind="text: $data.name"
 							#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
 								.column
-									.ui.fluid.link.card
+									.ui.fluid.link.card data-bind="click: function(){$root.showProduct($data.name, $data.frepi_price, $data.subcategoryName)}"
 										.image
 											img src="images/landing/image.png" alt="Product's image"
 										.content
