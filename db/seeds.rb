@@ -30,7 +30,11 @@ if Rails.env.development?
   15.times do |_|
     # Subcategories
     category = Category.find(Faker::Number.between(1, 5))
-    category.subcategories.create!(name: Faker::Commerce.department(1))
+    subcategory = category.subcategories.new(name: Faker::Commerce.department(1))
+    until subcategory.valid?
+      subcategory = category.subcategories.new(name: Faker::Commerce.department(1))
+    end
+    subcategory.save!
   end
 
   # Products
