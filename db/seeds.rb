@@ -38,7 +38,7 @@ if Rails.env.development?
     sucursal = Sucursal.find([1, 2, 3].sample)
     subcategory = Subcategory.find(Faker::Number.between(1, 15))
     sucursal.products.create!(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,
-                              store_price: Faker::Commerce.price, frepi_price: Faker::Commerce.price, image: Faker::Company.logo,
+                              store_price: Faker::Commerce.price, frepi_price: Faker::Commerce.price, image: Faker::Avatar.image(nil, "960x800"),
                               subcategory_id: subcategory.id, available: [true, false].sample)
   end
 
