@@ -1,24 +1,40 @@
 class LoginVM
   constructor: ->
     @categories = ko.observableArray()
-    @getCategories()
-    $('#departments-menu').sidebar({
-        context: $('.main-content')
-        transition: 'overlay'
-      })
+    @itemsToBuy = ko.observable('0 items')
+
     # Modal variables
     @selectedProductCategory = ko.observable()
+    @selectedProductImage = ko.observable()
     @selectedProductName = ko.observable()
     @selectedProductPrice = ko.observable()
+
+    # Methods to execute
+    @getCategories()
+    @setDOMComponents()
+
+  setDOMComponents: ->
+    $('#departments-menu').sidebar({        
+        transition: 'overlay'
+      })
+    $('#shopping-cart').sidebar({        
+        dimPage: false
+        transition: 'overlay'
+      })
+    $('#modal-dropdown').dropdown()
 
   showDepartments: ->    
     $('#departments-menu').sidebar('toggle')
 
-  showProduct: (name, price, category) ->
+  showProduct: (name, price, category, image) ->
     @selectedProductCategory(category)
+    @selectedProductImage(image)
     @selectedProductName(name)
     @selectedProductPrice("$#{price}")
     $('.ui.modal').modal('show')
+
+  showShoppingCart: ->
+    $('#shopping-cart').sidebar('show')
 
   showStoreInfo: ->
     $('#store-banner').dimmer('show')

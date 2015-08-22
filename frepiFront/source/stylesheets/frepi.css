@@ -1,7 +1,6 @@
 
 /* Login */
-
-.menu {
+.inverted.menu {
   background-color: rgb(34, 182, 118) !important;
   height: 85px;
 }
@@ -68,6 +67,15 @@
   height: 35px;
 }
 
+#store-secondary-navbar .right.menu button {
+  background-color: #FC5B2A;
+  color: #FFF;
+}
+
+#store-secondary-navbar .right.menu button:hover {
+  background-color: #ED5828;
+}
+
 #store-frepi-logo {
   border-right: 1px solid #64CC9F;
   width: 200px;
@@ -105,6 +113,7 @@
 }
 
 #user-account .menu {
+  background-color: rgb(34, 182, 118) !important;
   z-index: 110;
 }
 
@@ -133,11 +142,44 @@
   margin: 50px 0;
 }
 
-#departments-menu {
+.sidebar.menu {
   background-color: #fcf8e3 !important;
-  padding-top: 100px;
+  padding-top: 10px;
 }
 
 .centering {
   line-height: 2.5;
+}
+
+/**
+** Modal's rules
+**/
+
+.modal .meta {
+  color: rgba(0,0,0,.4);
+}
+
+.modal h2 {
+  margin-top: 1em;
+}
+
+.modal .description {
+  width: calc(100% - 450px + 2em) !important;
+}
+
+.modal .dropdown {
+  margin-bottom: 1em;
+}
+
+.modal .dropdown,
+.modal .dropdown .item {
+  font-size: 1.14285714rem !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+.modal .actions p {
+  color: rgba(0,0,0,.6);
+  font-size: 0.8em;
+  text-align: left;
 }

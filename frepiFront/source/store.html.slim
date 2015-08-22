@@ -39,64 +39,100 @@ html
 							.item
 								i.sign.out.icon
 								|Salir
-			#store-secondary-navbar.ui.fixed.borderless.menu
-				.item
-					button.ui.basic.grey.button data-bind="click: showDepartments"
-						i.sidebar.icon
-						|Departamentos
-				.link.item
-					i.home.large.grey.icon
 
-			.main-content
-				#departments-menu.ui.vertical.left.sidebar.menu data-bind="foreach: categories"
+			#departments-menu.ui.vertical.left.sidebar.menu
+				.item
+					h3.ui.header
+						i.sidebar.icon
+						.content Departamentos
+				.items data-bind="foreach: categories"
 					a.item 
 						.header data-bind="text: $data.name"
 
-				.ui.modal
-					i.close.icon
-					
-					.image.content
-						.ui.large.image
-							img src="images/landing/image.png"
-						.description
-							h1.ui.header data-bind="text: selectedProductName"
-							p data-bind="text: selectedProductCategory"
-							h2.header data-bind="text: selectedProductPrice"
-							button.ui.fluid.green.button Agregar a carrito
+			#shopping-cart.ui.vertical.right.sidebar.menu
+				.item
+					h3.ui.header
+						i.shop.icon
+						.content Mi carro de compras
+				.item
+					button.ui.fluid.large.green.button Pagar
 
-				.pusher
-					#store-banner
-						a#about-icon href="#"
-							i.big.help.circle.link.icon data-bind="click: showStoreInfo"		
-						img.ui.centered.image src="images/landing/stores/olimpica2.png" alt="Store's logo"
-						.ui.dimmer
-							.content
-								.center
-									h1.ui.inverted.header
-										|Olímpica
-										.sub.header Here goes the store's description and other stuff
+			.ui.modal
+				i.close.icon					
+				.image.content
+					.ui.large.image
+						img data-bind="attr: {src: selectedProductImage}"
+					.description
+						h1.ui.header data-bind="text: selectedProductName"
+						.meta data-bind="text: selectedProductCategory"
+						h2.header data-bind="text: selectedProductPrice"
+						#modal-dropdown.ui.fluid.selection.dropdown
+							.text Cantidad
+							i.dropdown.icon
+							.menu
+								.item data-value="0" 1
+								.item data-value="1" 2
+								.item data-value="2" 3
+								.item data-value="3" 4
+								.item data-value="4" 5
+								.item data-value="5" 6
+								.item data-value="6" 7
+								.item data-value="7" 8
+								.item data-value="8" 9
+								.item data-value="9" 10+
+						button.ui.fluid.large.green.button Agregar a carrito
+				.actions
+					p Here it goes the warning about the products information.
 
-					#frepi-categories.ui.container data-bind="foreach: categories"
-						section
-							h2.ui.header data-bind="text: $data.name"
-							#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
-								.column
-									.ui.fluid.link.card data-bind="click: function(){$root.showProduct($data.name, $data.frepi_price, $data.subcategoryName)}"
-										.image
-											img src="images/landing/image.png" alt="Product's image"
-										.content
-											.header data-bind="text: $data.name"
-											.meta
-												a data-bind="text: $data.subcategoryName"
-										.extra.content
-											span.centering
-												i.dollar.icon
-											span.centering data-bind="text: $data.frepi_price"
-											.ui.right.floated.vertical.animated.green.button
-												.hidden.content Agregar
-												.visible.content
-													i.shop.icon		
-						.ui.divider					
+			.pusher
+				#store-secondary-navbar.ui.fixed.borderless.menu
+					.item
+						button.ui.basic.grey.button data-bind="click: showDepartments"
+							i.sidebar.icon
+							|Departamentos
+					.link.item
+						i.home.large.grey.icon
+
+					.right.menu
+						.item
+							button.ui.labeled.icon.button data-bind="click: showShoppingCart"
+								i.shop.icon
+								|<!--ko text: itemsToBuy--><!--/ko-->
+
+
+			.main-content
+				#store-banner
+					a#about-icon href="#"
+						i.big.help.circle.link.icon data-bind="click: showStoreInfo"		
+					img.ui.centered.image src="images/landing/stores/olimpica2.png" alt="Store's logo"
+					.ui.dimmer
+						.content
+							.center
+								h1.ui.inverted.header
+									|Olímpica
+									.sub.header Here it goes the store's description and other stuff
+
+				#frepi-categories.ui.container data-bind="foreach: categories"
+					section
+						h2.ui.header data-bind="text: $data.name"
+						#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
+							.column
+								.ui.fluid.link.card data-bind="click: function(){$root.showProduct($data.name, $data.frepi_price, $data.subcategoryName, $data.image)}"
+									.image
+										img data-bind="attr: {src: $data.image}" alt="Product's image"
+									.content
+										.header data-bind="text: $data.name"
+										.meta
+											a data-bind="text: $data.subcategoryName"
+									.extra.content
+										span.centering
+											i.dollar.icon
+										span.centering data-bind="text: $data.frepi_price"
+										.ui.right.floated.vertical.animated.green.button
+											.hidden.content Agregar
+											.visible.content
+												i.shop.icon		
+					.ui.divider					
 
 
 					
