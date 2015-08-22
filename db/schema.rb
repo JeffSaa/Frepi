@@ -195,23 +195,43 @@ ActiveRecord::Schema.define(version: 18) do
   add_index "sucursals_products", ["sucursal_id"], name: "index_sucursals_products_on_sucursal_id"
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",                                                    null: false
-    t.string   "last_name",                                               null: false
-    t.string   "email",                                                   null: false
-    t.string   "identification",                                          null: false
-    t.string   "address",                                                 null: false
-    t.string   "phone_number",                                            null: false
-    t.integer  "user_type",                                default: 0,    null: false
-    t.boolean  "active",                                   default: true, null: false
+    t.string   "name",                                                               null: false
+    t.string   "last_name",                                                          null: false
+    t.string   "email",                                                              null: false
+    t.string   "identification"
+    t.string   "address",                                                            null: false
+    t.string   "phone_number",                                                       null: false
+    t.integer  "user_type",                                        default: 0,       null: false
+    t.boolean  "active",                                           default: true,    null: false
     t.string   "image"
-    t.integer  "counter_orders",                           default: 0,    null: false
-    t.decimal  "latitude",       precision: 15, scale: 10,                null: false
-    t.decimal  "longitude",      precision: 15, scale: 10,                null: false
+    t.integer  "counter_orders",                                   default: 0,       null: false
+    t.decimal  "latitude",               precision: 15, scale: 10,                   null: false
+    t.decimal  "longitude",              precision: 15, scale: 10,                   null: false
     t.integer  "city_id"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.string   "provider",                                         default: "email", null: false
+    t.string   "uid",                                              default: "",      null: false
+    t.string   "encrypted_password",                               default: "",      null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                                    default: 0,       null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.string   "nickname"
+    t.text     "tokens"
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
   end
 
   add_index "users", ["city_id"], name: "index_users_on_city_id"
+  add_index "users", ["email"], name: "index_users_on_email"
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
 
 end

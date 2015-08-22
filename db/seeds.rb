@@ -45,7 +45,7 @@ if Rails.env.development?
                               store_price: Faker::Commerce.price, frepi_price: Faker::Commerce.price, image: Faker::Avatar.image(nil, "960x800"),
                               subcategory_id: subcategory.id, available: [true, false].sample)
   end
-
+=begin
   # Users
   10.times do |_|
     User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
@@ -100,4 +100,5 @@ if Rails.env.development?
     shopper = Shopper.find(shopper_id + 1)
     shopper.schedules.create!( day: DAY.sample, start_hour: Time.now, end_hour: Time.now + 2.hour)
   end
+=end
 end

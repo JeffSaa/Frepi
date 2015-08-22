@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
- # Api connection
+  # Api connection
   match '*path' => 'application#handle_options_request', :constraints => { method: 'OPTIONS'}, via: :options
 
+
+  mount_devise_token_auth_for 'User', at: 'auth', except: [:omniauth_callbacks]
+
+  resources :users, except: [:new, :edit]
 
   resources :categories, except: [:new, :edit] do
     resources :subcategories, except: [:new, :edit]
