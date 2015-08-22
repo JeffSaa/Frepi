@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::API
 
-  include DeviseTokenAuth::Concerns::SetUserByToken
+
 
   # Api connection
   after_filter :set_access_control_headers
   #before_action :authenticate_user!
+
+  include DeviseTokenAuth::Concerns::SetUserByToken
 
   def handle_options_request
     head(:ok) if request.request_method == "OPTIONS"

@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 18) do
     t.integer  "city_id"
     t.string   "provider",                                         default: "email", null: false
     t.string   "uid",                                              default: "",      null: false
-    t.string   "encrypted_password",                               default: "",      null: false
+    t.string   "encrypted_password",                                                 null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

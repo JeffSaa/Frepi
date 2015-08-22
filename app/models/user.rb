@@ -1,16 +1,14 @@
 class User < ActiveRecord::Base
 
-  attr_accessor :password, :password_confirmation
-
   # Include default devise modules.
-  # Exclude -> :rememberable, :omniauthable
+  # Exclude -> :rememberable, :omniauthable, :confirmatable
   devise  :database_authenticatable, :registerable,
-          :recoverable, :trackable, :validatable,
-          :confirmable
+          :recoverable, :trackable, :validatable
 
   include DeviseTokenAuth::Concerns::User
 
   # Variables
+  #attr_accessor :password, :password_confirmation
 
   # Enumerators
   enum user_type: [:user, :administrator]
@@ -19,7 +17,6 @@ class User < ActiveRecord::Base
   has_many   :complaints
   has_many   :orders
   belongs_to :city
-
 
   # Validations
   validates :address, :user_type, :phone_number, :active, presence: true
