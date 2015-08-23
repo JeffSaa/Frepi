@@ -57,6 +57,15 @@ if Rails.env.development?
                 longitude: Faker::Address.longitude, user_type: 'administrator',
                 password: 'frepi123', password_confirmation: 'frepi123')
 
+  # Default User Client
+  User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
+                email: 'client@frepi.com', identification: Faker::Code.ean,
+                address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
+                image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
+                longitude: Faker::Address.longitude, user_type: 'user',
+                password: 'frepi123', password_confirmation: 'frepi123')
+
+
   # Users random
   9.times do |_|
     password = Faker::Internet.password(6)
