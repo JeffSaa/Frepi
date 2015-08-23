@@ -17,6 +17,7 @@ class ApplicationController < ActionController::API
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, uid, access-token, client'
+    headers['Access-Control-Expose-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, uid, access-token, client'
   end
 
   def require_administrator
