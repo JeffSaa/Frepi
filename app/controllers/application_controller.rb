@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
   # Api connection
-  before_filter :set_access_control_headers
+  before_action :set_access_control_headers
 
   # Security
   before_action :authenticate_user!
