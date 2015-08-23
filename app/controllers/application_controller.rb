@@ -5,8 +5,7 @@ class ApplicationController < ActionController::API
   before_action :set_access_control_headers
 
   # Security
-  before_action :authenticate_user!
-  before_action :require_administrator
+  before_action :authenticate_user!, :require_administrator, except: [:handle_options_request, :set_access_control_headers]
   skip_before_action :authenticate_user!, :require_administrator, if: :devise_controller?
 
 
