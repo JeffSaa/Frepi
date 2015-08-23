@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  #skip_before_action :authenticate_user!, except: :index
+  skip_before_action :authenticate_user!, only: :create
   before_action :find_user, except: [:index, :create]
 
   def index
@@ -12,7 +12,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params.merge(city_id: City.first.id))
+    # TODO: change default user_type
+    user = User.new(user_params.merge(city_id: City.first.id, user_type: 'user'))
     if user.save
       render(json: user, status: :created)
     else
@@ -47,7 +48,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:name, :last_name, :email, :identification, :address,
-                  :phone_number, :user_type, :image, :latitude, :longitude,
+                  :phone_number, :image, :latitude, :longitude,
                   :password, :password_confirmation)
   end
 end

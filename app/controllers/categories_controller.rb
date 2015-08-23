@@ -33,8 +33,9 @@ class CategoriesController < ApplicationController
     render(json: @category)
   end
 
-  # Methods
   private
+
+  # Methods
   def find_category
     begin
       @category = Category.find(params[:id])

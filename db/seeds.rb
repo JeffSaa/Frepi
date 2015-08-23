@@ -3,6 +3,9 @@ country = Country.create!(name: 'colombia')
 state = country.states.create!(name: 'atlantico')
 city = state.cities.create!(name: 'barranquilla')
 
+# email: admin@frepi.com
+# Password: frepi123
+
 if Rails.env.development?
 
   # Constant
@@ -45,14 +48,24 @@ if Rails.env.development?
                               store_price: Faker::Commerce.price, frepi_price: Faker::Commerce.price, image: Faker::Avatar.image(nil, "960x800"),
                               subcategory_id: subcategory.id, available: [true, false].sample)
   end
-=begin
-  # Users
-  10.times do |_|
+
+  # Default User Frepi Admin
+  User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
+                email: 'admin@frepi.com', identification: Faker::Code.ean,
+                address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
+                image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
+                longitude: Faker::Address.longitude, user_type: 'administrator',
+                password: 'frepi123', password_confirmation: 'frepi123')
+
+  # Users random
+  9.times do |_|
+    password = Faker::Internet.password(6)
     User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
                   email: Faker::Internet.email, identification: Faker::Code.ean,
                   address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                   image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
-                  longitude: Faker::Address.longitude, user_type: %w(user administrator).sample)
+                  longitude: Faker::Address.longitude, user_type: %w(user administrator).sample,
+                  password: password, password_confirmation: password)
   end
 
   # Orders
@@ -100,5 +113,4 @@ if Rails.env.development?
     shopper = Shopper.find(shopper_id + 1)
     shopper.schedules.create!( day: DAY.sample, start_hour: Time.now, end_hour: Time.now + 2.hour)
   end
-=end
 end

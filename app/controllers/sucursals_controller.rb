@@ -1,7 +1,7 @@
 class SucursalsController < ApplicationController
 
- before_action :find_store_partner
- before_action :find_sucursals, except: [:index, :create]
+  before_action :find_store_partner
+  before_action :find_sucursals, except: [:index, :create]
 
   def index
     render(json: @store_partner.sucursals)
@@ -36,6 +36,7 @@ class SucursalsController < ApplicationController
 
   # Methods
   private
+
   def find_store_partner
     begin
       @store_partner = StorePartner.find(params[:store_partner_id])
