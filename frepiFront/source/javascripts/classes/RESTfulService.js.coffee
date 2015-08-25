@@ -8,12 +8,17 @@ class window.RESTfulService
         contentType: 'application/json; charset=UTF-8',
         data: if method is 'POST' or method is 'PUT' then (JSON.stringify(data)) else "",
         url: @URL + url,
-        success: ((data) ->
+        success: ((data, status, xhr) ->
+                  data.accessToken = xhr.getResponseHeader('access-token')
+                  data.client = xhr.getResponseHeader('client')
+                  data.uid = xhr.getResponseHeader('uid')
                   callback(null, data)),
         error: ((data) ->
                   callback(data, null)),
         beforeSend: (xhr) ->
          xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
-         # xhr.setRequestHeader('Authorization', window.localStorage.getItem('lapateada_token'))         
+         # xhr.setRequestHeader('access-token', Config.getItem('token'))
+         # xhr.setRequestHeader('client', Config.getItem('client'))
+         # xhr.setRequestHeader('uid', Config.getItem('uid'))
          xhr.withCredentials = true
       })

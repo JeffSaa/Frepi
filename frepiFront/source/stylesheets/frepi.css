@@ -1,4 +1,25 @@
 
+/* Loading */
+.loading {
+  background-color: rgb(34, 182, 118);
+  height: 100%;
+  position: relative;
+}
+
+.logo {
+  left: calc(50% - 173px);
+  position: absolute;
+  top: 30%;
+}
+
+.loading .loader {
+  top: 60%;
+}
+
+.loading .loader:after {
+  border-color: #7AD3AD transparent transparent;
+}
+
 /* Login */
 .inverted.menu {
   background-color: rgb(34, 182, 118) !important;
@@ -23,7 +44,7 @@
   min-width: 100%;
 }
 
-#login-grid .header {
+#login-grid h1.header {
   font-size: 3rem !important;
   font-weight: 500;
   margin-bottom: 0.65em;
@@ -144,11 +165,30 @@
 
 .sidebar.menu {
   background-color: #fcf8e3 !important;
-  padding-top: 10px;
+}
+
+.sidebar.menu>.item:first-child {
+  padding-top: 25px;
+}
+
+#shopping-cart>.item:first-child {
+  background-color: #513C2C;
+}
+
+#shopping-cart>.item:first-child h3 {
+  color: #FFFFFF;
 }
 
 .centering {
   line-height: 2.5;
+}
+
+.ui.vertical.menu .item {
+  display: flex;
+}
+
+.ui.items>.item>.image+.content {
+    padding-top: 1em;
 }
 
 /**

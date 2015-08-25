@@ -1,47 +1,26 @@
 doctype html
 html
-	head
-		meta charset="utf-8" /
-		title Frepi
-		/! Sets initial viewport load and disables zooming
-		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
-		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
-		/! Add semantic's CSS
-		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
-		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
-		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
-	body
-		.ui.login-main
-			.ui.fixed.inverted.menu
-				.ui.container
-					a#landing-logo.ui.image href="#"
-						img src="images/landing/logo.png"
-			#login-grid.ui.three.column.centered.stackable.grid
-				.column
-					h1.ui.center.aligned.header 
-						|Hola de nuevo!
-						.sub.header Ingresa y ten acceso a los mejores productos.
-					form.ui.form
-						#login-form.ui.raised.segment
-							.field
-								.ui.left.icon.input
-									i.user.icon
-									input type="text" name="username" placeholder="Usuario"
-							.field
-								.ui.left.icon.input
-									i.lock.icon
-									input type="password" name="password" placeholder="Contraseña"
-							button#login.ui.fluid.large.green.button type="submit" Iniciar
-							.ui.horizontal.divider o
-							button#login-fb.ui.fluid.large.labeled.icon.facebook.button type="submit"
-								i.facebook.icon
-								|Inicia con Facebook
-							#login-message.ui.center.aligned
-								|¿No tienes cuenta? 
-								a href="#" Crea una!
-					
-						
-		script src="javascripts/jquery/jquery-2.1.4.min.js"
-		script src="semantic/out/semantic.min.js"
-		script src="javascripts/knockout.js"
-		script src="javascripts/viewmodels/login.js"
+  head
+    meta charset="utf-8" /
+    title Frepi
+    /! Sets initial viewport load and disables zooming
+    meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
+    meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
+    /! Add semantic's CSS
+    link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
+    link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
+    link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
+  body
+    .loading
+      .logo
+        img src="images/landing/logo.png"
+      .ui.active.centered.large.loader
+          
+    script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"
+    script src="javascripts/jquery/jquery-2.1.4.min.js"
+    script src="semantic/out/semantic.min.js"
+    script src="javascripts/knockout.js"
+    script src="javascripts/classes/encrypter.js"
+    script src="javascripts/classes/config.js"
+    script src="javascripts/classes/RESTfulService.js"
+    script src="javascripts/viewmodels/loading.js"

@@ -6,13 +6,65 @@ html
 		/! Sets initial viewport load and disables zooming
 		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
 		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
-
 		/! Add semantic's CSS
 		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
 		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
 		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
 	body
-		.ui.store-wrapper
+		#departments-menu.ui.vertical.left.sidebar.menu
+			.item
+				h3.ui.header
+					i.sidebar.icon
+					.content Departamentos
+			.items data-bind="foreach: categories"
+				a.item 
+					.header data-bind="text: $data.name"
+
+		#shopping-cart.ui.vertical.wide.right.sidebar.menu
+			.item
+				h3.ui.header
+					i.shop.icon
+					.content Mi carro de compras
+			.ui.items data-bind="foreach: itemsInCart"
+				.item
+					.ui.tiny.image 
+						img data-bind="attr: {src: $data.image}"
+					.content
+						.header data-bind="text: $data.name"
+						.meta
+							span.price data-bind="text: $data.frepi_price"
+							span.quantity data-bind="text: $data.quantity"
+			.item
+				button.ui.fluid.large.green.button Pagar
+
+		.ui.modal
+			i.close.icon					
+			.image.content
+				.ui.large.image
+					img data-bind="attr: {src: selectedProductImage}"
+				.description
+					h1.ui.header data-bind="text: selectedProductName"
+					.meta data-bind="text: selectedProductCategory"
+					h2.header data-bind="text: selectedProductPrice"
+					#modal-dropdown.ui.fluid.selection.dropdown
+						.text Cantidad
+						i.dropdown.icon
+						.menu
+							.item data-value="1" 1
+							.item data-value="2" 2
+							.item data-value="3" 3
+							.item data-value="4" 4
+							.item data-value="5" 5
+							.item data-value="6" 6
+							.item data-value="7" 7
+							.item data-value="8" 8
+							.item data-value="9" 9
+							.item data-value="10" 10+
+					button.ui.fluid.large.green.button data-bind="click: function(data){$root.addToCart(data, 1)}" Agregar a carrito
+			.actions
+				p Here it goes the warning about the products information.	
+
+		.pusher
 			#store-primary-navbar.ui.fixed.inverted.menu
 				a#store-frepi-logo.ui.image href="#"
 					img.ui.middle.aligned src="images/landing/logo.png" alt="Frepi's logo"
@@ -38,67 +90,21 @@ html
 							.divider
 							.item
 								i.sign.out.icon
-								|Salir
+								|Salir				
 
-			#departments-menu.ui.vertical.left.sidebar.menu
+			#store-secondary-navbar.ui.fixed.borderless.menu
 				.item
-					h3.ui.header
+					button.ui.basic.grey.button data-bind="click: showDepartments"
 						i.sidebar.icon
-						.content Departamentos
-				.items data-bind="foreach: categories"
-					a.item 
-						.header data-bind="text: $data.name"
+						|Departamentos
+				.link.item
+					i.home.large.grey.icon
 
-			#shopping-cart.ui.vertical.right.sidebar.menu
-				.item
-					h3.ui.header
-						i.shop.icon
-						.content Mi carro de compras
-				.item
-					button.ui.fluid.large.green.button Pagar
-
-			.ui.modal
-				i.close.icon					
-				.image.content
-					.ui.large.image
-						img data-bind="attr: {src: selectedProductImage}"
-					.description
-						h1.ui.header data-bind="text: selectedProductName"
-						.meta data-bind="text: selectedProductCategory"
-						h2.header data-bind="text: selectedProductPrice"
-						#modal-dropdown.ui.fluid.selection.dropdown
-							.text Cantidad
-							i.dropdown.icon
-							.menu
-								.item data-value="0" 1
-								.item data-value="1" 2
-								.item data-value="2" 3
-								.item data-value="3" 4
-								.item data-value="4" 5
-								.item data-value="5" 6
-								.item data-value="6" 7
-								.item data-value="7" 8
-								.item data-value="8" 9
-								.item data-value="9" 10+
-						button.ui.fluid.large.green.button Agregar a carrito
-				.actions
-					p Here it goes the warning about the products information.
-
-			.pusher
-				#store-secondary-navbar.ui.fixed.borderless.menu
+				.right.menu
 					.item
-						button.ui.basic.grey.button data-bind="click: showDepartments"
-							i.sidebar.icon
-							|Departamentos
-					.link.item
-						i.home.large.grey.icon
-
-					.right.menu
-						.item
-							button.ui.labeled.icon.button data-bind="click: showShoppingCart"
-								i.shop.icon
-								|<!--ko text: itemsToBuy--><!--/ko-->
-
+						button.ui.labeled.icon.button data-bind="click: showShoppingCart"
+							i.shop.icon
+							|<!--ko text: itemsToBuy--><!--/ko-->
 
 			.main-content
 				#store-banner
@@ -128,7 +134,7 @@ html
 										span.centering
 											i.dollar.icon
 										span.centering data-bind="text: $data.frepi_price"
-										.ui.right.floated.vertical.animated.green.button
+										.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
 											.hidden.content Agregar
 											.visible.content
 												i.shop.icon		
@@ -140,5 +146,6 @@ html
 		script src="javascripts/jquery/jquery-2.1.4.min.js"
 		script src="semantic/out/semantic.min.js"
 		script src="javascripts/knockout.js"
+		script src="javascripts/classes/config.js"
 		script src="javascripts/classes/RESTfulService.js"
 		script src="javascripts/viewmodels/store.js"

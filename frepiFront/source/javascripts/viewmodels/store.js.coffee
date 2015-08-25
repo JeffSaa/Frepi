@@ -2,6 +2,7 @@ class LoginVM
   constructor: ->
     @categories = ko.observableArray()
     @itemsToBuy = ko.observable('0 items')
+    @itemsInCart = ko.observableArray([])
 
     # Modal variables
     @selectedProductCategory = ko.observable()
@@ -12,6 +13,14 @@ class LoginVM
     # Methods to execute
     @getCategories()
     @setDOMComponents()
+
+  addToCart: (product, quantity) ->
+    product.quantity = quantity
+    @itemsInCart.push(product)
+    if @itemsInCart().length isnt 1
+      @itemsToBuy("#{@itemsInCart().length} items")
+    else
+      @itemsToBuy("1 item")
 
   setDOMComponents: ->
     $('#departments-menu').sidebar({        
@@ -47,12 +56,12 @@ class LoginVM
       if error
         console.log 'An error has ocurried while fetching the categories!'
       else
+        console.log success
         @setProductsToShow(success)
     )
 
   # Set the products that are going to be showed on the Store's view
   setProductsToShow: (categories) ->
-    console.log categories
     for category in categories
       productsToShow = []
       allProductsCategory = []
@@ -61,10 +70,14 @@ class LoginVM
           product.subcategoryName = subCategory.name
         allProductsCategory = allProductsCategory.concat(subCategory.products)
 
+      console.log 'Products per category'
+      console.log allProductsCategory
+
       while productsToShow.length < 4
-        random = Math.floor(Math.random()*(allProductsCategory.length - 1))
-        if productsToShow.indexOf(allProductsCategory[random]) == -1
-          productsToShow.push(allProductsCategory[random])
+        productsToShow.push(allProductsCategory[productsToShow.length])
+        # random = Math.floor(Math.random()*(allProductsCategory.length - 1))
+        # if productsToShow.indexOf(allProductsCategory[random]) == -1
+        #   productsToShow.push(allProductsCategory[random])
 
       category.productsToShow = productsToShow
 
