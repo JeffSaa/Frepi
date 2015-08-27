@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  # NOTE: Only a Super User (administrator) can do any action
 
   skip_before_action :authenticate_user!, only: :create
   before_action :find_user, except: [:index, :create]
@@ -12,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    # TODO: change default user_type
+    # TODO: change default user_type, Changes city when the app grow
     user = User.new(user_params.merge(city_id: City.first.id, user_type: 'user'))
     if user.save
       render(json: user, status: :created)
