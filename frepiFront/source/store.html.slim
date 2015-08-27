@@ -46,21 +46,19 @@ html
 					h1.ui.header data-bind="text: selectedProductName"
 					.meta data-bind="text: selectedProductCategory"
 					h2.header data-bind="text: selectedProductPrice"
-					#modal-dropdown.ui.fluid.selection.dropdown
-						.text Cantidad
-						i.dropdown.icon
-						.menu
-							.item data-value="1" 1
-							.item data-value="2" 2
-							.item data-value="3" 3
-							.item data-value="4" 4
-							.item data-value="5" 5
-							.item data-value="6" 6
-							.item data-value="7" 7
-							.item data-value="8" 8
-							.item data-value="9" 9
-							.item data-value="10" 10+
-					button.ui.fluid.large.green.button data-bind="click: function(data){$root.addToCart(data, 1)}" Agregar a carrito
+					select#modal-dropdown.ui.fluid.dropdown
+						option value="1" Cantidad
+						option value="1" 1
+						option value="2" 2
+						option value="3" 3
+						option value="4" 4
+						option value="5" 5
+						option value="6" 6
+						option value="7" 7
+						option value="8" 8
+						option value="9" 9
+						option value="10" 10+
+					button.ui.fluid.large.green.button data-bind="click: function(){$root.addToCart($root.selectedProduct)}" Agregar a carrito
 			.actions
 				p Here it goes the warning about the products information.	
 
@@ -123,7 +121,7 @@ html
 						h2.ui.header data-bind="text: $data.name"
 						#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
 							.column
-								.ui.fluid.link.card data-bind="click: function(){$root.showProduct($data.name, $data.frepi_price, $data.subcategoryName, $data.image)}"
+								.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"
 									.image
 										img data-bind="attr: {src: $data.image}" alt="Product's image"
 									.content
@@ -134,7 +132,7 @@ html
 										span.centering
 											i.dollar.icon
 										span.centering data-bind="text: $data.frepi_price"
-										.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
+										.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data)}, clickBubble: false"
 											.hidden.content Agregar
 											.visible.content
 												i.shop.icon		

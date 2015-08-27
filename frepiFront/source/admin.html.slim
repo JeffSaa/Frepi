@@ -1,0 +1,27 @@
+html
+  head
+    meta charset="utf-8" /
+    title Frepi
+    /! Sets initial viewport load and disables zooming
+    meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
+    meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
+    /! Add semantic's CSS
+    link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
+    link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
+    link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
+  body
+    .admin
+      .logo
+        img src="images/landing/logo.png"
+      h1.ui.center.aligned.header
+        i.setting.loading.icon
+        .content You are an Admin!
+
+          
+    script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"
+    script src="javascripts/jquery/jquery-2.1.4.min.js"
+    script src="semantic/out/semantic.min.js"
+    script src="javascripts/knockout.js"
+    script src="javascripts/classes/encrypter.js"
+    script src="javascripts/classes/config.js"
+    script src="javascripts/classes/RESTfulService.js"

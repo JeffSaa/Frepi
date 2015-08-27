@@ -7,23 +7,29 @@ class LoginVM
 		data =
 			email: $('#login-grid form').form('get value', 'username')
 			password: $('#login-grid form').form('get value', 'password')
+		$('#login').addClass('loading')
 
-		RESTfulService.makeRequest('POST', '/auth/sign_in', data, (error, success) =>
+		RESTfulService.makeRequest('POST', '/auth/sign_in', data, (error, success, headers) =>
 				if error
+					$('#login').removeClass('loading')
 					$('.ui.form').addClass('error')
 					console.log 'An error has ocurred in the authentication.'
 					@errorTextResponse(error.responseJSON.errors.toString())
 				else
-					encryptedClient = Encryptor.encrypt(success.client, 'myKey')
+					encryptedClient = Encryptor.encrypt(headers.client, 'myKey')
 					encryptedPassword = Encryptor.encrypt(data.password, 'myKey')
-					encryptedToken = Encryptor.encrypt(success.accessToken, 'myKey')
+					encryptedToken = Encryptor.encrypt(headers.accessToken, 'myKey')
 					encryptedUser = Encryptor.encrypt(data.email, 'myKey')
 					Config.setItem('accessToken', encryptedToken)
 					Config.setItem('client', encryptedClient)
 					Config.setItem('pass', encryptedPassword)
 					Config.setItem('user', encryptedUser)
-					Config.setItem('uid', success.uid)
-					window.location.href = '../../store.html'
+					Config.setItem('uid', headers.uid)
+
+					if success.data.user_type is 'user'
+						window.location.href = '../../store.html'
+					else
+						window.location.href = '../../admin.html'
 			)
 
 	setDOMElements: ->

@@ -9,12 +9,13 @@ class window.RESTfulService
         data: if method is 'POST' or method is 'PUT' then (JSON.stringify(data)) else "",
         url: @URL + url,
         success: ((data, status, xhr) ->
-                  data.accessToken = xhr.getResponseHeader('access-token')
-                  data.client = xhr.getResponseHeader('client')
-                  data.uid = xhr.getResponseHeader('uid')
-                  callback(null, data)),
+                  headers = 
+                    accessToken: xhr.getResponseHeader('access-token')
+                    client: xhr.getResponseHeader('client')
+                    uid: xhr.getResponseHeader('uid')
+                  callback(null, data, headers)),
         error: ((data) ->
-                  callback(data, null)),
+                  callback(data, null, null)),
         beforeSend: (xhr) ->
          xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
          # xhr.setRequestHeader('access-token', Config.getItem('token'))

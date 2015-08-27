@@ -6,17 +6,20 @@ class LoadingVM
             email: Encryptor.decrypt(Config.getItem('user'), 'myKey')
             password: Encryptor.decrypt(Config.getItem('pass'), 'myKey')
 
-          RESTfulService.makeRequest('POST', '/auth/sign_in', data, (error, success) =>
+          RESTfulService.makeRequest('POST', '/auth/sign_in', data, (error, success, headers) =>
             if error
-              console.log 'An error has ocurred in the authentication.'
-              window.location.href = '../../login.html'
+              alert('An error has ocurred in the authentication.')
+              # window.location.href = '../../login.html'
             else
-              encryptedClient = Encryptor.encrypt(success.client, 'myKey')
-              encryptedToken = Encryptor.encrypt(success.accessToken, 'myKey')
+              encryptedClient = Encryptor.encrypt(headers.client, 'myKey')
+              encryptedToken = Encryptor.encrypt(headers.accessToken, 'myKey')
               Config.setItem('accessToken', encryptedToken)
               Config.setItem('client', encryptedClient)
-              Config.setItem('uid', success.uid)
-              window.location.href = '../../store.html'
+              Config.setItem('uid', headers.uid)
+              if success.data.user_type is 'user'
+                window.location.href = '../../store.html'
+              else
+                window.location.href = '../../admin.html'
           )
         else
           window.location.href = '../../login.html'

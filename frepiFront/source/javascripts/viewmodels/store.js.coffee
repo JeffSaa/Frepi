@@ -5,6 +5,7 @@ class LoginVM
     @itemsInCart = ko.observableArray([])
 
     # Modal variables
+    @selectedProduct = null
     @selectedProductCategory = ko.observable()
     @selectedProductImage = ko.observable()
     @selectedProductName = ko.observable()
@@ -14,8 +15,9 @@ class LoginVM
     @getCategories()
     @setDOMComponents()
 
-  addToCart: (product, quantity) ->
-    product.quantity = quantity
+  addToCart: (product) ->
+    quantitySelected = $('#modal-dropdown').dropdown('get value')[0]
+    product.quantity = if quantitySelected is '' then 1 else parseInt(quantitySelected)
     @itemsInCart.push(product)
     if @itemsInCart().length isnt 1
       @itemsToBuy("#{@itemsInCart().length} items")
@@ -35,11 +37,12 @@ class LoginVM
   showDepartments: ->    
     $('#departments-menu').sidebar('toggle')
 
-  showProduct: (name, price, category, image) ->
-    @selectedProductCategory(category)
-    @selectedProductImage(image)
-    @selectedProductName(name)
-    @selectedProductPrice("$#{price}")
+  showProduct: (product) ->
+    @selectedProduct = product
+    @selectedProductCategory(product.category)
+    @selectedProductImage(product.image)
+    @selectedProductName(product.name)
+    @selectedProductPrice("$#{product.frepi_price}")
     $('.ui.modal').modal('show')
 
   showShoppingCart: ->
@@ -52,7 +55,7 @@ class LoginVM
     storeID = 1
     sucursalID = 1
     data = ''
-    RESTfulService.makeRequest('GET', "/stores/#{storeID}/sucursals/#{sucursalID}/products", data, (error, success) =>
+    RESTfulService.makeRequest('GET', "/stores/#{storeID}/sucursals/#{sucursalID}/products", data, (error, success, headers) =>
       if error
         console.log 'An error has ocurried while fetching the categories!'
       else

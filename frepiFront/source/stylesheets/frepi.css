@@ -20,6 +20,21 @@
   border-color: #7AD3AD transparent transparent;
 }
 
+/* Admin */
+.admin {
+  background-color: rgb(34, 182, 118);
+  height: 100%;
+  position: relative;
+}
+
+.admin .header {
+  color: #FFF;
+  left: 50%;
+  position: absolute;
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
 /* Login */
 .inverted.menu {
   background-color: rgb(34, 182, 118) !important;
