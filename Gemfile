@@ -18,6 +18,7 @@ end
 
 # General
 gem 'validates_timeliness'
+gem 'active_model_serializers'
 
 # Authentication
 gem 'devise'

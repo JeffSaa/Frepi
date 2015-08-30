@@ -1,5 +1,7 @@
 class Product < ActiveRecord::Base
 
+  serialize :store_price
+
   # Associations
   belongs_to :subcategory
   has_many   :orders_products

@@ -1,3 +1,11 @@
+ActiveModel::ArraySerializer.root = false
+
+ActiveModel::Serializer.setup do |config|
+  config.key_format = :lower_camel
+end
+
+
+
 # Be sure to restart your server when you modify this file.
 #
 # This file contains settings for ActionController::ParamsWrapper
@@ -11,3 +19,4 @@
 # ActiveSupport.on_load(:active_record) do
 #  self.include_root_in_json = true
 # end
+

@@ -7,11 +7,15 @@ class ProductsController < ApplicationController
 
   def index
     categories = @sucursal.categories.uniq
+=begin
     render(json: categories.as_json(include: {
                                       subcategories:  {
                                         include: { products: { except: [:created_at, :updated_at] }
                                         }, except: [:created_at, :updated_at] }
                                     }, except: [:created_at, :updated_at]))
+=end
+ render(json: categories, include: ['subcategories', 'products'])
+
   end
 
   def show
