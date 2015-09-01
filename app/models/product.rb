@@ -1,7 +1,5 @@
 class Product < ActiveRecord::Base
 
-  serialize :store_price
-
   # Associations
   belongs_to :subcategory
   has_many   :orders_products
@@ -14,5 +12,6 @@ class Product < ActiveRecord::Base
   validates :name, :store_price, :frepi_price, :image, presence: true
   validates :store_price, :frepi_price, numericality: true
   validates :available, inclusion: { in: [true, false] }
+  validates :name, uniqueness: { scope: :subcategory_id }
   validates :subcategory, presence: true
 end
