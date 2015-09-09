@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   # Api connection
   match '*path' => 'application#handle_options_request', :constraints => { method: 'OPTIONS'}, via: :options
 
-
-  mount_devise_token_auth_for 'User', at: 'auth', except: [:omniauth_callbacks]
+  mount_devise_token_auth_for 'User', at: 'auth', skip: [:omniauth_callbacks]
+  post 'auth/:provider/callback', to: 'sessions#create'
 
   resources :users, except: [:new, :edit]
 

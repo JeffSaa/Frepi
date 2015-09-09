@@ -199,18 +199,18 @@ ActiveRecord::Schema.define(version: 18) do
     t.string   "last_name",                                                          null: false
     t.string   "email",                                                              null: false
     t.string   "identification"
-    t.string   "address",                                                            null: false
-    t.string   "phone_number",                                                       null: false
+    t.string   "address"
+    t.string   "phone_number"
     t.integer  "user_type",                                        default: 0,       null: false
     t.boolean  "active",                                           default: true,    null: false
     t.string   "image"
     t.integer  "counter_orders",                                   default: 0,       null: false
-    t.decimal  "latitude",               precision: 15, scale: 10,                   null: false
-    t.decimal  "longitude",              precision: 15, scale: 10,                   null: false
+    t.decimal  "latitude",               precision: 15, scale: 10
+    t.decimal  "longitude",              precision: 15, scale: 10
     t.integer  "city_id"
     t.string   "provider",                                         default: "email", null: false
     t.string   "uid",                                              default: "",      null: false
-    t.string   "encrypted_password",                                                 null: false
+    t.string   "encrypted_password"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

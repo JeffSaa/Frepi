@@ -1,0 +1,13 @@
+es:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: 'las contraseñas no coinciden'
+            password:
+              blank: 'debe asignar una contraseña'
+              too_short: 'la contraseña debe tener minimo 6 caracteres'
+      messages:
+        record_invalid: 'el nombre ya fue tomado'

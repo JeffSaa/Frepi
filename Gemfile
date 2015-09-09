@@ -22,5 +22,7 @@ gem 'active_model_serializers'
 
 # Authentication
 gem 'devise'
-gem 'devise_token_auth' # Token based authentication for Rails JSON APIs
-gem 'omniauth' # required for devise_token_auth
+gem 'devise_token_auth'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'figaro'

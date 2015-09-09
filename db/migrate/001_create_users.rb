@@ -7,28 +7,28 @@ class CreateUsers < ActiveRecord::Migration
       t.string  :last_name,         null: false
       t.string  :email,             null: false, unique: true
       t.string  :identification
-      t.string  :address,           null: false
-      t.string  :phone_number,      null: false
+      t.string  :address
+      t.string  :phone_number
       t.integer :user_type,         null: false, default: 0
       t.boolean :active,            null: false, default: true
       t.string  :image
       t.integer :counter_orders,    null: false, default: 0
 
       # Extra information
-      t.decimal :latitude,          null: false, precision: 15, scale: 10
-      t.decimal :longitude,         null: false, precision: 15, scale: 10
+      t.decimal :latitude,          precision: 15, scale: 10
+      t.decimal :longitude,         precision: 15, scale: 10
 
       # Associations
       t.references :city,           index: true, foreign_key: true
 
-      ######################## Devise ################################
+      #------------------------- Devise ------------------------ #
 
       # Required
       t.string :provider, null: false, default: "email"
       t.string :uid, null: false, default: ""
 
       # Database authenticatable
-      t.string :encrypted_password, :null => false
+      t.string :encrypted_password
 
       # Recoverable
       t.string   :reset_password_token
@@ -38,7 +38,7 @@ class CreateUsers < ActiveRecord::Migration
       t.datetime :remember_created_at
 
       # Trackable
-      t.integer  :sign_in_count, :default => 0, :null => false
+      t.integer  :sign_in_count, default: 0, null: false
       t.datetime :current_sign_in_at
       t.datetime :last_sign_in_at
       t.string   :current_sign_in_ip
