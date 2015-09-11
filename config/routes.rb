@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth', skip: [:omniauth_callbacks]
   post 'auth/:provider/callback', to: 'sessions#create'
 
-  resources :users, except: [:new, :edit]
+  resources :users, except: [:new, :edit] do
+    resources :orders, except: [:new, :edit]
+  end
 
   resources :categories, except: [:new, :edit] do
     resources :subcategories, except: [:new, :edit]
