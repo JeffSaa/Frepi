@@ -1,0 +1,116 @@
+doctype html
+html
+  head
+    meta charset="utf-8" /
+    title Frepi - Haz tu mercado fácil y rápido
+    /! Sets initial viewport load and disables zooming
+    meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
+    meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
+    /! Add semantic's CSS
+    link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
+    link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
+    link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
+  body
+    #departments-menu.ui.vertical.left.sidebar.menu
+      .item
+        h3.ui.header
+          i.sidebar.icon
+          .content Departamentos
+      / .items data-bind="foreach: categories"
+      .items
+        a.item 
+          / .header data-bind="text: $data.name"
+          .header Beauty
+
+    .pusher
+      #store-primary-navbar.ui.fixed.inverted.menu
+        a#store-frepi-logo.ui.image href="#"
+          img.ui.middle.aligned src="images/landing/logo.png" alt="Frepi's logo"
+        a#target-store href="#"
+          .item
+            .content
+              .ui.sub.header Olímpica Tanganazo
+              |Calle 72 # 60 - 12
+        #product-searcher.item
+          .ui.icon.input
+            input type="text" placeholder="Buscar en Olímpica..."
+            i.circular.search.link.icon
+        #user-account.ui.simple.dropdown.item
+            .text Hola, Ernesto
+            i.chevron.down.icon
+            .menu
+              .item
+                i.user.icon
+                |Ver perfil
+              .item
+                i.book.icon
+                |Mis pedidos
+              .divider
+              .item data-bind="click: logout"
+                i.sign.out.icon
+                |Salir        
+
+      #store-secondary-navbar.ui.fixed.borderless.menu
+        .item
+          button.ui.basic.grey.button data-bind="click: showDepartments"
+            i.sidebar.icon
+            |Departamentos
+        .link.item
+          i.home.large.grey.icon
+
+        .right.menu
+          .item
+            / button.ui.labeled.icon.button data-bind="click: showShoppingCart"
+            button.ui.labeled.icon.button
+              i.shop.icon
+              /|<!--ko text: itemsToBuy--><!--/ko-->
+              |2 items
+
+      .main-content.profile
+        .ui.container
+          img#profile-picture.ui.centered.medium.circular.image data-bind="attr: {src: profilePicture}"
+          h1.ui.centered.header data-bind="text: name()+' '+lastName()"
+          .ui.fluid.two.item.secondary.pointing.menu
+            a.active.item data-tab="account" Cuenta
+            a.item data-tab="history" Historial de pedidos
+          .ui.active.tab.segment data-tab="account"
+            .ui.two.column.stackable.grid
+              .column
+                .ui.green.segment
+                  .ui.header Información de cuenta
+                  .clearfix.line
+                    span.title Email
+                    span.value data-bind="text: email"
+                    a.edit-account href="#" Editar
+                  .clearfix.line
+                    span.title Password
+                    span.value ●●●●●●●●
+                    a.edit-account href="#" Editar
+              .column
+                .ui.green.segment
+                  .ui.header Información personal
+                  .clearfix.line
+                    span.title Nombres
+                    span.value data-bind="text: name"
+                    a.edit-account href="#" Editar
+                  .clearfix.line
+                    span.title Apellidos
+                    span.value data-bind="text: lastName"
+                    a.edit-account href="#" Editar
+                  .clearfix.line
+                    span.title Teléfono
+                    span.value data-bind="text: phone"
+                    a.edit-account href="#" Editar
+          .ui.tab.segment data-tab="history"
+            .ui.segment data-bind="visible: !showEmptyMessage()"
+              .ui.header Historial info
+            .ui.centered.header data-bind="visible: showEmptyMessage" No hay pedidos registrados
+            
+    script src="javascripts/plugins/crypto-js.min.js"
+    script src="javascripts/jquery/jquery-2.1.4.min.js"
+    script src="semantic/out/semantic.min.js"
+    script src="javascripts/knockout.js"
+    script src="javascripts/classes/encrypter.js"
+    script src="javascripts/classes/config.js"
+    script src="javascripts/classes/RESTfulService.js"
+    script src="javascripts/viewmodels/profile.js"

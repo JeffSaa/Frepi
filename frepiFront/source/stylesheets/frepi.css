@@ -1,4 +1,16 @@
 
+/* Generic rules */
+.main-content {
+  position: relative;
+  padding-top: 100px;
+}
+
+.clearfix {
+  content:"";
+  display:table;
+  clear:both;
+}
+
 /* Loading */
 .loading {
   background-color: rgb(34, 182, 118);
@@ -161,7 +173,6 @@
   background-color: #c20010;
   color: #fff;
   height: 250px;
-  margin-top: 100px;
   padding: 20px 50px;
   width: 100%
 }
@@ -186,6 +197,10 @@
   padding-top: 25px;
 }
 
+/**
+ ** Shopping Cart rules
+ **/
+
 #shopping-cart>.item:first-child {
   background-color: #513C2C;
 }
@@ -203,12 +218,27 @@
 }
 
 .ui.items>.item>.image+.content {
-    padding-top: 1em;
+  padding-top: 1.2em;
+}
+
+#shopping-cart .item .header {
+  width: 85%;
+}
+
+#shopping-cart .item .close {
+  display: none;
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}
+
+#shopping-cart .item:hover .close {
+  display: block;
 }
 
 /**
-** Modal's rules
-**/
+ ** Store Modal's rules
+ **/
 
 .modal .meta {
   color: rgba(0,0,0,.4);
@@ -237,4 +267,52 @@
   color: rgba(0,0,0,.6);
   font-size: 0.8em;
   text-align: left;
+}
+
+/**
+ ** Profile rules
+ **/
+
+.profile .container #profile-picture {
+  margin: 30px auto 0;
+}
+
+.profile .container>.header {
+  margin-bottom: 2.5rem;
+}
+
+.profile .segment .header:first-of-type {
+  font-size: 1.1em;
+  text-transform: uppercase;
+}
+
+.profile .segment+.header {
+  color: rgba(0, 0, 0, 0.7);
+  margin: 0;
+}
+
+.profile .segment .line {
+  width: 100%;
+}
+
+.profile .segment .line * {
+  display: inline-block;
+  float: left;
+  padding: 10px;
+}
+
+.profile .segment .line .title {
+  width: 25%;
+}
+
+.profile .segment .line .value {
+  width: 55%;
+}
+
+.profile .segment .line .edit-account {
+  width: 20%;
+}
+
+.profile .tab.segment {
+  margin-bottom: 40px;
 }

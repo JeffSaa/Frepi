@@ -18,8 +18,8 @@ class window.RESTfulService
                   callback(data, null, null)),
         beforeSend: (xhr) ->
          xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
-         # xhr.setRequestHeader('access-token', Config.getItem('token'))
-         # xhr.setRequestHeader('client', Config.getItem('client'))
-         # xhr.setRequestHeader('uid', Config.getItem('uid'))
+         xhr.setRequestHeader('access-token', Config.getItem('accessToken'))
+         xhr.setRequestHeader('client', Config.getItem('client'))
+         xhr.setRequestHeader('uid', Config.getItem('uid'))
          xhr.withCredentials = true
       })

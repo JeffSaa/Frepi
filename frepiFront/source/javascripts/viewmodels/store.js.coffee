@@ -3,6 +3,7 @@ class LoginVM
     @categories = ko.observableArray()
     @itemsToBuy = ko.observable('0 items')
     @itemsInCart = ko.observableArray([])
+    @userName = ko.observable()
 
     # Modal variables
     @selectedProduct = null
@@ -11,20 +12,50 @@ class LoginVM
     @selectedProductName = ko.observable()
     @selectedProductPrice = ko.observable()
 
-    # Methods to execute
+    # Methods to execute on instance
+    @setUserInfo()
     @getCategories()
-    @setDOMComponents()
+    @setDOMElements()
 
-  addToCart: (product) ->
-    quantitySelected = $('#modal-dropdown').dropdown('get value')[0]
-    product.quantity = if quantitySelected is '' then 1 else parseInt(quantitySelected)
-    @itemsInCart.push(product)
+  addToCart: (productToAdd) =>
+    quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0])
+    product = @getProductByName(productToAdd.name)
+
+    if !product
+      productToAdd.quantity = quantitySelected
+      @itemsInCart.push(productToAdd)
+    else
+      oldProduct = product
+      newProduct =
+        available: oldProduct.available
+        frepiPrice: oldProduct.frepiPrice
+        id: oldProduct.id
+        image: oldProduct.image
+        name: oldProduct.name
+        quantity: oldProduct.quantity + quantitySelected
+        referenceCode: oldProduct.referenceCode
+        salesCount: oldProduct.salesCount
+        storePrice: oldProduct.storePrice
+        subcategoryName: oldProduct.subcategoryName
+        subcategoryId: oldProduct.subcategoryId
+
+      @itemsInCart.replace(oldProduct, newProduct)
+    
+    console.log @itemsInCart()
+
     if @itemsInCart().length isnt 1
       @itemsToBuy("#{@itemsInCart().length} items")
     else
       @itemsToBuy("1 item")
 
-  setDOMComponents: ->
+  # Return a product if it's currently in the cart or null
+  getProductByName: (name) ->
+    for product in @itemsInCart()
+      return product if product.name is name      
+    
+    return null
+
+  setDOMElements: ->
     $('#departments-menu').sidebar({        
         transition: 'overlay'
       })
@@ -39,10 +70,10 @@ class LoginVM
 
   showProduct: (product) ->
     @selectedProduct = product
-    @selectedProductCategory(product.category)
+    @selectedProductCategory(product.subcategoryName)
     @selectedProductImage(product.image)
     @selectedProductName(product.name)
-    @selectedProductPrice("$#{product.frepi_price}")
+    @selectedProductPrice("$#{product.frepiPrice}")
     $('.ui.modal').modal('show')
 
   showShoppingCart: ->
@@ -50,6 +81,10 @@ class LoginVM
 
   showStoreInfo: ->
     $('#store-banner').dimmer('show')
+
+  setUserInfo: ->
+    user = JSON.parse(Config.getItem('userObject'))
+    @userName(user.name.split(' ')[0])
 
   getCategories: ->
     storeID = 1
@@ -62,6 +97,10 @@ class LoginVM
         console.log success
         @setProductsToShow(success)
     )
+
+  logout: ->
+    Config.destroyLocalStorage()
+    window.location.href = '../../login.html'
 
   # Set the products that are going to be showed on the Store's view
   setProductsToShow: (categories) ->
@@ -76,7 +115,7 @@ class LoginVM
       console.log 'Products per category'
       console.log allProductsCategory
 
-      while productsToShow.length < 4
+      while productsToShow.length < 4 and productsToShow.length < allProductsCategory.length
         productsToShow.push(allProductsCategory[productsToShow.length])
         # random = Math.floor(Math.random()*(allProductsCategory.length - 1))
         # if productsToShow.indexOf(allProductsCategory[random]) == -1

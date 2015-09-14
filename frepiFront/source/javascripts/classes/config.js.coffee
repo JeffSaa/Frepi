@@ -6,22 +6,29 @@ class window.Config
     if configObject is null
       configObject = new Object()
     else
-      configObject = JSON.parse(configObject)
+      decryptedConfigObject = Encrypter.decrypt(configObject, 'frepiKey')
+      configObject = JSON.parse(decryptedConfigObject)
 
     configObject[key] = value
-    window.localStorage.setItem(@TAG, JSON.stringify(configObject))
+    encryptedJSON = Encrypter.encrypt(JSON.stringify(configObject), 'frepiKey')
+    window.localStorage.setItem(@TAG, encryptedJSON)
     return
 
   @getItem : (key) ->
-    configObject = window.localStorage.getItem(@TAG)
-    if configObject is null
+    encryptedConfigObject = window.localStorage.getItem(@TAG)
+    if encryptedConfigObject is null
       return null
     else
+      configObject = Encrypter.decrypt(encryptedConfigObject, 'frepiKey')
       return JSON.parse(configObject)[key]
 
   @removeItem : (key) ->
-    configObject = window.localStorage.getItem(@TAG)
-    if configObject isnt null
-      configObject = JSON.parse(configObject)
+    encryptedConfigObject = window.localStorage.getItem(@TAG)    
+    if encryptedConfigObject isnt null
+      decryptedConfigObject = Encrypter.decrypt(encryptedConfigObject, 'frepiKey')
+      configObject = JSON.parse(decryptedConfigObject)
       delete configObject[key]
       window.localStorage.setItem(@TAG, JSON.stringify(configObject))
+
+  @destroyLocalStorage : ->
+    window.localStorage.removeItem(@TAG)

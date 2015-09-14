@@ -32,8 +32,9 @@ html
 					.content
 						.header data-bind="text: $data.name"
 						.meta
-							span.price data-bind="text: $data.frepi_price"
+							span.price data-bind="text: $data.frepiPrice"
 							span.quantity data-bind="text: $data.quantity"
+					i.close.link.icon
 			.item
 				button.ui.fluid.large.green.button Pagar
 
@@ -76,7 +77,7 @@ html
 						input type="text" placeholder="Buscar en Olímpica..."
 						i.circular.search.link.icon
 				#user-account.ui.simple.dropdown.item
-						.text Hola, Ernesto
+						.text data-bind="text: 'Hola, '+userName()"
 						i.chevron.down.icon
 						.menu
 							.item
@@ -86,7 +87,7 @@ html
 								i.book.icon
 								|Mis pedidos
 							.divider
-							.item
+							.item data-bind="click: logout"
 								i.sign.out.icon
 								|Salir				
 
@@ -131,7 +132,7 @@ html
 									.extra.content
 										span.centering
 											i.dollar.icon
-										span.centering data-bind="text: $data.frepi_price"
+										span.centering data-bind="text: $data.frepiPrice"
 										.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data)}, clickBubble: false"
 											.hidden.content Agregar
 											.visible.content
@@ -140,10 +141,11 @@ html
 
 
 					
-						
-		script src="javascripts/jquery/jquery-2.1.4.min.js"
-		script src="semantic/out/semantic.min.js"
-		script src="javascripts/knockout.js"
-		script src="javascripts/classes/config.js"
-		script src="javascripts/classes/RESTfulService.js"
-		script src="javascripts/viewmodels/store.js"
+		script src="javascripts/plugins/crypto-js.min.js" type="text/javascript"				
+		script src="javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"
+		script src="semantic/out/semantic.min.js" type="text/javascript"
+		script src="javascripts/knockout.js" type="text/javascript"
+		script src="javascripts/classes/encrypter.js" type="text/javascript"
+		script src="javascripts/classes/config.js" type="text/javascript"
+		script src="javascripts/classes/RESTfulService.js" type="text/javascript"
+		script src="javascripts/viewmodels/store.js" type="text/javascript"

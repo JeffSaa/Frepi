@@ -1,29 +1,43 @@
 class LoadingVM
   constructor: ->   
     setTimeout((->
-        if Config.getItem('user')
-          data = 
-            email: Encryptor.decrypt(Config.getItem('user'), 'myKey')
-            password: Encryptor.decrypt(Config.getItem('pass'), 'myKey')
+        if Config.getItem('uid')
+          if Config.getItem('pass')
+            data = 
+              email: Config.getItem('user')
+              password: Config.getItem('pass')
 
-          RESTfulService.makeRequest('POST', '/auth/sign_in', data, (error, success, headers) =>
-            if error
-              alert('An error has ocurred in the authentication.')
-              # window.location.href = '../../login.html'
-            else
-              encryptedClient = Encryptor.encrypt(headers.client, 'myKey')
-              encryptedToken = Encryptor.encrypt(headers.accessToken, 'myKey')
-              Config.setItem('accessToken', encryptedToken)
-              Config.setItem('client', encryptedClient)
-              Config.setItem('uid', headers.uid)
-              if success.data.user_type is 'user'
-                window.location.href = '../../store.html'
+            RESTfulService.makeRequest('POST', '/auth/sign_in', data, (error, success, headers) =>
+              if error
+                alert('An error has ocurred in the authentication. Check your network conection.')
+                # window.location.href = '../../login.html'
               else
-                window.location.href = '../../admin.html'
-          )
+                Config.setItem('accessToken', headers.accessToken)
+                Config.setItem('client', headers.client)
+                if success.data.user_type is 'user'
+                  window.location.href = '../../store.html'
+                else
+                  window.location.href = '../../admin.html'
+            )
+          else
+            data = 
+              uid: Config.getItem('uid')
+            alert('Authenticating with FB user saved in localStorage.')
+            RESTfulService.makeRequest('POST', '/auth/facebook/callback', data, (error, success, headers) =>
+              if error
+                alert('An error has ocurred in the authentication. Check your network conection.')
+                # window.location.href = '../../login.html'
+              else
+                Config.setItem('accessToken', headers.accessToken)
+                Config.setItem('client', headers.client)
+                if success.user.userType is 'user'
+                  window.location.href = '../../store.html'
+                else
+                  window.location.href = '../../admin.html'
+            )
         else
           window.location.href = '../../login.html'
 
-    ), 1500)        
+    ), 1000)        
 
 loading = new LoadingVM
