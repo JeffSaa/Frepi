@@ -7,15 +7,14 @@ class SessionsController < ApplicationController
 
     if user
       sign_in(:user, user)
-      render(json: user, status: :accepted)
+      render(json: user, status: :accepted, root: 'user')
     elsif params.keys.size > 4
       user = User.from_omniauth(user_params)
       sign_in :user, user
-      render(json: user, status: :created)
+      render(json: user, status: :created, root: 'user')
     else
       head(:not_found)
     end
-
   end
 
   def user_params

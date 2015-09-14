@@ -1,16 +1,15 @@
 class UsersController < ApplicationController
 
   # NOTE: Only a Super User (administrator) can do any action
-
   skip_before_action :authenticate_user!, :require_administrator, only: :create
-  before_action :find_user, except: [:index, :create]
+  skip_before_action :require_administrator, except: :index
 
   def index
     render json: User.all
   end
 
   def show
-    render json: @user
+    render json: current_user, root: 'user'
   end
 
   def create
@@ -25,29 +24,22 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.assign_attributes(user_params)
-    if @user.save
-      render(json: @user, status: :created)
+    current_user.assign_attributes(user_params)
+    if current_user.save
+      render(json: current_user, status: :created)
     else
-      render(json: @user.errors, status: :bad_request)
+      render(json: current_user.errors, status: :bad_request)
     end
   end
 
   def destroy
-    @user.destroy
-    render json: @user
+    # TODO: disable current user
+    #current_user.destroy
+    render json: current_user
   end
 
 
   private
-
-  def find_user
-    begin
-      @user = User.find(params[:id])
-    rescue => e
-      render(json: { error: e.message }, status: :not_found)
-    end
-  end
 
   def user_params
     params.permit(:name, :last_name, :email, :identification, :address,
