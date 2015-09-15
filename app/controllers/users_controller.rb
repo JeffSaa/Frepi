@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   # NOTE: Only a Super User (administrator) can do any action
-  skip_before_action :authenticate_user!, :require_administrator, only: :create
+  skip_before_action :authenticate_user!, only: :create
   skip_before_action :require_administrator, except: :index
 
   def index

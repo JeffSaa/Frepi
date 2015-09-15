@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   # Callbacks
   before_action :find_store_partner, :find_sucursals
   before_action :find_product, except: [:index, :create]
-  skip_before_action :require_administrator, only: [:index, :show]
+  skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
 
   def index
     categories = @sucursal.categories.uniq
