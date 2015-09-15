@@ -41,7 +41,7 @@ if Rails.env.development?
   end
 
   # Products
-  30.times do |_|
+  300.times do |_|
     sucursal = Sucursal.find([1, 2, 3].sample)
     subcategory = Subcategory.find(Faker::Number.between(1, 15))
     sucursal.products.create!(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,

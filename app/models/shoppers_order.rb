@@ -7,7 +7,4 @@ class ShoppersOrder < ActiveRecord::Base
   # Validations
   validates :shopper, :order, presence: true
   validates_datetime :accepted_date
-
-
-
 end

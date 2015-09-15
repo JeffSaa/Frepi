@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
 
   def index
     # TODO: what happen if the user is admin, order active ?
-    render json: current_user.orders
+    render json: current_user.orders.where(active: true)
   end
 
   def show
@@ -16,11 +16,8 @@ class OrdersController < ApplicationController
   def create
     # TODO: add products to the order
     order = current_user.orders.new(order_params)
-    p order
     if order.save
-      p @sucursal.products
       params[:products].each do |product|
-
         render(json: { error: "product with id: #{product[:id]} not found" }, status: :not_found) and return unless @sucursal.products.exists?(product[:id])
 
         order.orders_products.create!(product_id: product[:id], quantity: product[:quantity])
@@ -33,7 +30,7 @@ class OrdersController < ApplicationController
   end
 
   def update
-    # TODO: uodate products in an order
+    # TODO: update products in an order
   end
 
   def destroy
