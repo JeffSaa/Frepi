@@ -2,6 +2,34 @@
  ** Responsiveness for Frepi
  **/
 
+@media (max-width: 481px) {
+  .profile #guide-status {
+    display: block;
+  }
+
+  .profile #guide-status #status {
+    text-align: center;
+  }
+
+  .profile #guide-status #status span {
+    margin-right: 0.4285em;
+  }
+
+  .profile #guide-status #status .label {
+    margin-top: 0.3571em;
+  }
+
+  .profile .table tbody .truncated.label {
+    display: inline-block;
+  }
+
+  .profile .table thead tr th:nth-of-type(3),
+  .profile .table tbody tr td:nth-of-type(3),
+  .profile .table .label {
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 767px){
 
   /**

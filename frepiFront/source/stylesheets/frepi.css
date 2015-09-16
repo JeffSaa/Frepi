@@ -314,5 +314,31 @@
 }
 
 .profile .tab.segment {
-  margin-bottom: 40px;
+  margin-bottom: 70px;
+}
+
+.profile #guide-status {
+  display: none;
+}
+
+.profile .table .truncated.label {
+  display: none;
+}
+
+.profile .table tr td:last-of-type .delivering {
+  background-color: #B5CC18;
+  border-color: #B5CC18;
+  color: #FFF;
+}
+
+.profile .table tr td:last-of-type .dispatched {
+  background-color: #FBBD08;
+  border-color: #FBBD08;
+  color: #FFF;
+}
+
+.profile .table tr td:last-of-type .received {
+  background-color: #21BA45;
+  border-color: #21BA45;
+  color: #FFF;
 }

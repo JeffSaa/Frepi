@@ -87,12 +87,12 @@ class LoginVM
     @userName(user.name.split(' ')[0])
 
   getCategories: ->
-    storeID = 1
+    storeID = 2
     sucursalID = 1
     data = ''
     RESTfulService.makeRequest('GET', "/stores/#{storeID}/sucursals/#{sucursalID}/products", data, (error, success, headers) =>
       if error
-        console.log 'An error has ocurried while fetching the categories!'
+        console.log 'An error has ocurred while fetching the categories!'
       else
         console.log success
         @setProductsToShow(success)
