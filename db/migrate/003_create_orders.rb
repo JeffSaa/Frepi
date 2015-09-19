@@ -3,7 +3,7 @@ class CreateOrders < ActiveRecord::Migration
     create_table :orders do |t|
       t.boolean     :active,        null: false, default: true
       t.integer     :status,        null: false, default: 0
-      t.date        :date,          null: false
+      t.datetime    :date,          null: false
       t.datetime    :delivery_time
 
       # Associations

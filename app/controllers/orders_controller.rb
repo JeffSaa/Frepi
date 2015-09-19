@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
 
   def create
     order = current_user.orders.new(order_params)
-    if order.valid? && order.buy(params[:products])
+    if order.valid? && order.buy(params[:products].merge(date: Datetime.current))
       order.save
       render(json: order, status: :created)
     else
@@ -62,7 +62,7 @@ class OrdersController < ApplicationController
 
   def order_params
     params[:delivery_time] = params.delete(:deliveryTime)
-    params.permit(:date, :sucursal_id, :status, :delivery_time)
+    params.permit(:sucursal_id, :status, :delivery_time)
   end
 
 end

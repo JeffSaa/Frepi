@@ -19,6 +19,7 @@ class Order < ActiveRecord::Base
   validates :status, inclusion: { in: %w(received delivering dispatched)}
   validates :active, inclusion: { in: [true, false] }
   validates_datetime :date
+  validates_datetime :delivery_time, allow_nil: true
 
   # Methods
   def buy(products)
@@ -31,6 +32,7 @@ class Order < ActiveRecord::Base
   end
 
   def update_products(products)
+    # TODO: increment counter cache when the order is active
     products.each do |product|
       if product[:quantity] == 0
         self.orders_products.find_by(product_id: product[:id]).destroy
@@ -48,6 +50,7 @@ class Order < ActiveRecord::Base
 
   def delete_order
     self.active = false
+    User.decrement_counter(:counter_orders, self.user.id)
     self.orders_products.each { |order| order.decrement_counter }
   end
 end

@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 18) do
   create_table "orders", force: :cascade do |t|
     t.boolean  "active",        default: true, null: false
     t.integer  "status",        default: 0,    null: false
-    t.date     "date",                         null: false
+    t.datetime "date",                         null: false
     t.datetime "delivery_time"
     t.integer  "sucursal_id",                  null: false
     t.integer  "user_id",                      null: false
