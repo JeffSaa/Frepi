@@ -24,7 +24,7 @@ class StatesController < ApplicationController
   def update
     @state.assign_attributes(params_state)
     if @state.save
-      render(json: @state, status: :created)
+      render(json: @state)
     else
       render(json: { errors: @state.errors }, status: :bad_request)
     end

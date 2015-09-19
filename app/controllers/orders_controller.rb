@@ -14,15 +14,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    # TODO: add products to the order
     order = current_user.orders.new(order_params)
-    if order.save
-      params[:products].each do |product|
-        render(json: { error: "product with id: #{product[:id]} not found" }, status: :not_found) and return unless @sucursal.products.exists?(product[:id])
-
-        order.orders_products.create!(product_id: product[:id], quantity: product[:quantity])
-      end
-
+    if order.valid? && order.buy(params[:products])
+      order.save
       render(json: order, status: :created)
     else
       render(json: { errors: order.errors }, status: :bad_request)
@@ -30,11 +24,19 @@ class OrdersController < ApplicationController
   end
 
   def update
-    # TODO: update products in an order
+    @order.assign_attributes(order_params)
+
+    if @order.valid?
+      @order.save
+      @order.update_products(params[:products])
+      render(json: @order)
+    else
+      render(json: { errors: order.errors }, status: :bad_request)
+    end
   end
 
   def destroy
-    @order.active = false
+    @order.delete_order
     @order.save
     render(json: @order)
   end
@@ -51,7 +53,6 @@ class OrdersController < ApplicationController
 
   def find_sucursal
     begin
-      p params
       params[:sucursal_id] = params.delete(:sucursalId)
       @sucursal = Sucursal.find(params[:sucursal_id])
     rescue => e
@@ -61,7 +62,7 @@ class OrdersController < ApplicationController
 
   def order_params
     params[:delivery_time] = params.delete(:deliveryTime)
-    params.permit(:date, :sucursal_id, :active, :status, :delivery_time)
+    params.permit(:date, :sucursal_id, :status, :delivery_time)
   end
 
 end

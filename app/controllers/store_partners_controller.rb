@@ -23,7 +23,7 @@ class StorePartnersController < ApplicationController
   def update
     @store_partner.assign_attributes(store_partner_params)
     if @store_partner.save
-      render(json: @store_partner, status: :accepted)
+      render(json: @store_partner)
     else
       render(json: { errors: @store_partner.errors }, status: :bad_request)
     end

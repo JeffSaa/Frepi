@@ -23,7 +23,7 @@ class CountriesController < ApplicationController
   def update
     @country.assign_attributes(params_country)
     if @country.save
-      render(json: @country, status: :created)
+      render(json: @country)
     else
       render(json: { errors: @country.errors }, status: :bad_request)
     end

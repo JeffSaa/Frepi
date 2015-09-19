@@ -1,6 +1,7 @@
 class Order < ActiveRecord::Base
 
   # Enumerators
+  # TODO: Changed to mayus
   enum status: %w[received delivering dispatched]
 
   # Associations
@@ -19,4 +20,34 @@ class Order < ActiveRecord::Base
   validates :active, inclusion: { in: [true, false] }
   validates_datetime :date
 
+  # Methods
+  def buy(products)
+    # TODO: roolback when the last product doesn't exist
+    products.each do |product|
+      order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity])
+      return false unless order_products.save
+    end
+    !products.blank?
+  end
+
+  def update_products(products)
+    products.each do |product|
+      if product[:quantity] == 0
+        self.orders_products.find_by(product_id: product[:id]).destroy
+      else
+        order_products = self.orders_products.find_by(product_id: product[:id])
+        if order_products
+          order_products.assign_attributes(quantity: product[:quantity])
+          order_products.save
+        else
+          self.buy(product)
+        end
+      end
+    end
+  end
+
+  def delete_order
+    self.active = false
+    self.orders_products.each { |order| order.decrement_counter }
+  end
 end

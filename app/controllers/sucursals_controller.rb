@@ -24,7 +24,7 @@ class SucursalsController < ApplicationController
   def update
     @sucursal.assign_attributes(sucursals_params)
     if @sucursal.save
-      render(json: @sucursal, status: :accepted)
+      render(json: @sucursal)
     else
       render(json: { errors: @sucursal.errors }, status: :bad_request)
     end

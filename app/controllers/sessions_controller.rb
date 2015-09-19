@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   skip_before_action :authenticate_user!, :require_administrator
 
   def create
+    # TODO: refactor code
     user = User.find_by(provider: params[:provider], uid: params[:uid])
 
     if user

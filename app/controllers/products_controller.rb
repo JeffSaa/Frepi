@@ -6,6 +6,7 @@ class ProductsController < ApplicationController
   skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
 
   def index
+    # TODO: refactor code!!!
     categories = @sucursal.categories.uniq
     products = @sucursal.products
     subcategories = @sucursal.subcategories.uniq
@@ -22,26 +23,20 @@ class ProductsController < ApplicationController
     #categories.each do |category|
      # json = category.as_json
       #json[:subcategories] = subcategories.select { |e| e.category_id == category.id }.as_json
-      response_subcategory = []
-      subcategories.each do |subcategory|
-        json = subcategory.as_json
-        json[:products] = products.select { |e| e.subcategory_id == subcategory.id }
-        response_subcategory.push << json
-      end
-      response = []
+    response_subcategory = []
+    subcategories.each do |subcategory|
+      json = subcategory.as_json
+      json[:products] = products.select { |e| e.subcategory_id == subcategory.id }
+      response_subcategory.push << json
+    end
+    response = []
 
-      categories.each do |category|
-        json = category.as_json
-        json[:subcategories] = response_subcategory.select { |e| e['category_id'] == category.id}
-        response.push << json
-      end
+    categories.each do |category|
+      json = category.as_json
+      json[:subcategories] = response_subcategory.select { |e| e['category_id'] == category.id}
+      response.push << json
+    end
 
-    #end
-    #p response
-    #array.push << subcategories.select { |e| e.category_id == category.id }
-    #products.each do |product|
-    #  @sucursal.products.
-    #end
     render(json: response, serializer: nil)
   end
 

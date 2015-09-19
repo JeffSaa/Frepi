@@ -24,7 +24,7 @@ class SubcategoriesController < ApplicationController
   def update
     @subcategory.assign_attributes(subcategory_params)
     if @subcategory.save
-      render(json: @subcategory, status: :accepted)
+      render(json: @subcategory)
     else
       render(json: { errors: @subcategory.errors }, status: :bad_request)
     end

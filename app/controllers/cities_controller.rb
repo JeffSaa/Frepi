@@ -24,7 +24,7 @@ class CitiesController < ApplicationController
   def update
     @city.assign_attributes(params_city)
     if @city.save
-      render(json: @city, status: :created)
+      render(json: @city)
     else
       render(json: { errors: @city.errors }, status: :bad_request)
     end

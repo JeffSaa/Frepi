@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   def update
     current_user.assign_attributes(user_params)
     if current_user.save
-      render(json: current_user, status: :created)
+      render(json: current_user)
     else
       render(json: current_user.errors, status: :bad_request)
     end

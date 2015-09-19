@@ -23,7 +23,7 @@ class CategoriesController < ApplicationController
   def update
     @category.assign_attributes(category_params)
     if @category.save
-      render(json: @category, status: :accepted)
+      render(json: @category)
     else
       render(json: { errors: @category.errors }, status: :bad_request)
     end
