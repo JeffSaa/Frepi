@@ -15,11 +15,15 @@ class Order < ActiveRecord::Base
   has_many    :orders_schedules
 
   # Validations
-  validates :user, :sucursal, :date, presence: true
+  validates :user, :sucursal, :total_price, presence: true
   validates :status, inclusion: { in: %w(received delivering dispatched)}
   validates :active, inclusion: { in: [true, false] }
-  validates_datetime :date
+  validates :total_price, numericality: true
   validates_datetime :delivery_time, allow_nil: true
+
+
+  # Callbacks
+  before_create :set_date
 
   # Methods
   def buy(products)
@@ -52,5 +56,9 @@ class Order < ActiveRecord::Base
     self.active = false
     User.decrement_counter(:counter_orders, self.user.id)
     self.orders_products.each { |order| order.decrement_counter }
+  end
+
+  def set_date
+    self.date = DateTime.current
   end
 end

@@ -3,7 +3,7 @@ country = Country.create!(name: 'colombia')
 state = country.states.create!(name: 'atlantico')
 city = state.cities.create!(name: 'barranquilla')
 
-# email: admin@frepi.com
+# email: admin@frepi.com | client@frepi.com | shopper@frepi.com
 # Password: frepi123
 
 if Rails.env.development?
@@ -82,7 +82,7 @@ if Rails.env.development?
     user = User.find(Faker::Number.between(1, 10))
     sucursal = Sucursal.find(Sucursal.find([1, 2, 3].sample))
     order = user.orders.create!(active: [true, false].sample, status: %w(received delivering dispatched).sample,
-                                sucursal_id: sucursal.id,  date: Faker::Time.backward(3))
+                                sucursal_id: sucursal.id,  date: Faker::Time.backward(3), total_price: Faker::Commerce.price)
     #order.products << Product.find(item + 1)
     quantity = Faker::Number.between(1, 10)
     item = order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity)
@@ -95,12 +95,19 @@ if Rails.env.development?
   end
 
   # Shoppers
-  5.times do |_|
-    Shopper.create!(name: Faker::Name.name, last_name: Faker::Name.last_name,
+   Shopper.create!( first_name: Faker::Name.name, last_name: Faker::Name.last_name,
                     identification: Faker::Code.ean, address: Faker::Address.street_address,
-                    phone_number: Faker::PhoneNumber.cell_phone, image_url: Faker::Avatar.image,
-                    company_email: Faker::Internet.email, personal_email: Faker::Internet.email,
-                    status: :active)
+                    phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                    company_email: 'shopper-user@frepi.com', email: 'shopper@frepi.com',
+                    status: :active, password: 'frepi123', password_confirmation: 'frepi123')
+
+  5.times do |_|
+    password = Faker::Internet.password(6)
+    Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                    identification: Faker::Code.ean, address: Faker::Address.street_address,
+                    phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                    company_email: Faker::Internet.email, email: Faker::Internet.email,
+                    status: :active, password: password, password_confirmation: password)
   end
 
   # Orders accepted by a shopper

@@ -3,7 +3,13 @@ Rails.application.routes.draw do
   # Api connection
   match '*path' => 'application#handle_options_request', :constraints => { method: 'OPTIONS'}, via: :options
 
+  # Devise
   mount_devise_token_auth_for 'User', at: 'auth', skip: [:omniauth_callbacks]
+
+  as :shopper do
+    # Define routes for Shopper within this block.
+  end
+
   post 'auth/:provider/callback', to: 'sessions#create'
 
   resources :users, except: [:new, :edit] do
