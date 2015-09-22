@@ -28,6 +28,15 @@
   .profile .table .label {
     display: none;
   }
+
+  .profile .segment .line .title {
+    font-weight: bold;
+    width: 30%;
+  }
+
+  .profile .segment .line .value {
+    width: 70%;
+  }
 }
 
 @media only screen and (max-width: 767px){
@@ -37,6 +46,11 @@
    **/
   .main-content {
     padding-top: 60px;
+  }
+
+  /* Request Error Message */
+  .request-error {
+    width: 85%;
   }
 
   /**

@@ -1,5 +1,9 @@
 
 /* Generic rules */
+html.ios, html.ios body {
+  height: 100% !important;
+}
+
 .main-content {
   position: relative;
   padding-top: 100px;
@@ -11,6 +15,35 @@
   clear:both;
 }
 
+a {
+  cursor: pointer;
+}
+
+/* Request Error Message */
+/* Rules for message to be shown when an error with the network has ocurred*/
+.request-error {
+  color: #FFF !important;
+  font-weight: normal !important;
+  left: 50%;
+  position: absolute;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+}
+
+.request-error .sub.header {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.main-content #error-container .request-error {
+  top: 130%;
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.main-content #error-container .request-error .sub.header {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
 /* Loading */
 .loading {
   background-color: rgb(34, 182, 118);
@@ -18,14 +51,15 @@
   position: relative;
 }
 
-.logo {
-  left: calc(50% - 173px);
+.loading .logo {
+  left: 50%;
   position: absolute;
-  top: 30%;
+  top: 35%;
+  transform: translate(-50%, -50%);
 }
 
 .loading .loader {
-  top: 60%;
+  top: 55%;
 }
 
 .loading .loader:after {
@@ -203,10 +237,19 @@
 
 #shopping-cart>.item:first-child {
   background-color: #513C2C;
+  padding: 1.71428em 1.28571em 1.42857em;
 }
 
 #shopping-cart>.item:first-child h3 {
   color: #FFFFFF;
+  margin: 0;
+}
+
+#shopping-cart>.item:first-child .label {
+  background-color: #413023;
+  font-size: 1em;
+  height: 2.75em;
+  line-height: 2;
 }
 
 .centering {
@@ -215,6 +258,7 @@
 
 .ui.vertical.menu .item {
   display: flex;
+  color: rgba(0,0,0,.67);
 }
 
 .ui.items>.item>.image+.content {
@@ -225,14 +269,37 @@
   width: 85%;
 }
 
-#shopping-cart .item .close {
+#shopping-cart .item .close,
+#shopping-cart .item .minus,
+#shopping-cart .item .plus {
   display: none;
   position: absolute;
+}
+
+#shopping-cart .item .close {
   right: 1em;
   top: 1em;
 }
 
-#shopping-cart .item:hover .close {
+#shopping-cart .item .minus {
+  right: 3.5em;
+  top: 2.85714em;
+}
+
+#shopping-cart .item .plus {
+  right: 6em;
+  top: 2.85714em;
+}
+
+#shopping-cart .item .close:hover,
+#shopping-cart .item .minus:hover,
+#shopping-cart .item .plus:hover {
+  color: rgba(0,0,0,.87);
+}
+
+#shopping-cart .item:hover .close,
+#shopping-cart .item:hover .minus,
+#shopping-cart .item:hover .plus {
   display: block;
 }
 
@@ -272,6 +339,14 @@
 /**
  ** Profile rules
  **/
+ .modal .buttons-to-right {
+    text-align: right;
+    padding: 1rem;
+ }
+
+ .modal .buttons-to-right .button {
+    margin-left: .75em;
+ }
 
 .profile .container #profile-picture {
   margin: 30px auto 0;
@@ -279,6 +354,17 @@
 
 .profile .container>.header {
   margin-bottom: 2.5rem;
+}
+
+.profile .grid .column:first-of-type .line:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+.profile .grid .column:last-of-type .button {
+  display: block;
+  margin: 0.7142em 2em 0 auto;
 }
 
 .profile .segment .header:first-of-type {
@@ -302,15 +388,12 @@
 }
 
 .profile .segment .line .title {
+  font-weight: bold;
   width: 25%;
 }
 
 .profile .segment .line .value {
-  width: 55%;
-}
-
-.profile .segment .line .edit-account {
-  width: 20%;
+  width: 75%;
 }
 
 .profile .tab.segment {
@@ -321,8 +404,28 @@
   display: none;
 }
 
+.profile .table {
+  table-layout: fixed;
+}
+
 .profile .table .truncated.label {
   display: none;
+}
+
+.profile .table+.header {
+  margin: 0;
+}
+
+.profile .table tbody .label {
+  margin: 0;
+}
+
+.profile .table thead tr th:nth-last-of-type(2),
+.profile .table thead tr th:last-of-type,
+.profile .table tbody tr td:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile .table tr td:last-of-type .delivering {
@@ -332,13 +435,35 @@
 }
 
 .profile .table tr td:last-of-type .dispatched {
+  background-color: #21BA45;
+  border-color: #21BA45;
+  color: #FFF;
+}
+
+.profile .table tr td:last-of-type .received {
   background-color: #FBBD08;
   border-color: #FBBD08;
   color: #FFF;
 }
 
-.profile .table tr td:last-of-type .received {
-  background-color: #21BA45;
-  border-color: #21BA45;
-  color: #FFF;
+/* Checkout rules */
+
+.checkout .container>.header {
+  margin: 3em 0 1.5em;
+}
+
+.checkout .container table {
+  margin-bottom: 1.75em;
+  table-layout: fixed;
+}
+
+.checkout .table thead tr th:nth-of-type(3) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.checkout .container .labeled.icon {
+  float: right;
 }

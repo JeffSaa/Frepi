@@ -24,7 +24,8 @@ html
 			.item
 				h3.ui.header
 					i.shop.icon
-					.content Mi carro de compras
+					.content Carro de compras
+				.ui.label data-bind="text: '$ '+priceInCart()"
 			.ui.items data-bind="foreach: itemsInCart"
 				.item
 					.ui.tiny.image 
@@ -32,11 +33,13 @@ html
 					.content
 						.header data-bind="text: $data.name"
 						.meta
-							span.price data-bind="text: $data.frepiPrice"
+							span.price data-bind="text: '$'+$data.frepi_price"
 							span.quantity data-bind="text: $data.quantity"
-					i.close.link.icon
+					i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
+					i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data)}"
+					i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
 			.item
-				button.ui.fluid.large.green.button Pagar
+				button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
 
 		.ui.modal
 			i.close.icon					
@@ -80,7 +83,7 @@ html
 						.text data-bind="text: 'Hola, '+userName()"
 						i.chevron.down.icon
 						.menu
-							.item
+							.item data-bind="click: goToProfile"
 								i.user.icon
 								|Ver perfil
 							.item
@@ -117,7 +120,13 @@ html
 									|Olímpica
 									.sub.header Here it goes the store's description and other stuff
 
-				#frepi-categories.ui.container data-bind="foreach: categories"
+				#error-container data-bind="visible: shouldShowError"
+					h2.ui.request-error.header
+						i.frown.icon
+						.content
+							|Ha ocurrido mientras se cargaba la página
+							.sub.header Revisa tu conexión a internet
+				#frepi-categories.ui.container data-bind="foreach: categories, visible: !shouldShowError()"
 					section
 						h2.ui.header data-bind="text: $data.name"
 						#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
@@ -132,7 +141,7 @@ html
 									.extra.content
 										span.centering
 											i.dollar.icon
-										span.centering data-bind="text: $data.frepiPrice"
+										span.centering data-bind="text: $data.frepi_price"
 										.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data)}, clickBubble: false"
 											.hidden.content Agregar
 											.visible.content

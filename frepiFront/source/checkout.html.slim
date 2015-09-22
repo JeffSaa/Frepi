@@ -1,0 +1,124 @@
+doctype html
+html
+	head
+		meta charset="utf-8" /
+		title Frepi - Haz tu mercado fácil y rápido
+		/! Sets initial viewport load and disables zooming
+		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
+		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
+		/! Add semantic's CSS
+		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
+		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
+		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
+	body
+		#departments-menu.ui.vertical.left.sidebar.menu
+			.item
+				h3.ui.header
+					i.sidebar.icon
+					.content Departamentos
+			/ .items data-bind="foreach: categories"
+			.items
+				a.item 
+					/ .header data-bind="text: $data.name"
+					.header Beauty
+		.pusher
+			#store-primary-navbar.ui.fixed.inverted.menu
+				a#store-frepi-logo.ui.image href="#"
+					img.ui.middle.aligned src="images/landing/logo.png" alt="Frepi's logo"
+				a#target-store href="#"
+					.item
+						.content
+							.ui.sub.header Olímpica Tanganazo
+							|Calle 72 # 60 - 12
+				#product-searcher.item
+					.ui.icon.input
+						input type="text" placeholder="Buscar en Olímpica..."
+						i.circular.search.link.icon
+				#user-account.ui.simple.dropdown.item
+						.text data-bind="text: 'Hola, '+userName()"
+						i.chevron.down.icon
+						.menu
+							.item data-bind="click: goToProfile"
+								i.user.icon
+								|Ver perfil
+							.item
+								i.book.icon
+								|Mis pedidos
+							.divider
+							.item data-bind="click: logout"
+								i.sign.out.icon
+								|Salir        
+
+			#store-secondary-navbar.ui.fixed.borderless.menu
+				.item
+					button.ui.basic.grey.button data-bind="click: showDepartments"
+						i.sidebar.icon
+						|Departamentos
+				.link.item
+					i.home.large.grey.icon
+
+				.right.menu
+					.item
+						/ button.ui.labeled.icon.button data-bind="click: showShoppingCart"
+						button.ui.labeled.icon.button
+							i.shop.icon
+							/|<!--ko text: itemsToBuy--><!--/ko-->
+							|2 items
+
+			.main-content.checkout
+				.ui.container
+					h1.ui.centered.header Confirma tu orden
+					/ .ui.centered.steps
+					/ 	.active.step
+					/ 		i.truck.icon
+					/ 		.content
+					/ 			.title Entrega
+					/ 			.description Detalles de las ordenes de entrega
+					/ 	.step
+					/ 		i.info.icon
+					/ 		.content
+					/ 			.title Confirmar Orden
+					/ 			.description Verificar detalles del pedido
+
+					table.ui.celled.unstackable.table
+						thead
+							tr
+								th.two.wide ID
+								th.five.wide Nombre
+								th.two.wide Cantidad
+								th.three.wide Precio c/u ($)
+								th.three.wide Precio Total ($)
+						tbody data-bind="foreach: order.products"
+							tr
+								td data-bind="text: $data.id"
+								td data-bind="text: $data.name"
+								td data-bind="text: $data.quantity"
+								td data-bind="text: $data.frepi_price"
+								td data-bind="text: $data.totalPrice"
+								/ td.center.aligned
+								/ 	a.ui.teal.label
+								/ 		i.eye.icon
+								/ 		|<!--ko text: $data.ordersProducts.length+' items'--><!--/ko-->
+								/ 	a.ui.teal.truncated.label
+								/ 		i.eye.icon
+								/ 		|<!--ko text: $data.ordersProducts.length--><!--/ko-->
+								/ td.center.aligned
+								/ 	.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status"
+								/ 	.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status"
+					.ui.buttons
+						.ui.button Cancelar
+						.or data-text="O"
+						.ui.green.button data-bind="click: generate" Generar
+					.ui.labeled.icon.teal.button
+						i.dollar.icon
+						|<!--ko text: order.price--><!--/ko-->
+						
+		script src="javascripts/knockout.js"
+		script src="javascripts/plugins/crypto-js.min.js"
+		script src="javascripts/plugins/ko-mapping.min.js"
+		script src="javascripts/jquery/jquery-2.1.4.min.js"
+		script src="semantic/out/semantic.min.js"		
+		script src="javascripts/classes/encrypter.js"
+		script src="javascripts/classes/config.js"
+		script src="javascripts/classes/RESTfulService.js"
+		script src="javascripts/viewmodels/checkout.js"

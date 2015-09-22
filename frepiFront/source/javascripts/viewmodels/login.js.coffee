@@ -21,7 +21,7 @@ class LoginVM
 				if error
 					$('#login').removeClass('loading')
 					$('.ui.form').addClass('error')
-					alert('An error has ocurred in the authentication.')
+					console.log 'An error has ocurred in the authentication.'
 					@errorTextResponse(error.responseJSON.errors.toString())
 				else
 					console.log success
