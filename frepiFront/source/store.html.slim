@@ -16,7 +16,7 @@ html
 				h3.ui.header
 					i.sidebar.icon
 					.content Departamentos
-			.items data-bind="foreach: categories"
+			.items data-bind="foreach: session.categories"
 				a.item 
 					.header data-bind="text: $data.name"
 
@@ -25,8 +25,8 @@ html
 				h3.ui.header
 					i.shop.icon
 					.content Carro de compras
-				.ui.label data-bind="text: '$ '+priceInCart()"
-			.ui.items data-bind="foreach: itemsInCart"
+				.ui.label data-bind="text: '$ '+session.currentOrder.price()"
+			.ui.items data-bind="foreach: session.currentOrder.products"
 				.item
 					.ui.tiny.image 
 						img data-bind="attr: {src: $data.image}"
@@ -86,7 +86,7 @@ html
 							.item data-bind="click: goToProfile"
 								i.user.icon
 								|Ver perfil
-							.item
+							.item data-bind="click: goToOrders"
 								i.book.icon
 								|Mis pedidos
 							.divider
@@ -106,7 +106,7 @@ html
 					.item
 						button.ui.labeled.icon.button data-bind="click: showShoppingCart"
 							i.shop.icon
-							|<!--ko text: itemsToBuy--><!--/ko-->
+							|<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
 
 			.main-content
 				#store-banner
@@ -126,7 +126,7 @@ html
 						.content
 							|Ha ocurrido mientras se cargaba la página
 							.sub.header Revisa tu conexión a internet
-				#frepi-categories.ui.container data-bind="foreach: categories, visible: !shouldShowError()"
+				#frepi-categories.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
 					section
 						h2.ui.header data-bind="text: $data.name"
 						#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"

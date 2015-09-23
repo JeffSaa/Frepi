@@ -16,11 +16,9 @@ html
 				h3.ui.header
 					i.sidebar.icon
 					.content Departamentos
-			/ .items data-bind="foreach: categories"
-			.items
+			.items data-bind="foreach: session.categories"
 				a.item 
-					/ .header data-bind="text: $data.name"
-					.header Beauty
+					.header data-bind="text: $data.name"
 		.pusher
 			#store-primary-navbar.ui.fixed.inverted.menu
 				a#store-frepi-logo.ui.image href="#"
@@ -41,7 +39,7 @@ html
 							.item data-bind="click: goToProfile"
 								i.user.icon
 								|Ver perfil
-							.item
+							.item data-bind="click: goToOrders"
 								i.book.icon
 								|Mis pedidos
 							.divider
@@ -62,8 +60,7 @@ html
 						/ button.ui.labeled.icon.button data-bind="click: showShoppingCart"
 						button.ui.labeled.icon.button
 							i.shop.icon
-							/|<!--ko text: itemsToBuy--><!--/ko-->
-							|2 items
+							|<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
 
 			.main-content.checkout
 				.ui.container
@@ -95,20 +92,10 @@ html
 								td data-bind="text: $data.quantity"
 								td data-bind="text: $data.frepi_price"
 								td data-bind="text: $data.totalPrice"
-								/ td.center.aligned
-								/ 	a.ui.teal.label
-								/ 		i.eye.icon
-								/ 		|<!--ko text: $data.ordersProducts.length+' items'--><!--/ko-->
-								/ 	a.ui.teal.truncated.label
-								/ 		i.eye.icon
-								/ 		|<!--ko text: $data.ordersProducts.length--><!--/ko-->
-								/ td.center.aligned
-								/ 	.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status"
-								/ 	.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status"
 					.ui.buttons
-						.ui.button Cancelar
-						.or data-text="O"
 						.ui.green.button data-bind="click: generate" Generar
+						.or data-text="O"						
+						.ui.button Cancelar
 					.ui.labeled.icon.teal.button
 						i.dollar.icon
 						|<!--ko text: order.price--><!--/ko-->

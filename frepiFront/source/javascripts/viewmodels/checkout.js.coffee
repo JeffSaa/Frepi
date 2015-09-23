@@ -1,9 +1,19 @@
 class CheckoutVM
 	constructor: ->   
 		# Observables
+		constructor: ->
+		@session =
+			categories: ko.observableArray()
+			currentOrder:
+				numberProducts: ko.observable()
+				products: ko.observableArray()
+				price: ko.observable()
+				sucursalId: null
 		@order = null
 		@userName = ko.observable()
 		@user = null
+		@setDOMElements()
+		@setExistingSession()
 		@setOrderToPay()
 		@setSizeButtons()
 
@@ -42,15 +52,56 @@ class CheckoutVM
 		)		
 
 	goToProfile: ->
+		session =
+			categories: @session.categories()
+			currentOrder:
+				numberProducts: @session.currentOrder.numberProducts()
+				products: @session.currentOrder.products()
+				price: @session.currentOrder.price()
+				sucursalId: @session.currentOrder.sucursalId
+		Config.setItem('showOrders', 'false')
+		Config.setItem('currentSession', JSON.stringify(session))
+		window.location.href = '../../profile.html'
+
+	goToOrders: ->
+		session =
+			categories: @session.categories()
+			currentOrder:
+				numberProducts: @session.currentOrder.numberProducts()
+				products: @session.currentOrder.products()
+				price: @session.currentOrder.price()
+				sucursalId: @session.currentOrder.sucursalId
+		Config.setItem('showOrders', 'true')
+		Config.setItem('currentSession', JSON.stringify(session))
 		window.location.href = '../../profile.html'
 
 	setDOMElements: ->
-		$('#departments-menu').sidebar({        
+		$('#departments-menu').sidebar({
 				transition: 'overlay'
 			})
 
 	showDepartments: ->    
 		$('#departments-menu').sidebar('toggle')
+
+	setExistingSession: ->
+		console.log 'esta aqui'
+		session = Config.getItem('currentSession')
+
+		if session
+			session = JSON.parse(Config.getItem('currentSession'))
+			console.log session
+			@session.categories(session.categories)
+			@session.currentOrder.numberProducts(session.currentOrder.numberProducts)
+			@session.currentOrder.products(session.currentOrder.products)
+			@session.currentOrder.price(session.currentOrder.price)
+			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
+			console.log @session.categories()
+		else
+			@session.categories([])
+			@session.currentOrder.numberProducts('0 items')
+			@session.currentOrder.products([])
+			@session.currentOrder.price(0.0)
+			@session.currentOrder.sucursalId = 1
 
 	setOrderToPay: ->
 		@user = JSON.parse(Config.getItem('userObject'))

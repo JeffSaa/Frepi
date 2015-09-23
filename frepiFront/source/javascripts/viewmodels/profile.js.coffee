@@ -1,6 +1,13 @@
 class ProfileVM
 	constructor: ->   
 		# Observables
+		@session =
+			categories: ko.observableArray()
+			currentOrder:
+				numberProducts: ko.observable()
+				products: ko.observableArray()
+				price: ko.observable()
+				sucursalId: null
 		@email = ko.observable('asd')
 		@errorLabelText = ko.observable()
 		@lastName = ko.observable()
@@ -16,10 +23,15 @@ class ProfileVM
 
 		# Methods to execute on instance
 		@setUserInfo()
+		@setExistingSession()
 		@fetchOrders()		
 		@setDOMElements()
+		@shouldShowOrders()
 		@checkOrders = ko.computed( =>
 				@showEmptyMessage(@orders().length is 0)
+				# setTimeout((=>
+				# 		@session.currentOrder.numberProducts("#{@session.categories().length} items")
+				# 	), 5000)
 			)
 
 	closeEditEmail: ->
@@ -46,6 +58,23 @@ class ProfileVM
 				@orders(success)
 		)
 
+	setExistingSession: ->
+		session = Config.getItem('currentSession')
+
+		if session
+			session = JSON.parse(Config.getItem('currentSession'))
+			@session.categories(session.categories)
+			@session.currentOrder.numberProducts(session.currentOrder.numberProducts)
+			@session.currentOrder.products(session.currentOrder.products)
+			@session.currentOrder.price(session.currentOrder.price)
+			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
+		else
+			@session.categories([])
+			@session.currentOrder.numberProducts('0 items')
+			@session.currentOrder.products([])
+			@session.currentOrder.price(0.0)
+			@session.currentOrder.sucursalId = 1
+
 	setUserInfo: ->
 		@user = JSON.parse(Config.getItem('userObject'))
 		console.log @user
@@ -55,6 +84,10 @@ class ProfileVM
 		@phone(@user.phoneNumber or @user.phone_number)
 		@profilePicture(@user.image)
 		@userName(@user.name.split(' ')[0])
+
+	shouldShowOrders: ->
+		if Config.getItem('showOrders') is 'true'
+			$('.secondary.menu .item').tab('change tab', 'history')
 
 	logout: ->
 		Config.destroyLocalStorage()

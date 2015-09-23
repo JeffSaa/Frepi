@@ -16,11 +16,10 @@ html
         h3.ui.header
           i.sidebar.icon
           .content Departamentos
-      / .items data-bind="foreach: categories"
-      .items
+      .items data-bind="foreach: session.categories"
         a.item 
-          / .header data-bind="text: $data.name"
-          .header Beauty
+          .header data-bind="text: $data.name"
+          / .header Beauty
 
     #edit-email.ui.small.modal
       .header Editar información de cuenta
@@ -120,8 +119,7 @@ html
             / button.ui.labeled.icon.button data-bind="click: showShoppingCart"
             button.ui.labeled.icon.button
               i.shop.icon
-              /|<!--ko text: itemsToBuy--><!--/ko-->
-              |2 items
+              |<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
 
       .main-content.profile
         .ui.container
