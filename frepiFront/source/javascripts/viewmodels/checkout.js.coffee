@@ -10,6 +10,8 @@ class CheckoutVM
 				price: ko.observable()
 				sucursalId: null
 		@order = null
+		@headerMessage = ko.observable('Confirma tu orden')
+		@orderGenerated = ko.observable(false)
 		@userName = ko.observable()
 		@user = null
 		@setDOMElements()
@@ -21,8 +23,8 @@ class CheckoutVM
 		Config.destroyLocalStorage()
 		window.location.href = '../../login.html'
 
-	delete: ->
-		console.log 'hgjk'
+	cancel: ->
+		window.location.href = '../../store.html'
 
 	generate: ->
 		console.log 'Its here, generating order'
@@ -43,8 +45,13 @@ class CheckoutVM
 		RESTfulService.makeRequest('POST', "/users/#{@user.id}/orders", data, (error, success, headers) =>
 			if error
 				console.log 'An error has ocurred while updating the user!'
+				@headerMessage('Ha ocurrido un error generando la orden. Intenta más tarde.')
 			else
+				@orderGenerated(true)
 				console.log 'Order has been created'
+				setTimeout(( ->
+						window.location.href = '../../store.html'
+					), 2500)
 				console.log success
 				Config.setItem('accessToken', headers.accessToken)
 				Config.setItem('client', headers.client)

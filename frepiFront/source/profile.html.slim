@@ -19,7 +19,28 @@ html
       .items data-bind="foreach: session.categories"
         a.item 
           .header data-bind="text: $data.name"
-          / .header Beauty
+
+    #shopping-cart.ui.vertical.wide.right.sidebar.menu
+      .item
+        h3.ui.header
+          i.shop.icon
+          .content Carro de compras
+        .ui.label data-bind="text: '$ '+session.currentOrder.price()"
+      .ui.items data-bind="foreach: session.currentOrder.products"
+        .item
+          .ui.tiny.image 
+            img data-bind="attr: {src: $data.image}"
+          .content
+            .header data-bind="text: $data.name"
+            .meta
+              span.price data-bind="text: '$'+$data.frepi_price"
+              span x
+              span.quantity data-bind="text: $data.quantity"
+          i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
+          i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data)}"
+          i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
+      .item
+        button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
 
     #edit-email.ui.small.modal
       .header Editar información de cuenta
@@ -111,7 +132,7 @@ html
           button.ui.basic.grey.button data-bind="click: showDepartments"
             i.sidebar.icon
             |Departamentos
-        .link.item
+        a.link.item href="store.html"
           i.home.large.grey.icon
 
         .right.menu

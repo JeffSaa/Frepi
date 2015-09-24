@@ -47,12 +47,12 @@ html
 								i.sign.out.icon
 								|Salir        
 
-			#store-secondary-navbar.ui.fixed.borderless.menu
+			#store-secondary-navbar.ui.fixed.borderless.checkout.menu
 				.item
 					button.ui.basic.grey.button data-bind="click: showDepartments"
 						i.sidebar.icon
 						|Departamentos
-				.link.item
+				a.link.item href="store.html"
 					i.home.large.grey.icon
 
 				.right.menu
@@ -64,7 +64,10 @@ html
 
 			.main-content.checkout
 				.ui.container
-					h1.ui.centered.header Confirma tu orden
+					h1.ui.centered.header data-bind="text: headerMessage, visible: !orderGenerated()"
+					h1.ui.centered.green.header data-bind="visible: orderGenerated"
+						i.smile.icon
+						|Orden creada!
 					/ .ui.centered.steps
 					/ 	.active.step
 					/ 		i.truck.icon
@@ -77,28 +80,29 @@ html
 					/ 			.title Confirmar Orden
 					/ 			.description Verificar detalles del pedido
 
-					table.ui.celled.unstackable.table
-						thead
-							tr
-								th.two.wide ID
-								th.five.wide Nombre
-								th.two.wide Cantidad
-								th.three.wide Precio c/u ($)
-								th.three.wide Precio Total ($)
-						tbody data-bind="foreach: order.products"
-							tr
-								td data-bind="text: $data.id"
-								td data-bind="text: $data.name"
-								td data-bind="text: $data.quantity"
-								td data-bind="text: $data.frepi_price"
-								td data-bind="text: $data.totalPrice"
-					.ui.buttons
-						.ui.green.button data-bind="click: generate" Generar
-						.or data-text="O"						
-						.ui.button Cancelar
-					.ui.labeled.icon.teal.button
-						i.dollar.icon
-						|<!--ko text: order.price--><!--/ko-->
+					.order-content data-bind="visible: !orderGenerated()"
+						table.ui.celled.unstackable.table
+							thead
+								tr
+									th.two.wide ID
+									th.five.wide Nombre
+									th.two.wide Cantidad
+									th.three.wide Precio c/u ($)
+									th.three.wide Precio Total ($)
+							tbody data-bind="foreach: order.products"
+								tr
+									td data-bind="text: $data.id"
+									td data-bind="text: $data.name"
+									td data-bind="text: $data.quantity"
+									td data-bind="text: $data.frepi_price"
+									td data-bind="text: $data.totalPrice"
+						.ui.buttons
+							.ui.green.button data-bind="click: generate" Generar
+							.or data-text="O"						
+							.ui.button data-bind="click: cancel" Cancelar
+						.ui.labeled.icon.teal.button
+							i.dollar.icon
+							|<!--ko text: order.price--><!--/ko-->
 						
 		script src="javascripts/knockout.js"
 		script src="javascripts/plugins/crypto-js.min.js"

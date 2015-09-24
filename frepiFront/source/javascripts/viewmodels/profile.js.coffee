@@ -29,10 +29,46 @@ class ProfileVM
 		@shouldShowOrders()
 		@checkOrders = ko.computed( =>
 				@showEmptyMessage(@orders().length is 0)
-				# setTimeout((=>
-				# 		@session.currentOrder.numberProducts("#{@session.categories().length} items")
-				# 	), 5000)
 			)
+
+	addToCart: (productToAdd) =>
+		oldProduct = productToAdd
+		newProduct =
+			available: oldProduct.available
+			frepi_price: oldProduct.frepi_price
+			id: oldProduct.id
+			image: oldProduct.image
+			name: oldProduct.name
+			quantity: oldProduct.quantity + 1
+			referenceCode: oldProduct.referenceCode
+			salesCount: oldProduct.salesCount
+			storePrice: oldProduct.storePrice
+			subcategoryName: oldProduct.subcategoryName
+			subcategoryId: oldProduct.subcategoryId
+			totalPrice: oldProduct.totalPrice + (Math.round(parseFloat(productToAdd.frepi_price) * 100) / 100)
+
+		@session.currentOrder.products.replace(oldProduct, newProduct)
+		
+		@session.currentOrder.price(Math.round((@session.currentOrder.price() + parseFloat(productToAdd.frepi_price))*100) / 100)
+		console.log @session.currentOrder.price()
+		console.log @session.currentOrder.products()
+
+		if @session.currentOrder.products().length isnt 1
+			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
+		else
+			@session.currentOrder.numberProducts("1 item")
+
+	checkout: ->
+		if @session.currentOrder.products().length > 0
+			orderToPay =
+				price: @session.currentOrder.price()
+				products: @session.currentOrder.products()
+				sucursalId: @session.currentOrder.sucursalId
+			console.log orderToPay
+			Config.setItem('orderToPay', JSON.stringify(orderToPay))
+			window.location.href = '../../checkout.html'
+		else
+			console.log 'There is nothing in the cart...'
 
 	closeEditEmail: ->
 		$('#edit-email').modal('hide')
@@ -57,6 +93,41 @@ class ProfileVM
 				
 				@orders(success)
 		)
+
+	removeFromCart: (product) ->
+		if product.quantity is 1
+			@removeItem(product)
+		else
+			oldProduct = product
+			newProduct =
+				available: oldProduct.available
+				frepi_price: oldProduct.frepi_price
+				id: oldProduct.id
+				image: oldProduct.image
+				name: oldProduct.name
+				quantity: oldProduct.quantity - 1
+				referenceCode: oldProduct.referenceCode
+				salesCount: oldProduct.salesCount
+				storePrice: oldProduct.storePrice
+				subcategoryName: oldProduct.subcategoryName
+				subcategoryId: oldProduct.subcategoryId
+				totalPrice: oldProduct.totalPrice - (Math.round(parseFloat(product.frepi_price) * 100) / 100)
+
+			@session.currentOrder.products.replace(oldProduct, newProduct)
+			
+			@session.currentOrder.price(Math.round((@session.currentOrder.price() - product.frepi_price)*100) / 100)
+			console.log @session.currentOrder.price()
+			console.log @session.currentOrder.products()
+
+	removeItem: (item) ->
+		@session.currentOrder.price(Math.round((@session.currentOrder.price() - item.totalPrice) * 100)/100)
+		console.log @session.currentOrder.price()
+		@session.currentOrder.products.remove(item)
+
+		if @session.currentOrder.products().length isnt 1
+			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
+		else
+			@session.currentOrder.numberProducts("1 item")
 
 	setExistingSession: ->
 		session = Config.getItem('currentSession')
@@ -221,6 +292,10 @@ class ProfileVM
 		$('#departments-menu').sidebar({        
 				transition: 'overlay'
 			})
+		$('#shopping-cart').sidebar({
+				dimPage: false
+				transition: 'overlay'
+			}).sidebar('attach events', '#store-secondary-navbar .right.menu button', 'show')
 
 	showDepartments: ->    
 		$('#departments-menu').sidebar('toggle')
@@ -267,19 +342,9 @@ class ProfileVM
 							Config.setItem('uid', headers.uid)
 							@setUserInfo()
 							$('#edit-email').modal('hide')
-					)
-				# newEmail = $('#edit-email form').form('get value', 'new-email')
-				# confirmationEmail = $('#edit-email form').form('get value', 'confirmation-new-email')
-				# currentPassword = $('#edit-email form').form('get value', 'password')
-				# storedPassword = Config.getItem('pass')
-				
+					)				
 
 			when 'password'
-				
-				# confirmationPassword = $('#edit-password form').form('get value', 'confirmation-new-password')
-				# currentPassword = $('#edit-password form').form('get value', 'current-password')
-				# storedPassword = Config.getItem('pass')
-
 				if $('#edit-password form').form('is valid')
 					newPassword = $('#edit-password form').form('get value', 'new-password')
 

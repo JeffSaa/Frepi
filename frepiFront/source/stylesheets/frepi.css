@@ -145,6 +145,14 @@ a {
   z-index: 100;
 }
 
+#store-secondary-navbar a.item {
+  border-radius: 4px;
+}
+
+#store-secondary-navbar a.item i {
+  margin: 0;
+}
+
 #store-secondary-navbar button {
   height: 35px;
 }
@@ -447,6 +455,10 @@ a {
 }
 
 /* Checkout rules */
+
+#store-secondary-navbar.checkout .right.menu .button{
+  display: none;
+}
 
 .checkout .container>.header {
   margin: 3em 0 1.5em;

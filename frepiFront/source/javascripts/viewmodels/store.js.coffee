@@ -199,10 +199,10 @@ class StoreVM
 			@userName('amigo')
 
 	setDOMElements: ->
-		$('#departments-menu').sidebar({        
+		$('#departments-menu').sidebar({
 				transition: 'overlay'
 			})
-		$('#shopping-cart').sidebar({        
+		$('#shopping-cart').sidebar({
 				dimPage: false
 				transition: 'overlay'
 			})

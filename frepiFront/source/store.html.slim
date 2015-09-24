@@ -34,6 +34,7 @@ html
 						.header data-bind="text: $data.name"
 						.meta
 							span.price data-bind="text: '$'+$data.frepi_price"
+							span x
 							span.quantity data-bind="text: $data.quantity"
 					i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
 					i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data)}"
@@ -99,7 +100,7 @@ html
 					button.ui.basic.grey.button data-bind="click: showDepartments"
 						i.sidebar.icon
 						|Departamentos
-				.link.item
+				a.link.item href="store.html"
 					i.home.large.grey.icon
 
 				.right.menu
@@ -125,7 +126,6 @@ html
 						i.frown.icon
 						.content
 							|Ha ocurrido mientras se cargaba la página
-							.sub.header Revisa tu conexión a internet
 				#frepi-categories.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
 					section
 						h2.ui.header data-bind="text: $data.name"
