@@ -1,21 +1,23 @@
 Rails.application.routes.draw do
 
   # Api connection
-  match '*path' => 'application#handle_options_request', :constraints => { method: 'OPTIONS'}, via: :options
+  match '*path' => 'application#handle_options_request', constraints: { method: 'OPTIONS' }, via: :options
 
   # Social network routes
   post 'auth/:provider/callback', to: 'sessions#create'
-
-  resources :users, except: [:new, :edit] do
-    resources :orders, except: [:new, :edit]
-  end
 
   # Devise
   mount_devise_token_auth_for 'User', at: 'auth', skip: [:omniauth_callbacks]
   mount_devise_token_auth_for 'Shopper', at: 'auth_shopper', skip: [:omniauth_callbacks]
 
-  # Define routes for Shopper within this block.
-  as :shopper do
+  resources :users, except: [:new, :edit] do
+    resources :orders, except: [:new, :edit]
+  end
+
+  namespace :shoppers do
+    resources :shoppers, except: [:new, :edit] do
+      resources :orders, except: [:new, :edit]
+    end
   end
 
   resources :categories, except: [:new, :edit] do
