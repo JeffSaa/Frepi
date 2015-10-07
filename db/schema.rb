@@ -105,6 +105,18 @@ ActiveRecord::Schema.define(version: 18) do
   end
 
   create_table "shoppers", force: :cascade do |t|
+    t.string   "first_name",                                                         null: false
+    t.string   "last_name",                                                          null: false
+    t.string   "identification",                                                     null: false
+    t.string   "phone_number",                                                       null: false
+    t.integer  "status",                                                             null: false
+    t.string   "email",                                                              null: false
+    t.boolean  "active",                                           default: true,    null: false
+    t.string   "address"
+    t.string   "company_email"
+    t.string   "image"
+    t.decimal  "latitude",               precision: 15, scale: 10
+    t.decimal  "longitude",              precision: 15, scale: 10
     t.string   "provider",                                         default: "email", null: false
     t.string   "uid",                                              default: "",      null: false
     t.string   "encrypted_password",                               default: "",      null: false
@@ -120,18 +132,6 @@ ActiveRecord::Schema.define(version: 18) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "first_name",                                                         null: false
-    t.string   "last_name",                                                          null: false
-    t.string   "identification",                                                     null: false
-    t.string   "phone_number",                                                       null: false
-    t.integer  "status",                                                             null: false
-    t.string   "email",                                                              null: false
-    t.boolean  "active",                                           default: true,    null: false
-    t.string   "address"
-    t.string   "company_email"
-    t.string   "image"
-    t.decimal  "latitude",               precision: 15, scale: 10
-    t.decimal  "longitude",              precision: 15, scale: 10
     t.text     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"

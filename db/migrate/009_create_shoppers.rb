@@ -2,6 +2,25 @@ class CreateShoppers < ActiveRecord::Migration
   def change
     create_table :shoppers do |t|
 
+      # User Info
+      t.string  :first_name,        null: false
+      t.string  :last_name,         null: false
+      t.string  :identification,    null: false
+      t.string  :phone_number,      null: false
+      t.integer :status,            null: false
+      t.string  :email,             null: false
+      t.boolean :active,            null: false, default: true
+      t.string  :address
+      t.string  :company_email
+      t.string  :image
+
+      # Extra information
+      t.decimal :latitude,          precision: 15, scale: 10
+      t.decimal :longitude,         precision: 15, scale: 10
+
+
+      # -------------------------- Devise ------------------------------#
+
       # Required
       t.string :provider, null: false, default: 'email'
       t.string :uid, null: false, default: ''
@@ -34,21 +53,6 @@ class CreateShoppers < ActiveRecord::Migration
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-      # User Info
-      t.string  :first_name,        null: false
-      t.string  :last_name,         null: false
-      t.string  :identification,    null: false
-      t.string  :phone_number,      null: false
-      t.integer :status,            null: false
-      t.string  :email,             null: false
-      t.boolean :active,            null: false, default: true
-      t.string  :address
-      t.string  :company_email
-      t.string  :image
-
-      # Extra information
-      t.decimal :latitude,          precision: 15, scale: 10
-      t.decimal :longitude,         precision: 15, scale: 10
 
       # Tokens
       t.text :tokens
