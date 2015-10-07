@@ -1,6 +1,6 @@
 class Shoppers::ShoppersController < ApplicationController
 
-  #skip_before_action :authenticate_user!, only: :create
+  skip_before_action :authenticate_user!, :require_administrator
   #skip_before_action :require_administrator, except: :index
 
   def index

@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     resources :orders, except: [:new, :edit]
   end
 
-  namespace :shoppers do
+  namespace :shoppers, path: '' do
     resources :shoppers, except: [:new, :edit] do
       resources :orders, except: [:new, :edit]
     end
