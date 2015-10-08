@@ -7,6 +7,9 @@ class Shopper < ActiveRecord::Base
 
   include DeviseTokenAuth::Concerns::User
 
+  # radius for find orders in KM
+  DISTANCE = 40000
+
   # Enumerators
   enum status: [:active, :idle]
 

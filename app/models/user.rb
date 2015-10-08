@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many   :orders
   belongs_to :city
 
+  attr_accessor :distance
+
   # Validations
   validates :user_type, :active, presence: true
   validates :latitude, :longitude, numericality: true, allow_nil: true
@@ -24,13 +26,14 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
   validates :name, :last_name, presence: true, length: { minimum: 3 }, format: { with: /\A[^0-9`!@#\$%\^&*+_=]+\z/ }
 
+  after_validation :reverse_geocode
+  reverse_geocoded_by :latitude, :longitude
+
   # Methods
   def self.from_omniauth(auth)
-    #provider: auth[:provider], uid: auth[:uid], name: auth[:name],                         last_name: auth[:last_name], image: auth[:image], email: auth[:email]
     user  = User.new(auth)
     user.errors
     user.save(validate: false)
     user
   end
-
 end

@@ -26,3 +26,6 @@ gem 'devise_token_auth'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'figaro'
+
+# Distance Haversine formula
+gem 'geocoder'

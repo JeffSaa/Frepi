@@ -1,7 +1,6 @@
 class Order < ActiveRecord::Base
 
-  # Enumerators
-  # TODO: Changed to mayus
+  # Enumerators, TODO: Changed to mayus
   enum status: %w[received delivering dispatched]
 
   # Associations
