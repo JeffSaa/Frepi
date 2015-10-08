@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 18) do
     t.string   "image"
     t.decimal  "latitude",               precision: 15, scale: 10
     t.decimal  "longitude",              precision: 15, scale: 10
+    t.integer  "city_id"
     t.string   "provider",                                         default: "email", null: false
     t.string   "uid",                                              default: "",      null: false
     t.string   "encrypted_password",                               default: "",      null: false
@@ -137,6 +138,7 @@ ActiveRecord::Schema.define(version: 18) do
     t.datetime "updated_at"
   end
 
+  add_index "shoppers", ["city_id"], name: "index_shoppers_on_city_id"
   add_index "shoppers", ["email"], name: "index_shoppers_on_email"
   add_index "shoppers", ["reset_password_token"], name: "index_shoppers_on_reset_password_token", unique: true
   add_index "shoppers", ["uid", "provider"], name: "index_shoppers_on_uid_and_provider", unique: true

@@ -18,15 +18,17 @@ class CreateShoppers < ActiveRecord::Migration
       t.decimal :latitude,          precision: 15, scale: 10
       t.decimal :longitude,         precision: 15, scale: 10
 
+      # Associations
+      t.references :city,           index: true, foreign_key: true
 
       # -------------------------- Devise ------------------------------#
 
       # Required
-      t.string :provider, null: false, default: 'email'
-      t.string :uid, null: false, default: ''
+      t.string   :provider, null: false, default: 'email'
+      t.string   :uid, null: false, default: ''
 
       # Database authenticatable
-      t.string :encrypted_password, null: false, default: ''
+      t.string   :encrypted_password, null: false, default: ''
 
       # Recoverable
       t.string   :reset_password_token
