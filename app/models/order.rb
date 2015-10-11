@@ -15,7 +15,7 @@ class Order < ActiveRecord::Base
 
   # Validations
   validates :user, :sucursal, :total_price, presence: true
-  validates :status, inclusion: { in: %w(received delivering dispatched)}
+  validates :status, inclusion: { in: %w(received delivering dispatched) }
   validates :active, inclusion: { in: [true, false] }
   validates :total_price, numericality: true
   validates_datetime :delivery_time, allow_nil: true

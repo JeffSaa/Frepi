@@ -4,25 +4,7 @@ class Shoppers::OrdersController < ApplicationController
   before_action :find_order, only: [:show, :update, :destroy]
 
   def index
-    #orders = Order.where(status: 0, active: true)
-    # Users that have orders near of a latitude
-
-    # REFACTOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    if params[:latitude] && params[:longitude]
-
-      latitude = params[:latitude]
-      longitude = params[:longitude]
-
-      users = User.near([latitude, longitude], Shopper::DISTANCE,  units: :km).joins(:orders).where(orders: { active:true, status: 0} )
-      orders = []
-
-      users.map do |user|
-        user.distance =  user.distance_to([latitude, longitude], :km)
-        user.orders.where( { active:true, status: 0 } ).each { |order| orders << order }
-      end
-
-      render json: orders, root: :orders
-    end
+    render json: current_shopper.orders
   end
 
   def show
@@ -30,21 +12,43 @@ class Shoppers::OrdersController < ApplicationController
   end
 
   def create
+    order = current_shopper.shoppers_orders.build(order_id: params[:orderId])
+    if order.valid?
+      # TODO: Change status received to accepted ?
+      #find_order(params[:order_id])
+      current_shopper.save
+      render(json: order, status: :created)
+    else
+      render(json: { errors: order.errors }, status: :bad_request)
+    end
   end
 
   def update
+    @order.assign_attributes(params_order)
+    if @order.save
+      render(json: @order)
+    else
+      render(json: { errors: order.errors }, status: :bad_request)
+    end
   end
 
   def destroy
     @order.delete_order
+    @order.save
+    render(json: @order)
   end
 
   private
   def find_order
     begin
-      @order = Order.where(status: 0, active: true).find(params[:id])
+      @order = current_shopper.orders.find(params[:id])
     rescue => e
       render(json: { error: e.message }, status: :not_found)
     end
+  end
+
+  def params_order
+    params[:delivery_time] = params.delete(:deliveryTime) if params[:deliveryTime]
+    params.permit(:status, :delivery_time)
   end
 end

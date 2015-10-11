@@ -6,5 +6,13 @@ class ShoppersOrder < ActiveRecord::Base
 
   # Validations
   validates :shopper, :order, presence: true
-  validates_datetime :accepted_date
+  validates :order, uniqueness: true
+
+  # Callbacks
+  before_create :set_date
+
+  # Methods
+  def set_date
+    self.accepted_date = DateTime.current
+  end
 end
