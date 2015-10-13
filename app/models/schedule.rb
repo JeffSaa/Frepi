@@ -1,7 +1,8 @@
 class Schedule < ActiveRecord::Base
 
   # Enumerators
-  enum day: %w(monday tuesday wednesday thursday friday saturday sunday)
+  DAY = %w(MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY)
+  enum day: DAY
 
   # Associations
   has_many :orders_schedules
@@ -11,6 +12,6 @@ class Schedule < ActiveRecord::Base
 
   # Validations
   validates          :start_hour, :end_hour, presence: true
-  validates          :day, inclusion: { in: %W(monday tuesday wednesday thursday friday saturday sunday) }
+  validates          :day, inclusion: { in: DAY }
   validates_datetime :end_hour, on_or_after: :start_hour
 end

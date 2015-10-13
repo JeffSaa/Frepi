@@ -8,9 +8,6 @@ city = state.cities.create!(name: 'barranquilla')
 
 if Rails.env.development?
 
-  # Constant
-  DAY = %w(monday tuesday wednesday thursday friday saturday sunday)
-
   # Store Partners
   2.times do |_|
     StorePartner.create!(nit: Faker::Company.duns_number, name: Faker::Company.name, logo: Faker::Company.logo, description: Faker::Lorem.sentence)
@@ -122,12 +119,12 @@ if Rails.env.development?
   4.times do |order_id|
     order_id = Faker::Number.between(1, 5)
     order = Order.find(order_id)
-    order.schedules.create!(day: DAY.sample, start_hour: Time.now, end_hour: Time.now + 3.hour)
+    order.schedules.create!(day: Schedule::DAY.sample, start_hour: Time.now, end_hour: Time.now + 3.hour)
   end
 
   # Shopper with Schedules
   5.times do |shopper_id|
     shopper = Shopper.find(shopper_id + 1)
-    shopper.schedules.create!( day: DAY.sample, start_hour: Time.now, end_hour: Time.now + 2.hour)
+    shopper.schedules.create!( day: Schedule::DAY.sample, start_hour: Time.now, end_hour: Time.now + 2.hour)
   end
 end
