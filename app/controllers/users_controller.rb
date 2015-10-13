@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   # NOTE: Only a Super User (administrator) can do any action
   skip_before_action :authenticate_user!, only: :create
   skip_before_action :require_administrator, except: :index
+  skip_before_action :authenticate_shopper!
 
   def index
     render json: User.all

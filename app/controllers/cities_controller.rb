@@ -3,6 +3,7 @@ class CitiesController < ApplicationController
   before_action :find_country, :find_state
   before_action :find_city, except: [:index, :create]
   skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
+  skip_before_action :authenticate_shopper!
 
   def index
     render json: @state.cities.all

@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
 
   before_action :find_order, only: [:show, :update, :destroy]
   before_action :find_sucursal, only: [:create]
-  skip_before_action :require_administrator
+  skip_before_action :require_administrator, :authenticate_shopper!
 
   def index
     # TODO: what happen if the user is admin, order active ?

@@ -3,6 +3,7 @@ class SubcategoriesController < ApplicationController
   before_action :find_category
   before_action :find_subcategory, except: [:index, :create]
   skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
+  skip_before_action :authenticate_shopper!
 
   def index
     render(json: @category.subcategories , status: :ok)

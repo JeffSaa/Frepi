@@ -3,6 +3,7 @@ class SucursalsController < ApplicationController
   before_action :find_store_partner
   before_action :find_sucursals, except: [:index, :create]
   skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
+  skip_before_action :authenticate_shopper!
 
   def index
     render(json: @store_partner.sucursals)
