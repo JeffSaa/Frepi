@@ -12,5 +12,5 @@ class Schedule < ActiveRecord::Base
   # Validations
   validates          :start_hour, :end_hour, presence: true
   validates          :day, inclusion: { in: %W(monday tuesday wednesday thursday friday saturday sunday) }
-  validates_datetime :end_hour, after: :start_hour
+  validates_datetime :end_hour, on_or_after: :start_hour
 end

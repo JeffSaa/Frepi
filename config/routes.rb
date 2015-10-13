@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  # Api connection
+ # Api connection
   match '*path' => 'application#handle_options_request', constraints: { method: 'OPTIONS' }, via: :options
 
   # Social network routes
@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   namespace :shoppers, path: '' do
     resources :shoppers, except: [:new, :edit] do
       resources :orders, except: [:new, :edit]
+      resources :schedules, except: [:new, :edit]
     end
   end
 

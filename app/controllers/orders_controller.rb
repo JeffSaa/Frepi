@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
       @order.update_products(params[:products])
       render(json: @order)
     else
-      render(json: { errors: order.errors }, status: :bad_request)
+      render(json: { errors: @order.errors }, status: :bad_request)
     end
   end
 
@@ -61,8 +61,8 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params[:delivery_time] = params.delete(:deliveryTime)
-    params[:total_price] = params.delete(:totalPrice)
+    params[:delivery_time] = params.delete(:deliveryTime) if params[:deliveryTime]
+    params[:total_price] = params.delete(:totalPrice) if params[:totalPrice]
     params.permit(:sucursal_id, :status, :delivery_time, :total_price)
   end
 
