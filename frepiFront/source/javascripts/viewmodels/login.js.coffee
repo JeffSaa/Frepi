@@ -63,7 +63,7 @@ class LoginVM
 										console.log responseAPI
 										RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBcredentials, (error, success, headers) =>
 												if error
-													alert('The user couldnt be created')
+													console.log 'The user couldnt be created'
 												else
 													console.log success
 													Config.setItem('accessToken', headers.accessToken)

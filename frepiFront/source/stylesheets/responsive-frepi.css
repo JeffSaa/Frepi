@@ -3,6 +3,8 @@
  **/
 
 @media (max-width: 481px) {
+
+  /* Profile rules */
   .profile #guide-status {
     display: block;
   }
@@ -37,6 +39,10 @@
   .profile .segment .line .value {
     width: 70%;
   }
+
+  .modal .buttons-to-right {
+    padding: 0.1rem;
+  }
 }
 
 @media only screen and (max-width: 767px){
@@ -70,12 +76,37 @@
    **/
 
   #store-frepi-logo {
-    width: 35%;
+    width: 4.285714em;
   }
 
-  #store-frepi-logo img {
-    margin: 5px 0.25%;
+  #store-frepi-logo .image {
+    display: none;
   }
+
+  #store-frepi-logo .icon {
+    color: white;
+    display: inline-block;
+    font-size: 1.8571428em;
+    left: 0.576923em;
+    position: absolute;
+    top: 0.8461538em;
+  }
+
+  #product-searcher {
+    width: calc(100% - 8.928571em);
+  }
+
+  header #shopping-cart .icon {
+    display: inline-block;
+    font-size: 1.571428em;
+    position: absolute;
+    right: 0.318181em;
+    top: 0.454545em;
+  }
+
+  /*#store-frepi-logo img {
+    margin: 5px 0.25%;
+  }*/
 
   #target-store,
   #user-account,

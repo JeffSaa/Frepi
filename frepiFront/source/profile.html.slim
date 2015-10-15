@@ -1,219 +1,244 @@
 doctype html
 html
-  head
-    meta charset="utf-8" /
-    title Frepi - Haz tu mercado fácil y rápido
-    /! Sets initial viewport load and disables zooming
-    meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
-    meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
-    /! Add semantic's CSS
-    link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
-    link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
-    link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
-  body
-    #departments-menu.ui.vertical.left.sidebar.menu
-      .item
-        h3.ui.header
-          i.sidebar.icon
-          .content Departamentos
-      .items data-bind="foreach: session.categories"
-        a.item 
-          .header data-bind="text: $data.name"
+	head
+		meta charset="utf-8" /
+		title Frepi - Haz tu mercado fácil y rápido
+		/! Sets initial viewport load and disables zooming
+		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
+		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
+		/! Add semantic's CSS
+		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
+		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
+		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
+	body
+		nav#mobile-menu.ui.vertical.left.sidebar.borderless.menu
+			h2 Frepi Menu
+			.item
+				img src="images/landing/logoassd.png" alt="Frepi's logo"
+			a.item href="store.html"
+				h4.ui.header
+					i.home.icon
+					|Tienda
+			a.item href="profile.html"
+				h4.ui.header
+					i.user.icon
+					|Cuenta
+			a.item href="profile.html"
+				h4.ui.header
+					i.book.icon
+					|Pedidos
+			a.item data-bind="click: logout"
+				h4.ui.header
+					i.sign.out.icon
+					|Salir
 
-    #shopping-cart.ui.vertical.wide.right.sidebar.menu
-      .item
-        h3.ui.header
-          i.shop.icon
-          .content Carro de compras
-        .ui.label data-bind="text: '$ '+session.currentOrder.price()"
-      .ui.items data-bind="foreach: session.currentOrder.products"
-        .item
-          .ui.tiny.image 
-            img data-bind="attr: {src: $data.image}"
-          .content
-            .header data-bind="text: $data.name"
-            .meta
-              span.price data-bind="text: '$'+$data.frepi_price"
-              span x
-              span.quantity data-bind="text: $data.quantity"
-          i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
-          i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data)}"
-          i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
-      .item
-        button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
+		#departments-menu.ui.vertical.left.sidebar.menu
+			.item
+				h3.ui.header
+					i.sidebar.icon
+					.content Departamentos
+			.items data-bind="foreach: session.categories"
+				a.item 
+					.header data-bind="text: $data.name"
 
-    #edit-email.ui.small.modal
-      .header Editar información de cuenta
-      .content
-        form.ui.form data-bind="submit: function(){updateUser('email')}"
-          .field
-            label Correo nuevo 
-            input type="text" name="new-email" placeholder="Nuevo correo"
-          .field
-            label Confirmación correo nuevo
-            input type="text" name="confirmation-new-email" placeholder="Confirmación"
-          .field
-            label Contraseña
-            input type="password" name="password" placeholder="Contraseña actual"
-          .buttons-to-right
-            .ui.cancel.button data-bind="click: closeEditEmail" Cancelar
-            button.ui.labeled.green.submit.icon.button type="submit"
-              |Guardar cambios
-              i.checkmark.icon
+		#shopping-cart.ui.vertical.wide.right.sidebar.menu
+			.item
+				h3.ui.header
+					i.shop.icon
+					.content Carro de compras
+				.ui.label data-bind="text: '$ '+session.currentOrder.price()"
+			.ui.items data-bind="foreach: session.currentOrder.products"
+				.item
+					.ui.tiny.image 
+						img data-bind="attr: {src: $data.image}"
+					.content
+						.header data-bind="text: $data.name"
+						.meta
+							span.price data-bind="text: '$'+$data.frepi_price"
+							span x
+							span.quantity data-bind="text: $data.quantity"
+					i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
+					i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data)}"
+					i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
+			.item
+				button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
 
-    #edit-password.ui.small.modal
-      .header Editar información de cuenta
-      .content
-        form.ui.form data-bind="submit: function(){updateUser('password')}"
-          .field
-            label Contraseña nueva
-            input type="password" name="new-password" placeholder="Nuevo contraseña"
-          .field
-            label Confirmación contraseña nueva
-            input type="password" name="confirmation-new-password" placeholder="Confirmación"
-          .field
-            label Contraseña actual
-            input type="password" name="current-password" placeholder="Contraseña actual"
-          .buttons-to-right
-            .ui.cancel.button data-bind="click: closeEditEmail" Cancelar
-            button.ui.labeled.green.submit.icon.button type="submit"
-              |Guardar cambios
-              i.checkmark.icon
+		#edit-email.ui.small.modal
+			.header Editar información de cuenta
+			.content
+				form.ui.form data-bind="submit: function(){updateUser('email')}"
+					.field
+						label Correo nuevo 
+						input type="text" name="new-email" placeholder="Nuevo correo"
+					.field
+						label Confirmación correo nuevo
+						input type="text" name="confirmation-new-email" placeholder="Confirmación"
+					.field
+						label Contraseña
+						input type="password" name="password" placeholder="Contraseña actual"
+					.buttons-to-right
+						.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+						button.ui.labeled.green.submit.icon.button type="submit"
+							|Guardar cambios
+							i.checkmark.icon
 
-    #edit-user-info.ui.small.modal
-      .header Editar información de cuenta
-      .content
-        form.ui.form
-          .field
-            label Nombres
-            input type="text" name="first-name" placeholder="Nombres" data-bind="textInput: name"
-          .field
-            label Apellidos
-            input type="text" name="last-name" placeholder="Apellidos" data-bind="textInput: lastName"
-          .field
-            label Teléfono
-            input type="text" name="phone" placeholder="Teléfono" data-bind="textInput: phone"
-          .buttons-to-right
-            .ui.cancel.button data-bind="click: closeEditEmail" Cancelar
-            .ui.labeled.green.submit.icon.button
-              |Guardar cambios
-              i.checkmark.icon
+		#edit-password.ui.small.modal
+			.header Editar información de cuenta
+			.content
+				form.ui.form data-bind="submit: function(){updateUser('password')}"
+					.field
+						label Contraseña nueva
+						input type="password" name="new-password" placeholder="Nuevo contraseña"
+					.field
+						label Confirmación contraseña nueva
+						input type="password" name="confirmation-new-password" placeholder="Confirmación"
+					.field
+						label Contraseña actual
+						input type="password" name="current-password" placeholder="Contraseña actual"
+					.buttons-to-right
+						.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+						button.ui.labeled.green.submit.icon.button type="submit"
+							|Guardar cambios
+							i.checkmark.icon
 
-    .pusher
-      #store-primary-navbar.ui.fixed.inverted.menu
-        a#store-frepi-logo.ui.image href="#"
-          img.ui.middle.aligned src="images/landing/logo.png" alt="Frepi's logo"
-        a#target-store href="#"
-          .item
-            .content
-              .ui.sub.header Olímpica Tanganazo
-              |Calle 72 # 60 - 12
-        #product-searcher.item
-          .ui.icon.input
-            input type="text" placeholder="Buscar en Olímpica..."
-            i.circular.search.link.icon
-        #user-account.ui.simple.dropdown.item
-            .text data-bind="text: 'Hola, '+userName()"
-            i.chevron.down.icon
-            .menu
-              .item
-                i.user.icon
-                |Ver perfil
-              .item
-                i.book.icon
-                |Mis pedidos
-              .divider
-              .item data-bind="click: logout"
-                i.sign.out.icon
-                |Salir        
+		#edit-user-info.ui.small.modal
+			.header Editar información de cuenta
+			.content
+				form.ui.form
+					.field
+						label Nombres
+						input type="text" name="first-name" placeholder="Nombres" data-bind="textInput: name"
+					.field
+						label Apellidos
+						input type="text" name="last-name" placeholder="Apellidos" data-bind="textInput: lastName"
+					.field
+						label Teléfono
+						input type="text" name="phone" placeholder="Teléfono" data-bind="textInput: phone"
+					.buttons-to-right
+						.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+						.ui.labeled.green.submit.icon.button
+							|Guardar cambios
+							i.checkmark.icon
 
-      #store-secondary-navbar.ui.fixed.borderless.menu
-        .item
-          button.ui.basic.grey.button data-bind="click: showDepartments"
-            i.sidebar.icon
-            |Departamentos
-        a.link.item href="store.html"
-          i.home.large.grey.icon
+		.pusher
+			header
+				#store-primary-navbar.ui.fixed.inverted.menu
+					a#store-frepi-logo href="#"
+						i.sidebar.icon
+						img.ui.image src="images/landing/logoassd.png" alt="Frepi's logo"
+					a#target-store href="#"
+						.item
+							.content
+								.ui.sub.header Olímpica Tanganazo
+								|Calle 72 # 60 - 12
+					#product-searcher.item
+						.ui.icon.input
+							input type="text" placeholder="Buscar en Olímpica..."
+							i.circular.search.link.icon
+					#user-account.ui.simple.dropdown.item
+							.text data-bind="text: 'Hola, '+userName()"
+							i.chevron.down.icon
+							.menu
+								a.item href="profile.html"
+									i.user.icon
+									|Ver perfil
+								.item 
+									i.book.icon
+									|Mis pedidos
+								.divider
+								.item data-bind="click: logout"
+									i.sign.out.icon
+									|Salir      
+					#shopping-cart
+						i.circular.inverted.orange.shop.icon data-bind="click: showShoppingCart"
 
-        .right.menu
-          .item
-            / button.ui.labeled.icon.button data-bind="click: showShoppingCart"
-            button.ui.labeled.icon.button
-              i.shop.icon
-              |<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
+			#store-secondary-navbar.ui.fixed.borderless.menu
+				.item
+					button.ui.basic.grey.button data-bind="click: showDepartments"
+						i.sidebar.icon
+						|Departamentos
+				a.link.item href="store.html"
+					i.home.large.grey.icon
 
-      .main-content.profile
-        .ui.container
-          img#profile-picture.ui.centered.medium.circular.image data-bind="attr: {src: profilePicture}"
-          h1.ui.centered.header data-bind="text: name()+' '+lastName()"
-          .ui.fluid.two.item.secondary.pointing.menu
-            a.active.item data-tab="account" Cuenta
-            a.item data-tab="history" Historial de pedidos
-          .ui.active.tab.segment data-tab="account"
-            .ui.two.column.stackable.grid
-              .column
-                .ui.green.segment
-                  .ui.header Información de cuenta
-                  .clearfix.line data-bind="click: showEditEmail"
-                    span.title Email
-                    span.value data-bind="text: email"
-                  .clearfix.line data-bind="click: showEditPassword"
-                    span.title Password
-                    span.value ●●●●●●●●
-              .column
-                .ui.green.segment
-                  .ui.header Información personal
-                  .clearfix.line
-                    span.title Nombres
-                    span.value data-bind="text: name"
-                  .clearfix.line
-                    span.title Apellidos
-                    span.value data-bind="text: lastName"
-                  .clearfix.line
-                    span.title Teléfono
-                    span.value data-bind="text: phone"
-                  button.ui.green.button data-bind="click: showEditUser" Editar
+				.right.menu
+					.item
+						/ button.ui.labeled.icon.button data-bind="click: showShoppingCart"
+						button.ui.labeled.icon.button
+							i.shop.icon
+							|<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
 
-          .ui.tab.segment data-tab="history"
-            #guide-status.ui.centered.green.segment
-              .ui.centered.header Estados de orden
-              #status
-                .ui.yellow.label R
-                span Recibida
-                .ui.olive.label E
-                span En camino
-                .ui.green.label E
-                span Entregada
-            table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
-              thead
-                tr
-                  th.three.wide Fecha
-                  th.four.wide Tienda
-                  th.four.wide Dirección
-                  th.three.wide Valor($)
-                  th.two.wide Estado
-              tbody data-bind="foreach: orders"
-                tr
-                  td data-bind="text: $data.date"
-                  td data-bind="text: $data.sucursal.name"
-                  td data-bind="text: $data.sucursal.address"
-                  td data-bind="text: $data.totalPrice"
-                  / td.center.aligned
-                  /   a.ui.teal.label
-                  /     i.eye.icon
-                  /     |<!--ko text: $data.ordersProducts.length+' items'--><!--/ko-->
-                  /   a.ui.teal.truncated.label
-                  /     |<!--ko text: $data.ordersProducts.length--><!--/ko-->
-                  td.center.aligned
-                    .ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status"
-                    .ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status"
-            .ui.centered.header data-bind="visible: showEmptyMessage" No hay pedidos registrados
-            
-    script src="javascripts/plugins/crypto-js.min.js"
-    script src="javascripts/jquery/jquery-2.1.4.min.js"
-    script src="semantic/out/semantic.min.js"
-    script src="javascripts/knockout.js"
-    script src="javascripts/classes/encrypter.js"
-    script src="javascripts/classes/config.js"
-    script src="javascripts/classes/RESTfulService.js"
-    script src="javascripts/viewmodels/profile.js"
+			.main-content.profile
+				.ui.container
+					img#profile-picture.ui.centered.medium.circular.image data-bind="attr: {src: profilePicture}"
+					h1.ui.centered.header data-bind="text: name()+' '+lastName()"
+					.ui.fluid.two.item.secondary.pointing.menu
+						a.active.item data-tab="account" Cuenta
+						a.item data-tab="history" Historial de pedidos
+					.ui.active.tab.segment data-tab="account"
+						.ui.two.column.stackable.grid
+							.column
+								.ui.green.segment
+									.ui.header Información de cuenta
+									.clearfix.line data-bind="click: showEditEmail"
+										span.title Email
+										span.value data-bind="text: email"
+									.clearfix.line data-bind="click: showEditPassword"
+										span.title Password
+										span.value ●●●●●●●●
+							.column
+								.ui.green.segment
+									.ui.header Información personal
+									.clearfix.line
+										span.title Nombres
+										span.value data-bind="text: name"
+									.clearfix.line
+										span.title Apellidos
+										span.value data-bind="text: lastName"
+									.clearfix.line
+										span.title Teléfono
+										span.value data-bind="text: phone"
+									button.ui.green.button data-bind="click: showEditUser" Editar
+
+					.ui.tab.segment data-tab="history"
+						#guide-status.ui.centered.green.segment
+							.ui.centered.header Estados de orden
+							#status
+								.ui.yellow.label R
+								span Recibida
+								.ui.olive.label E
+								span En camino
+								.ui.green.label E
+								span Entregada
+						table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
+							thead
+								tr
+									th.three.wide Fecha
+									th.four.wide Tienda
+									th.four.wide Dirección
+									th.three.wide Valor($)
+									th.two.wide Estado
+							tbody data-bind="foreach: orders"
+								tr
+									td data-bind="text: $data.date"
+									td data-bind="text: $data.sucursal.name"
+									td data-bind="text: $data.sucursal.address"
+									td data-bind="text: $data.totalPrice"
+									/ td.center.aligned
+									/   a.ui.teal.label
+									/     i.eye.icon
+									/     |<!--ko text: $data.ordersProducts.length+' items'--><!--/ko-->
+									/   a.ui.teal.truncated.label
+									/     |<!--ko text: $data.ordersProducts.length--><!--/ko-->
+									td.center.aligned
+										.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status"
+										.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status"
+						.ui.centered.header data-bind="visible: showEmptyMessage" No hay pedidos registrados
+						
+		script src="javascripts/plugins/crypto-js.min.js"
+		script src="javascripts/jquery/jquery-2.1.4.min.js"
+		script src="semantic/out/semantic.min.js"
+		script src="javascripts/knockout.js"
+		script src="javascripts/classes/encrypter.js"
+		script src="javascripts/classes/config.js"
+		script src="javascripts/classes/RESTfulService.js"
+		script src="javascripts/viewmodels/profile.js"

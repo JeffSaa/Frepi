@@ -27,6 +27,7 @@ class ProfileVM
 		@fetchOrders()		
 		@setDOMElements()
 		@shouldShowOrders()
+		@setSizeButtons()
 		@checkOrders = ko.computed( =>
 				@showEmptyMessage(@orders().length is 0)
 			)
@@ -88,11 +89,16 @@ class ProfileVM
 				Config.setItem('accessToken', headers.accessToken)
 				Config.setItem('client', headers.client)
 				Config.setItem('uid', headers.uid)
-				for order in success
-					order.date = new Date(order.date).toLocaleDateString()
+				parsedOrders = parseOrderDate(success)
 				
-				@orders(success)
+				@orders(parsedOrders)
 		)
+
+	parseOrderDate: (orders) ->
+		for order in orders
+			order.date = new Date(order.date).toLocaleDateString()
+
+		return orders
 
 	removeFromCart: (product) ->
 		if product.quantity is 1
@@ -296,6 +302,9 @@ class ProfileVM
 				dimPage: false
 				transition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar .right.menu button', 'show')
+		$('#mobile-menu')
+			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo', 'show')
 
 	showDepartments: ->    
 		$('#departments-menu').sidebar('toggle')
@@ -308,6 +317,9 @@ class ProfileVM
 
 	showEditUser: ->
 		$('#edit-user-info').modal('show')
+
+	showShoppingCart: ->
+		$('#shopping-cart').sidebar('show')
 
 	setStatus: (status, truncated) ->
 		switch status
@@ -391,6 +403,20 @@ class ProfileVM
 							@setUserInfo()
 							$('#edit-password').modal('hide')
 					)				
+
+	setSizeButtons: ->
+		if $(window).width() < 480
+			$('#shopping-cart').removeClass('wide')
+		else
+			$('#shopping-cart').addClass('wide')
+
+		$(window).resize(->
+			if $(window).width() < 480
+				$('#shopping-cart').removeClass('wide')
+			else
+				$('#shopping-cart').addClass('wide')
+		)
+			
 
 profile = new ProfileVM
 ko.applyBindings(profile)

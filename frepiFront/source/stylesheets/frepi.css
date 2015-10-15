@@ -55,7 +55,9 @@ a {
   left: 50%;
   position: absolute;
   top: 35%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .loading .loader {
@@ -130,6 +132,29 @@ a {
   font-weight: 500;
 }
 
+/* Mobile Sidebar Menu */
+
+#mobile-menu {
+  background-color: rgb(34, 182, 118) !important;
+}
+
+#mobile-menu h2 {
+  display: none;
+}
+
+#mobile-menu .item h4 {
+  color: #FFFFFF;
+  font-size: 1.14285em;
+}
+
+#mobile-menu .item:first-of-type {
+  padding-top: 2.14285em;
+}
+
+#mobile-menu .item:first-of-type img {
+  height: 5.7142857em;
+}
+
 /* Store */
 
 #store-primary-navbar {
@@ -174,6 +199,14 @@ a {
 #store-frepi-logo img {
   height: 50px;
   margin: 5px 37px;
+}
+
+#store-frepi-logo .icon {
+  display: none;
+}
+
+header #shopping-cart .icon {
+  display: none;
 }
 
 #target-store {
@@ -474,7 +507,6 @@ a {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 
 .checkout .container .labeled.icon {
   float: right;

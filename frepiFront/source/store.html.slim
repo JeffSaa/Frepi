@@ -11,6 +11,27 @@ html
 		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
 		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
 	body
+		nav#mobile-menu.ui.vertical.left.sidebar.borderless.menu
+			h2 Frepi Menu
+			.item
+				img src="images/landing/logoassd.png" alt="Frepi's logo"
+			a.item href="store.html"
+				h4.ui.header
+					i.home.icon
+					|Tienda
+			a.item href="profile.html"
+				h4.ui.header
+					i.user.icon
+					|Cuenta
+			a.item data-bind="click: goToOrders"
+				h4.ui.header
+					i.book.icon
+					|Pedidos
+			a.item data-bind="click: logout"
+				h4.ui.header
+					i.sign.out.icon
+					|Salir
+
 		#departments-menu.ui.vertical.left.sidebar.menu
 			.item
 				h3.ui.header
@@ -68,46 +89,50 @@ html
 				p Here it goes the warning about the products information.	
 
 		.pusher
-			#store-primary-navbar.ui.fixed.inverted.menu
-				a#store-frepi-logo.ui.image href="#"
-					img.ui.middle.aligned src="images/landing/logo.png" alt="Frepi's logo"
-				a#target-store href="#"
-					.item
-						.content
-							.ui.sub.header Olímpica Tanganazo
-							|Calle 72 # 60 - 12
-				#product-searcher.item
-					.ui.icon.input
-						input type="text" placeholder="Buscar en Olímpica..."
-						i.circular.search.link.icon
-				#user-account.ui.simple.dropdown.item
-						.text data-bind="text: 'Hola, '+userName()"
-						i.chevron.down.icon
-						.menu
-							.item data-bind="click: goToProfile"
-								i.user.icon
-								|Ver perfil
-							.item data-bind="click: goToOrders"
-								i.book.icon
-								|Mis pedidos
-							.divider
-							.item data-bind="click: logout"
-								i.sign.out.icon
-								|Salir				
-
-			#store-secondary-navbar.ui.fixed.borderless.menu
-				.item
-					button.ui.basic.grey.button data-bind="click: showDepartments"
+			header
+				#store-primary-navbar.ui.fixed.inverted.menu
+					a#store-frepi-logo href="#"
 						i.sidebar.icon
-						|Departamentos
-				a.link.item href="store.html"
-					i.home.large.grey.icon
+						img.ui.image src="images/landing/logoassd.png" alt="Frepi's logo"
+					a#target-store href="#"
+						.item
+							.content
+								.ui.sub.header Olímpica Tanganazo
+								|Calle 72 # 60 - 12
+					#product-searcher.item
+						.ui.icon.input
+							input type="text" placeholder="Buscar en Olímpica..."
+							i.circular.search.link.icon
+					#user-account.ui.simple.dropdown.item
+							.text data-bind="text: 'Hola, '+userName()"
+							i.chevron.down.icon
+							.menu
+								.item data-bind="click: goToProfile"
+									i.user.icon
+									|Ver perfil
+								.item data-bind="click: goToOrders"
+									i.book.icon
+									|Mis pedidos
+								.divider
+								.item data-bind="click: logout"
+									i.sign.out.icon
+									|Salir			
+					#shopping-cart
+						i.circular.inverted.orange.shop.icon data-bind="click: showShoppingCart"
 
-				.right.menu
+				#store-secondary-navbar.ui.fixed.borderless.menu
 					.item
-						button.ui.labeled.icon.button data-bind="click: showShoppingCart"
-							i.shop.icon
-							|<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
+						button.ui.basic.grey.button data-bind="click: showDepartments"
+							i.sidebar.icon
+							|Departamentos
+					a.link.item href="store.html"
+						i.home.large.grey.icon
+
+					.right.menu
+						.item
+							button.ui.labeled.icon.button data-bind="click: showShoppingCart"
+								i.shop.icon
+								|<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
 
 			.main-content
 				#store-banner

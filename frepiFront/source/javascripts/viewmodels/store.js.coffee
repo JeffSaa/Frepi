@@ -23,6 +23,7 @@ class StoreVM
 		@setUserInfo()
 		@fetchCategories()
 		@setDOMElements()
+		@setSizeButtons()
 
 	addToCart: (productToAdd) =>
 		quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0])
@@ -202,6 +203,10 @@ class StoreVM
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
 			})
+		$('#mobile-menu')
+			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo', 'show')
+		console.log $('#mobile-menu')
 		$('#shopping-cart').sidebar({
 				dimPage: false
 				transition: 'overlay'
@@ -248,6 +253,19 @@ class StoreVM
 			category.productsToShow = productsToShow
 
 		@session.categories(categories)
+
+	setSizeButtons: ->
+		if $(window).width() < 480
+			$('#shopping-cart').removeClass('wide')
+		else
+			$('#shopping-cart').addClass('wide')
+
+		$(window).resize(->
+			if $(window).width() < 480
+				$('#shopping-cart').removeClass('wide')
+			else
+				$('#shopping-cart').addClass('wide')
+		)
 			
 
 store = new StoreVM

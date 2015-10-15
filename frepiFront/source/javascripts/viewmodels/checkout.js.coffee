@@ -86,9 +86,15 @@ class CheckoutVM
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
 			})
+		$('#mobile-menu')
+			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo', 'show')
 
 	showDepartments: ->    
 		$('#departments-menu').sidebar('toggle')
+
+	showShoppingCart: ->
+		$('#shopping-cart').sidebar('show')
 
 	setExistingSession: ->
 		console.log 'esta aqui'
