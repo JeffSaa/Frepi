@@ -1,0 +1,79 @@
+doctype html
+html
+	head
+		meta charset="UTF-8" /
+		title Frepi Shopper
+		meta content=("text/html; charset=utf-8") http-equiv="content-type" 
+		meta name="viewport" content="width=device-width, initial-scale=1.0"
+		link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"
+		link type="text/css" rel="stylesheet" href="materialize/sass/materialize.css"  media="screen"
+		link rel="stylesheet" media="screen" href="css/screen.css"
+	body.home
+		header
+			.navbar-fixed
+				nav
+					.nav-wrapper.container
+						.button-collapse.waves-effect
+							i.material-icons menu
+						.brand-logo.center
+							img src="images/logoassd.png"
+
+		section#active-orders
+			.container
+				h6 data-bind="visible: activeOrders().length === 0" No hay ordenes activas
+				.active-orders-action.waves-effect
+					|Tienes 
+					|<!--ko text: activeOrders().length--><!--/ko-->
+					|&nbsp;orden activa!
+					i.material-icons.right new_releases
+		section#nearby-orders
+			h5 Ordenes cercanas
+			.container				
+				h6 data-bind="visible: nearbyOrders().length === 0" No hay ordenes cercanas
+				.row
+					.col.s12 data-bind="foreach: nearbyOrders"
+						<!-- ko if: ($index() <= 2) -->
+						.card
+							.card-image.waves-effect.waves-block
+								img.activator src="images/olimpica.png"
+							.card-content
+								span.activator.card-title.grey-text.text-darken-4
+									|<!--ko text: $data.user.address--><!--/ko-->
+									i.material-icons.right more_vert
+								span.distance.grey-text.text-darken-4
+									|A 
+									|<!--ko text: $data.user.distance.toFixed(2)--><!--/ko-->
+									|&nbsp;km de tu ubicación
+							.card-reveal
+							 	span.card-title.grey-text.text-darken-4
+									|<!--ko text: $data.user.address--><!--/ko-->
+									i.material-icons.right close
+								.clearfix.line
+									span.title Tienda
+									span.value data-bind="text: $data.sucursal.name"
+								.clearfix.line
+									span.title Dirección Tienda
+									span.value data-bind="text: $data.sucursal.address"
+								.clearfix.line
+									span.title Número de productos
+									span.value data-bind="text: $data.ordersProducts.length"
+								.clearfix.line
+									span.title Dirección cliente
+									span.value data-bind="text: $data.user.address"
+							.card-action
+								a href="#"
+									|Ubicame
+								a href="#confirmation" Aceptar
+						<!-- /ko -->
+				.row
+					.col.s12
+						button.more-nearby-ords.waves-effect.btn Ver más ordenes
+
+	script src="js/jquery/jquery.min.js" type="text/javascript"
+	script src="materialize/js/bin/materialize.min.js" type="text/javascript"
+	script src="js/plugins/crypto-js.min.js" type="text/javascript"
+	script src="js/knockout.js" type="text/javascript"	
+	script src="js/classes/encrypter.js" type="text/javascript"
+	script src="js/classes/config.js" type="text/javascript"
+	script src="js/classes/RESTfulService.js" type="text/javascript"
+	script src="js/viewmodels/home.js" type="text/javascript"
