@@ -12,10 +12,15 @@ class Orders::OrdersController < ApplicationController
       longitude = params[:longitude]
 
       users = User.near([latitude, longitude], Shopper::DISTANCE,  units: :km).joins(:orders).where(orders: { active:true, status: 0} )
+
       orders = []
 
-      users.map do |user|
-        user.distance =  user.distance_to([latitude, longitude], :km)
+      users.each do |user|
+       user.distance =  user.distance_to([latitude, longitude], :km)
+      end
+      users = users.sort_by { |x| x.distance }
+
+      users.each do |user|
         user.orders.where( { active:true, status: 0 } ).each { |order| orders << order }
       end
 
