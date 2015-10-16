@@ -13,7 +13,7 @@ class Shoppers::OrdersController < ApplicationController
   end
 
   def create
-    order = current_shopper.shoppers_orders.build(order_id: params[:orderId])
+    order = current_shopper.shoppers_orders.build(order_id: params[:order_id])
     if order.valid?
       # TODO: Change status received to accepted ?
       #find_order(params[:order_id])

@@ -24,7 +24,7 @@ class Orders::OrdersController < ApplicationController
         user.orders.where( { active:true, status: 0 } ).each { |order| orders << order }
       end
 
-      render json: orders, root: :orders
+      render json: orders
     end
   end
 
