@@ -1,10 +1,11 @@
-class Shoppers::SchedulesController < ApplicationController
+class SchedulesController < ApplicationController
 
-  skip_before_action :authenticate_user!, :require_administrator
+  skip_before_action :authenticate_shopper!, :require_administrator
+  before_action :find_order
   before_action :find_schedule, only: [:show, :update, :destroy]
 
   def index
-    render json: current_shopper.schedules
+    render json: @order.schedules
   end
 
   def show
@@ -12,9 +13,9 @@ class Shoppers::SchedulesController < ApplicationController
   end
 
   def create
-    schedule = current_shopper.schedules.build(params_shedules)
+    schedule = @order.schedules.build(params_shedules)
     if schedule.valid?
-      current_shopper.save
+      @order.save
       render(json: schedule, status: :created)
     else
       render(json: { errors: schedule.errors }, status: :bad_request)
@@ -42,9 +43,17 @@ class Shoppers::SchedulesController < ApplicationController
     params.permit(:start_hour, :end_hour, :day)
   end
 
+  def find_order
+    begin
+      @order = current_user.orders.find(params[:order_id])
+    rescue => e
+      render(json: { error: e.message }, status: :not_found)
+    end
+  end
+
   def find_schedule
     begin
-      @schedule = current_shopper.schedules.find(params[:id])
+      @schedule =  @order.schedules.find(params[:id])
     rescue => e
       render(json: { error: e.message }, status: :not_found)
     end

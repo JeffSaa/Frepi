@@ -53,7 +53,6 @@ class OrdersController < ApplicationController
 
   def find_sucursal
     begin
-      params[:sucursal_id] = params.delete(:sucursalId)
       @sucursal = Sucursal.find(params[:sucursal_id])
     rescue => e
       render(json: { error: e.message }, status: :not_found)
@@ -61,8 +60,6 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params[:delivery_time] = params.delete(:deliveryTime) if params[:deliveryTime]
-    params[:total_price] = params.delete(:totalPrice) if params[:totalPrice]
     params.permit(:sucursal_id, :status, :delivery_time, :total_price)
   end
 

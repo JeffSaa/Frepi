@@ -97,11 +97,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    # json conventions to rails convetions - TODO: valid if null
-    params[:store_price], params[:frepi_price] = params.delete(:storePrice), params.delete(:frepiPrice)
-    params[:reference_code], params[:sales_count] = params.delete(:referenceCode), params.delete(:salesCount)
-    params[:subcategory_id] = params.delete(:subcategoryId)
-
     params.permit(:reference_code, :name, :store_price, :frepi_price, :image, :available, :sales_count, :subcategory_id)
   end
 end

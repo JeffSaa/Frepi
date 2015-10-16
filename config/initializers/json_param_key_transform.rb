@@ -1,5 +1,4 @@
-# Transform JSON request param keys from JSON-conventional camelCase to
-# Rails-conventional snake_case:
+# Transform JSON request param keys from JSON-conventional camelCase to Rails-conventional snake_case
 Rails.application.config.middleware.swap(
   ::ActionDispatch::ParamsParser, ::ActionDispatch::ParamsParser,
   ::Mime::JSON => Proc.new { |raw_post|

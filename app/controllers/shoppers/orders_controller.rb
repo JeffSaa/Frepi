@@ -51,7 +51,6 @@ class Shoppers::OrdersController < ApplicationController
   end
 
   def params_order
-    params[:delivery_time] = params.delete(:deliveryTime) if params[:deliveryTime]
     params.permit(:status, :delivery_time)
   end
 

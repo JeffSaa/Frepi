@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'Shopper', at: 'auth_shopper', skip: [:omniauth_callbacks]
 
   resources :users, except: [:new, :edit] do
-    resources :orders, except: [:new, :edit]
+    resources :orders, except: [:new, :edit] do
+      resources :schedules, except: [:new, :edit]
+    end
   end
 
   namespace :shoppers, path: '' do
