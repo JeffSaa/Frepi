@@ -1,9 +1,7 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+barranquilla:
+  state_id: states(:atlantico)
+  name: Barranquilla
 
-one:
-  state_id: 
-  name: MyString
-
-two:
-  state_id: 
-  name: MyString
+palermo:
+  state_id: states(:sicilia)
+  name: Palermo

@@ -1,7 +1,6 @@
 class CountriesController < ApplicationController
 
   before_action :find_country, except: [:index, :create]
-  skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
   skip_before_action :authenticate_shopper!
 
   def index

@@ -1,13 +1,13 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  shopper_id: 
-  order_id: 
-  accepted_date: 2015-08-06 23:54:48
-  delivery_time: 2015-08-06 23:54:48
+# one:
+#   shopper_id:
+#   order_id:
+#   accepted_date: 2015-08-06 23:54:48
+#   delivery_time: 2015-08-06 23:54:48
 
-two:
-  shopper_id: 
-  order_id: 
-  accepted_date: 2015-08-06 23:54:48
-  delivery_time: 2015-08-06 23:54:48
+# two:
+#   shopper_id:
+#   order_id:
+#   accepted_date: 2015-08-06 23:54:48
+#   delivery_time: 2015-08-06 23:54:48

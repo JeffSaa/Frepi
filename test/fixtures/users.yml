@@ -1,27 +1,25 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
+user:
   name: MyString
-  lastname: MyString
-  email: MyString
-  identification: MyString
+  last_name: MyString
+  email: user@frepi.com
+  identification: 11408734
   address: MyString
-  state: MyString
-  country: MyString
+  city: cities(:barranquilla)
   latitude: 9.99
   longitude: 9.99
-  userType: 1
+  user_type: 0
+  uid: email3
   phone_number: MyString
 
-two:
+admin:
   name: MyString
-  lastname: MyString
-  email: MyString
-  identification: MyString
+  last_name: MyString
+  email: admin@frepi.com
+  identification: 10382454
   address: MyString
-  state: MyString
-  country: MyString
+  city: cities(:palermo)
+  uid: email
   latitude: 9.99
   longitude: 9.99
-  userType: 1
+  user_type: 1
   phone_number: MyString

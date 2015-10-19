@@ -1,11 +1,11 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  day: MyString
-  start_hour: 2015-08-09 19:38:36
-  end_hour: 2015-08-09 19:38:36
+# one:
+#   day: MyString
+#   start_hour: 2015-08-09 19:38:36
+#   end_hour: 2015-08-09 19:38:36
 
-two:
-  day: MyString
-  start_hour: 2015-08-09 19:38:36
-  end_hour: 2015-08-09 19:38:36
+# two:
+#   day: MyString
+#   start_hour: 2015-08-09 19:38:36
+#   end_hour: 2015-08-09 19:38:36

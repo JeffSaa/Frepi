@@ -1,13 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  active: false
-  status: MyString
-  approximate_delivery_date: 2015-08-03 13:51:19
-  sucursal_id: 
+# #one:
+#   active: false
+#   status: 0
+#   date: 2015-08-03 13:51:19
+#   total
+#   sucursal_id:
 
-two:
-  active: false
-  status: MyString
-  approximate_delivery_date: 2015-08-03 13:51:19
-  sucursal_id: 
+# two:
+#   active: false
+#   status: MyString
+#   delivery_time: 2015-08-03 13:51:19
+#   sucursal_id:

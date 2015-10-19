@@ -11,7 +11,7 @@ class Orders::OrdersController < ApplicationController
       latitude = params[:latitude]
       longitude = params[:longitude]
 
-      users = User.near([latitude, longitude], Shopper::DISTANCE,  units: :km).joins(:orders).where(orders: { active:true, status: 0} )
+      users = User.near([latitude, longitude], Shopper::DISTANCE, units: :km).joins(:orders).where(orders: { active:true, status: 0 } )
 
       orders = []
 
