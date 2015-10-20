@@ -18,12 +18,11 @@ class window.RESTfulService
         error: ((data) ->
                   callback(data, null, null)),
         beforeSend: (xhr) ->
-          console.log 'token to be sent'
-          console.log Config.getItem('accessToken')
-          console.log 'end RESTfulService'
-          xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
-          xhr.setRequestHeader('access-token', Config.getItem('accessToken'))
-          xhr.setRequestHeader('client', Config.getItem('client'))
-          xhr.setRequestHeader('uid', Config.getItem('uid'))
+          if !!Config.getItem('headers')
+            headers = JSON.parse(Config.getItem('headers'))
+            xhr.setRequestHeader('access-token', headers.accessToken)
+            xhr.setRequestHeader('client', headers.client)
+            xhr.setRequestHeader('uid', headers.uid)
+          xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')          
           xhr.withCredentials = true
       })

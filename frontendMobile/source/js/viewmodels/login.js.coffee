@@ -1,4 +1,4 @@
-class LoginVM
+class window.LoginVM
 	constructor: ->
 		@email = ko.observable()
 		@password = ko.observable()
@@ -30,16 +30,12 @@ class LoginVM
 							@errorTextResponse('No se pudo establecer conexión!')
 					else
 						console.log success
-						Config.setItem('accessToken', headers.accessToken)
-						Config.setItem('client', headers.client)
-						Config.setItem('uid', headers.uid)
-						Config.setItem('userObject', JSON.stringify(success.data))
-						window.location.href = '../../home.html'
+						window.currentSession = 
+							user: success.data
+						Config.setItem('headers', JSON.stringify(headers))
+						window.location.hash = 'home'
 				)
 		else
 			console.log 'INCOMPLETE FIELDS'
 			@errorTextResponse('INCOMPLETE FIELDS')
 			@shouldShowError(true)
-
-login = new LoginVM
-ko.applyBindings(login)

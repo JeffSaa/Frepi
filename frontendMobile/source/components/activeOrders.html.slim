@@ -1,0 +1,32 @@
+.active-orders
+	header
+		.navbar-fixed
+			nav
+				.nav-wrapper
+					h2.nav-title Ordenes activas
+					a.icon-button.waves-effect.circular.left href="#home"
+						i.material-icons arrow_back
+					
+	section#all-orders
+		.container				
+			.row
+				.col.s12 data-bind="foreach: orders"
+					.card
+						.card-image.waves-effect.waves-block
+							img src="images/flat-groceries.jpg"
+							span.card-title data-bind="text: 'Orden #'+($index()+1)"
+						.card-content
+							a.btn-floating.waves-effect.waves-light.edit.activator
+								i.material-icons create
+							a.btn-floating.waves-effect.waves-light.map
+								i.material-icons directions
+							span.card-title.grey-text.text-darken-4
+								|7/9
+								/ i.material-icons.right more_vert
+							span.distance.grey-text.text-darken-4 02:00 PM
+						.card-reveal
+						 	span.card-title.grey-text.text-darken-4 data-bind="text: 'Orden #'+($index()+1)"
+						 	.items-order data-bind="foreach: $data.ordersProducts"
+						 		.item
+						 			input#product.filled-in type="checkbox"
+						 			label for="product" data-bind="text: $data.product.name"

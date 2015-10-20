@@ -1,27 +1,27 @@
-class HomeVM
+class window.HomeVM
 	constructor: ->
 		@activeOrders = ko.observableArray()
 		@nearbyOrders = ko.observableArray()
-
-		@user = JSON.parse(Config.getItem('userObject'))
-
 		@initGeolocation()
 		@fetchActiveOrders()
+		
+	confirmOrder: ->
+		console.log 'entra'
+		$('#confirmation').openModal()
 
 	fetchActiveOrders: ->
-		RESTfulService.makeRequest('GET', "/shoppers/#{@user.id}/orders", "", (error, success, headers)=>
+		RESTfulService.makeRequest('GET', "/shoppers/#{currentSession.user.id}/orders", "", (error, success, headers)=>
 				console.log 'Fetching shopper active orders...'
 				if error
 					console.log 'Orders couldnt be fetched'
 				else
 					console.log success
 					if headers.accessToken
-						Config.setItem('accessToken', headers.accessToken)
-						Config.setItem('client', headers.client)
-						Config.setItem('uid', headers.uid)
+						Config.setItem('headers', JSON.stringify(headers))
+					currentSession.activeOrders = success
 					@activeOrders(success)
 					console.log @activeOrders()
-					console.log 'FETCHING DONE'
+					console.log 'ACTIVE ORDERS FETCHING DONE'
 			)
 
 	fetchNearbyOrders: (currentLocation) ->
@@ -33,8 +33,11 @@ class HomeVM
 					console.log error
 				else
 					console.log success
-					@nearbyOrders(success.orders)
-					console.log 'FETCHING DONE'
+					if headers.accessToken
+						Config.setItem('headers', JSON.stringify(headers))
+					currentSession.nearbyOrders = success
+					@nearbyOrders(success)
+					console.log 'NEARBY ORDERS FETCHING DONE'
 			)
 
 	getCurrentLocation: (position) =>
@@ -42,6 +45,7 @@ class HomeVM
 		currentLocation = {}
 		currentLocation.latitude = position.coords.latitude
 		currentLocation.longitude = position.coords.longitude
+		currentSession.location = currentLocation
 		@fetchNearbyOrders(currentLocation)
 
 	initGeolocation: =>
@@ -50,7 +54,3 @@ class HomeVM
 			navigator.geolocation.getCurrentPosition(@getCurrentLocation)
 		else
 			alert("Browser doesn't support geolocation")
-
-
-home = new HomeVM
-ko.applyBindings(home)

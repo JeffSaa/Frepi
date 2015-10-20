@@ -1,0 +1,29 @@
+.login
+	.container
+		header
+			img src="images/logoassd.png"
+
+		section#login-form
+			.row		
+				form.col.s12 data-bind="submit: login"
+					.row
+						.input-field.col.s12
+							input.validate data-bind="textInput: email" name="email" type="text"
+							label for="email" Correo
+					.row
+						.input-field.col.s12
+							input data-bind="textInput: password" name="password" type="password"
+							label for="password" Contraseña
+					.row
+						.col.s12
+							button.waves-effect.waves-light.btn type="submit" Ingresar
+			.row.loader
+				.preloader-wrapper.small data-bind="visible: !shouldShowError()"
+					.spinner-layer
+						.circle-clipper.left
+							.circle
+						.gap-patch
+							.circle
+						.circle-clipper.right
+							.circle
+				.error.message data-bind="text: errorTextResponse, visible: shouldShowError"

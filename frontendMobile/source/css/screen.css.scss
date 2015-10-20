@@ -16,8 +16,52 @@ $dark-blue: rgb(16, 89, 129);
 
 /* Generic rules */
 
+html, body, .components {
+	height: 100%;
+}
+
 body {
 	background-color: $frepi-cream;
+}
+
+nav {
+	background-color: $frepi-green;
+
+	.circular {
+		border-radius: 50%;
+		text-align: center;
+		width: 56px;
+	}
+
+	.icon-button {
+		position: relative;
+		z-index: 1;
+		height: 56px;
+
+		i {
+			font-size: 2rem;
+			height: 56px;
+			line-height: 56px;
+		}
+	}
+
+	.nav-title {
+		font-size: 20px;
+		left: 55px;
+		line-height: 2.9;
+		margin: 0;
+		position: absolute;
+	}
+
+	.brand-logo {
+		height: 4rem;
+		position: absolute;
+		top: 5px;
+
+		img {
+			height: 3.285714rem;
+		}
+	}
 }
 
 .clearfix {
@@ -31,7 +75,8 @@ body {
 .login {
 	background-color: $frepi-green;
 	/*padding-top: 6rem;*/
-	padding-top: 20%;
+	min-height: 100%;
+	padding-top: 16%;
 
 	header {
 		margin-bottom: 2.5rem;
@@ -44,13 +89,21 @@ body {
 	}
 
 	form {
+		label {
+			color: $cream;
+		}
+
 		input[type=text],
 		input[type=password] {
 			border-bottom-color: $cream;
 			color: $cream;
 
 			&:focus {
-				border-bottom-color: $pleather;			
+				border-bottom-color: $pleather;
+
+				&+label {
+					color: $pleather;
+				}
 			}
 		}
 
@@ -59,16 +112,12 @@ body {
 		}
 
 		.row {
-			&:first-of-type {
+			&:first-of-type input {
 				margin-bottom: 0;
-
-				input {
-					margin-bottom: 0;
-				}
 			}
 
 			&:last-of-type {
-				margin-bottom: 2.142857;
+				margin-bottom: 2.142857rem;
 			}
 		}
 	}	
@@ -89,31 +138,6 @@ body {
 }
 
 .home {
-	nav {
-		background-color: $frepi-green;
-
-		.container {
-			margin: 0;
-			width: 100%;
-		}
-
-		.button-collapse {
-			border-radius: 50%;
-			text-align: center;
-			width: 56px;
-		}
-
-		.brand-logo {
-			height: 4rem;
-			position: absolute;
-			top: 5px;
-
-			img {
-				height: 3.285714rem;
-			}
-		}
-	}
-
 	#active-orders {
 		margin: 20px 0 30px;
 
@@ -137,6 +161,89 @@ body {
 			color: $cream;
 			margin-bottom: 20px;
 			padding: 18px;
+		}
+
+		.card {
+			.card-image .card-title {
+				background-color: rgba(0, 0, 0, 0.55);
+				width: 100%;
+			}
+			.card-content {
+				.card-title {
+					font-size: 18px;
+					line-height: 30px;
+
+					i {
+						margin-left: 0;
+					}
+				}
+			}
+
+			.distance {
+				display: block;
+				padding-top: 8px;
+			}
+
+			.card-action {
+				a:last-of-type {
+					background-color: $orange;
+					padding: 5px 10px;
+					color: white;
+					border-radius: 4px;
+				}
+			}
+
+			.card-reveal {
+				.line {
+					width: 100%;
+
+					* {
+						display: inline-block;
+						float: left;
+						padding: 10px 10px 4px;
+					}
+
+					.title {
+						font-weight: bold;
+						width: 45%;
+					}
+
+					.value {
+						text-transform: capitalize;
+						width: 55%;
+					}
+				}
+			}
+		}
+
+		.more-nearby-ords {
+			width: 100%;
+		}
+	}
+
+	.modal {
+		max-height: 90%;
+		top: 7%!important;
+		width: 95%;
+		.collection {
+			margin-bottom: 0;
+			.collection-item.avatar .circle {
+				overflow: visible;
+			}
+		}
+		.modal-footer a:first-of-type {
+			background-color: $orange;
+			border-radius: 6px;
+			color: white;
+			margin-right: 24px;
+		}
+	}
+}
+
+.nearby-orders {
+	#all-orders {
+		h2 {
+			display: none;
 		}
 
 		.card {
@@ -187,9 +294,79 @@ body {
 				}
 			}
 		}
+	}
+}
 
-		button.more-nearby-ords {
-			width: 100%;
+.active-orders {
+	#all-orders {
+		.card {
+			.card-content {
+				position: relative;
+
+				.btn-floating {
+					position: absolute;
+					top: -19px;
+				}
+
+				.edit {
+					@extend .btn-floating;
+					right: 20px;
+				}
+
+				.map {
+					@extend .btn-floating;
+					right: 64px;
+				}
+
+				.card-title {
+					font-size: 18px;
+					line-height: 30px;
+
+					i {
+						margin-left: 0;
+					}
+				}
+			}
+
+			.distance {
+				display: block;
+				padding-top: 8px;
+			}
+
+			.card-action {
+				a:last-of-type {
+					background-color: $orange;
+					padding: 5px 10px;
+					color: white;
+					border-radius: 4px;
+				}
+			}
+
+			.card-reveal {
+				.items-order {
+					padding: 14px 0;
+				}
+
+				.line {
+					width: 100%;
+
+					* {
+						display: inline-block;
+						float: left;
+						padding: 10px 10px 4px;
+					}
+
+					.title {
+						font-weight: bold;
+						width: 45%;
+					}
+
+					.value {
+						text-transform: capitalize;
+						width: 55%;
+					}
+				}
+			}
 		}
 	}
 }

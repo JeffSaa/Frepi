@@ -1,0 +1,51 @@
+.nearby-orders
+	header
+		.navbar-fixed
+			nav
+				.nav-wrapper
+					h2.nav-title Ordenes cercanas
+					a.icon-button.waves-effect.circular.left href="#home"
+						i.material-icons arrow_back
+					
+	section#all-orders
+		h2 Todas las ordenes
+		.container				
+			.row
+				.col.s12 data-bind="foreach: orders"
+					<!-- ko if: ($index() < 10) -->
+					.card
+						.card-image.waves-effect.waves-block
+							img.activator src="images/flat-vegetables.png"
+							span.title data-bind="text: $data.sucursal.name"
+						.card-content
+							span.activator.card-title.grey-text.text-darken-4
+								|<!--ko text: $data.user.address--><!--/ko-->
+								i.material-icons.right more_vert
+							span.distance.grey-text.text-darken-4
+								|A 
+								|<!--ko text: $data.user.distance.toFixed(2)--><!--/ko-->
+								|&nbsp;km de tu ubicación
+						.card-reveal
+						 	span.card-title.grey-text.text-darken-4
+								|<!--ko text: $data.user.address--><!--/ko-->
+								i.material-icons.right close
+							.clearfix.line
+								span.title Tienda
+								span.value data-bind="text: $data.sucursal.name"
+							.clearfix.line
+								span.title Dirección Tienda
+								span.value data-bind="text: $data.sucursal.address"
+							.clearfix.line
+								span.title Número de productos
+								span.value data-bind="text: $data.ordersProducts.length"
+							.clearfix.line
+								span.title Dirección cliente
+								span.value data-bind="text: $data.user.address"
+						.card-action
+							a href="#"
+								|Ubicame
+							a href="#confirmation" Aceptar
+					<!-- /ko -->
+			/ .row data-bind="visible:"
+			/ 	.col.s12
+			/ 		button.more-nearby-ords.waves-effect.btn Ver más ordenes

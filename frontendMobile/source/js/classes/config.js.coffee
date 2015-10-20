@@ -1,5 +1,5 @@
 class window.Config
-  @TAG = 'PuppyStorage'
+  @TAG = 'FrepiStorage'
   
   @setItem : (key, value) ->
     configObject = window.localStorage.getItem(@TAG)

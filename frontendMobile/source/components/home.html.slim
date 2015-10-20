@@ -1,0 +1,83 @@
+.home
+	header
+		.navbar-fixed
+			nav
+				.nav-wrapper
+					h2.nav-title Ordenes
+					.button-collapse.icon-button.waves-effect.circular.left
+						i.material-icons menu
+					.icon-button.waves-effect.circular.right
+						i.material-icons refresh
+					
+
+	section#active-orders
+		.container
+			h6 data-bind="visible: activeOrders().length === 0" No hay ordenes activas
+			a.active-orders-action.waves-effect href="#active"
+				|Tienes 
+				|<!--ko text: activeOrders().length--><!--/ko-->
+				|&nbsp;orden activa!
+				i.material-icons.right new_releases
+	section#nearby-orders
+		h5 Ordenes cercanas
+		.container				
+			h6 data-bind="visible: nearbyOrders().length === 0" No hay ordenes cercanas
+			.row
+				.col.s12 data-bind="foreach: nearbyOrders"
+					<!-- ko if: ($index() <= 2) -->
+					.card
+						.card-image.waves-effect.waves-block
+							img.activator src="images/flat-vegetables.jpg"
+							span.card-title data-bind="text: $data.sucursal.name"
+						.card-content
+							span.activator.card-title.grey-text.text-darken-4
+								|<!--ko text: $data.user.address--><!--/ko-->
+								i.material-icons.right more_vert
+							span.distance.grey-text.text-darken-4
+								|A 
+								|<!--ko text: $data.user.distance.toFixed(2)--><!--/ko-->
+								|&nbsp;km de tu ubicación
+						.card-reveal
+						 	span.card-title.grey-text.text-darken-4
+								|<!--ko text: $data.user.address--><!--/ko-->
+								i.material-icons.right close
+							.clearfix.line
+								span.title Tienda
+								span.value data-bind="text: $data.sucursal.name"
+							.clearfix.line
+								span.title Dirección Tienda
+								span.value data-bind="text: $data.sucursal.address"
+							.clearfix.line
+								span.title Número de productos
+								span.value data-bind="text: $data.ordersProducts.length"
+							.clearfix.line
+								span.title Dirección cliente
+								span.value data-bind="text: $data.user.address"
+						.card-action
+							a href="#" Ubicame
+							a data-bind="click: $root.confirmOrder" Tomar orden
+					<!-- /ko -->
+			.row
+				.col.s12
+					a.more-nearby-ords.waves-effect.btn href="#nearby" Ver más ordenes
+
+		#confirmation.modal
+			.modal-content
+				h3 Tomar orden
+				p Hey Shopper! No olvides tener los siguientes aspectos para tomar una orden.
+				ul.collection
+					li.collection-item.avatar
+						i.material-icons.circle schedule
+						span.title Duración
+						p El tiempo máximo de entrega de una orden es 2 horas
+					li.collection-item.avatar
+						i.material-icons.circle.green done
+						span.title Calidad
+						p Escoge los mejores productos para la orden
+					li.collection-item.avatar
+						i.material-icons.circle.red favorite
+						span.title Actitud
+						p Manten una sonrisa y ganas
+			.modal-footer
+				a.modal-action.modal-close.waves-effect.btn-flat Tomar
+				a.modal-action.modal-close.waves-effect.btn-flat Cancelar
