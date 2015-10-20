@@ -1,7 +1,7 @@
 barranquilla:
-  state_id: states(:atlantico)
+  state_id: 1
   name: Barranquilla
 
 palermo:
-  state_id: states(:sicilia)
+  state_id: 2
   name: Palermo

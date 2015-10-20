@@ -1,7 +1,9 @@
 atlantico:
+  id: 1
   country_id: 1
   name: Atlantico
 
 sicilia:
+  id: 2
   country_id: 2
   name: Sicilia
