@@ -113,8 +113,6 @@ class CountriesControllerTest < ActionController::TestCase
       delete :destroy, id: countries(:italy).id
       assert_response :ok
     end
-
-
   end
 
 
@@ -132,7 +130,6 @@ class CountriesControllerTest < ActionController::TestCase
       delete :destroy, id: countries(:italy).id
       assert_response :unauthorized
     end
-
   end
 
 end

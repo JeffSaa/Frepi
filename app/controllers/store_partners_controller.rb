@@ -1,7 +1,6 @@
 class StorePartnersController < ApplicationController
 
   before_action :find_store_partner, except: [:index, :create]
-  skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
   skip_before_action :authenticate_shopper!
 
   def index
@@ -33,7 +32,7 @@ class StorePartnersController < ApplicationController
   def destroy
     if @store_partner
       @store_partner.destroy
-      render(json: @store_partner, status: :accepted)
+      render json: @store_partner
     else
       head(:not_found)
     end

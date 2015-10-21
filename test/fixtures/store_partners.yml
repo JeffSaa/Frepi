@@ -1,13 +1,12 @@
-# # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+olimpica:
+  id : 1
+  nit: 978200561-4
+  name: Olimpica
+  logo: http://robohash.org/sitsequiquia.png?size=300x300
+  description: Omnis voluptatem sequi aliquid veniam
 
-# one:
-#   nit: MyString
-#   manager_name: MyString
-#   manager_email: MyString
-#   manager_phone_number: MyString
-
-# two:
-#   nit: MyString
-#   manager_name: MyString
-#   manager_email: MyString
-#   manager_phone_number: MyString
+carulla:
+  nit: 94343561-4
+  name: Carulla
+  logo: http://robohash.org/sitsequiquia.png?size=300x300
+  description: Et accusantium error rem numquam animi soluta

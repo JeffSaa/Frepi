@@ -1,21 +1,10 @@
-# # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-# one:
-#   name: MyString
-#   manager_full_name: MyString
-#   manager_email: MyString
-#   manager_phone_number: MyString
-#   contact_phone_number: MyString
-#   address: MyString
-#   latitude: 9.99
-#   longitude: 9.99
-
-# two:
-#   name: MyString
-#   manager_full_name: MyString
-#   manager_email: MyString
-#   manager_phone_number: MyString
-#   contact_phone_number: MyString
-#   address: MyString
-#   latitude: 9.99
-#   longitude: 9.99
+olimpica:
+  store_partner_id: 1
+  name: Olimpica Centro
+  manager_full_name: Alex Char
+  manager_email: alexito@olimpica.com
+  manager_phone_number: 3013453354
+  phone_number: 3245454563
+  address: 'Cll 35 # 45'
+  latitude: 84.994333
+  longitude: 23.345565
