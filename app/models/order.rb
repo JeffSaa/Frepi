@@ -23,29 +23,35 @@ class Order < ActiveRecord::Base
 
   # Callbacks
   before_create :set_date
+  before_update :reset_total_price
 
   # Methods
   def buy(products)
     # TODO: roolback when the last product doesn't exist
     products.each do |product|
       order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity])
-      return false unless order_products.save
+      if order_products.save
+        calculate_total(order_products)
+      else
+        return false
+      end
     end
     !products.blank?
   end
 
   def update_products(products)
-    # TODO: increment counter cache when the order is active
+    # TODO: increment counter cache when the order is active, valid when the product don't exist
     products.each do |product|
       if product[:quantity] == 0
-        self.orders_products.find_by(product_id: product[:id]).destroy
+        orders_products = self.orders_products.find_by(product_id: product[:id]).destroy
       else
         order_products = self.orders_products.find_by(product_id: product[:id])
         if order_products
           order_products.assign_attributes(quantity: product[:quantity])
           order_products.save
+          calculate_total(order_products)
         else
-          self.buy(product)
+          self.buy([product])
         end
       end
     end
@@ -57,7 +63,17 @@ class Order < ActiveRecord::Base
     self.orders_products.each { |order| order.decrement_counter }
   end
 
-  def set_date
-    self.date = DateTime.current
-  end
+  private
+    def set_date
+      self.date = DateTime.current
+    end
+
+    def calculate_total(order_product, sign = :increase)
+      sign = sign == :increase ? '+' : '-'
+      self.total_price = self.total_price.send(sign, order_product.product.frepi_price * order_product.quantity)
+    end
+
+    def reset_total_price
+      self.total_price = 0
+    end
 end

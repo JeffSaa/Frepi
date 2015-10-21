@@ -4,7 +4,7 @@ class CreateOrders < ActiveRecord::Migration
       t.boolean     :active,        null: false, default: true
       t.integer     :status,        null: false, default: 0
       t.datetime    :date,          null: false
-      t.decimal     :total_price,   null: false, default: 0
+      t.decimal     :total_price,   null: false, default: 0, scale: 2, precision: 16
       t.datetime    :delivery_time
 
       # Associations

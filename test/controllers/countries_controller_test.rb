@@ -49,43 +49,58 @@ class CountriesControllerTest < ActionController::TestCase
 
   test "administrator should create a country" do
     sign_in :user, users(:admin)
-    post :create, name: 'United State Of America'
 
-    assert_response :created
+    assert_difference('Country.count') do
+      post :create, name: 'United State Of America'
+      assert_response :created
+    end
   end
 
 
   test "clients and shoppers should not create a country" do
     sign_in :user, users(:user)
-    post :create, name: 'United State Of America'
-    assert_response :unauthorized
+
+    assert_no_difference('Country.count') do
+      post :create, name: 'United State Of America'
+      assert_response :unauthorized
+    end
 
     sign_out users(:user)
-
     sign_in :shopper, shoppers(:shopper)
-    post :create, name: 'United State Of America'
-    assert_response :unauthorized
+
+    assert_no_difference('Country.count') do
+      post :create, name: 'United State Of America'
+      assert_response :unauthorized
+    end
   end
 
   # ---------------- Update ----------------------- #
 
   test "administrator should update a country" do
     sign_in :user, users(:admin)
-    post :update, { id: countries(:italy).id, name: 'United State Of America' }
+    post :update, { id: countries(:italy).id, name: 'updated' }
+    response = JSON.parse(@response.body)
 
+    assert_match('updated', response['name'])
     assert_response :ok
   end
 
 
   test "clients and shoppers should not update a country" do
     sign_in :user, users(:user)
-    put :update, { id: countries(:italy).id, name: 'United State Of America' }
+    put :update, { id: countries(:italy).id, name: 'updated' }
+    response = JSON.parse(@response.body)
+
+    assert_no_match('updated', response['name'])
     assert_response :unauthorized
 
     sign_out users(:user)
 
     sign_in :shopper, shoppers(:shopper)
-    put :update, { id: countries(:italy).id, name: 'United State Of America' }
+    put :update, { id: countries(:italy).id, name: 'updated' }
+    response = JSON.parse(@response.body)
+
+    assert_no_match('updated', response['name'])
     assert_response :unauthorized
   end
 
@@ -93,22 +108,31 @@ class CountriesControllerTest < ActionController::TestCase
 
   test "administrator should destroy a country" do
     sign_in :user, users(:admin)
-    delete :destroy, id: countries(:italy).id
 
-    assert_response :ok
+    assert_difference('Country.count', -1) do
+      delete :destroy, id: countries(:italy).id
+      assert_response :ok
+    end
+
+
   end
 
 
   test "clients and shoppers should not destroy a country" do
     sign_in :user, users(:user)
-    delete :destroy, id: countries(:italy).id
-    assert_response :unauthorized
+    assert_no_difference('Country.count') do
+      delete :destroy, id: countries(:italy).id
+      assert_response :unauthorized
+    end
 
     sign_out users(:user)
-
     sign_in :shopper, shoppers(:shopper)
-    delete :destroy, id: countries(:italy).id
-    assert_response :unauthorized
+
+    assert_no_difference('Country.count') do
+      delete :destroy, id: countries(:italy).id
+      assert_response :unauthorized
+    end
+
   end
 
 end

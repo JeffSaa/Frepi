@@ -60,7 +60,7 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.permit(:sucursal_id, :status, :delivery_time, :total_price)
+    params.permit(:sucursal_id, :status, :delivery_time)
   end
 
 end
