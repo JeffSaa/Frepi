@@ -1,14 +1,14 @@
 class Shoppers::ShoppersController < ApplicationController
 
-  skip_before_action :authenticate_shopper!, only: :create
-  skip_before_action :authenticate_user!, :require_administrator, except: :index
+  skip_before_action :authenticate_shopper!, only: [:index, :create]
+  skip_before_action :authenticate_user!, :require_administrator, except: [:index, :create]
 
   def index
     render json: Shopper.all
   end
 
   def show
-    establish_headers(shopper)
+    establish_headers(current_shopper)
     render json: current_shopper, root: 'shopper'
   end
 

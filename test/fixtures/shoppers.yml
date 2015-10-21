@@ -1,10 +1,12 @@
 shopper:
-  identification: 124953
-  first_name: MyString
-  last_name: MyString
-  phone_number: MyString
+  first_name: Aquiles
+  last_name: Bailo
+  identification: 10382454
+  email: shopper@frepi.com
   address: MyString
-  company_email: MyString
-  email: MyString
-  status: 0
-  image: MyString
+  city: cities(:palermo)
+  uid: email
+  latitude: 9.99
+  longitude: 9.99
+  phone_number: MyString
+  status: active
