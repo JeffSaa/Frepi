@@ -7,16 +7,25 @@ html
 		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
 		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
 		/! Add semantic's CSS
-		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
-		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
-		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
-	body
+		link rel="stylesheet" type="text/css" href="../semantic/out/semantic.min.css"
+		link rel="stylesheet" type="text/css" href="../stylesheets/frepi.css"
+		link rel="stylesheet" type="text/css" href="../stylesheets/responsive-frepi.css"
+
+		script src="../javascripts/plugins/crypto-js.min.js"
+		script src="../javascripts/jquery/jquery-2.1.4.min.js"
+		script src="../semantic/out/semantic.min.js"
+		script src="../javascripts/knockout.js"
+		script src="../javascripts/classes/encrypter.js"
+		script src="../javascripts/classes/config.js"
+		script src="../javascripts/classes/RESTfulService.js"
+		script src="../javascripts/viewmodels/transactionalPage.js"
+	body.store-layout
 		#departments-menu.ui.vertical.left.sidebar.menu
 			.item
 				h3.ui.header
 					i.sidebar.icon
 					.content Departamentos
-			.items data-bind="foreach: categories"
+			.items data-bind="foreach: session.categories"
 				a.item 
 					.header data-bind="text: $data.name"
 
@@ -25,8 +34,8 @@ html
 				h3.ui.header
 					i.shop.icon
 					.content Carro de compras
-				.ui.label data-bind="text: '$ '+priceInCart()"
-			.ui.items data-bind="foreach: itemsInCart"
+				.ui.label data-bind="text: '$ '+session.currentOrder.price()"
+			.ui.items data-bind="foreach: session.currentOrder.products"
 				.item
 					.ui.tiny.image 
 						img data-bind="attr: {src: $data.image}"
@@ -34,48 +43,57 @@ html
 						.header data-bind="text: $data.name"
 						.meta
 							span.price data-bind="text: '$'+$data.frepi_price"
+							span x
 							span.quantity data-bind="text: $data.quantity"
 					i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
-					i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data)}"
+					i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data, 1)}"
 					i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
 			.item
 				button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
+		.pusher					
+			header
+				#store-primary-navbar.ui.fixed.inverted.menu
+					a#store-frepi-logo href="#"
+						i.sidebar.icon
+						img.ui.image src="../images/landing/logoassd.png" alt="Frepi's logo"
+					a#target-store href="#"
+						.item
+							.content
+								.ui.sub.header Olímpica Tanganazo
+								|Calle 72 # 60 - 12
+					#product-searcher.item
+						.ui.icon.input
+							input type="text" placeholder="Buscar en Olímpica..."
+							i.circular.search.link.icon
+					#user-account.ui.simple.dropdown.item
+							.text data-bind="text: 'Hola, '+user.firstName()"
+							i.chevron.down.icon
+							.menu
+								.item data-bind="click: profile"
+									i.user.icon
+									|Ver perfil
+								.item data-bind="click: orders"
+									i.book.icon
+									|Mis pedidos
+								.divider
+								.item data-bind="click: logout"
+									i.sign.out.icon
+									|Salir			
+					#shopping-cart
+						i.circular.inverted.orange.shop.icon
 
-		.ui.modal
-			i.close.icon					
-			.image.content
-				.ui.large.image
-					img data-bind="attr: {src: selectedProductImage}"
-				.description
-					h1.ui.header data-bind="text: selectedProductName"
-					.meta data-bind="text: selectedProductCategory"
-					h2.header data-bind="text: selectedProductPrice"
-					select#modal-dropdown.ui.fluid.dropdown
-						option value="1" Cantidad
-						option value="1" 1
-						option value="2" 2
-						option value="3" 3
-						option value="4" 4
-						option value="5" 5
-						option value="6" 6
-						option value="7" 7
-						option value="8" 8
-						option value="9" 9
-						option value="10" 10+
-					button.ui.fluid.large.green.button data-bind="click: function(){$root.addToCart($root.selectedProduct)}" Agregar a carrito
-			.actions
-				p Here it goes the warning about the products information.	
+				#store-secondary-navbar.ui.fixed.borderless.menu
+					.item
+						button.ui.basic.grey.button
+							i.sidebar.icon
+							|Departamentos
+					a.link.item href="../store/index.html"
+						i.home.large.grey.icon
 
-		.pusher
-			
-
-
-					
-		script src="javascripts/plugins/crypto-js.min.js" type="text/javascript"				
-		script src="javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"
-		script src="semantic/out/semantic.min.js" type="text/javascript"
-		script src="javascripts/knockout.js" type="text/javascript"
-		script src="javascripts/classes/encrypter.js" type="text/javascript"
-		script src="javascripts/classes/config.js" type="text/javascript"
-		script src="javascripts/classes/RESTfulService.js" type="text/javascript"
-		script src="javascripts/viewmodels/store.js" type="text/javascript"
+					.right.menu
+						.item
+							button.ui.labeled.icon.button
+								i.shop.icon
+								|<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
+				.main-content
+					== yield

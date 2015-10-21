@@ -6,7 +6,7 @@ class window.RESTfulService
         method: method,
         dataType: 'json',
         contentType: 'application/json; charset=UTF-8',
-        data: if method is 'POST' or method is 'PUT' then (JSON.stringify(data)) else "",
+        data: if method is 'GET' then $.param(data) else JSON.stringify(data),
         url: @URL + url,
         success: ((data, status, xhr) ->
                   headers = 
@@ -17,9 +17,11 @@ class window.RESTfulService
         error: ((data) ->
                   callback(data, null, null)),
         beforeSend: (xhr) ->
-         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
-         xhr.setRequestHeader('access-token', Config.getItem('accessToken'))
-         xhr.setRequestHeader('client', Config.getItem('client'))
-         xhr.setRequestHeader('uid', Config.getItem('uid'))
-         xhr.withCredentials = true
+          if !!Config.getItem('headers')
+            headers = JSON.parse(Config.getItem('headers'))
+            xhr.setRequestHeader('access-token', headers.accessToken)
+            xhr.setRequestHeader('client', headers.client)
+            xhr.setRequestHeader('uid', headers.uid)
+          xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
+          xhr.withCredentials = true
       })

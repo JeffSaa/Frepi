@@ -1,75 +1,21 @@
-class ProfileVM
+class ProfileVM extends TransactionalPageVM
 	constructor: ->   
 		# Observables
-		@session =
-			categories: ko.observableArray()
-			currentOrder:
-				numberProducts: ko.observable()
-				products: ko.observableArray()
-				price: ko.observable()
-				sucursalId: null
-		@email = ko.observable('asd')
+		super()
 		@errorLabelText = ko.observable()
-		@lastName = ko.observable()
-		@name = ko.observable()
-		@orders = ko.observableArray([])
-		@phone = ko.observable()
-		@profilePicture = ko.observable()
+		@currentOrders = ko.observableArray([])
 		@showEmptyMessage = ko.observable()
-		@userName = ko.observable()
-
-		# General variables
-		@user = null
 
 		# Methods to execute on instance
 		@setUserInfo()
 		@setExistingSession()
-		@fetchOrders()		
+		@fetchOrders()
 		@setDOMElements()
 		@shouldShowOrders()
 		@setSizeButtons()
 		@checkOrders = ko.computed( =>
-				@showEmptyMessage(@orders().length is 0)
+				@showEmptyMessage(@currentOrders().length is 0)
 			)
-
-	addToCart: (productToAdd) =>
-		oldProduct = productToAdd
-		newProduct =
-			available: oldProduct.available
-			frepi_price: oldProduct.frepi_price
-			id: oldProduct.id
-			image: oldProduct.image
-			name: oldProduct.name
-			quantity: oldProduct.quantity + 1
-			referenceCode: oldProduct.referenceCode
-			salesCount: oldProduct.salesCount
-			storePrice: oldProduct.storePrice
-			subcategoryName: oldProduct.subcategoryName
-			subcategoryId: oldProduct.subcategoryId
-			totalPrice: oldProduct.totalPrice + (Math.round(parseFloat(productToAdd.frepi_price) * 100) / 100)
-
-		@session.currentOrder.products.replace(oldProduct, newProduct)
-		
-		@session.currentOrder.price(Math.round((@session.currentOrder.price() + parseFloat(productToAdd.frepi_price))*100) / 100)
-		console.log @session.currentOrder.price()
-		console.log @session.currentOrder.products()
-
-		if @session.currentOrder.products().length isnt 1
-			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
-		else
-			@session.currentOrder.numberProducts("1 item")
-
-	checkout: ->
-		if @session.currentOrder.products().length > 0
-			orderToPay =
-				price: @session.currentOrder.price()
-				products: @session.currentOrder.products()
-				sucursalId: @session.currentOrder.sucursalId
-			console.log orderToPay
-			Config.setItem('orderToPay', JSON.stringify(orderToPay))
-			window.location.href = '../../checkout.html'
-		else
-			console.log 'There is nothing in the cart...'
 
 	closeEditEmail: ->
 		$('#edit-email').modal('hide')
@@ -86,54 +32,26 @@ class ProfileVM
 				console.log 'An error has ocurred while fetching the orders!'
 			else
 				console.log success
-				Config.setItem('accessToken', headers.accessToken)
-				Config.setItem('client', headers.client)
-				Config.setItem('uid', headers.uid)
-				parsedOrders = parseOrderDate(success)
+				if headers.accessToken
+						Config.setItem('headers', JSON.stringify(headers))
+				parsedOrders = @parseOrderDate(success)
 				
-				@orders(parsedOrders)
+				@currentOrders(parsedOrders)
 		)
+
+	profile: ->
+		Config.setItem('showOrders', 'false')
+		$('.secondary.menu .item').tab('change tab', 'account')
+
+	orders: ->
+		Config.setItem('showOrders', 'true')
+		$('.secondary.menu .item').tab('change tab', 'history')
 
 	parseOrderDate: (orders) ->
 		for order in orders
 			order.date = new Date(order.date).toLocaleDateString()
 
 		return orders
-
-	removeFromCart: (product) ->
-		if product.quantity is 1
-			@removeItem(product)
-		else
-			oldProduct = product
-			newProduct =
-				available: oldProduct.available
-				frepi_price: oldProduct.frepi_price
-				id: oldProduct.id
-				image: oldProduct.image
-				name: oldProduct.name
-				quantity: oldProduct.quantity - 1
-				referenceCode: oldProduct.referenceCode
-				salesCount: oldProduct.salesCount
-				storePrice: oldProduct.storePrice
-				subcategoryName: oldProduct.subcategoryName
-				subcategoryId: oldProduct.subcategoryId
-				totalPrice: oldProduct.totalPrice - (Math.round(parseFloat(product.frepi_price) * 100) / 100)
-
-			@session.currentOrder.products.replace(oldProduct, newProduct)
-			
-			@session.currentOrder.price(Math.round((@session.currentOrder.price() - product.frepi_price)*100) / 100)
-			console.log @session.currentOrder.price()
-			console.log @session.currentOrder.products()
-
-	removeItem: (item) ->
-		@session.currentOrder.price(Math.round((@session.currentOrder.price() - item.totalPrice) * 100)/100)
-		console.log @session.currentOrder.price()
-		@session.currentOrder.products.remove(item)
-
-		if @session.currentOrder.products().length isnt 1
-			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
-		else
-			@session.currentOrder.numberProducts("1 item")
 
 	setExistingSession: ->
 		session = Config.getItem('currentSession')
@@ -152,23 +70,9 @@ class ProfileVM
 			@session.currentOrder.price(0.0)
 			@session.currentOrder.sucursalId = 1
 
-	setUserInfo: ->
-		@user = JSON.parse(Config.getItem('userObject'))
-		console.log @user
-		@email(@user.email)
-		@lastName(@user.lastName or @user.last_name)
-		@name(@user.name)
-		@phone(@user.phoneNumber or @user.phone_number)
-		@profilePicture(@user.image)
-		@userName(@user.name.split(' ')[0])
-
 	shouldShowOrders: ->
 		if Config.getItem('showOrders') is 'true'
 			$('.secondary.menu .item').tab('change tab', 'history')
-
-	logout: ->
-		Config.destroyLocalStorage()
-		window.location.href = '../../login.html'
 		
 	setDOMElements: ->
 		$('#edit-email form').form({
@@ -260,14 +164,6 @@ class ProfileVM
 								prompt: 'No puede estar vacío'
 							}							
 						]
-					phone:
-						identifier: 'phone'
-						rules: [
-							{
-								type: 'regExp[/^[0-9 ().+-]{7,16}$/]'
-								prompt: 'El teléfono debe ser numérico'
-							}							
-						]
 					password:
 						identifier: 'password'
 						rules: [
@@ -294,7 +190,11 @@ class ProfileVM
 					console.log 'Im closing user'
 			).modal('attach events', '#edit-user-info .cancel.button', 'hide')
 
-		$('.secondary.menu .item').tab()
+		$('.secondary.menu .item').tab(
+				{
+					cache: false
+				}
+			)
 		$('#departments-menu').sidebar({        
 				transition: 'overlay'
 			})
@@ -317,6 +217,12 @@ class ProfileVM
 
 	showEditUser: ->
 		$('#edit-user-info').modal('show')
+		$('#edit-user-info form')
+			.form('set values',
+					firstName 	: @user.name()
+					lastName 		: @user.lastName()
+					phone 			: @user.phone()
+				)
 
 	showShoppingCart: ->
 		$('#shopping-cart').sidebar('show')
@@ -336,45 +242,47 @@ class ProfileVM
 		switch attributeToUpdate
 			when 'email'
 				if $('#edit-email form').form('is valid')
-					newEmail = $('#edit-email form').form('get value', 'new-email')
-
 					data = 
-						email: newEmail
+						email: $('#edit-email form').form('get value', 'new-email')
 
+					$('#edit-email .submit').addClass('loading')
 					RESTfulService.makeRequest('PUT', "/users/#{@user.id}", data, (error, success, headers) =>
+						$('#edit-email .submit').removeClass('loading')
 						if error
 							console.log 'An error has ocurred while updating the user!'
 						else
 							console.log 'User has been updated'
 							console.log success
+							if headers.accessToken
+								Config.setItem('headers', JSON.stringify(headers))
 							Config.setItem('userObject', JSON.stringify(success))
-							Config.setItem('accessToken', headers.accessToken)
-							Config.setItem('client', headers.client)
-							Config.setItem('user', newEmail)
-							Config.setItem('uid', headers.uid)
+							credentials = JSON.parse(Config.getItem('credentials'))
+							credentials.user = newEmail
+							Config.setItem('credentials', credentials)
 							@setUserInfo()
 							$('#edit-email').modal('hide')
 					)				
 
 			when 'password'
 				if $('#edit-password form').form('is valid')
-					newPassword = $('#edit-password form').form('get value', 'new-password')
-
 					data = 
-						password: newPassword
+						password: $('#edit-password form').form('get value', 'new-password')
 
+					$('#edit-password .submit').addClass('loading')
 					RESTfulService.makeRequest('PUT', "/users/#{@user.id}", data, (error, success, headers) =>
+						$('#edit-password .submit').removeClass('loading')
 						if error
 							console.log 'An error has ocurred while updating the user!'
 						else
 							console.log 'User has been updated'
 							console.log success
+							Config.setItem('headers', JSON.stringify(headers))
 							Config.setItem('userObject', JSON.stringify(success))
-							Config.setItem('accessToken', headers.accessToken)
-							Config.setItem('client', headers.client)
-							Config.setItem('pass', newPassword)
-							Config.setItem('uid', headers.uid)
+							credentials = JSON.parse(Config.getItem('credentials'))
+							credentials.pass = newPassword
+							Config.setItem('credentials', credentials)
 							@setUserInfo()
+
 							$('#edit-password').modal('hide')
 					)
 
@@ -390,18 +298,18 @@ class ProfileVM
 						last_name: newLastName
 						phone_number: newPhone
 
+					$('#edit-user-info .submit').addClass('loading')
 					RESTfulService.makeRequest('PUT', "/users/#{@user.id}", data, (error, success, headers) =>
+						$('#edit-user-info .submit').removeClass('loading')
 						if error
 							console.log 'An error has ocurred while updating the user!'
 						else
 							console.log 'User has been updated'
 							console.log success
 							Config.setItem('userObject', JSON.stringify(success))
-							Config.setItem('accessToken', headers.accessToken)
-							Config.setItem('client', headers.client)
-							Config.setItem('uid', headers.uid)
+							Config.setItem('headers', JSON.stringify(headers))
 							@setUserInfo()
-							$('#edit-password').modal('hide')
+							$('#edit-user-info').modal('hide')
 					)				
 
 	setSizeButtons: ->

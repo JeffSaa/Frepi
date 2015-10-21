@@ -25,15 +25,12 @@ class LoginVM
 					@errorTextResponse(error.responseJSON.errors.toString())
 				else
 					console.log success
-					Config.setItem('accessToken', headers.accessToken)
-					Config.setItem('client', headers.client)
-					Config.setItem('pass', data.password)
-					Config.setItem('user', data.email)
-					Config.setItem('uid', headers.uid)
+					Config.setItem('headers', JSON.stringify(headers))
+					Config.setItem('credentials', JSON.stringify(data))
 					Config.setItem('userObject', JSON.stringify(success.data))
 
 					if success.data.user_type is 'user'
-						window.location.href = '../../store.html'
+						window.location.href = '../../store/index.html'
 					else
 						window.location.href = '../../admin.html'
 			)
@@ -66,12 +63,10 @@ class LoginVM
 													console.log 'The user couldnt be created'
 												else
 													console.log success
-													Config.setItem('accessToken', headers.accessToken)
-													Config.setItem('client', headers.client)													
-													Config.setItem('uid', headers.uid)
+													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
 													if success.user.userType is 'user'
-														window.location.href = '../../store.html'
+														window.location.href = '../../store/index.html'
 													else
 														window.location.href = '../../admin.html'
 										)
@@ -84,7 +79,7 @@ class LoginVM
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
 								if success.user.userType is 'user'
-									window.location.href = '../../store.html'
+									window.location.href = '../../store/index.html'
 								else
 									window.location.href = '../../admin.html'
 					)

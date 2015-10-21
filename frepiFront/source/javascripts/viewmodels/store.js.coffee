@@ -1,13 +1,6 @@
-class StoreVM
+class StoreVM extends TransactionalPageVM
 	constructor: ->
-		@session =
-			categories: ko.observableArray()
-			currentOrder:
-				numberProducts: ko.observable()
-				products: ko.observableArray()
-				price: ko.observable()
-				sucursalId: null
-
+		super()
 		@shouldShowError = ko.observable(false)
 		@userName = ko.observable()
 
@@ -23,88 +16,7 @@ class StoreVM
 		@setUserInfo()
 		@fetchCategories()
 		@setDOMElements()
-		@setSizeButtons()
-
-	addToCart: (productToAdd) =>
-		quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0])
-		product = @getProductByName(productToAdd.name)
-
-		if !product
-			productToAdd.quantity = quantitySelected
-			productToAdd.totalPrice = Math.round(parseFloat(productToAdd.frepi_price)*100)/100
-			@session.currentOrder.products.push(productToAdd)
-		else
-			oldProduct = product
-			newProduct =
-				available: oldProduct.available
-				frepi_price: oldProduct.frepi_price
-				id: oldProduct.id
-				image: oldProduct.image
-				name: oldProduct.name
-				quantity: oldProduct.quantity + quantitySelected
-				referenceCode: oldProduct.referenceCode
-				salesCount: oldProduct.salesCount
-				storePrice: oldProduct.storePrice
-				subcategoryName: oldProduct.subcategoryName
-				subcategoryId: oldProduct.subcategoryId
-				totalPrice: oldProduct.totalPrice + (Math.round(parseFloat(product.frepi_price) * 100) / 100)*quantitySelected
-
-			@session.currentOrder.products.replace(oldProduct, newProduct)
-		
-		@session.currentOrder.price(Math.round((@session.currentOrder.price() + productToAdd.frepi_price*quantitySelected)*100) / 100)
-		console.log @session.currentOrder.price()
-		$('#modal-dropdown').dropdown('set text', 'Cantidad')
-		$('#modal-dropdown').dropdown('set value', '1')
-		$('.ui.modal').modal('hide')
-		console.log @session.currentOrder.products()
-
-		if @session.currentOrder.products().length isnt 1
-			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
-		else
-			@session.currentOrder.numberProducts("1 item")
-
-	checkout: ->
-		if @session.currentOrder.products().length > 0
-			orderToPay =
-				price: @session.currentOrder.price()
-				products: @session.currentOrder.products()
-				sucursalId: @session.currentOrder.sucursalId
-			console.log orderToPay
-			Config.setItem('orderToPay', JSON.stringify(orderToPay))
-			window.location.href = '../../checkout.html'
-		else
-			console.log 'There is nothing in the cart...'
-
-	# Returns null or a product if is currently in the cart
-	getProductByName: (name) ->
-		for product in @session.currentOrder.products()
-			return product if product.name is name      
-		
-		return null
-
-	goToProfile: ->
-		session =
-			categories: @session.categories()
-			currentOrder:
-				numberProducts: @session.currentOrder.numberProducts()
-				products: @session.currentOrder.products()
-				price: @session.currentOrder.price()
-				sucursalId: @session.currentOrder.sucursalId
-		Config.setItem('showOrders', 'false')
-		Config.setItem('currentSession', JSON.stringify(session))
-		window.location.href = '../../profile.html'
-
-	goToOrders: ->
-		session =
-			categories: @session.categories()
-			currentOrder:
-				numberProducts: @session.currentOrder.numberProducts()
-				products: @session.currentOrder.products()
-				price: @session.currentOrder.price()
-				sucursalId: @session.currentOrder.sucursalId
-		Config.setItem('showOrders', 'true')
-		Config.setItem('currentSession', JSON.stringify(session))
-		window.location.href = '../../profile.html'
+		@setSizeSidebar()
 
 	fetchCategories: ->
 		storeID = 2
@@ -119,44 +31,15 @@ class StoreVM
 				@setProductsToShow(success)
 		)
 
-	logout: ->
-		Config.destroyLocalStorage()
-		window.location.href = '../../login.html'
+	profile: ->
+		@saveOrder()
+		Config.setItem('showOrders', 'false')
+		window.location.href = '../../store/profile.html'
 
-	removeFromCart: (product) ->
-		if product.quantity is 1
-			@removeItem(product)
-		else
-			oldProduct = product
-			newProduct =
-				available: oldProduct.available
-				frepi_price: oldProduct.frepi_price
-				id: oldProduct.id
-				image: oldProduct.image
-				name: oldProduct.name
-				quantity: oldProduct.quantity - 1
-				referenceCode: oldProduct.referenceCode
-				salesCount: oldProduct.salesCount
-				storePrice: oldProduct.storePrice
-				subcategoryName: oldProduct.subcategoryName
-				subcategoryId: oldProduct.subcategoryId
-				totalPrice: oldProduct.totalPrice - (Math.round(parseFloat(product.frepi_price) * 100) / 100)
-
-			@session.currentOrder.products.replace(oldProduct, newProduct)
-			
-			@session.currentOrder.price(Math.round((@session.currentOrder.price() - product.frepi_price)*100) / 100)
-			console.log @session.currentOrder.price()
-			console.log @session.currentOrder.products()
-
-	removeItem: (item) ->
-		@session.currentOrder.price(Math.round((@session.currentOrder.price() - item.totalPrice) * 100)/100)
-		console.log @session.currentOrder.price()
-		@session.currentOrder.products.remove(item)
-
-		if @session.currentOrder.products().length isnt 1
-			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
-		else
-			@session.currentOrder.numberProducts("1 item")
+	orders: ->
+		@saveOrder()
+		Config.setItem('showOrders', 'true')
+		window.location.href = '../../store/profile.html'
 
 	setExistingOrder: ->
 		order = Config.getItem('currentOrder')
@@ -191,18 +74,10 @@ class StoreVM
 			@session.currentOrder.price(0.0)
 			@session.currentOrder.sucursalId = 1
 
-	setUserInfo: ->
-		user = Config.getItem('userObject')
-		if user
-			user = JSON.parse(Config.getItem('userObject'))
-			@userName(user.name.split(' ')[0])
-		else
-			@userName('amigo')
-
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
-			})
+			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo', 'show')
@@ -210,11 +85,9 @@ class StoreVM
 		$('#shopping-cart').sidebar({
 				dimPage: false
 				transition: 'overlay'
-			})
+			}).sidebar('attach events', '#store-secondary-navbar .right button', 'show')
+				.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
-
-	showDepartments: ->    
-		$('#departments-menu').sidebar('toggle')
 
 	showProduct: (product) ->
 		@selectedProduct = product
@@ -223,9 +96,6 @@ class StoreVM
 		@selectedProductName(product.name)
 		@selectedProductPrice("$#{product.frepi_price}")
 		$('.ui.modal').modal('show')
-
-	showShoppingCart: ->
-		$('#shopping-cart').sidebar('show')
 
 	showStoreInfo: ->
 		$('#store-banner').dimmer('show')
@@ -254,7 +124,7 @@ class StoreVM
 
 		@session.categories(categories)
 
-	setSizeButtons: ->
+	setSizeSidebar: ->
 		if $(window).width() < 480
 			$('#shopping-cart').removeClass('wide')
 		else
@@ -266,7 +136,6 @@ class StoreVM
 			else
 				$('#shopping-cart').addClass('wide')
 		)
-			
 
 store = new StoreVM
 ko.applyBindings(store)

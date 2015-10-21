@@ -15,11 +15,11 @@ html
 			h2 Frepi Menu
 			.item
 				img src="images/landing/logoassd.png" alt="Frepi's logo"
-			a.item href="store.html"
+			a.item href="store/index.html"
 				h4.ui.header
 					i.home.icon
 					|Tienda
-			a.item href="profile.html"
+			a.item href="store/profile.html"
 				h4.ui.header
 					i.user.icon
 					|Cuenta
@@ -72,13 +72,12 @@ html
 					#shopping-cart
 						i.circular.inverted.orange.shop.icon
 	
-
 			#store-secondary-navbar.ui.fixed.borderless.checkout.menu
 				.item
 					button.ui.basic.grey.button data-bind="click: showDepartments"
 						i.sidebar.icon
 						|Departamentos
-				a.link.item href="store.html"
+				a.link.item href="store/index.html"
 					i.home.large.grey.icon
 
 				.right.menu
@@ -122,13 +121,17 @@ html
 									td data-bind="text: $data.quantity"
 									td data-bind="text: $data.frepi_price"
 									td data-bind="text: $data.totalPrice"
-						.ui.buttons
+						.ui.buttons.left.floated
 							.ui.green.button data-bind="click: generate" Generar
 							.or data-text="O"						
 							.ui.button data-bind="click: cancel" Cancelar
 						.ui.labeled.icon.teal.button
 							i.dollar.icon
 							|<!--ko text: order.price--><!--/ko-->
+						/ .total.right.floated
+						/ 	span
+						/ 		strong Valor Total: 
+						/ 	span data-bind="text: ' $'+order.price()"
 						
 		script src="javascripts/knockout.js"
 		script src="javascripts/plugins/crypto-js.min.js"

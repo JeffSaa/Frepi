@@ -1,0 +1,126 @@
+.profile
+	#edit-email.ui.small.modal
+		.header Editar información de cuenta
+		.content
+			form.ui.form data-bind="submit: function(){updateUser('email')}"
+				.field
+					label Correo nuevo 
+					input type="text" name="new-email" placeholder="Nuevo correo"
+				.field
+					label Confirmación correo nuevo
+					input type="text" name="confirmation-new-email" placeholder="Confirmación"
+				.field
+					label Contraseña
+					input type="password" name="password" placeholder="Contraseña actual"
+				.buttons-to-right
+					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+					button.ui.labeled.green.submit.icon.button type="submit"
+						|Guardar cambios
+						i.checkmark.icon
+
+	#edit-password.ui.small.modal
+		.header Editar información de cuenta
+		.content
+			form.ui.form data-bind="submit: function(){updateUser('password')}"
+				.field
+					label Contraseña nueva
+					input type="password" name="new-password" placeholder="Nuevo contraseña"
+				.field
+					label Confirmación contraseña nueva
+					input type="password" name="confirmation-new-password" placeholder="Confirmación"
+				.field
+					label Contraseña actual
+					input type="password" name="current-password" placeholder="Contraseña actual"
+				.buttons-to-right
+					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+					button.ui.labeled.green.submit.icon.button type="submit"
+						|Guardar cambios
+						i.checkmark.icon
+
+	#edit-user-info.ui.small.modal
+		.header Editar información de cuenta
+		.content
+			form.ui.form data-bind="submit: function(){updateUser('user')}"
+				.field
+					label Nombres
+					input type="text" name="firstName" placeholder="Nombres"
+				.field
+					label Apellidos
+					input type="text" name="lastName" placeholder="Apellidos"
+				.field
+					label Teléfono
+					input type="text" name="phone" placeholder="Teléfono"
+				.buttons-to-right
+					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+					.ui.labeled.green.submit.icon.button
+						|Guardar cambios
+						i.checkmark.icon
+	.ui.container
+		img#profile-picture.ui.centered.medium.circular.image data-bind="attr: {src: user.profilePicture}"
+		h1.ui.centered.header data-bind="text: user.fullName"
+		.ui.fluid.two.item.secondary.pointing.menu
+			a.active.item data-tab="account" Cuenta
+			a.item data-tab="history" Historial de pedidos
+		.ui.active.tab.segment data-tab="account"
+			.ui.two.column.stackable.grid
+				.column
+					.ui.green.segment
+						.ui.header Información de cuenta
+						.clearfix.line data-bind="click: showEditEmail"
+							span.title Email
+							span.value data-bind="text: user.email"
+							i.pencil.link.large.icon
+						.clearfix.line data-bind="click: showEditPassword"
+							span.title Password
+							span.value ●●●●●●●●
+							i.pencil.link.large.icon
+				.column
+					.ui.green.segment
+						.ui.header Información personal
+						.clearfix.line
+							span.title Nombres
+							span.value data-bind="text: user.name"
+						.clearfix.line
+							span.title Apellidos
+							span.value data-bind="text: user.lastName"
+						.clearfix.line
+							span.title Teléfono
+							span.value data-bind="text: user.phone"
+						button.ui.green.button data-bind="click: showEditUser" Editar
+
+		.ui.tab.segment data-tab="history"
+			#guide-status.ui.centered.green.segment
+				.ui.centered.header Estados de orden
+				#status
+					.ui.yellow.label R
+					span Recibida
+					.ui.olive.label E
+					span En camino
+					.ui.green.label E
+					span Entregada
+			table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
+				thead
+					tr
+						th.three.wide Fecha
+						th.four.wide Tienda
+						th.four.wide Dirección
+						th.three.wide Valor($)
+						th.two.wide Estado
+				tbody data-bind="foreach: currentOrders"
+					tr
+						td data-bind="text: $data.date"
+						td data-bind="text: $data.sucursal.name"
+						td data-bind="text: $data.sucursal.address"
+						td data-bind="text: $data.totalPrice"
+						/ td.center.aligned
+						/   a.ui.teal.label
+						/     i.eye.icon
+						/     |<!--ko text: $data.ordersProducts.length+' items'--><!--/ko-->
+						/   a.ui.teal.truncated.label
+						/     |<!--ko text: $data.ordersProducts.length--><!--/ko-->
+						td.center.aligned
+							.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status"
+							.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status"
+			.ui.centered.header data-bind="visible: showEmptyMessage" No hay pedidos registrados
+
+script src="../javascripts/viewmodels/profile.js"

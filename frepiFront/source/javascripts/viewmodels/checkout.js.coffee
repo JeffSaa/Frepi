@@ -53,9 +53,7 @@ class CheckoutVM
 						window.location.href = '../../store.html'
 					), 2500)
 				console.log success
-				Config.setItem('accessToken', headers.accessToken)
-				Config.setItem('client', headers.client)
-				Config.setItem('uid', headers.uid)
+				Config.setItem('headers', JSON.stringify(headers))
 		)		
 
 	goToProfile: ->
@@ -68,7 +66,7 @@ class CheckoutVM
 				sucursalId: @session.currentOrder.sucursalId
 		Config.setItem('showOrders', 'false')
 		Config.setItem('currentSession', JSON.stringify(session))
-		window.location.href = '../../profile.html'
+		window.location.href = '../../store/profile.html'
 
 	goToOrders: ->
 		session =
@@ -80,7 +78,7 @@ class CheckoutVM
 				sucursalId: @session.currentOrder.sucursalId
 		Config.setItem('showOrders', 'true')
 		Config.setItem('currentSession', JSON.stringify(session))
-		window.location.href = '../../profile.html'
+		window.location.href = '../../store/profile.html'
 
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
@@ -139,8 +137,6 @@ class CheckoutVM
 				$('.ui.buttons').removeClass('tiny')
 				$('.ui.labeled.button').removeClass('tiny')
 		)
-
-
 
 checkout = new CheckoutVM
 ko.applyBindings(checkout)
