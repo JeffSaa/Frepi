@@ -1,7 +1,4 @@
-# one:
-#   name: MyString
-#   description: MyText
-
-# two:
-#   name: MyString
-#   description: MyText
+alcohol:
+  id: 1
+  name: Alcohol
+  description: alcoholics drinks

@@ -4,6 +4,8 @@ rice:
   store_price: 9.99
   frepi_price: 9.99
   image: MyString
+  available: true
+  sales_count: 1
 
 banana:
   reference_code: MyString
@@ -11,10 +13,5 @@ banana:
   store_price: 9.99
   frepi_price: 9.99
   image: MyString
-
-water:
-  reference_code: MyString
-  name: MyString
-  store_price: 9.99
-  frepi_price: 9.99
-  image: MyString
+  available: true
+  sales_count: 0
