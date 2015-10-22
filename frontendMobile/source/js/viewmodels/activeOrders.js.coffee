@@ -1,12 +1,20 @@
 class window.ActiveOrdersVM
 	constructor: ->
-		@setOrdersAttributes(currentSession.activeOrders)
-		@orders = ko.observable(currentSession.activeOrders)
+		console.log 'Its here in active Orders'
+		@setOrdersAttributes()
+		@orders = ko.mapping.fromJS(currentSession.activeOrders)
+		@test = ko.observable('MOTOROLA')
 
-	setOrdersAttributes: (orders) ->
-		for order in orders
+	setOrdersAttributes: ->
+		console.log 'Setting order attributes'
+		for order in currentSession.activeOrders
+			order.checkedItems = 0
 			for product in order.ordersProducts
 				product.checked = false
 
-	checkItem: (item) ->
-		item.checked = true
+	markAsChecked: (product, order) ->
+		product.checked(!product.checked())
+		if product.checked()
+			order.checkedItems(order.checkedItems() + 1) 
+		else
+			order.checkedItems(order.checkedItems() - 1)

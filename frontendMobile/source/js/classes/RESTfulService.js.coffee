@@ -13,7 +13,6 @@ class window.RESTfulService
                     accessToken: xhr.getResponseHeader('access-token')
                     client: xhr.getResponseHeader('client')
                     uid: xhr.getResponseHeader('uid')
-                  console.log headers
                   callback(null, data, headers)),
         error: ((data) ->
                   callback(data, null, null)),

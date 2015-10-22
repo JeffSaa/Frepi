@@ -23,10 +23,13 @@
 							span.card-title.grey-text.text-darken-4
 								|7/9
 								/ i.material-icons.right more_vert
-							span.distance.grey-text.text-darken-4 02:00 PM
+							span.delivery-time.grey-text.text-darken-4 02:00 PM
 						.card-reveal
-						 	span.card-title.grey-text.text-darken-4 data-bind="text: 'Orden #'+($index()+1)"
-						 	.items-order data-bind="foreach: $data.ordersProducts"
-						 		.item
-						 			input#product.filled-in type="checkbox"
-						 			label for="product" data-bind="text: $data.product.name"
+							span.card-title.grey-text.text-darken-4
+								|<!--ko text: 'Orden #'+($index()+1)--><!--/ko-->
+								i.material-icons.right close
+							.items-order data-bind="foreach: $data.ordersProducts"
+								.item data-bind="click: function(){$component.markAsChecked($data, $parent)}"
+									input#product.filled-in type="checkbox" data-bind="attr: {'checked': $data.checked}"
+									label for="product" data-bind="text: $data.product.name()+' x '+$data.quantity(), css: {checked: $data.checked}"
+							a.take-order data-bind="css: {disabled: $data.checkedItems() != $data.ordersProducts().length}" Llevar orden
