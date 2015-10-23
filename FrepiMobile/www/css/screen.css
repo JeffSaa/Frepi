@@ -1,0 +1,263 @@
+/* Colors */
+/* Generic rules */
+/* line 19, ../css/screen.css.scss */
+html, body, .components {
+  height: 100%; }
+
+/* line 23, ../css/screen.css.scss */
+body {
+  background-color: #FCF8E3; }
+
+/* line 27, ../css/screen.css.scss */
+nav {
+  background-color: #22B676; }
+  /* line 30, ../css/screen.css.scss */
+  nav .circular {
+    border-radius: 20%;
+    text-align: center;
+    width: 56px; }
+  /* line 36, ../css/screen.css.scss */
+  nav .icon-button {
+    position: relative;
+    z-index: 1;
+    height: 56px; }
+    /* line 41, ../css/screen.css.scss */
+    nav .icon-button i {
+      font-size: 2rem;
+      height: 56px;
+      line-height: 56px; }
+  /* line 48, ../css/screen.css.scss */
+  nav .nav-title {
+    font-size: 20px;
+    left: 55px;
+    line-height: 2.9;
+    margin: 0;
+    position: absolute; }
+  /* line 56, ../css/screen.css.scss */
+  nav .brand-logo {
+    height: 4rem;
+    position: absolute;
+    top: 5px; }
+    /* line 61, ../css/screen.css.scss */
+    nav .brand-logo img {
+      height: 3.285714rem; }
+
+/* line 67, ../css/screen.css.scss */
+.clearfix {
+  content: "";
+  display: table;
+  clear: both; }
+
+/* line 73, ../css/screen.css.scss */
+.disabled {
+  background-color: #DFDFDF !important;
+  box-shadow: none;
+  color: #9F9F9F !important;
+  cursor: default; }
+
+/* Login */
+/* line 82, ../css/screen.css.scss */
+.login {
+  background-color: #22B676;
+  /*padding-top: 6rem;*/
+  min-height: 100%;
+  padding-top: 16%; }
+  /* line 88, ../css/screen.css.scss */
+  .login header {
+    margin-bottom: 2.5rem; }
+    /* line 91, ../css/screen.css.scss */
+    .login header img {
+      display: block;
+      height: 6.5rem;
+      margin: 0 auto; }
+  /* line 99, ../css/screen.css.scss */
+  .login form label {
+    color: #F5F1E9; }
+  /* line 103, ../css/screen.css.scss */
+  .login form input[type=text],
+  .login form input[type=password] {
+    border-bottom-color: #F5F1E9;
+    color: #F5F1E9; }
+    /* line 108, ../css/screen.css.scss */
+    .login form input[type=text]:focus,
+    .login form input[type=password]:focus {
+      border-bottom-color: #805841; }
+      /* line 111, ../css/screen.css.scss */
+      .login form input[type=text]:focus + label,
+      .login form input[type=password]:focus + label {
+        color: #805841; }
+  /* line 117, ../css/screen.css.scss */
+  .login form .btn {
+    width: 100%; }
+  /* line 122, ../css/screen.css.scss */
+  .login form .row:first-of-type input {
+    margin-bottom: 0; }
+  /* line 126, ../css/screen.css.scss */
+  .login form .row:last-of-type {
+    margin-bottom: 2.142857rem; }
+  /* line 132, ../css/screen.css.scss */
+  .login .loader {
+    text-align: center; }
+    /* line 135, ../css/screen.css.scss */
+    .login .loader .spinner-layer {
+      border-color: rgba(255, 255, 255, 0.65); }
+  /* line 140, ../css/screen.css.scss */
+  .login .error.message {
+    color: #F5F1E9;
+    font-size: 1.142857em;
+    font-weight: bold; }
+
+/* line 148, ../css/screen.css.scss */
+.home #active-orders {
+  margin: 20px 0 30px; }
+  /* line 151, ../css/screen.css.scss */
+  .home #active-orders .container {
+    width: 95%; }
+  /* line 155, ../css/screen.css.scss */
+  .home #active-orders .active-orders-action {
+    background-color: #0076a3;
+    border-right: solid 4px #105981;
+    color: white;
+    font-size: 16px;
+    padding: 10px 14px;
+    width: 100%; }
+/* line 166, ../css/screen.css.scss */
+.home #nearby-orders h5 {
+  background-color: gray;
+  color: #F5F1E9;
+  margin-bottom: 20px;
+  padding: 18px; }
+/* line 174, ../css/screen.css.scss */
+.home #nearby-orders .card .card-image .card-title {
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%; }
+/* line 179, ../css/screen.css.scss */
+.home #nearby-orders .card .card-content .card-title {
+  font-size: 18px;
+  line-height: 30px; }
+  /* line 183, ../css/screen.css.scss */
+  .home #nearby-orders .card .card-content .card-title i {
+    margin-left: 0; }
+/* line 189, ../css/screen.css.scss */
+.home #nearby-orders .card .distance {
+  display: block;
+  padding-top: 8px; }
+/* line 195, ../css/screen.css.scss */
+.home #nearby-orders .card .card-action a:last-of-type {
+  background-color: #FB4500;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 2px; }
+/* line 204, ../css/screen.css.scss */
+.home #nearby-orders .card .card-reveal .line {
+  width: 100%; }
+  /* line 207, ../css/screen.css.scss */
+  .home #nearby-orders .card .card-reveal .line * {
+    display: inline-block;
+    float: left;
+    padding: 10px 10px 4px; }
+  /* line 213, ../css/screen.css.scss */
+  .home #nearby-orders .card .card-reveal .line .title {
+    font-weight: bold;
+    width: 45%; }
+  /* line 218, ../css/screen.css.scss */
+  .home #nearby-orders .card .card-reveal .line .value {
+    text-transform: capitalize;
+    width: 55%; }
+/* line 226, ../css/screen.css.scss */
+.home #nearby-orders .more-nearby-ords {
+  width: 100%; }
+/* line 231, ../css/screen.css.scss */
+.home .modal {
+  max-height: 90%;
+  top: 7% !important;
+  width: 95%; }
+  /* line 235, ../css/screen.css.scss */
+  .home .modal .collection {
+    margin-bottom: 0; }
+    /* line 237, ../css/screen.css.scss */
+    .home .modal .collection .collection-item.avatar .circle {
+      overflow: visible; }
+  /* line 241, ../css/screen.css.scss */
+  .home .modal .modal-footer a:first-of-type {
+    background-color: #FB4500;
+    border-radius: 2px;
+    color: white;
+    margin-right: 24px; }
+
+/* line 252, ../css/screen.css.scss */
+.nearby-orders #all-orders h2 {
+  display: none; }
+/* line 258, ../css/screen.css.scss */
+.nearby-orders #all-orders .card .card-content .card-title {
+  font-size: 18px;
+  line-height: 30px; }
+  /* line 262, ../css/screen.css.scss */
+  .nearby-orders #all-orders .card .card-content .card-title i {
+    margin-left: 0; }
+/* line 268, ../css/screen.css.scss */
+.nearby-orders #all-orders .card .distance {
+  display: block;
+  padding-top: 8px; }
+/* line 274, ../css/screen.css.scss */
+.nearby-orders #all-orders .card .card-action a:last-of-type {
+  background-color: #FB4500;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 2px; }
+/* line 283, ../css/screen.css.scss */
+.nearby-orders #all-orders .card .card-reveal .line {
+  width: 100%; }
+  /* line 286, ../css/screen.css.scss */
+  .nearby-orders #all-orders .card .card-reveal .line * {
+    display: inline-block;
+    float: left;
+    padding: 10px 10px 4px; }
+  /* line 292, ../css/screen.css.scss */
+  .nearby-orders #all-orders .card .card-reveal .line .title {
+    font-weight: bold;
+    width: 45%; }
+  /* line 297, ../css/screen.css.scss */
+  .nearby-orders #all-orders .card .card-reveal .line .value {
+    text-transform: capitalize;
+    width: 55%; }
+
+/* line 310, ../css/screen.css.scss */
+.active-orders #all-orders .card .card-content {
+  position: relative; }
+  /* line 313, ../css/screen.css.scss */
+  .active-orders #all-orders .card .card-content .btn-floating, .active-orders #all-orders .card .card-content .edit, .active-orders #all-orders .card .card-content .map {
+    position: absolute;
+    top: -19px; }
+  /* line 318, ../css/screen.css.scss */
+  .active-orders #all-orders .card .card-content .edit {
+    right: 20px; }
+  /* line 323, ../css/screen.css.scss */
+  .active-orders #all-orders .card .card-content .map {
+    right: 64px; }
+  /* line 328, ../css/screen.css.scss */
+  .active-orders #all-orders .card .card-content .card-title {
+    font-size: 18px;
+    line-height: 30px; }
+    /* line 332, ../css/screen.css.scss */
+    .active-orders #all-orders .card .card-content .card-title i {
+      margin-left: 0; }
+/* line 339, ../css/screen.css.scss */
+.active-orders #all-orders .card .card-reveal .items-order {
+  padding: 14px 0; }
+  /* line 342, ../css/screen.css.scss */
+  .active-orders #all-orders .card .card-reveal .items-order label {
+    line-height: 23px; }
+    /* line 344, ../css/screen.css.scss */
+    .active-orders #all-orders .card .card-reveal .items-order label.checked {
+      text-decoration: line-through; }
+/* line 350, ../css/screen.css.scss */
+.active-orders #all-orders .card .card-reveal .take-order {
+  background-color: #FB4500;
+  border-radius: 2px;
+  bottom: 10px;
+  color: white;
+  padding: 5px 10px;
+  position: absolute;
+  right: 14px;
+  text-transform: uppercase; }
