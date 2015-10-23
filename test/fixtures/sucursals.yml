@@ -1,4 +1,5 @@
 olimpica:
+  id: 1
   store_partner_id: 1
   name: Olimpica Centro
   manager_full_name: Alex Char

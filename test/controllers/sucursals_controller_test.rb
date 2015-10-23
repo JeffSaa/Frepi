@@ -86,7 +86,7 @@ class SucursalsControllerTest < ActionController::TestCase
 
   test "administrator should update a sucursal" do
     sign_in :user, users(:admin)
-    post :update, { id: sucursals(:olimpica).id, name: 'updated', store_partner_id: store_partners(:olimpica).id }
+    put :update, { id: sucursals(:olimpica).id, name: 'updated', store_partner_id: store_partners(:olimpica).id }
     response = JSON.parse(@response.body)
 
     assert_match('updated', response['name'])

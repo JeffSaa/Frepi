@@ -71,7 +71,7 @@ class SubcategoriesControllerTest < ActionController::TestCase
 
   test "administrator should update a subcategory" do
     sign_in :user, users(:admin)
-    post :update, id: subcategories(:whiskies).id, name: 'updated', category_id: categories(:alcohol).id
+    put :update, id: subcategories(:whiskies).id, name: 'updated', category_id: categories(:alcohol).id
     response = JSON.parse(@response.body)
 
     assert_match('updated', response['name'])

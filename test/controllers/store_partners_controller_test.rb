@@ -84,7 +84,7 @@ class StorePartnersControllerTest < ActionController::TestCase
 
   test "administrator should update a store partner" do
     sign_in :user, users(:admin)
-    post :update, { id: store_partners(:olimpica).id, name: 'updated' }
+    put :update, { id: store_partners(:olimpica).id, name: 'updated' }
     response = JSON.parse(@response.body)
 
     assert_match('updated', response['name'])

@@ -1,17 +1,21 @@
-rice:
-  reference_code: MyString
-  name: MyString
+johnny:
+  id: 1
+  reference_code: 431234234
+  name: rice
   store_price: 9.99
   frepi_price: 9.99
   image: MyString
   available: true
   sales_count: 1
+  subcategory_id: 1
 
-banana:
-  reference_code: MyString
-  name: MyString
+jack:
+  id: 2
+  reference_code: 1244353
+  name: rice
   store_price: 9.99
   frepi_price: 9.99
   image: MyString
   available: true
   sales_count: 0
+  subcategory_id: 1

@@ -78,7 +78,7 @@ class CountriesControllerTest < ActionController::TestCase
 
   test "administrator should update a country" do
     sign_in :user, users(:admin)
-    post :update, { id: countries(:italy).id, name: 'updated' }
+    put :update, { id: countries(:italy).id, name: 'updated' }
     response = JSON.parse(@response.body)
 
     assert_match('updated', response['name'])

@@ -6,6 +6,7 @@ olimpica:
   description: Omnis voluptatem sequi aliquid veniam
 
 carulla:
+  id: 2
   nit: 94343561-4
   name: Carulla
   logo: http://robohash.org/sitsequiquia.png?size=300x300

@@ -74,7 +74,7 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test "administrator should update a category" do
     sign_in :user, users(:admin)
-    post :update, { id: categories(:alcohol).id, name: 'updated' }
+    put :update, { id: categories(:alcohol).id, name: 'updated' }
     response = JSON.parse(@response.body)
 
     assert_match('updated', response['name'])
