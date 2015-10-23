@@ -55,7 +55,7 @@ set :js_dir, 'javascripts'
 
 set :images_dir, 'images'
 
-# set :layout, false
+set :layout, false
 
 page "/store/*", :layout => "store"
 
