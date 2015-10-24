@@ -20,6 +20,26 @@ html
 		script src="../javascripts/classes/RESTfulService.js"
 		script src="../javascripts/viewmodels/transactionalPage.js"
 	body.store-layout
+		nav#mobile-menu.ui.vertical.left.sidebar.borderless.menu
+			h2 Frepi Menu
+			.item
+				img src="../images/landing/logoassd.png" alt="Frepi's logo"
+			a.item href="store/index.html"
+				h4.ui.header
+					i.home.icon
+					|Tienda
+			a.item data-bind="click: profile"
+				h4.ui.header
+					i.user.icon
+					|Cuenta
+			a.item data-bind="click: orders"
+				h4.ui.header
+					i.book.icon
+					|Pedidos
+			a.item data-bind="click: logout"
+				h4.ui.header
+					i.sign.out.icon
+					|Salir
 		#departments-menu.ui.vertical.left.sidebar.menu
 			.item
 				h3.ui.header
@@ -35,25 +55,33 @@ html
 					i.shop.icon
 					.content Carro de compras
 				.ui.label data-bind="text: '$ '+session.currentOrder.price()"
-			.ui.items data-bind="foreach: session.currentOrder.products"
+			.checkout data-bind="visible: !session.signUp()"
+				.ui.items data-bind="foreach: session.currentOrder.products"
+					.item
+						.ui.tiny.image 
+							img data-bind="attr: {src: $data.image}"
+						.content
+							.header data-bind="text: $data.name"
+							.meta
+								span.price data-bind="text: '$'+$data.frepi_price"
+								span x
+								span.quantity data-bind="text: $data.quantity"
+						i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
+						i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data, 1)}"
+						i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
 				.item
-					.ui.tiny.image 
-						img data-bind="attr: {src: $data.image}"
-					.content
-						.header data-bind="text: $data.name"
-						.meta
-							span.price data-bind="text: '$'+$data.frepi_price"
-							span x
-							span.quantity data-bind="text: $data.quantity"
-					i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
-					i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data, 1)}"
-					i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
-			.item
-				button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
+					button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
+			.sign-up-banner data-bind="visible: session.signUp"
+				p.ui.header Oops! Tienes que estar en tu cuenta
+				button.ui.fluid.large.green.button Crea una cuenta
+				.ui.horizontal.divider o
+				button#login-fb.ui.fluid.large.labeled.icon.facebook.button
+					i.facebook.icon
+					|Inicia con Facebook
 		.pusher					
 			header
 				#store-primary-navbar.ui.fixed.inverted.menu
-					a#store-frepi-logo href="#"
+					#store-frepi-logo
 						i.sidebar.icon
 						img.ui.image src="../images/landing/logoassd.png" alt="Frepi's logo"
 					a#target-store href="#"

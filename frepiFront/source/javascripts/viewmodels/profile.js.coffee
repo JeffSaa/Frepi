@@ -53,23 +53,6 @@ class ProfileVM extends TransactionalPageVM
 
 		return orders
 
-	setExistingSession: ->
-		session = Config.getItem('currentSession')
-
-		if session
-			session = JSON.parse(Config.getItem('currentSession'))
-			@session.categories(session.categories)
-			@session.currentOrder.numberProducts(session.currentOrder.numberProducts)
-			@session.currentOrder.products(session.currentOrder.products)
-			@session.currentOrder.price(session.currentOrder.price)
-			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
-		else
-			@session.categories([])
-			@session.currentOrder.numberProducts('0 items')
-			@session.currentOrder.products([])
-			@session.currentOrder.price(0.0)
-			@session.currentOrder.sucursalId = 1
-
 	shouldShowOrders: ->
 		if Config.getItem('showOrders') is 'true'
 			$('.secondary.menu .item').tab('change tab', 'history')
@@ -197,14 +180,14 @@ class ProfileVM extends TransactionalPageVM
 			)
 		$('#departments-menu').sidebar({        
 				transition: 'overlay'
-			})
+			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
 		$('#shopping-cart').sidebar({
 				dimPage: false
 				transition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar .right.menu button', 'show')
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
-			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo', 'show')
+			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 
 	showDepartments: ->    
 		$('#departments-menu').sidebar('toggle')

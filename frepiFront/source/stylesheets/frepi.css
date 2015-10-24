@@ -111,14 +111,16 @@ a {
   min-width: 100%;
 }
 
-#login-grid h1.header {
-  font-size: 3rem !important;
-  font-weight: 500;
+#login-grid h1.header,
+.sign-up h1.header {
+  font-size: 2.75rem !important;
+  font-weight: bold;
   margin-bottom: 0.65em;
   color: #727272;
 }
 
-#login-grid .sub.header {
+#login-grid .sub.header,
+.sign-up .sub.header {
   padding: 0 0.4em !important;
   font-size: 1.3rem !important;
   color: #727272 !important;
@@ -133,7 +135,21 @@ a {
   padding-top: 1em;
   text-align: center;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: bold;
+}
+
+/* Sign up */
+
+.sign-up {
+  padding-top: 7em;
+}
+
+.sign-up header {
+  margin-bottom: 2em;
+}
+
+.sign-up form .green.button {
+  margin-top: 2em;
 }
 
 /* Mobile Sidebar Menu */
@@ -295,6 +311,16 @@ header #shopping-cart .icon {
   font-size: 1em;
   height: 2.75em;
   line-height: 2;
+}
+
+#shopping-cart .sign-up-banner {
+  padding: 2.75em 1em 0;
+}
+
+#shopping-cart .sign-up-banner .header {
+  font-style: italic;
+  margin-bottom: 1.25em;
+  text-align: center;
 }
 
 .centering {

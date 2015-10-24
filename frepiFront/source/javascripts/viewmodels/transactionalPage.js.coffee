@@ -2,6 +2,7 @@ class window.TransactionalPageVM
 	constructor: ->
 		@session =
 			categories: ko.observableArray()
+			signUp: ko.observable()
 			currentOrder:
 				numberProducts	: ko.observable()
 				products 				: ko.observableArray()
@@ -17,17 +18,20 @@ class window.TransactionalPageVM
 			profilePicture 	: ko.observable()
 			fullName 				: ko.observable()
 
-	checkout: ->
-		if @session.currentOrder.products().length > 0
-			orderToPay =
-				price: @session.currentOrder.price()
-				products: @session.currentOrder.products()
-				sucursalId: @session.currentOrder.sucursalId
-			console.log orderToPay
-			Config.setItem('orderToPay', JSON.stringify(orderToPay))
-			window.location.href = '../../checkout.html'
+	checkout: =>
+		if @user.id isnt null
+			if @session.currentOrder.products().length > 0
+				orderToPay =
+					price: @session.currentOrder.price()
+					products: @session.currentOrder.products()
+					sucursalId: @session.currentOrder.sucursalId
+				console.log orderToPay
+				Config.setItem('orderToPay', JSON.stringify(orderToPay))
+				window.location.href = '../../checkout.html'
+			else
+				console.log 'There is nothing in the cart...'
 		else
-			console.log 'There is nothing in the cart...'
+			@session.signUp(true)
 
 	# Returns null or a product if is currently in the cart
 	getProductByName: (name) ->
@@ -143,6 +147,25 @@ class window.TransactionalPageVM
 			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
 		else
 			@session.currentOrder.numberProducts("1 item")
+
+	setExistingSession: ->
+		session = Config.getItem('currentSession')
+
+		if session
+			session = JSON.parse(Config.getItem('currentSession'))
+			@session.categories(session.categories)
+			@session.signUp(session.signUp)
+			@session.currentOrder.numberProducts(session.currentOrder.numberProducts)
+			@session.currentOrder.products(session.currentOrder.products)
+			@session.currentOrder.price(session.currentOrder.price)
+			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
+		else
+			@session.categories([])
+			@session.signUp(false)
+			@session.currentOrder.numberProducts('0 items')
+			@session.currentOrder.products([])
+			@session.currentOrder.price(0.0)
+			@session.currentOrder.sucursalId = 1
 
 	setUserInfo: =>
 		if !!Config.getItem('userObject')

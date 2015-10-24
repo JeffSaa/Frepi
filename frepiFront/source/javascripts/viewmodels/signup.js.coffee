@@ -1,5 +1,5 @@
-class LoginVM
-	constructor: ->		
+class SignUpVM
+	constructor: ->
 		@errorTextResponse = ko.observable()
 		@initFB()
 		@setDOMElements()
@@ -11,34 +11,35 @@ class LoginVM
 				version: 'v2.4'
 			})
 
-	login: ->
+	signUp: ->
 		$form = $('.ui.form')
 		$form.removeClass('error')
 		if $form.form('is valid')
 			data =
-				email: $('#login-grid form').form('get value', 'username')
-				password: $('#login-grid form').form('get value', 'password')
-			$('#login').addClass('loading')
+				name: $form.form('get value', 'firstName')
+				last_name: $form.form('get value', 'lastName')
+				email: $form.form('get value', 'email')
+				password: $form.form('get value', 'password')
+				password_confirmation: $form.form('get value', 'password')
 
-			RESTfulService.makeRequest('POST', '/auth/sign_in', data, (error, success, headers) =>
+			$('.ui.form .green.button').addClass('loading')
+			RESTfulService.makeRequest('POST', '/users', data, (error, success, headers) =>
 					if error
-						$('#login').removeClass('loading')
+						$('.ui.form .green.button').removeClass('loading')
 						$form.addClass('error')
 						console.log 'An error has ocurred in the authentication.'
 						@errorTextResponse(error.responseJSON.errors.toString())
 					else
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers))
-						Config.setItem('credentials', JSON.stringify(data))
+						Config.setItem('credentials', JSON.stringify({email: data.email, password: data.password}))
 						Config.setItem('userObject', JSON.stringify(success.data))
-
-						if success.data.user_type is 'user'
-							window.location.href = '../../store/index.html'
-						else
-							window.location.href = '../../admin.html'
+						window.location.href = '../../store/index.html'
 				)
+		else
 
-	loginFB: ->
+
+	signWithFB: ->
 		FBcredentials = {}
 
 		FB.login(((response) ->
@@ -97,8 +98,24 @@ class LoginVM
 	setDOMElements: ->
 		$('.ui.form').form(
 				fields: 
-					username:
-						identifier: 'username'
+					firstName:
+						identifier: 'firstName'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Por favor digite un nombre'
+							}
+						]
+					lastName:
+						identifier: 'lastName'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Por favor digite un usuario'
+							}
+						]
+					email:
+						identifier: 'email'
 						rules: [
 							{
 								type: 'empty'
@@ -106,7 +123,7 @@ class LoginVM
 							}, {
 								type: 'email'
 								prompt: 'Por favor digite un e-mail válido'
-							}								
+							}
 						]
 					password:
 						identifier: 'password'
@@ -117,11 +134,11 @@ class LoginVM
 							}, {
 								type: 'length[6]'
 								prompt: 'La contraseña debe tener por lo menos 6 caracteres'
-							}								
+							}
 						]
 				inline: true
 				keyboardShortcuts: false
 			)
 
-login = new LoginVM
-ko.applyBindings(login)
+signUp = new SignUpVM
+ko.applyBindings(signUp)
