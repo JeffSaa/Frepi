@@ -1,14 +1,17 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+one:
+  id: 1
+  active: true
+  status: 0
+  date: 2015-08-03 13:51:19
+  total_price: 20.98
+  sucursal_id: 1
+  user_id: 1
 
-# #one:
-#   active: false
-#   status: 0
-#   date: 2015-08-03 13:51:19
-#   total
-#   sucursal_id:
-
-# two:
-#   active: false
-#   status: MyString
-#   delivery_time: 2015-08-03 13:51:19
-#   sucursal_id:
+two:
+  id: 2
+  active: true
+  status: 1
+  date: 2015-09-11 15:51:19
+  total_price: 20.98
+  sucursal_id: sucursals(:olimpica).id
+  user_id: users(:user).id

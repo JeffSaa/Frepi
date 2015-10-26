@@ -20,10 +20,10 @@ class Order < ActiveRecord::Base
   validates :total_price, numericality: true
   validates_datetime :delivery_time, allow_nil: true
 
-
   # Callbacks
   before_create :set_date
   before_update :reset_total_price
+  before_save   :round_price
 
   # Methods
   def buy(products)
@@ -63,17 +63,23 @@ class Order < ActiveRecord::Base
     self.orders_products.each { |order| order.decrement_counter }
   end
 
+  # ---------------------- Private ---------------------------- #
   private
-    def set_date
-      self.date = DateTime.current
-    end
 
-    def calculate_total(order_product, sign = :increase)
-      sign = sign == :increase ? '+' : '-'
-      self.total_price = self.total_price.send(sign, order_product.product.frepi_price * order_product.quantity)
-    end
+  def set_date
+    self.date = DateTime.current
+  end
 
-    def reset_total_price
-      self.total_price = 0
-    end
+  def calculate_total(order_product, sign = :increase)
+    sign = sign == :increase ? '+' : '-'
+    self.total_price = self.total_price.send(sign, order_product.product.frepi_price * order_product.quantity)
+  end
+
+  def reset_total_price
+    self.total_price = 0
+  end
+
+  def round_price
+    self.total_price.round(2)
+  end
 end

@@ -4,7 +4,6 @@ class Orders::OrdersController < ApplicationController
   before_action :find_order, only: [:show, :update, :destroy]
 
   def index
-
     # REFACTOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if params[:latitude] && params[:longitude]
 
@@ -30,12 +29,6 @@ class Orders::OrdersController < ApplicationController
 
   def show
     render json: @order
-  end
-
-  def create
-  end
-
-  def update
   end
 
   def destroy
