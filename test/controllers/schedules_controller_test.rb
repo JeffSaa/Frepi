@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class SchedulesControllerTest < ActionController::TestCase
+
  # ---------------- Index --------------------- #
+
   test "Shoppers and anyone should not index the schedules of a order" do
     get :index, user_id: users(:user).id, order_id: orders(:one).id
     assert_response :unauthorized
@@ -99,7 +101,7 @@ class SchedulesControllerTest < ActionController::TestCase
   end
 
   test "should not destroy a shopper or someone not logged" do
-    assert_no_difference('Country.count') do
+    assert_no_difference('Schedule.count') do
       delete :destroy, user_id: users(:user).id, order_id: orders(:one).id, id: schedules(:one).id
       assert_response :unauthorized
 
