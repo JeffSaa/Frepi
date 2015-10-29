@@ -16,7 +16,6 @@ class Shoppers::OrdersController < ApplicationController
     order = current_shopper.shoppers_orders.build(order_id: params[:order_id])
     if order.valid?
       # TODO: Change status received to accepted ?
-      #find_order(params[:order_id])
       current_shopper.save
       render(json: order, status: :created)
     else

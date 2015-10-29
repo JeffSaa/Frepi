@@ -1,0 +1,109 @@
+require 'test_helper'
+
+class OrdersControllerTest < ActionController::TestCase
+
+  # ---------------- Index --------------------- #
+  test "Shoppers and anyone should not index the orders of a costumer" do
+    get :index, user_id: users(:user).id
+    assert_response :unauthorized
+
+    sign_in :shopper, shoppers(:shopper)
+    get :index, user_id: users(:user).id
+    assert_response :unauthorized
+  end
+
+  test "only a client should index his owns orders" do
+    sign_in :user, users(:user)
+    get :index, user_id: users(:user).id
+
+    assert_response :ok
+  end
+
+  # ---------------- Show ----------------------- #
+  test "only a user should do show action" do
+    sign_in :user, users(:user)
+    get :show, user_id: users(:user).id, id: orders(:one).id
+    assert_response :ok
+  end
+
+
+  test "shoppers or anyone should not do show of a user" do
+    get :show, user_id: users(:user).id, id: orders(:one).id
+    assert_response :unauthorized
+
+    sign_in :shopper, shoppers(:shopper)
+    get :show, user_id: users(:user).id, id: orders(:one).id
+    assert_response :unauthorized
+  end
+
+  # ---------------- Create ----------------------- #
+  test "only a user can create schedules for the orders" do
+    sign_in :user, users(:user)
+
+    assert_difference('Order.count') do
+      post :create, user_id: users(:user).id, products: [ {id: products(:johnny), quantity: 14} ],
+                    sucursal_id: sucursals(:olimpica).id
+      assert_response :created
+    end
+  end
+
+
+  test 'should not create an order, shoppers or anyone no logged' do
+    assert_no_difference('Order.count') do
+      post :create, user_id: users(:user).id, products: [ {id: products(:johnny), quantity: 14} ],
+                    sucursal_id: sucursals(:olimpica).id
+      assert_response :unauthorized
+
+      sign_in :shopper, shoppers(:shopper)
+      post :create, user_id: users(:user).id, products: [ {id: products(:johnny), quantity: 14} ],
+                    sucursal_id: sucursals(:olimpica).id
+      assert_response :unauthorized
+    end
+  end
+
+  # ---------------- Update ----------------------- #
+  test "Only a user should update" do
+    sign_in :user, users(:user)
+    put :update, user_id: users(:user).id, id: orders(:one).id, products: [ {id: products(:johnny), quantity: 999} ]
+    response = JSON.parse(@response.body)
+
+    assert_equal(999, response['ordersProducts'].first['quantity'])
+    assert_response :ok
+  end
+
+  test "should not update an order or someone not logged" do
+    put :update, user_id: users(:user).id, id: orders(:one).id, products: [ {id: products(:johnny), quantity: 999} ]
+    response = JSON.parse(@response.body)
+
+    assert_response :unauthorized
+
+    sign_in :shopper, shoppers(:shopper)
+    put :update, user_id: users(:user).id, id: orders(:one).id, products: [ {id: products(:johnny), quantity: 999} ]
+    response = JSON.parse(@response.body)
+
+    assert_response :unauthorized
+  end
+
+  # ---------------- Destroy ----------------------- #
+
+  test "Only a user should destroy" do
+    sign_in :user, users(:user)
+
+    get :destroy, user_id: users(:user).id, id: orders(:one).id
+    response = JSON.parse(@response.body)
+
+    assert_equal(false, response['active'])
+    assert_response :ok
+  end
+
+  test "should not destroy a shopper or someone not logged" do
+    assert_no_difference('Order.count') do
+      delete :destroy, user_id: users(:user).id, id: orders(:one).id
+      assert_response :unauthorized
+
+      sign_in :shopper, shoppers(:shopper)
+      delete :destroy, user_id: users(:user).id, id: orders(:one).id
+      assert_response :unauthorized
+    end
+  end
+end

@@ -3,48 +3,45 @@ require 'test_helper'
 class StorePartnersControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
+  test "anyone should index subcategories" do
+    get :index
+    assert_response :ok
 
-  test "clients and shoppers should not index store_partners" do
     sign_in :user, users(:user)
     get :index
-    assert_response :unauthorized
-
+    assert_response :ok
     sign_out users(:user)
+
     sign_in :shopper, shoppers(:shopper)
-
     get :index
-    assert_response :unauthorized
-  end
+    assert_response :ok
+    sign_out shoppers(:shopper)
 
-
-  test "administrator should index store_partners" do
     sign_in :user, users(:admin)
-
-    get :index
+    get :index, category_id: categories(:alcohol).id
     assert_response :ok
   end
 
   # ---------------- Show ----------------------- #
 
-  test "administrator should show a store partner" do
+  test "anyone should show a store parner" do
+    get :show, id: store_partners(:olimpica).id
+    assert_response :ok
+
+    sign_in :user, users(:user)
+    get :show, id: store_partners(:olimpica).id
+    assert_response :ok
+    sign_out users(:user)
+
+    sign_in :shopper, shoppers(:shopper)
+    get :show, id: store_partners(:olimpica).id
+    assert_response :ok
+    sign_out shoppers(:shopper)
+
     sign_in :user, users(:admin)
     get :show, id: store_partners(:olimpica).id
-
     assert_response :ok
   end
-
-  test "clients and shoppers should not show a store partner" do
-    sign_in :user, users(:user)
-    get :show, id: store_partners(:carulla).id
-    assert_response :unauthorized
-
-    sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
-
-    get :show, id: store_partners(:carulla).id
-    assert_response :unauthorized
-  end
-
   # ---------------- Create ----------------------- #
 
   test "administrator should create a store partner" do

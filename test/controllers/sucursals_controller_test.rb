@@ -3,45 +3,44 @@ require 'test_helper'
 class SucursalsControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
-  test "clients and shoppers should not index sucursals" do
+  test "anyone should index subcategories" do
+    get :index, store_partner_id: store_partners(:olimpica).id
+    assert_response :ok
+
     sign_in :user, users(:user)
     get :index, store_partner_id: store_partners(:olimpica).id
-    assert_response :unauthorized
-
+    assert_response :ok
     sign_out users(:user)
+
     sign_in :shopper, shoppers(:shopper)
-
     get :index, store_partner_id: store_partners(:olimpica).id
-    assert_response :unauthorized
-  end
+    assert_response :ok
+    sign_out shoppers(:shopper)
 
-
-  test "administrator should index sucursals" do
     sign_in :user, users(:admin)
-
     get :index, store_partner_id: store_partners(:olimpica).id
     assert_response :ok
   end
 
   # ---------------- Show ----------------------- #
 
-  test "administrator should show a sucursal" do
-    sign_in :user, users(:admin)
+  test "anyone should show a store parner" do
     get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
-
     assert_response :ok
-  end
 
-  test "clients and shoppers should not show a sucursal" do
     sign_in :user, users(:user)
     get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
-    assert_response :unauthorized
-
+    assert_response :ok
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
 
+    sign_in :shopper, shoppers(:shopper)
     get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
-    assert_response :unauthorized
+    assert_response :ok
+    sign_out shoppers(:shopper)
+
+    sign_in :user, users(:admin)
+    get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
+    assert_response :ok
   end
 
   # ---------------- Create ----------------------- #
