@@ -104,8 +104,9 @@ a {
 
 .login-main {
   padding-top: 7em;
-  background: url(../images/landing/login-bg.jpg) no-repeat fixed;
+  background: url(../images/landing/login-bg-min.jpg) no-repeat fixed;
   background-size: cover;
+  /*Review this*/
   background-position: 0 50px;
   min-height: 100%;
   min-width: 100%;
@@ -231,6 +232,7 @@ header #shopping-cart .icon {
 
 #target-store {
   border-right: 1px solid #64CC9F;
+  cursor: pointer;
   height: 60px;
   padding: 2.5px 0;
   width: 210px;
@@ -245,6 +247,10 @@ header #shopping-cart .icon {
 #target-store .sub.header {
   color: #fff;
   font-size: 1.05em;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #product-searcher {
@@ -378,6 +384,10 @@ header #shopping-cart .icon {
  ** Store Modal's rules
  **/
 
+.ui.modal>.actions {
+  padding: 1rem!important;
+}
+
 .modal .meta {
   color: rgba(0,0,0,.4);
 }
@@ -405,6 +415,10 @@ header #shopping-cart .icon {
   color: rgba(0,0,0,.6);
   font-size: 0.8em;
   text-align: left;
+}
+
+#choose-store .centered {
+  text-align: center;
 }
 
 /**

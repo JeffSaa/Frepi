@@ -97,6 +97,8 @@
   }
 
   header #shopping-cart .icon {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+    cursor: pointer;
     display: inline-block;
     font-size: 1.571428em;
     position: absolute;

@@ -1,5 +1,5 @@
 .store
-	.ui.modal
+	#product-desc.ui.modal
 		i.close.icon					
 		.image.content
 			.ui.large.image
@@ -32,8 +32,8 @@
 			.content
 				.center
 					h1.ui.inverted.header
-						|Olímpica
-						.sub.header Here it goes the store's description and other stuff
+						|<!--ko text: session.currentStore.name--><!--/ko-->
+						.sub.header data-bind="text: session.currentStore.description"
 
 	#error-container data-bind="visible: shouldShowError"
 		h2.ui.request-error.header

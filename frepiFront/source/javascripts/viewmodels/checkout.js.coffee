@@ -24,7 +24,7 @@ class CheckoutVM
 		window.location.href = '../../login.html'
 
 	cancel: ->
-		window.location.href = '../../store.html'
+		window.location.href = '../../store/index.html'
 
 	generate: ->
 		console.log 'Its here, generating order'
@@ -83,16 +83,10 @@ class CheckoutVM
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
-			})
+			}).sidebar('attach events', '#store-secondary-navbar .basic.button', 'show')
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
-			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo', 'show')
-
-	showDepartments: ->    
-		$('#departments-menu').sidebar('toggle')
-
-	showShoppingCart: ->
-		$('#shopping-cart').sidebar('show')
+			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 
 	setExistingSession: ->
 		console.log 'esta aqui'

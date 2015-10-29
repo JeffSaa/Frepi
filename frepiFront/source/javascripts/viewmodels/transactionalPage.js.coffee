@@ -1,8 +1,33 @@
 class window.TransactionalPageVM
 	constructor: ->
+		@DEFAULT_STORE_PARTNER = 
+			id: 2
+			nit: "21-530-4163"
+			name: "Feest-Kub"
+			logo: "http://www.biz-logo.com/examples/002.gif"
+			description: "Non voluptatem suscipit beatae."
+			created_at: "2015-10-13T23:08:25.531Z"
+			updated_at: "2015-10-13T23:08:25.531Z"
+		@DEFAULT_SUCURSAL =
+			address: "26172 Lucienne Corners"
+			created_at: "2015-10-13T23:08:25.559Z"
+			id: -1
+			latitude: "-57.2628762651957"
+			longitude: "-159.203929960594"
+			manager_email: "bernardo_jaskolski@heaneystoltenberg.net"
+			manager_full_name: "Dorian Bartell"
+			manager_phone_number: "4477667382"
+			name: "Langworth, Lubowitz and Hirthe"
+			phone_number: "2283261"
+			store_partner_id: 2
+			updated_at: "2015-10-13T23:08:25.559Z"
+
 		@session =
-			categories: ko.observableArray()
-			signUp: ko.observable()
+			currentStore			: null
+			currentSucursal		: null
+			categories				: ko.observableArray()
+			signedUp					: ko.observable()
+			sucursals					: ko.observableArray()
 			currentOrder:
 				numberProducts	: ko.observable()
 				products 				: ko.observableArray()
@@ -17,6 +42,7 @@ class window.TransactionalPageVM
 			phone 					: ko.observable()
 			profilePicture 	: ko.observable()
 			fullName 				: ko.observable()
+		@setDOMelems()
 
 	checkout: =>
 		if @user.id isnt null
@@ -31,14 +57,17 @@ class window.TransactionalPageVM
 			else
 				console.log 'There is nothing in the cart...'
 		else
-			@session.signUp(true)
+			@session.signedUp(true)
 
 	# Returns null or a product if is currently in the cart
 	getProductByName: (name) ->
 		for product in @session.currentOrder.products()
-			return product if product.name is name      
-		
+			return product if product.name is name
 		return null
+
+	chooseStore: (store) =>
+		ko.mapping.fromJS(store, @session.currentSucursal)
+		$('#choose-store').modal('hide')
 
 	addToCart: (productToAdd, quantitySelected) =>
 		quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0]) if quantitySelected is null
@@ -71,7 +100,7 @@ class window.TransactionalPageVM
 			console.log @session.currentOrder.price()
 			$('#modal-dropdown').dropdown('set text', 'Cantidad')
 			$('#modal-dropdown').dropdown('set value', '')
-			$('.ui.modal').modal('hide')
+			$('#product-desc').modal('hide')
 			console.log @session.currentOrder.products()
 			@saveOrder()
 
@@ -87,6 +116,10 @@ class window.TransactionalPageVM
 	saveOrder: ->
 		session =
 			categories: @session.categories()
+			currentStore: ko.mapping.toJS(@session.currentStore)
+			currentSucursal: ko.mapping.toJS(@session.currentSucursal)
+			signedUp: @session.signedUp()
+			sucursals: @session.sucursals()
 			currentOrder:
 				numberProducts: @session.currentOrder.numberProducts()
 				products: @session.currentOrder.products()
@@ -94,6 +127,10 @@ class window.TransactionalPageVM
 				sucursalId: @session.currentOrder.sucursalId
 
 		Config.setItem('currentSession', JSON.stringify(session))
+
+	store: ->
+		@saveOrder()
+		window.location.href = '../../store'
 
 	removeFromCart: (product) ->
 		if product.quantity is 1
@@ -114,33 +151,13 @@ class window.TransactionalPageVM
 				subcategoryId: oldProduct.subcategoryId
 				totalPrice: parseFloat((oldProduct.frepi_price*(oldProduct.quantity-1)).toFixed(2))
 
-			console.log 'oldProduct'
-			console.log oldProduct
-			console.log 'newProduct'
-			console.log newProduct
-
-			console.log 'totalPrice product after removing an unit'
-			console.log newProduct.totalPrice
-			console.log '----------------------------------------'
-
 			@session.currentOrder.products.replace(oldProduct, newProduct)
-			
 			@session.currentOrder.price(parseFloat((@session.currentOrder.price() - product.frepi_price).toFixed(2)))
 			@saveOrder()
-			console.log '--- After removing an unit from cart ---'
-			console.log "PRICE: #{@session.currentOrder.price()}"
-			console.log 'PRODUCTS:'
-			console.log @session.currentOrder.products()
-			console.log '----------------------------------------'
 
 	removeItem: (item) ->
 		@session.currentOrder.price(parseFloat((@session.currentOrder.price() - item.totalPrice).toFixed(2)))
 		@session.currentOrder.products.remove(item)
-		console.log '--- After removing an item from cart ---'
-		console.log "PRICE: #{@session.currentOrder.price()}"
-		console.log 'PRODUCTS:'
-		console.log @session.currentOrder.products()
-		console.log '----------------------------------------'
 		@saveOrder()
 
 		if @session.currentOrder.products().length isnt 1
@@ -153,15 +170,21 @@ class window.TransactionalPageVM
 
 		if session
 			session = JSON.parse(Config.getItem('currentSession'))
+			@session.currentStore = ko.mapping.fromJS(session.currentStore)
+			@session.currentSucursal = ko.mapping.fromJS(session.currentSucursal)
 			@session.categories(session.categories)
-			@session.signUp(session.signUp)
+			@session.sucursals(session.sucursals)
+			@session.signedUp(session.signedUp)
 			@session.currentOrder.numberProducts(session.currentOrder.numberProducts)
 			@session.currentOrder.products(session.currentOrder.products)
 			@session.currentOrder.price(session.currentOrder.price)
 			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
 		else
+			@session.currentStore = ko.mapping.fromJS(@DEFAULT_STORE_PARTNER)
+			@session.currentSucursal = ko.mapping.fromJS(@DEFAULT_SUCURSAL)
 			@session.categories([])
-			@session.signUp(false)
+			@session.sucursals([])
+			@session.signedUp(false)
 			@session.currentOrder.numberProducts('0 items')
 			@session.currentOrder.products([])
 			@session.currentOrder.price(0.0)
@@ -180,3 +203,55 @@ class window.TransactionalPageVM
 			@user.profilePicture(tempUser.image)
 		else
 			@user.firstName('amigo')
+
+	signUp: ->
+
+	setDOMelems: ->
+		$('#choose-store')
+			.modal('setting', 'closable', false)
+			.modal('attach events', '#store-primary-navbar #target-store', 'show')
+		$('#sign-up')
+			.modal('attach events', '.sign-up-banner .green.button', 'show')
+		$('#sign-up .form').form(
+				fields: 
+					firstName:
+						identifier: 'firstName'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Por favor digite un nombre'
+							}
+						]
+					lastName:
+						identifier: 'lastName'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Por favor digite un usuario'
+							}
+						]
+					email:
+						identifier: 'email'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Por favor digite un usuario'
+							}, {
+								type: 'email'
+								prompt: 'Por favor digite un e-mail válido'
+							}
+						]
+					password:
+						identifier: 'password'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Por favor digite una contraseña'
+							}, {
+								type: 'length[6]'
+								prompt: 'La contraseña debe tener por lo menos 6 caracteres'
+							}
+						]
+				inline: true
+				keyboardShortcuts: false
+			)

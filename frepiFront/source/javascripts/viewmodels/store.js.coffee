@@ -14,21 +14,33 @@ class StoreVM extends TransactionalPageVM
 		# Methods to execute on instance
 		@setExistingSession()
 		@setUserInfo()
-		@fetchCategories()
+		@fetchStoreSucursals()
 		@setDOMElements()
+		@setSucursal()
 		@setSizeSidebar()
 
+	chooseStore: (store) =>
+		ko.mapping.fromJS(store, @session.currentSucursal)
+		$('#choose-store').modal('hide')
+		@fetchCategories()
+
 	fetchCategories: ->
-		storeID = 2
-		sucursalID = 1
-		data = ''
-		RESTfulService.makeRequest('GET', "/stores/#{storeID}/sucursals/#{sucursalID}/products", data, (error, success, headers) =>
+		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/sucursals/#{@session.currentSucursal.id()}/products", '', (error, success, headers) =>
 			if error
 				# console.log 'An error has ocurred while fetching the categories!'
 				@shouldShowError(true)
 			else
 				console.log success
 				@setProductsToShow(success)
+		)
+
+	fetchStoreSucursals: ->
+		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/sucursals", '', (error, success, headers) =>
+			if error
+				console.log 'An error has ocurred while fetching the sucursals!'
+			else
+				console.log success
+				@session.sucursals(success)
 		)
 
 	profile: ->
@@ -41,21 +53,9 @@ class StoreVM extends TransactionalPageVM
 		Config.setItem('showOrders', 'true')
 		window.location.href = '../../store/profile.html'
 
-	setExistingOrder: ->
-		order = Config.getItem('currentOrder')
-		console.log @session
-
-		if order
-			order = JSON.parse(Config.getItem('currentOrder'))
-			@session.currentOrder.numberProducts(order.numberProducts())
-			@session.currentOrder.products(order.products())
-			@session.currentOrder.price(order.price())
-			@session.currentOrder.sucursalId(order.sucursalId())
-		else
-			@session.currentOrder.numberProducts('0 items')
-			@session.currentOrder.products([])
-			@session.currentOrder.price(0.0)
-			@session.currentOrder.sucursalId = 1
+	setSucursal: ->
+		if @session.currentSucursal.id() is -1
+			$('#choose-store').modal('show')
 
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
@@ -64,7 +64,6 @@ class StoreVM extends TransactionalPageVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
-		console.log $('#mobile-menu')
 		$('#shopping-cart').sidebar({
 				dimPage: false
 				transition: 'overlay'
@@ -78,7 +77,7 @@ class StoreVM extends TransactionalPageVM
 		@selectedProductImage(product.image)
 		@selectedProductName(product.name)
 		@selectedProductPrice("$#{product.frepi_price}")
-		$('.ui.modal').modal('show')
+		$('#product-desc').modal('show')
 
 	showStoreInfo: ->
 		$('#store-banner').dimmer('show')
@@ -100,7 +99,7 @@ class StoreVM extends TransactionalPageVM
 			while productsToShow.length < 4 and productsToShow.length < allProductsCategory.length
 				# productsToShow.push(allProductsCategory[productsToShow.length])
 				random = Math.floor(Math.random()*(allProductsCategory.length))
-				if productsToShow.indexOf(allProductsCategory[random]) == -1
+				if productsToShow.indexOf(allProductsCategory[random]) is -1
 				  productsToShow.push(allProductsCategory[random])
 
 			category.productsToShow = productsToShow

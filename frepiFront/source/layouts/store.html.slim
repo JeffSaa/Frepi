@@ -15,11 +15,47 @@ html
 		script src="../javascripts/jquery/jquery-2.1.4.min.js"
 		script src="../semantic/out/semantic.min.js"
 		script src="../javascripts/knockout.js"
+		script src="../javascripts/plugins/ko-mapping.min.js"
 		script src="../javascripts/classes/encrypter.js"
 		script src="../javascripts/classes/config.js"
 		script src="../javascripts/classes/RESTfulService.js"
 		script src="../javascripts/viewmodels/transactionalPage.js"
 	body.store-layout
+		#choose-store.ui.modal
+			.centered.header Escoge una tienda
+			.content
+				.ui.four.column.doubling.grid data-bind="foreach: session.sucursals"
+					.column
+						.ui.fluid.link.card data-bind="click: $root.chooseStore"
+							.image
+								img src="../images/landing/stores/olimpica2.png" alt="Store's logo"
+							.content
+								.centered.header data-bind="text: $data.name"
+			.actions
+				p Frepi 2015
+		#sign-up.ui.modal
+			i.close.icon
+			.header Crea una cuenta
+			.content
+				form.ui.form data-bind="submit: signUp"
+					.field
+						label Nombre completo
+						.two.fields
+							.field
+								input type="text" name="firstName" placeholder="Nombres"
+							.field
+								input type="text" name="lastName" placeholder="Apellidos"
+					.field
+						label Correo electrónico
+						input type="email" name="email" placeholder="Correo electrónico"
+					.field
+						label Contraseña
+						input type="password" name="password" placeholder="Contraseña"
+			.actions
+				.ui.cancel.button Cancelar
+				.ui.labeled.green.submit.icon.button
+					|Crear
+					i.checkmark.icon
 		nav#mobile-menu.ui.vertical.left.sidebar.borderless.menu
 			h2 Frepi Menu
 			.item
@@ -55,7 +91,7 @@ html
 					i.shop.icon
 					.content Carro de compras
 				.ui.label data-bind="text: '$ '+session.currentOrder.price()"
-			.checkout data-bind="visible: !session.signUp()"
+			.checkout data-bind="visible: !session.signedUp()"
 				.ui.items data-bind="foreach: session.currentOrder.products"
 					.item
 						.ui.tiny.image 
@@ -71,7 +107,7 @@ html
 						i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
 				.item
 					button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
-			.sign-up-banner data-bind="visible: session.signUp"
+			.sign-up-banner data-bind="visible: session.signedUp"
 				p.ui.header Oops! Tienes que estar en tu cuenta
 				button.ui.fluid.large.green.button Crea una cuenta
 				.ui.horizontal.divider o
@@ -84,11 +120,11 @@ html
 					#store-frepi-logo
 						i.sidebar.icon
 						img.ui.image src="../images/landing/logoassd.png" alt="Frepi's logo"
-					a#target-store href="#"
+					#target-store
 						.item
 							.content
-								.ui.sub.header Olímpica Tanganazo
-								|Calle 72 # 60 - 12
+								.ui.sub.header data-bind="text: session.currentSucursal.name"
+								|<!--ko text: session.currentSucursal.address--><!--/ko-->
 					#product-searcher.item
 						.ui.icon.input
 							input type="text" placeholder="Buscar en Olímpica..."
@@ -115,7 +151,7 @@ html
 						button.ui.basic.grey.button
 							i.sidebar.icon
 							|Departamentos
-					a.link.item href="../store/index.html"
+					a.link.item data-bind="click: store"
 						i.home.large.grey.icon
 
 					.right.menu
