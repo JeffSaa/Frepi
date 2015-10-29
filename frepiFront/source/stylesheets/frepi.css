@@ -19,6 +19,13 @@ a {
   cursor: pointer;
 }
 
+.truncated {
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Request Error Message */
 /* Rules for message to be shown when an error with the network has ocurred*/
 .request-error {
@@ -247,10 +254,6 @@ header #shopping-cart .icon {
 #target-store .sub.header {
   color: #fff;
   font-size: 1.05em;
-  overflow: hidden;
-  -ms-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 #product-searcher {

@@ -204,7 +204,33 @@ class window.TransactionalPageVM
 		else
 			@user.firstName('amigo')
 
-	signUp: ->
+	signUp: =>
+		$form = $('#sign-up .ui.form')
+		$form.removeClass('error')
+		if $form.form('is valid')
+			data =
+				name: $form.form('get value', 'firstName')
+				last_name: $form.form('get value', 'lastName')
+				email: $form.form('get value', 'email')
+				password: $form.form('get value', 'password')
+				password_confirmation: $form.form('get value', 'password')
+
+			$('#sign-up .form .green.button').addClass('loading')
+			RESTfulService.makeRequest('POST', '/users', data, (error, success, headers) =>
+					if error
+						$('#sign-up .form .green.button').removeClass('loading')
+						$form.addClass('error')
+						console.log 'An error has ocurred in the authentication.'
+						# @errorTextResponse(error.responseJSON.errors.toString())
+					else
+						console.log success
+						Config.setItem('headers', JSON.stringify(headers))
+						Config.setItem('credentials', JSON.stringify({email: data.email, password: data.password}))
+						Config.setItem('userObject', JSON.stringify(success))
+						@setUserInfo()
+						@session.signedUp(true)
+						$('#sign-up').modal('hide')
+				)
 
 	setDOMelems: ->
 		$('#choose-store')

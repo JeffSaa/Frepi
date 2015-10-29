@@ -36,8 +36,6 @@ class SignUpVM
 						Config.setItem('userObject', JSON.stringify(success))
 						window.location.href = '../../store/index.html'
 				)
-		else
-
 
 	signWithFB: ->
 		FBcredentials = {}

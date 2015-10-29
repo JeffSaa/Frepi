@@ -51,11 +51,11 @@ html
 					.field
 						label Contraseña
 						input type="password" name="password" placeholder="Contraseña"
-			.actions
-				.ui.cancel.button Cancelar
-				.ui.labeled.green.submit.icon.button
-					|Crear
-					i.checkmark.icon
+					.buttons-to-right
+						.ui.cancel.button Cancelar
+						.ui.labeled.green.submit.icon.button
+							|Crear
+							i.checkmark.icon
 		nav#mobile-menu.ui.vertical.left.sidebar.borderless.menu
 			h2 Frepi Menu
 			.item
@@ -123,7 +123,7 @@ html
 					#target-store
 						.item
 							.content
-								.ui.sub.header data-bind="text: session.currentSucursal.name"
+								.ui.truncated.sub.header data-bind="text: session.currentSucursal.name"
 								|<!--ko text: session.currentSucursal.address--><!--/ko-->
 					#product-searcher.item
 						.ui.icon.input
