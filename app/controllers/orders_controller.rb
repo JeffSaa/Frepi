@@ -1,7 +1,6 @@
 class OrdersController < ApplicationController
 
   before_action :find_order, only: [:show, :update, :destroy]
-  before_action :find_sucursal, only: [:create]
   skip_before_action :require_administrator, :authenticate_shopper!
 
   def index
@@ -14,13 +13,12 @@ class OrdersController < ApplicationController
   end
 
   def create
-    order = current_user.orders.new(order_params)
-    if order.valid? && order.buy(params[:products])
-      order.save
-      render(json: order, status: :created)
-    else
-      render(json: { errors: order.errors }, status: :bad_request)
-    end
+    #order = current_user.orders.new(order_params)
+    Order.buy(current_user, params[:order])
+    head :created
+    #else
+    #  render(json: { errors: order.errors }, status: :bad_request)
+    #end
   end
 
   def update
@@ -49,18 +47,6 @@ class OrdersController < ApplicationController
     rescue => e
       render(json: { error: e.message }, status: :not_found)
     end
-  end
-
-  def find_sucursal
-    begin
-      @sucursal = Sucursal.find(params[:sucursal_id])
-    rescue => e
-      render(json: { error: e.message }, status: :not_found)
-    end
-  end
-
-  def order_params
-    params.permit(:sucursal_id, :status, :delivery_time)
   end
 
 end

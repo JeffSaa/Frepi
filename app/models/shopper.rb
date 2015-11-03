@@ -11,7 +11,10 @@ class Shopper < ActiveRecord::Base
   DISTANCE = 40000
 
   # Enumerators
-  enum status: [:active, :idle]
+  STATUS = %w(ACTIVE IDLE)
+  TYPES = ['IN-STORE', 'DELIVERY']
+  enum status: STATUS
+  enum shopper_type: TYPES
 
   # Associations
   belongs_to :city
@@ -23,7 +26,8 @@ class Shopper < ActiveRecord::Base
   # Validations
   validates :active, :phone_number, :status, presence: true
   validates :latitude, :longitude, numericality: true, allow_nil: true
-  validates :status, inclusion: { in: %w(active idle) }
+  validates :status, inclusion: { in: STATUS }
+  validates :shopper_type, inclusion: { in: TYPES }
   validates :identification, uniqueness: true, presence: true
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
   validates :company_email, allow_nil: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }

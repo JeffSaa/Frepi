@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
- # Api connection
+  # Api connection
   match '*path' => 'application#handle_options_request', constraints: { method: 'OPTIONS' }, via: :options
 
   # Social network routes
@@ -35,11 +35,17 @@ Rails.application.routes.draw do
     resources :sucursals, except: [:new, :edit] do
       resources :products, except: [:new, :edit]
     end
+    resources :explore_categories, path: 'categories', only: :index
   end
+
 
   resources :countries, except: [:new, :edit] do
     resources :states, except: [:new, :edit] do
       resources :cities, except: [:new, :edit]
     end
   end
+
+  # Explore
+  get 'subcategories/:subcategory_id/products', to: 'explore_products#index'
+
 end

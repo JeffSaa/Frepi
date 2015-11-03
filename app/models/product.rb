@@ -14,4 +14,13 @@ class Product < ActiveRecord::Base
   validates :available, inclusion: { in: [true, false] }
   validates :name, uniqueness: { scope: :subcategory_id }
   validates :subcategory, presence: true
+
+  # Callbacks
+  before_validation :round_price
+
+  private
+  def round_price
+    self.store_price = self.store_price.round(2).to_f
+    self.frepi_price = self.frepi_price.round(2).to_f
+  end
 end

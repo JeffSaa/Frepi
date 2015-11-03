@@ -26,15 +26,22 @@ class Order < ActiveRecord::Base
   before_save   :round_price
 
   # Methods
-  def buy(products)
+  def self.buy(user, order)
+    # TODO: add schedules
+    order.each do |sucursal|
+      order = user.orders.new(sucursal_id: sucursal[:sucursal_id])
+      order.add_products(sucursal[:products])
+      order.save
+    end
+  end
+
+
+  def add_products(products)
     # TODO: roolback when the last product doesn't exist
     products.each do |product|
       order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity])
-      if order_products.save
-        calculate_total(order_products)
-      else
-        return false
-      end
+      calculate_total(order_products)
+      order_products.save
     end
     !products.blank?
   end
@@ -51,7 +58,7 @@ class Order < ActiveRecord::Base
           order_products.save
           calculate_total(order_products)
         else
-          self.buy([product])
+          self.add_products([product])
         end
       end
     end

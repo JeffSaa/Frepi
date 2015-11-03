@@ -1,15 +1,8 @@
 class ProductSerializer < ActiveModel::Serializer
-  attributes :id, :reference_code, :name, :store_price, :frepi_price, :image, :available, :sales_count
+  attributes :id, :reference_code, :name, :store_price, :frepi_price, :image, :available, :sales_count, :subcategory_id
+  has_one :sucursal_id
 
-  has_one :category
-  has_one :subcategory
-
-  def category
-    object.category
+  def sucursal_id
+    object.sucursal_ids.first
   end
-
-  def subcategory
-    object.subcategory
-  end
-
 end

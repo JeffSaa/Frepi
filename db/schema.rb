@@ -46,13 +46,13 @@ ActiveRecord::Schema.define(version: 18) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.boolean  "active",                                 default: true, null: false
-    t.integer  "status",                                 default: 0,    null: false
-    t.datetime "date",                                                  null: false
-    t.decimal  "total_price",   precision: 16, scale: 2, default: 0.0,  null: false
+    t.boolean  "active",                                default: true, null: false
+    t.integer  "status",                                default: 0,    null: false
+    t.decimal  "total_price",   precision: 8, scale: 2, default: 0.0,  null: false
+    t.datetime "date",                                                 null: false
     t.datetime "delivery_time"
-    t.integer  "sucursal_id",                                           null: false
-    t.integer  "user_id",                                               null: false
+    t.integer  "sucursal_id",                                          null: false
+    t.integer  "user_id",                                              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -83,15 +83,15 @@ ActiveRecord::Schema.define(version: 18) do
 
   create_table "products", force: :cascade do |t|
     t.string   "reference_code"
-    t.string   "name",                                                   null: false
-    t.decimal  "store_price",    precision: 16, scale: 2,                null: false
-    t.decimal  "frepi_price",    precision: 16, scale: 2,                null: false
-    t.string   "image",                                                  null: false
-    t.boolean  "available",                               default: true, null: false
-    t.integer  "sales_count",                             default: 0
+    t.string   "name",                                                  null: false
+    t.decimal  "store_price",    precision: 8, scale: 2,                null: false
+    t.decimal  "frepi_price",    precision: 8, scale: 2,                null: false
+    t.string   "image",                                                 null: false
+    t.boolean  "available",                              default: true, null: false
+    t.integer  "sales_count",                            default: 0
     t.integer  "subcategory_id"
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
   end
 
   add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 18) do
     t.string   "identification",                                                     null: false
     t.string   "phone_number",                                                       null: false
     t.integer  "status",                                                             null: false
+    t.integer  "shopper_type",                                                       null: false
     t.string   "email",                                                              null: false
     t.boolean  "active",                                           default: true,    null: false
     t.string   "address"

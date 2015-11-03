@@ -46,7 +46,7 @@ class Shoppers::ShoppersController < ApplicationController
   def shopper_params
     params.permit(:first_name, :last_name, :email, :identification, :address, :status,
                   :phone_number, :image, :latitude, :longitude, :active, :password,
-                  :password_confirmation, :company_email)
+                  :password_confirmation, :company_email, :shopper_type)
   end
 
 
