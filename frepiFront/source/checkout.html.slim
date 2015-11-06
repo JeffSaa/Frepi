@@ -93,41 +93,50 @@ html
 					h1.ui.centered.green.header data-bind="visible: orderGenerated"
 						i.smile.icon
 						|Orden creada!
-					/ .ui.centered.steps
-					/ 	.active.step
-					/ 		i.truck.icon
-					/ 		.content
-					/ 			.title Entrega
-					/ 			.description Detalles de las ordenes de entrega
-					/ 	.step
-					/ 		i.info.icon
-					/ 		.content
-					/ 			.title Confirmar Orden
-					/ 			.description Verificar detalles del pedido
+					.steps-wrapper
+						.ui.steps
+							.active.step
+								i.shop.icon
+								.content
+									.title Productos
+									.description Verifica los productos de tu orden
+							.step
+								i.truck.icon
+								.content
+									.title Entrega
+									.description Detalles del envío de la orden
+							.step
+								i.info.icon
+								.content
+									.title Confirmar
+									.description Confirma tu orden
 
 					.order-content data-bind="visible: !orderGenerated()"
+						h3.ui.header
+							|Total Cuenta:&nbsp;$
+							span data-bind="text: order.price"
+
 						table.ui.celled.unstackable.table
 							thead
 								tr
-									th.two.wide ID
 									th.five.wide Nombre
 									th.two.wide Cantidad
-									th.three.wide Precio c/u ($)
-									th.three.wide Precio Total ($)
+									th.four.wide Precio c/u ($)
+									th.four.wide Precio Total ($)
 							tbody data-bind="foreach: order.products"
 								tr
-									td data-bind="text: $data.id"
 									td data-bind="text: $data.name"
 									td data-bind="text: $data.quantity"
-									td data-bind="text: $data.frepi_price"
+									td data-bind="text: $data.frepiPrice"
 									td data-bind="text: $data.totalPrice"
 						.ui.buttons.left.floated
-							.ui.green.button data-bind="click: generate" Generar
-							.or data-text="O"						
+							/ .ui.green.button data-bind="click: generate" Generar
+							/ .or data-text="O"						
+							/ .ui.button data-bind="click: cancel" Cancelar
 							.ui.button data-bind="click: cancel" Cancelar
-						.ui.labeled.icon.teal.button
-							i.dollar.icon
-							|<!--ko text: order.price--><!--/ko-->
+						.ui.right.labeled.icon.teal.button
+							|Siguiente
+							i.right.arrow.icon
 						/ .total.right.floated
 						/ 	span
 						/ 		strong Valor Total: 

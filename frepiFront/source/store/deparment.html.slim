@@ -1,0 +1,51 @@
+.category.ui.container
+	section.category-info
+		h1.ui.center.aligned.header data-bind="text: deparment.name"
+		.ui.horizontal.list data-bind="foreach: subcategories"
+			.item
+				.ui.basic.teal.button data-bind="text: $data.name, click: $root.fetchProducts"
+
+	section.products
+		.ui.five.column.doubling.grid data-bind="foreach: products"
+			.column
+				.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"
+					.image
+						img data-bind="attr: {src: $data.image}" alt="Product's image"
+					.content
+						.truncated.header data-bind="text: $data.name"
+					.extra.content
+						span.centering
+							i.dollar.icon
+						span.centering data-bind="text: $data.frepiPrice"
+						.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
+							.hidden.content Agregar
+							.visible.content
+								i.shop.icon		
+	/ section#error-container data-bind="visible: shouldShowError"
+	/ 	h2.ui.request-error.header
+	/ 		i.frown.icon
+	/ 		.content
+	/ 			|Ha ocurrido mientras se cargaba la página
+	/ #frepi-categories data-bind="foreach: session.categories, visible: !shouldShowError()"
+	/ 	section
+	/ 		h2.ui.header data-bind="text: $data.name"
+	/ 		#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
+	/ 			.column
+	/ 				.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"
+	/ 					.image
+	/ 						img data-bind="attr: {src: $data.image}" alt="Product's image"
+	/ 					.content
+	/ 						.truncated.header data-bind="text: $data.name"
+	/ 						.meta
+	/ 							a data-bind="text: $data.subcategoryName"
+	/ 					.extra.content
+	/ 						span.centering
+	/ 							i.dollar.icon
+	/ 						span.centering data-bind="text: $data.frepi_price"
+	/ 						.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
+	/ 							.hidden.content Agregar
+	/ 							.visible.content
+	/ 								i.shop.icon		
+	/ 	.ui.divider
+		
+script src="../javascripts/viewmodels/deparment.js" type="text/javascript"

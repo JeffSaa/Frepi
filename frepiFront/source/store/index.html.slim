@@ -1,29 +1,4 @@
 .store
-	#product-desc.ui.modal
-		i.close.icon					
-		.image.content
-			.ui.large.image
-				img data-bind="attr: {src: selectedProductImage}"
-			.description
-				h1.ui.header data-bind="text: selectedProductName"
-				.meta data-bind="text: selectedProductCategory"
-				h2.header data-bind="text: selectedProductPrice"
-				select#modal-dropdown.ui.fluid.dropdown
-					option value="" Cantidad
-					option value="1" 1
-					option value="2" 2
-					option value="3" 3
-					option value="4" 4
-					option value="5" 5
-					option value="6" 6
-					option value="7" 7
-					option value="8" 8
-					option value="9" 9
-					option value="10" 10+
-				button.ui.fluid.large.green.button data-bind="click: function(){$root.addToCart($root.selectedProduct, null)}" Agregar a carrito
-		.actions
-			p Here it goes the warning about the products information.	
-
 	#store-banner
 		a#about-icon href="#"
 			i.big.help.circle.link.icon data-bind="click: showStoreInfo"		
@@ -43,7 +18,7 @@
 	#frepi-categories.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
 		section
 			h2.ui.header data-bind="text: $data.name"
-			#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
+			#products-x-categories.ui.five.column.stackable.grid data-bind="foreach: $data.products"
 				.column
 					.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"
 						.image
@@ -55,11 +30,11 @@
 						.extra.content
 							span.centering
 								i.dollar.icon
-							span.centering data-bind="text: $data.frepi_price"
+							span.centering data-bind="text: $data.frepiPrice"
 							.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
 								.hidden.content Agregar
 								.visible.content
-									i.shop.icon		
+									i.add.to.cart.icon		
 		.ui.divider					
 		
 script src="../javascripts/viewmodels/store.js" type="text/javascript"

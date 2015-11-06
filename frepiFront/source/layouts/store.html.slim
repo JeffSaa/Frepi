@@ -18,6 +18,7 @@ html
 		script src="../javascripts/plugins/ko-mapping.min.js"
 		script src="../javascripts/classes/encrypter.js"
 		script src="../javascripts/classes/config.js"
+		script src="../javascripts/classes/constans.js"
 		script src="../javascripts/classes/RESTfulService.js"
 		script src="../javascripts/viewmodels/transactionalPage.js"
 	body.store-layout
@@ -33,6 +34,30 @@ html
 								.centered.header data-bind="text: $data.name"
 			.actions
 				p Frepi 2015
+		#product-desc.ui.modal
+			i.close.icon
+			.image.content
+				.ui.large.image
+					img data-bind="attr: {src: selectedProductImage}"
+				.description
+					h1.ui.header data-bind="text: selectedProductName"
+					.meta data-bind="text: selectedProductCategory"
+					h2.header data-bind="text: selectedProductPrice"
+					select#modal-dropdown.ui.fluid.dropdown
+						option value="" Cantidad
+						option value="1" 1
+						option value="2" 2
+						option value="3" 3
+						option value="4" 4
+						option value="5" 5
+						option value="6" 6
+						option value="7" 7
+						option value="8" 8
+						option value="9" 9
+						option value="10" 10+
+					button.ui.fluid.large.green.button data-bind="click: function(){$root.addToCart($root.selectedProduct, null)}" Agregar a carrito
+			.actions
+				p Here it goes the warning about the products information.
 		#sign-up.ui.modal
 			i.close.icon
 			.header Crea una cuenta
@@ -82,7 +107,7 @@ html
 					i.sidebar.icon
 					.content Departamentos
 			.items data-bind="foreach: session.categories"
-				a.item 
+				a.item data-bind="click: $root.chooseDeparment"
 					.header data-bind="text: $data.name"
 
 		#shopping-cart.ui.vertical.wide.right.sidebar.menu
@@ -99,7 +124,7 @@ html
 						.content
 							.header data-bind="text: $data.name"
 							.meta
-								span.price data-bind="text: '$'+$data.frepi_price"
+								span.price data-bind="text: '$'+$data.frepiPrice"
 								span x
 								span.quantity data-bind="text: $data.quantity"
 						i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
@@ -123,8 +148,8 @@ html
 					#target-store
 						.item
 							.content
-								.ui.truncated.sub.header data-bind="text: session.currentSucursal.name"
-								|<!--ko text: session.currentSucursal.address--><!--/ko-->
+								.ui.truncated.sub.header Centro
+								|Paseo Bolívar
 					#product-searcher.item
 						.ui.icon.input
 							input type="text" placeholder="Buscar en Olímpica..."

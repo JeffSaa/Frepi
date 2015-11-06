@@ -239,7 +239,7 @@ header #shopping-cart .icon {
 
 #target-store {
   border-right: 1px solid #64CC9F;
-  cursor: pointer;
+  cursor: default;
   height: 60px;
   padding: 2.5px 0;
   width: 210px;
@@ -559,7 +559,12 @@ header #shopping-cart .icon {
   table-layout: fixed;
 }
 
-.checkout .table thead tr th:nth-of-type(3) {
+.checkout .steps-wrapper {
+  margin-bottom: 2.5em;
+  text-align: center;
+}
+
+.checkout .table thead tr th:nth-of-type(2) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -576,4 +581,15 @@ header #shopping-cart .icon {
 .checkout .container .labeled.icon:hover {
   cursor: default;
   background-color: #00b5ad;
+}
+
+/* Category rules */
+
+.category .category-info {
+  margin: 2rem 0;
+}
+
+.category .category-info .horizontal.list {
+  display: block;
+  text-align: center;
 }

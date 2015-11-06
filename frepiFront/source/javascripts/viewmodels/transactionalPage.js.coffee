@@ -1,33 +1,12 @@
 class window.TransactionalPageVM
 	constructor: ->
-		@DEFAULT_STORE_PARTNER = 
-			id: 2
-			nit: "21-530-4163"
-			name: "Feest-Kub"
-			logo: "http://www.biz-logo.com/examples/002.gif"
-			description: "Non voluptatem suscipit beatae."
-			created_at: "2015-10-13T23:08:25.531Z"
-			updated_at: "2015-10-13T23:08:25.531Z"
-		@DEFAULT_SUCURSAL =
-			address: "26172 Lucienne Corners"
-			created_at: "2015-10-13T23:08:25.559Z"
-			id: -1
-			latitude: "-57.2628762651957"
-			longitude: "-159.203929960594"
-			manager_email: "bernardo_jaskolski@heaneystoltenberg.net"
-			manager_full_name: "Dorian Bartell"
-			manager_phone_number: "4477667382"
-			name: "Langworth, Lubowitz and Hirthe"
-			phone_number: "2283261"
-			store_partner_id: 2
-			updated_at: "2015-10-13T23:08:25.559Z"
-
 		@session =
-			currentStore			: null
-			currentSucursal		: null
-			categories				: ko.observableArray()
-			signedUp					: ko.observable()
-			sucursals					: ko.observableArray()
+			currentStore				: null
+			currentSucursal			: null
+			currentDeparmentID	: null
+			categories					: ko.observableArray()
+			signedUp						: ko.observable()
+			sucursals						: ko.observableArray()
 			currentOrder:
 				numberProducts	: ko.observable()
 				products 				: ko.observableArray()
@@ -42,7 +21,7 @@ class window.TransactionalPageVM
 			phone 					: ko.observable()
 			profilePicture 	: ko.observable()
 			fullName 				: ko.observable()
-		@setDOMelems()
+		@setDOMElems()
 
 	checkout: =>
 		if @user.id isnt null
@@ -65,9 +44,14 @@ class window.TransactionalPageVM
 			return product if product.name is name
 		return null
 
-	chooseStore: (store) =>
+	chooseStore: (store) ->
 		ko.mapping.fromJS(store, @session.currentSucursal)
 		$('#choose-store').modal('hide')
+
+	chooseDeparment: (deparment) =>
+		@session.currentDeparmentID = deparment.id
+		@saveOrder()
+		window.location.href = '../../store/deparment.html'
 
 	addToCart: (productToAdd, quantitySelected) =>
 		quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0]) if quantitySelected is null
@@ -76,13 +60,13 @@ class window.TransactionalPageVM
 		if not isNaN(quantitySelected)
 			if !product
 				productToAdd.quantity = quantitySelected
-				productToAdd.totalPrice = parseFloat(productToAdd.frepi_price)
+				productToAdd.totalPrice = parseFloat(productToAdd.frepiPrice)
 				@session.currentOrder.products.push(productToAdd)
 			else
 				oldProduct = product
 				newProduct =
 					available: oldProduct.available
-					frepi_price: oldProduct.frepi_price
+					frepiPrice: oldProduct.frepiPrice
 					id: oldProduct.id
 					image: oldProduct.image
 					name: oldProduct.name
@@ -92,11 +76,11 @@ class window.TransactionalPageVM
 					storePrice: oldProduct.storePrice
 					subcategoryName: oldProduct.subcategoryName
 					subcategoryId: oldProduct.subcategoryId
-					totalPrice: parseFloat((oldProduct.frepi_price*(oldProduct.quantity+quantitySelected)).toFixed(2))
+					totalPrice: parseFloat((oldProduct.frepiPrice*(oldProduct.quantity+quantitySelected)).toFixed(2))
 
 				@session.currentOrder.products.replace(oldProduct, newProduct)
 			
-			@session.currentOrder.price(parseFloat((@session.currentOrder.price() + productToAdd.frepi_price*quantitySelected).toFixed(2)))
+			@session.currentOrder.price(parseFloat((@session.currentOrder.price() + productToAdd.frepiPrice*quantitySelected).toFixed(2)))
 			console.log @session.currentOrder.price()
 			$('#modal-dropdown').dropdown('set text', 'Cantidad')
 			$('#modal-dropdown').dropdown('set value', '')
@@ -118,6 +102,7 @@ class window.TransactionalPageVM
 			categories: @session.categories()
 			currentStore: ko.mapping.toJS(@session.currentStore)
 			currentSucursal: ko.mapping.toJS(@session.currentSucursal)
+			currentDeparmentID: @session.currentDeparmentID
 			signedUp: @session.signedUp()
 			sucursals: @session.sucursals()
 			currentOrder:
@@ -139,7 +124,7 @@ class window.TransactionalPageVM
 			oldProduct = product
 			newProduct =
 				available: oldProduct.available
-				frepi_price: oldProduct.frepi_price
+				frepiPrice: oldProduct.frepiPrice
 				id: oldProduct.id
 				image: oldProduct.image
 				name: oldProduct.name
@@ -149,10 +134,10 @@ class window.TransactionalPageVM
 				storePrice: oldProduct.storePrice
 				subcategoryName: oldProduct.subcategoryName
 				subcategoryId: oldProduct.subcategoryId
-				totalPrice: parseFloat((oldProduct.frepi_price*(oldProduct.quantity-1)).toFixed(2))
+				totalPrice: parseFloat((oldProduct.frepiPrice*(oldProduct.quantity-1)).toFixed(2))
 
 			@session.currentOrder.products.replace(oldProduct, newProduct)
-			@session.currentOrder.price(parseFloat((@session.currentOrder.price() - product.frepi_price).toFixed(2)))
+			@session.currentOrder.price(parseFloat((@session.currentOrder.price() - product.frepiPrice).toFixed(2)))
 			@saveOrder()
 
 	removeItem: (item) ->
@@ -172,6 +157,7 @@ class window.TransactionalPageVM
 			session = JSON.parse(Config.getItem('currentSession'))
 			@session.currentStore = ko.mapping.fromJS(session.currentStore)
 			@session.currentSucursal = ko.mapping.fromJS(session.currentSucursal)
+			@session.currentDeparmentID = session.currentDeparmentID
 			@session.categories(session.categories)
 			@session.sucursals(session.sucursals)
 			@session.signedUp(session.signedUp)
@@ -180,8 +166,9 @@ class window.TransactionalPageVM
 			@session.currentOrder.price(session.currentOrder.price)
 			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
 		else
-			@session.currentStore = ko.mapping.fromJS(@DEFAULT_STORE_PARTNER)
-			@session.currentSucursal = ko.mapping.fromJS(@DEFAULT_SUCURSAL)
+			@session.currentStore = ko.mapping.fromJS(DefaultModels.STORE_PARTNER)
+			@session.currentSucursal = ko.mapping.fromJS(DefaultModels.SUCURSAL)
+			@session.currentDeparmentID = 1
 			@session.categories([])
 			@session.sucursals([])
 			@session.signedUp(false)
@@ -232,10 +219,10 @@ class window.TransactionalPageVM
 						$('#sign-up').modal('hide')
 				)
 
-	setDOMelems: ->
-		$('#choose-store')
-			.modal('setting', 'closable', false)
-			.modal('attach events', '#store-primary-navbar #target-store', 'show')
+	setDOMElems: ->
+		# $('#choose-store')
+		# 	.modal('setting', 'closable', false)
+		# 	.modal('attach events', '#store-primary-navbar #target-store', 'show')
 		$('#sign-up')
 			.modal('attach events', '.sign-up-banner .green.button', 'show')
 		$('#sign-up .form').form(
@@ -245,7 +232,7 @@ class window.TransactionalPageVM
 						rules: [
 							{
 								type: 'empty'
-								prompt: 'Por favor digite un nombre'
+								prompt: 'Olvidaste poner tus nombres'
 							}
 						]
 					lastName:
@@ -253,7 +240,7 @@ class window.TransactionalPageVM
 						rules: [
 							{
 								type: 'empty'
-								prompt: 'Por favor digite un usuario'
+								prompt: 'Olvidaste poner tus apellidos'
 							}
 						]
 					email:
@@ -261,10 +248,10 @@ class window.TransactionalPageVM
 						rules: [
 							{
 								type: 'empty'
-								prompt: 'Por favor digite un usuario'
+								prompt: 'Olvidaste poner tu e-mail'
 							}, {
 								type: 'email'
-								prompt: 'Por favor digite un e-mail válido'
+								prompt: 'Digitaste un e-mail no válido'
 							}
 						]
 					password:
@@ -272,7 +259,7 @@ class window.TransactionalPageVM
 						rules: [
 							{
 								type: 'empty'
-								prompt: 'Por favor digite una contraseña'
+								prompt: 'Olvidaste poner una contraseña'
 							}, {
 								type: 'length[6]'
 								prompt: 'La contraseña debe tener por lo menos 6 caracteres'

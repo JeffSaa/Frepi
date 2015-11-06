@@ -2,10 +2,9 @@ class StoreVM extends TransactionalPageVM
 	constructor: ->
 		super()
 		@shouldShowError = ko.observable(false)
-		@userName = ko.observable()
 
 		# Modal variables
-		@selectedProduct = null
+		# @selectedProduct = null
 		@selectedProductCategory = ko.observable()
 		@selectedProductImage = ko.observable()
 		@selectedProductName = ko.observable()
@@ -14,9 +13,10 @@ class StoreVM extends TransactionalPageVM
 		# Methods to execute on instance
 		@setExistingSession()
 		@setUserInfo()
-		@fetchStoreSucursals()
+		# @fetchStoreSucursals()
+		@fetchCategories()
 		@setDOMElements()
-		@setSucursal()
+		# @setSucursal()
 		@setSizeSidebar()
 
 	chooseStore: (store) =>
@@ -25,13 +25,20 @@ class StoreVM extends TransactionalPageVM
 		@fetchCategories()
 
 	fetchCategories: ->
-		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/sucursals/#{@session.currentSucursal.id()}/products", '', (error, success, headers) =>
+		# RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/sucursals/#{@session.currentSucursal.id()}/products", '', (error, success, headers) =>
+		# 	if error
+		# 		# console.log 'An error has ocurred while fetching the categories!'
+		# 		@shouldShowError(true)
+		# 	else
+		# 		console.log success
+		# 		@setProductsToShow(success)
+		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/categories", '', (error, success, headers) =>
 			if error
 				# console.log 'An error has ocurred while fetching the categories!'
 				@shouldShowError(true)
 			else
 				console.log success
-				@setProductsToShow(success)
+				@session.categories(success)
 		)
 
 	fetchStoreSucursals: ->
@@ -72,11 +79,11 @@ class StoreVM extends TransactionalPageVM
 		$('#modal-dropdown').dropdown()
 
 	showProduct: (product) ->
-		@selectedProduct = product
+		# @selectedProduct = product
 		@selectedProductCategory(product.subcategoryName)
 		@selectedProductImage(product.image)
 		@selectedProductName(product.name)
-		@selectedProductPrice("$#{product.frepi_price}")
+		@selectedProductPrice("$#{product.frepiPrice}")
 		$('#product-desc').modal('show')
 
 	showStoreInfo: ->
