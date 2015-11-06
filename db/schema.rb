@@ -46,12 +46,15 @@ ActiveRecord::Schema.define(version: 18) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.boolean  "active",                                default: true, null: false
-    t.integer  "status",                                default: 0,    null: false
-    t.decimal  "total_price",   precision: 8, scale: 2, default: 0.0,  null: false
-    t.datetime "date",                                                 null: false
+    t.boolean  "active",                                 default: true, null: false
+    t.integer  "status",                                 default: 0,    null: false
+    t.decimal  "total_price",    precision: 8, scale: 2, default: 0.0,  null: false
+    t.datetime "date",                                                  null: false
+    t.datetime "scheduled_date"
+    t.time     "arrival_time"
+    t.time     "expiry_time"
     t.datetime "delivery_time"
-    t.integer  "user_id",                                              null: false
+    t.integer  "user_id",                                               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

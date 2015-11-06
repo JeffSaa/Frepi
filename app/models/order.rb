@@ -1,6 +1,5 @@
 class Order < ActiveRecord::Base
 
-  # Enumerators, TODO: Changed to mayus
   STATUS = %w(RECEIVED DELIVERING DISPATCHED)
   enum status: STATUS
 
@@ -19,14 +18,14 @@ class Order < ActiveRecord::Base
   validates :status, inclusion: { in: STATUS }
   validates :active, inclusion: { in: [true, false] }
   validates :total_price, numericality: true
-  validates_datetime :delivery_time, allow_nil: true
+  validates_datetime :delivery_time, :scheduled_date, allow_nil: true
+  validates_datetime :expiry_time, after: :arrival_time, allow_nil: true
 
   # Callbacks
   before_create :set_date
   before_save   :round_price
 
   # Methods
-  # TODO: add schedules
   def self.buy(user, products)
     return false if not self.products_valid?(products)
     new_order = user.orders.new
@@ -75,15 +74,12 @@ class Order < ActiveRecord::Base
     end
     true
   end
+
   # ---------------------- Private ---------------------------- #
   private
 
   def set_date
     self.date = DateTime.current
-  end
-
-  def reset_total_price
-    self.total_price = 0
   end
 
   def round_price

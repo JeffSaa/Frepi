@@ -4,7 +4,6 @@ class Orders::OrdersController < ApplicationController
   before_action :find_order, only: [:show, :update, :destroy]
 
   def index
-    # REFACTOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     if params[:latitude] && params[:longitude]
 
       latitude = params[:latitude]
@@ -17,6 +16,7 @@ class Orders::OrdersController < ApplicationController
       users.each do |user|
        user.distance =  user.distance_to([latitude, longitude], :km)
       end
+
       users = users.sort_by { |x| x.distance }
 
       users.each do |user|

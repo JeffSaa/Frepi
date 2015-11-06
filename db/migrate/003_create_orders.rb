@@ -5,6 +5,11 @@ class CreateOrders < ActiveRecord::Migration
       t.integer     :status,        null: false, default: 0
       t.decimal     :total_price,   null: false, default: 0, scale: 2, precision: 8
       t.datetime    :date,          null: false
+      t.datetime    :scheduled_date
+      t.time        :arrival_time
+      t.time        :expiry_time
+
+      # Review Attribute -> delivery_time
       t.datetime    :delivery_time
 
       # Associations
