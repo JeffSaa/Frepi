@@ -3,7 +3,7 @@ class ExploreCategoriesController < ApplicationController
   before_action :find_store_partner
 
   def index
-    render json: @store_partner.categories.distinct
+    render json: @store_partner.categories.distinct, each_serializer: ExplorerCategorySerializer
   end
 
   private
