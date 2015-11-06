@@ -61,25 +61,25 @@ class Shoppers::OrdersControllerTest < ActionController::TestCase
   # ---------------- Update ----------------------- #
   test "Only a shopper should update a order" do
     sign_in :shopper, shoppers(:shopper)
-    put :update, shopper_id: shoppers(:shopper).id, id: orders(:one).id, status: 'dispatched'
+    put :update, shopper_id: shoppers(:shopper).id, id: orders(:one).id, status: 'DISPATCHED'
     response = JSON.parse(@response.body)
 
-    assert_match('dispatched', response['status'])
+    assert_match('DISPATCHED', response['status'])
     assert_response :ok
   end
 
   test "should not update an order a user or someone not logged" do
-    put :update, shopper_id: shoppers(:shopper).id, id: orders(:one).id, status: 'dispatched'
+    put :update, shopper_id: shoppers(:shopper).id, id: orders(:one).id, status: 'DISPATCHED'
     response = JSON.parse(@response.body)
 
-    assert_no_match('dispatched', response['status'])
+    assert_no_match('DISPATCHED', response['status'])
     assert_response :unauthorized
 
     sign_in :user, users(:user)
-    put :update, shopper_id: shoppers(:shopper).id, id: orders(:one).id, status: 'dispatched'
+    put :update, shopper_id: shoppers(:shopper).id, id: orders(:one).id, status: 'DISPATCHED'
     response = JSON.parse(@response.body)
 
-    assert_no_match('dispatched', response['status'])
+    assert_no_match('DISPATCHED', response['status'])
     assert_response :unauthorized
   end
 

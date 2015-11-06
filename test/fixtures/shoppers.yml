@@ -11,3 +11,4 @@ shopper:
   longitude: 9.99
   phone_number: MyString
   status: active
+  shopper_type: 'IN-STORE'

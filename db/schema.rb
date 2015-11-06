@@ -51,13 +51,11 @@ ActiveRecord::Schema.define(version: 18) do
     t.decimal  "total_price",   precision: 8, scale: 2, default: 0.0,  null: false
     t.datetime "date",                                                 null: false
     t.datetime "delivery_time"
-    t.integer  "sucursal_id",                                          null: false
     t.integer  "user_id",                                              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "orders", ["sucursal_id"], name: "index_orders_on_sucursal_id"
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
 
   create_table "orders_products", force: :cascade do |t|

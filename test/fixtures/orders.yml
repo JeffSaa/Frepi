@@ -4,7 +4,6 @@ one:
   status: 0
   date: 2015-08-03 13:51:19
   total_price: 20.98
-  sucursal_id: 1
   user_id: 1
 
 two:
@@ -13,5 +12,4 @@ two:
   status: 1
   date: 2015-09-11 15:51:19
   total_price: 20.98
-  sucursal_id: sucursals(:olimpica).id
   user_id: users(:user).id

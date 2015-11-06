@@ -8,7 +8,6 @@ class CreateOrders < ActiveRecord::Migration
       t.datetime    :delivery_time
 
       # Associations
-      t.references  :sucursal,      null: false, index: true, foreign_key: true
       t.references  :user,          null: false, index: true, foreign_key: true
       t.timestamps
     end

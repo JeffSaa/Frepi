@@ -1,67 +1,66 @@
 class Order < ActiveRecord::Base
 
   # Enumerators, TODO: Changed to mayus
-  enum status: %w[received delivering dispatched]
+  STATUS = %w(RECEIVED DELIVERING DISPATCHED)
+  enum status: STATUS
 
   # Associations
   belongs_to  :user, counter_cache: :counter_orders
-  belongs_to  :sucursal
   has_one     :shopper, through: :shoppers_order
+  has_one     :shoppers_order
+  has_many    :sucursals, through: :products
   has_many    :products, through: :orders_products
   has_many    :schedules, through: :orders_schedules
-  has_one     :shoppers_order
   has_many    :orders_products
   has_many    :orders_schedules
 
   # Validations
-  validates :user, :sucursal, :total_price, presence: true
-  validates :status, inclusion: { in: %w(received delivering dispatched) }
+  validates :user, :total_price, presence: true
+  validates :status, inclusion: { in: STATUS }
   validates :active, inclusion: { in: [true, false] }
   validates :total_price, numericality: true
   validates_datetime :delivery_time, allow_nil: true
 
   # Callbacks
   before_create :set_date
-  before_update :reset_total_price
   before_save   :round_price
 
   # Methods
-  def self.buy(user, order)
-    # TODO: add schedules
-    order.each do |sucursal|
-      order = user.orders.new(sucursal_id: sucursal[:sucursal_id])
-      order.add_products(sucursal[:products])
-      order.save
-    end
-  end
-
-
-  def add_products(products)
-    # TODO: roolback when the last product doesn't exist
+  # TODO: add schedules
+  def self.buy(user, products)
+    return false if not self.products_valid?(products)
+    new_order = user.orders.new
     products.each do |product|
-      order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity])
-      calculate_total(order_products)
-      order_products.save
+      new_order.add_products(product)
     end
-    !products.blank?
+    new_order
   end
 
+
+  def add_products(product)
+    order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity])
+    self.total_price += Product.find(product[:id]).frepi_price * product[:quantity]
+  end
+
+  # TODO: increment counter cache when the order is active
   def update_products(products)
-    # TODO: increment counter cache when the order is active, valid when the product don't exist
+    Order.products_valid?(products)
+    self.total_price = 0
     products.each do |product|
       if product[:quantity] == 0
-        orders_products = self.orders_products.find_by(product_id: product[:id]).destroy
+        self.orders_products.find_by(product_id: product[:id]).destroy
       else
         order_products = self.orders_products.find_by(product_id: product[:id])
         if order_products
           order_products.assign_attributes(quantity: product[:quantity])
+          self.total_price += Product.find(product[:id]).frepi_price * product[:quantity]
           order_products.save
-          calculate_total(order_products)
         else
-          self.add_products([product])
+          self.add_products(product)
         end
       end
     end
+    self
   end
 
   def delete_order
@@ -70,16 +69,17 @@ class Order < ActiveRecord::Base
     self.orders_products.each { |order| order.decrement_counter }
   end
 
+  def self.products_valid?(products)
+    products.each do |product|
+      return false if not Product.exists?(product['id'])
+    end
+    true
+  end
   # ---------------------- Private ---------------------------- #
   private
 
   def set_date
     self.date = DateTime.current
-  end
-
-  def calculate_total(order_product, sign = :increase)
-    sign = sign == :increase ? '+' : '-'
-    self.total_price = self.total_price.send(sign, order_product.product.frepi_price * order_product.quantity)
   end
 
   def reset_total_price

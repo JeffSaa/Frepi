@@ -75,13 +75,11 @@ if Rails.env.development?
   # Orders
   15.times do |item|
     user = User.find(Faker::Number.between(1, 10))
-    sucursal = Sucursal.find(Sucursal.find([1, 2, 3].sample))
-    #order = user.orders.create!(active: [true, false].sample, status: %w(received delivering dispatched).sample,
     order = user.orders.create!(active: true, status: 0,
-                                sucursal_id: sucursal.id, total_price: Faker::Commerce.price)
+                                total_price: Faker::Commerce.price)
     #order.products << Product.find(item + 1)
     quantity = Faker::Number.between(1, 10)
-    item = order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity)
+    order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity)
   end
 
   # Complaints

@@ -4,7 +4,6 @@ class OrdersController < ApplicationController
   skip_before_action :require_administrator, :authenticate_shopper!
 
   def index
-    # TODO: what happen if the user is admin, order active ?
     render json: current_user.orders.where(active: true)
   end
 
@@ -13,23 +12,22 @@ class OrdersController < ApplicationController
   end
 
   def create
-    #order = current_user.orders.new(order_params)
-    Order.buy(current_user, params[:order])
-    head :created
-    #else
-    #  render(json: { errors: order.errors }, status: :bad_request)
-    #end
+    new_order = Order.buy(current_user, params[:products])
+    if new_order
+      new_order.save
+      render(json: new_order, status: :created)
+    else
+      render(json: { errors: 'Product not found' }, status: :bad_request)
+    end
   end
 
   def update
-    @order.assign_attributes(order_params)
-
-    if @order.valid?
-      @order.save
-      @order.update_products(params[:products])
-      render(json: @order)
+    order_update = @order.update_products(params[:products])
+    if order_update
+      order_update.save
+      render(json: order_update)
     else
-      render(json: { errors: @order.errors }, status: :bad_request)
+      render(json: { errors: 'Product not found' }, status: :bad_request)
     end
   end
 
