@@ -41,8 +41,8 @@ class OrdersControllerTest < ActionController::TestCase
     sign_in :user, users(:user)
 
     assert_difference('Order.count') do
-      post :create, user_id: users(:user).id, products: [ {id: products(:johnny), quantity: 14} ],
-                    sucursal_id: sucursals(:olimpica).id
+      post :create, {user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, { id: products(:jack).id, quantity: 1 } ]}, { "Accept" => "application/json", "Content-Type" => "application/json" }
+
       assert_response :created
     end
   end
@@ -50,13 +50,11 @@ class OrdersControllerTest < ActionController::TestCase
 
   test 'should not create an order, shoppers or anyone no logged' do
     assert_no_difference('Order.count') do
-      post :create, user_id: users(:user).id, products: [ {id: products(:johnny), quantity: 14} ],
-                    sucursal_id: sucursals(:olimpica).id
+      post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, {id: products(:jack).id, quantity: 1 } ]
       assert_response :unauthorized
 
       sign_in :shopper, shoppers(:shopper)
-      post :create, user_id: users(:user).id, products: [ {id: products(:johnny), quantity: 14} ],
-                    sucursal_id: sucursals(:olimpica).id
+      post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, {id: products(:jack).id, quantity: 1 } ]
       assert_response :unauthorized
     end
   end
@@ -64,7 +62,7 @@ class OrdersControllerTest < ActionController::TestCase
   # ---------------- Update ----------------------- #
   test "Only a user should update" do
     sign_in :user, users(:user)
-    put :update, user_id: users(:user).id, id: orders(:one).id, products: [ {id: products(:johnny), quantity: 999} ]
+    put :update, { user_id: users(:user).id, id: orders(:one).id, products: [ { id: products(:johnny).id, quantity: 999 } ]}
     response = JSON.parse(@response.body)
 
     assert_equal(999, response['ordersProducts'].first['quantity'])
@@ -72,14 +70,12 @@ class OrdersControllerTest < ActionController::TestCase
   end
 
   test "should not update an order or someone not logged" do
-    put :update, user_id: users(:user).id, id: orders(:one).id, products: [ {id: products(:johnny), quantity: 999} ]
-    response = JSON.parse(@response.body)
+    put :update, user_id: users(:user).id, id: orders(:one).id, products: [ { id: products(:johnny).id, quantity: 999 } ]
 
     assert_response :unauthorized
 
     sign_in :shopper, shoppers(:shopper)
-    put :update, user_id: users(:user).id, id: orders(:one).id, products: [ {id: products(:johnny), quantity: 999} ]
-    response = JSON.parse(@response.body)
+    put :update, user_id: users(:user).id, id: orders(:one).id, products: [ { id: products(:johnny).id, quantity: 999 } ]
 
     assert_response :unauthorized
   end

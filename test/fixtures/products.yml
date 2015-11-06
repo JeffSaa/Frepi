@@ -3,7 +3,7 @@ johnny:
   reference_code: 431234234
   name: rice
   store_price: 9.99
-  frepi_price: 9.99
+  frepi_price: 99
   image: MyString
   available: true
   sales_count: 1
@@ -14,7 +14,7 @@ jack:
   reference_code: 1244353
   name: rice
   store_price: 9.99
-  frepi_price: 9.99
+  frepi_price: 10
   image: MyString
   available: true
   sales_count: 0

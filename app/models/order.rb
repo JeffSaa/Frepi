@@ -38,8 +38,8 @@ class Order < ActiveRecord::Base
 
 
   def add_products(product)
-    order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity])
-    self.total_price += Product.find(product[:id]).frepi_price * product[:quantity]
+    order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity].to_i)
+    self.total_price += Product.find(product[:id]).frepi_price * product[:quantity].to_i
   end
 
   # TODO: increment counter cache when the order is active
@@ -47,13 +47,13 @@ class Order < ActiveRecord::Base
     Order.products_valid?(products)
     self.total_price = 0
     products.each do |product|
-      if product[:quantity] == 0
+      if product[:quantity].to_i == 0
         self.orders_products.find_by(product_id: product[:id]).destroy
       else
         order_products = self.orders_products.find_by(product_id: product[:id])
         if order_products
-          order_products.assign_attributes(quantity: product[:quantity])
-          self.total_price += Product.find(product[:id]).frepi_price * product[:quantity]
+          order_products.assign_attributes(quantity: product[:quantity].to_i)
+          self.total_price += Product.find(product[:id]).frepi_price * product[:quantity].to_i
           order_products.save
         else
           self.add_products(product)

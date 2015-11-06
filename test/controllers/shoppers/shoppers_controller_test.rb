@@ -53,7 +53,7 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
                       email: 'benito97@frepi.com', identification: '11408743554',
                       address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                       latitude: Faker::Address.latitude, longitude: Faker::Address.longitude,
-                      password: 'frepi123', password_confirmation: 'frepi123', status: Shopper::STATUS.sample, type: Shopper::TYPE.sample }
+                      password: 'frepi123', password_confirmation: 'frepi123', status: Shopper::STATUS.sample, shopper_type: Shopper::TYPES.sample }
 
       assert_response :created
     end
@@ -67,7 +67,7 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
                       email: 'benito97@frepi.com', identification: '11408743554',
                       address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                       latitude: Faker::Address.latitude, longitude: Faker::Address.longitude,
-                      password: 'frepi123', password_confirmation: 'frepi123', status: Shopper::STATUS.sample, type: Shopper::TYPE.sample }
+                      password: 'frepi123', password_confirmation: 'frepi123', status: Shopper::STATUS.sample, shopper_type: Shopper::TYPES.sample }
 
       assert_response :unauthorized
     end
