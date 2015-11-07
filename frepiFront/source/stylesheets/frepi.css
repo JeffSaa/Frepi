@@ -550,6 +550,15 @@ header #shopping-cart .icon {
   display: none;
 }
 
+.checkout .segment .top.attached.label {
+  font-size: 1em;
+}
+
+.checkout .steps-wrapper {
+  margin-bottom: 2.5em;
+  text-align: center;
+}
+
 .checkout .container>.header {
   margin: 3em 0 1.5em;
 }
@@ -557,11 +566,6 @@ header #shopping-cart .icon {
 .checkout .container table {
   margin-bottom: 1.75em;
   table-layout: fixed;
-}
-
-.checkout .steps-wrapper {
-  margin-bottom: 2.5em;
-  text-align: center;
 }
 
 .checkout .table thead tr th:nth-of-type(2) {

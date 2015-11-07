@@ -99,48 +99,49 @@ html
 								i.shop.icon
 								.content
 									.title Productos
-									.description Verifica los productos de tu orden
+									.description Verifica los productos
 							.step
 								i.truck.icon
 								.content
 									.title Entrega
-									.description Detalles del envío de la orden
+									.description Detalles de envío
 							.step
-								i.info.icon
+								i.thumbs.outline.up.icon
 								.content
 									.title Confirmar
 									.description Confirma tu orden
 
-					.order-content data-bind="visible: !orderGenerated()"
-						h3.ui.header
+					.ui.clearfix.segment
+						.ui.top.attached.label
 							|Total Cuenta:&nbsp;$
 							span data-bind="text: order.price"
-
-						table.ui.celled.unstackable.table
-							thead
-								tr
-									th.five.wide Nombre
-									th.two.wide Cantidad
-									th.four.wide Precio c/u ($)
-									th.four.wide Precio Total ($)
-							tbody data-bind="foreach: order.products"
-								tr
-									td data-bind="text: $data.name"
-									td data-bind="text: $data.quantity"
-									td data-bind="text: $data.frepiPrice"
-									td data-bind="text: $data.totalPrice"
-						.ui.buttons.left.floated
-							/ .ui.green.button data-bind="click: generate" Generar
-							/ .or data-text="O"						
-							/ .ui.button data-bind="click: cancel" Cancelar
-							.ui.button data-bind="click: cancel" Cancelar
-						.ui.right.labeled.icon.teal.button
-							|Siguiente
-							i.right.arrow.icon
-						/ .total.right.floated
-						/ 	span
-						/ 		strong Valor Total: 
-						/ 	span data-bind="text: ' $'+order.price()"
+						.order-content data-bind="visible: !orderGenerated()"
+							/ h3.ui.header
+							table.ui.celled.unstackable.table
+								thead
+									tr
+										th.five.wide Nombre
+										th.two.wide Cantidad
+										th.four.wide Precio c/u ($)
+										th.four.wide Precio Total ($)
+								tbody data-bind="foreach: order.products"
+									tr
+										td data-bind="text: $data.name"
+										td data-bind="text: $data.quantity"
+										td data-bind="text: $data.frepiPrice"
+										td data-bind="text: $data.totalPrice"
+							.ui.buttons.left.floated
+								/ .ui.green.button data-bind="click: generate" Generar
+								/ .or data-text="O"						
+								/ .ui.button data-bind="click: cancel" Cancelar
+								.ui.button data-bind="click: cancel" Cancelar
+							.ui.right.labeled.icon.teal.button
+								|Siguiente
+								i.right.arrow.icon
+							/ .total.right.floated
+							/ 	span
+							/ 		strong Valor Total: 
+							/ 	span data-bind="text: ' $'+order.price()"
 						
 		script src="javascripts/knockout.js"
 		script src="javascripts/plugins/crypto-js.min.js"
