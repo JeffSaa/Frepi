@@ -16,31 +16,32 @@ html
 				.ui.container
 					a#landing-logo.ui.image href="#"
 						img src="images/landing/logo.png"
-			#login-grid.ui.three.column.centered.stackable.grid
-				.column
-					h1.ui.center.aligned.header 
-						|Hola de nuevo!
-						.sub.header Ingresa y escoge los mejores productos.
-					form.ui.form data-bind="submit: login"
-						#login-form.ui.raised.segment
-							.field
-								.ui.left.icon.input
-									i.user.icon
-									input type="text" name="username" placeholder="Usuario"
-							.field
-								.ui.left.icon.input
-									i.lock.icon
-									input type="password" name="password" placeholder="Contraseña"
-							.ui.error.message
-								.header data-bind="text: errorTextResponse"
-							button#login.ui.fluid.large.green.button type="submit" Iniciar
-							.ui.horizontal.divider o
-							button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: loginFB"
-								i.facebook.icon
-								|Inicia con Facebook
-							#login-message.ui.center.aligned
-								|¿No tienes cuenta? 
-								a href="signup.html" Crea una!
+			#login-grid.ui.one.column.centered.stackable.page.grid
+				.column.eight.wide
+					.column
+						h1.ui.center.aligned.header 
+							|Hola de nuevo!
+							.sub.header Ingresa y escoge los mejores productos.
+						form.ui.form data-bind="submit: login"
+							#login-form.ui.raised.segment
+								.field
+									.ui.left.icon.input
+										i.user.icon
+										input type="text" name="username" placeholder="Usuario"
+								.field
+									.ui.left.icon.input
+										i.lock.icon
+										input type="password" name="password" placeholder="Contraseña"
+								.ui.error.message
+									.header data-bind="text: errorTextResponse"
+								button#login.ui.fluid.large.green.button type="submit" Iniciar
+								.ui.horizontal.divider o
+								button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: loginFB"
+									i.facebook.icon
+									|Inicia con Facebook
+								#login-message.ui.center.aligned
+									|¿No tienes cuenta? 
+									a href="signup.html" Crea una!
 					
 						
 		script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"

@@ -111,37 +111,149 @@ html
 									.title Confirmar
 									.description Confirma tu orden
 
-					.ui.clearfix.segment
-						.ui.top.attached.label
-							|Total Cuenta:&nbsp;$
-							span data-bind="text: order.price"
-						.order-content data-bind="visible: !orderGenerated()"
-							/ h3.ui.header
-							table.ui.celled.unstackable.table
-								thead
-									tr
-										th.five.wide Nombre
-										th.two.wide Cantidad
-										th.four.wide Precio c/u ($)
-										th.four.wide Precio Total ($)
-								tbody data-bind="foreach: order.products"
-									tr
-										td data-bind="text: $data.name"
-										td data-bind="text: $data.quantity"
-										td data-bind="text: $data.frepiPrice"
-										td data-bind="text: $data.totalPrice"
-							.ui.buttons.left.floated
-								/ .ui.green.button data-bind="click: generate" Generar
-								/ .or data-text="O"						
-								/ .ui.button data-bind="click: cancel" Cancelar
-								.ui.button data-bind="click: cancel" Cancelar
-							.ui.right.labeled.icon.teal.button
-								|Siguiente
-								i.right.arrow.icon
-							/ .total.right.floated
-							/ 	span
-							/ 		strong Valor Total: 
-							/ 	span data-bind="text: ' $'+order.price()"
+					.ui.one.column.centered.stackable.page.grid
+						.column
+							.ui.clearfix.segment
+								.ui.top.attached.label
+									|Total Cuenta:&nbsp;$
+									span data-bind="text: order.price"
+								.order-content data-bind="visible: !orderGenerated()"
+									/ h3.ui.header
+									#products
+										table.ui.celled.unstackable.table
+											thead
+												tr
+													th.five.wide Nombre
+													th.two.wide Cantidad
+													th.four.wide Precio c/u ($)
+													th.four.wide Precio Total ($)
+											tbody data-bind="foreach: order.products"
+												tr
+													td data-bind="text: $data.name"
+													td data-bind="text: $data.quantity"
+													td data-bind="text: $data.frepiPrice"
+													td data-bind="text: $data.totalPrice"
+										.ui.buttons.left.floated
+											/ .ui.green.button data-bind="click: generate" Generar
+											/ .or data-text="O"						
+											/ .ui.button data-bind="click: cancel" Cancelar
+											.ui.button data-bind="click: cancel" Cancelar
+										.ui.right.labeled.icon.teal.button data-bind="click: seeDeliveryRight"
+											|Entrega
+											i.right.arrow.icon
+
+									#delivery
+										form.ui.form
+											.field
+												label Dirección
+												input type="text" placeholder="Ej: Cra 45 # 65 - 56"
+											.field
+												label Instrucciones
+												textarea rows="3" placeholder="Ej: Dejar en portería o llamame cuando llegue"
+											.field
+												label ¿Cuándo lo llevamos?
+												.two.fields
+													.field
+														.ui.fluid.selection.dropdown
+															input name="day" type="hidden"
+															i.dropdown.icon
+															.default.text Día
+															.menu
+																.item Hoy
+																.item Mañana
+																.item Pasado mañana
+													.field
+														.ui.fluid.selection.dropdown
+															input name="time" type="hidden"
+															i.dropdown.icon
+															.default.text Hora
+															.menu
+																.item 7 AM
+																.item 8 AM
+																.item 9 AM
+
+										.ui.buttons.left.floated
+											/ .ui.green.button data-bind="click: generate" Generar
+											/ .or data-text="O"						
+											/ .ui.button data-bind="click: cancel" Cancelar
+											/ .ui.button data-bind="click: cancel" Cancelar
+											.ui.labeled.icon.teal.button data-bind="click: seeProducts"
+												|Productos
+												i.left.arrow.icon
+										.ui.right.labeled.icon.teal.button data-bind="click: seeReview"
+											|Confirmar
+											i.right.arrow.icon
+
+							/ .ui.clearfix.segment
+							/ 	.ui.top.attached.label
+							/ 		|Total Cuenta:&nbsp;$
+							/ 		span data-bind="text: order.price"
+							/ 	.order-content data-bind="visible: !orderGenerated()"
+							/ 		/ h3.ui.header
+							/ 		#dalivery
+							/ 			form.ui.form
+							/ 				.field
+							/ 					label Dirección
+							/ 					input type="text" placeholder="Ej: Cra 45 # 65 - 56"
+							/ 				.field
+							/ 					label Instrucciones
+							/ 					textarea rows="3" placeholder="Ej: Dejar en portería o llamame cuando llegue"
+							/ 				.field
+							/ 					label ¿Cuándo lo llevamos?
+							/ 					.two.fields
+							/ 						.field
+							/ 							.ui.fluid.selection.dropdown
+							/ 								input name="day" type="hidden"
+							/ 								i.dropdown.icon
+							/ 								.default.text Día
+							/ 								.menu
+							/ 									.item Hoy
+							/ 									.item Mañana
+							/ 									.item Pasado mañana
+							/ 						.field
+							/ 							.ui.fluid.selection.dropdown
+							/ 								input name="time" type="hidden"
+							/ 								i.dropdown.icon
+							/ 								.default.text Hora
+							/ 								.menu
+							/ 									.item 7 AM
+							/ 									.item 8 AM
+							/ 									.item 9 AM
+
+							/ 			.ui.buttons.left.floated
+							/ 				/ .ui.green.button data-bind="click: generate" Generar
+							/ 				/ .or data-text="O"						
+							/ 				/ .ui.button data-bind="click: cancel" Cancelar
+							/ 				/ .ui.button data-bind="click: cancel" Cancelar
+							/ 				.ui.labeled.icon.teal.button data-bind="click: seeProducts"
+							/ 					|Productos
+							/ 					i.left.arrow.icon
+							/ 			.ui.right.labeled.icon.teal.button data-bind="click: seeReview"
+							/ 				|Confirmar
+							/ 				i.right.arrow.icon
+
+							/ #review.ui.clearfix.segment
+							/ 	.ui.top.attached.label
+							/ 		|Total Cuenta:&nbsp;$
+							/ 		span data-bind="text: order.price"
+							/ 	.order-content data-bind="visible: !orderGenerated()"
+							/ 		/ h3.ui.header
+							/ 		form.ui.form
+							/ 			.field
+							/ 				label Dirección
+							/ 				input type="text" placeholder="Ej: Cra 45 # 65 - 56"
+							/ 			.field
+							/ 				label Instrucciones
+							/ 				textarea rows="3" placeholder="Ej: Dejar en portería o llamame cuando llegue"
+
+							/ 		.ui.buttons.left.floated
+							/ 			/ .ui.green.button data-bind="click: generate" Generar
+							/ 			/ .or data-text="O"						
+							/ 			/ .ui.button data-bind="click: cancel" Cancelar
+							/ 			.ui.button data-bind="click: cancel" Cancelar
+							/ 		.ui.right.labeled.icon.teal.button
+							/ 			|Siguiente
+							/ 			i.right.arrow.icon
 						
 		script src="javascripts/knockout.js"
 		script src="javascripts/plugins/crypto-js.min.js"

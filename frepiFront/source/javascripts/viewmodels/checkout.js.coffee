@@ -19,6 +19,18 @@ class CheckoutVM
 		@setOrderToPay()
 		@setSizeButtons()
 
+	seeDeliveryRight: ->
+		$('#products').transition('fade right')
+		$('#delivery').transition('fade left')
+
+	seeProducts: ->
+		$('#products').transition('fade right')
+		$('#delivery').transition('fade left')
+
+	seeReview: ->
+		$('#products').transition('fade left')
+		$('#delivery').transition('fade left')
+
 	logout: ->
 		Config.destroyLocalStorage()
 		window.location.href = '../../login.html'
@@ -87,6 +99,7 @@ class CheckoutVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
+		$('.dropdown').dropdown()
 
 	setExistingSession: ->
 		console.log 'esta aqui'

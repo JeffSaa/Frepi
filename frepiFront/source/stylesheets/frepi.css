@@ -559,6 +559,23 @@ header #shopping-cart .icon {
   text-align: center;
 }
 
+.checkout .clearfix.segment {
+  width: 100%;
+}
+
+.checkout #delivery, .checkout #review {
+  display: none;
+  width: 100%;
+}
+
+.checkout #delivery form {
+  margin-bottom: 1em;
+}
+
+.checkout .steps {
+  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+}
+
 .checkout .container>.header {
   margin: 3em 0 1.5em;
 }
@@ -582,10 +599,10 @@ header #shopping-cart .icon {
   user-select: text;
 }
 
-.checkout .container .labeled.icon:hover {
+/*.checkout .container .labeled.icon:hover {
   cursor: default;
   background-color: #00b5ad;
-}
+}*/
 
 /* Category rules */
 
