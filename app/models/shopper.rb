@@ -1,6 +1,5 @@
 class Shopper < ActiveRecord::Base
 
-  # Include default devise modules.
   # Exclude -> :rememberable, :confirmatable
   devise  :database_authenticatable, :registerable,
           :recoverable, :trackable, :validatable

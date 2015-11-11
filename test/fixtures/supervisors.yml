@@ -1,0 +1,21 @@
+one:
+  city_id: 1
+  first_name: MyString
+  last_name: MyString
+  phone_numbre: MyString
+  active: false
+  address: MyString
+  company_email: MyString
+  personal_email: MyString
+  image: MyString
+
+two:
+  city_id: 1
+  first_name: MyString
+  last_name: MyString
+  phone_numbre: MyString
+  active: false
+  address: MyString
+  company_email: MyString
+  personal_email: MyString
+  image: MyString
