@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 18) do
+ActiveRecord::Schema.define(version: 19) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",        null: false
@@ -106,44 +106,26 @@ ActiveRecord::Schema.define(version: 18) do
   end
 
   create_table "shoppers", force: :cascade do |t|
-    t.string   "first_name",                                                         null: false
-    t.string   "last_name",                                                          null: false
-    t.string   "identification",                                                     null: false
-    t.string   "phone_number",                                                       null: false
-    t.integer  "status",                                                             null: false
-    t.integer  "shopper_type",                                                       null: false
-    t.string   "email",                                                              null: false
-    t.boolean  "active",                                           default: true,    null: false
+    t.string   "first_name",                                              null: false
+    t.string   "last_name",                                               null: false
+    t.string   "identification",                                          null: false
+    t.string   "phone_number",                                            null: false
+    t.integer  "status",                                                  null: false
+    t.integer  "shopper_type",                                            null: false
+    t.string   "email",                                                   null: false
+    t.boolean  "active",                                   default: true, null: false
     t.string   "address"
     t.string   "company_email"
     t.string   "image"
-    t.decimal  "latitude",               precision: 15, scale: 10
-    t.decimal  "longitude",              precision: 15, scale: 10
+    t.decimal  "latitude",       precision: 15, scale: 10
+    t.decimal  "longitude",      precision: 15, scale: 10
     t.integer  "city_id"
-    t.string   "provider",                                         default: "email", null: false
-    t.string   "uid",                                              default: "",      null: false
-    t.string   "encrypted_password",                               default: "",      null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                    default: 0,       null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.text     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "shoppers", ["city_id"], name: "index_shoppers_on_city_id"
   add_index "shoppers", ["email"], name: "index_shoppers_on_email"
-  add_index "shoppers", ["reset_password_token"], name: "index_shoppers_on_reset_password_token", unique: true
-  add_index "shoppers", ["uid", "provider"], name: "index_shoppers_on_uid_and_provider", unique: true
 
   create_table "shoppers_orders", force: :cascade do |t|
     t.integer  "shopper_id"
@@ -218,6 +200,43 @@ ActiveRecord::Schema.define(version: 18) do
 
   add_index "sucursals_products", ["product_id"], name: "index_sucursals_products_on_product_id"
   add_index "sucursals_products", ["sucursal_id"], name: "index_sucursals_products_on_sucursal_id"
+
+  create_table "supervisors", force: :cascade do |t|
+    t.integer  "city_id",                                  null: false
+    t.string   "identification",                           null: false
+    t.string   "first_name",                               null: false
+    t.string   "last_name",                                null: false
+    t.boolean  "active",                 default: true,    null: false
+    t.string   "email",                                    null: false
+    t.string   "phone_number"
+    t.string   "address"
+    t.string   "company_email"
+    t.string   "image"
+    t.string   "provider",               default: "email", null: false
+    t.string   "uid",                    default: "",      null: false
+    t.string   "encrypted_password"
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,       null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.string   "nickname"
+    t.text     "tokens"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "supervisors", ["city_id"], name: "index_supervisors_on_city_id"
+  add_index "supervisors", ["email"], name: "index_supervisors_on_email"
+  add_index "supervisors", ["reset_password_token"], name: "index_supervisors_on_reset_password_token", unique: true
+  add_index "supervisors", ["uid", "provider"], name: "index_supervisors_on_uid_and_provider", unique: true
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                                                               null: false

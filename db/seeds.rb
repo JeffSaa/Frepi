@@ -3,10 +3,12 @@ country = Country.create!(name: 'colombia')
 state = country.states.create!(name: 'atlantico')
 city = state.cities.create!(name: 'barranquilla')
 
-# email: admin@frepi.com | client@frepi.com | shopper@frepi.com
+# email: admin@frepi.com | client@frepi.com | supervisor@frepi.com
 # Password: frepi123
 
 if Rails.env.development?
+  PASSWORD =  'frepi123'
+  EMAILS = %w(admin@frepi.com client@frepi.com supervisor@frepi.com in-store-shopper@gmail.com delivery-shopper@gmail.com)
 
   # Store Partners
   StorePartner.create!(nit: Faker::Company.duns_number, name: Faker::Company.name, logo: Faker::Company.logo, description: Faker::Lorem.sentence)
@@ -44,33 +46,83 @@ if Rails.env.development?
                               subcategory_id: subcategory.id, available: [true, false].sample)
   end
 
-  # Default User Frepi Admin
+
+  # ---------------------------------- ROLES ----------------------------------- #
+
+  # --- Default Frepi Admin --- #
   User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
-                email: 'admin@frepi.com', identification: Faker::Code.ean,
+                email: EMAILS[0], identification: Faker::Code.ean,
                 address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                 image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
                 longitude: Faker::Address.longitude, user_type: 'administrator',
-                password: 'frepi123', password_confirmation: 'frepi123')
+                password: PASSWORD, password_confirmation: PASSWORD)
 
-  # Default User Client
+  # ---- Default Client --- #
   User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
-                email: 'client@frepi.com', identification: Faker::Code.ean,
+                email: EMAILS[1], identification: Faker::Code.ean,
                 address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                 image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
                 longitude: Faker::Address.longitude, user_type: 'user',
-                password: 'frepi123', password_confirmation: 'frepi123')
+                password: PASSWORD, password_confirmation: PASSWORD)
 
 
-  # Users random
-  9.times do |_|
-    password = Faker::Internet.password(6)
+  # --- Defult Supervisors --- #
+  Supervisor.create!( first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                      identification: Faker::Code.ean, address: Faker::Address.street_address,
+                      phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                      email: EMAILS[2], password: PASSWORD,
+                      password_confirmation: PASSWORD)
+
+
+  # --- Defult IN-STORE Shopper --- #
+  Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                  identification: Faker::Code.ean, address: Faker::Address.street_address,
+                  phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                  email: EMAILS[3], status: Shopper::STATUS[0],
+                  shopper_type: Shopper::TYPES[0])
+
+
+  # --- Defult DELIVERY Shopper --- #
+  Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                  identification: Faker::Code.ean, address: Faker::Address.street_address,
+                  phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                  email: EMAILS[4], status: Shopper::STATUS[0],
+                  shopper_type: Shopper::TYPES[1])
+
+
+  # --- Users random --- #
+  10.times do |_|
     User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
                   email: Faker::Internet.email, identification: Faker::Code.ean,
                   address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                   image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
                   longitude: Faker::Address.longitude, user_type: %w(user administrator).sample,
-                  password: password, password_confirmation: password)
+                  password: PASSWORD, password_confirmation: PASSWORD)
   end
+
+
+  # --- Supervisors Random --- #
+  5.times do |_|
+    Supervisor.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                    identification: Faker::Code.ean, address: Faker::Address.street_address,
+                    phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                    company_email: Faker::Internet.email, email: Faker::Internet.email,
+                    status: Shopper::STATUS[0], password: PASSWORD, password_confirmation: PASSWORD,
+                    shopper_type: Shopper::TYPES.sample)
+  end
+
+
+
+  # Shoppers
+  # Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+  #                   identification: Faker::Code.ean, address: Faker::Address.street_address,
+  #                   phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+  #                   company_email: Faker::Internet.email, email: Faker::Internet.email,
+  #                   status: Shopper::STATUS[0], password: password, password_confirmation: password,
+  #                   shopper_type: Shopper::TYPES.sample)
+
+
+  # ---------------------------------- Actions ------------------------------------ #
 
   # Orders
   15.times do |item|
@@ -86,24 +138,6 @@ if Rails.env.development?
   5.times do |_|
     user = User.find(Faker::Number.between(1, 10))
     user.complaints.create!(subject: Faker::Name.title, message: Faker::Lorem.paragraph)
-  end
-
-  # Shoppers
-    Shopper.create!( first_name: Faker::Name.name, last_name: Faker::Name.last_name,
-                    identification: Faker::Code.ean, address: Faker::Address.street_address,
-                    phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
-                    company_email: 'shopper-user@frepi.com', email: 'shopper@frepi.com',
-                    status: Shopper::STATUS[0], password: 'frepi123', password_confirmation: 'frepi123',
-                    shopper_type: Shopper::TYPES.sample)
-
-  5.times do |_|
-    password = Faker::Internet.password(6)
-    Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
-                    identification: Faker::Code.ean, address: Faker::Address.street_address,
-                    phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
-                    company_email: Faker::Internet.email, email: Faker::Internet.email,
-                    status: Shopper::STATUS[0], password: password, password_confirmation: password,
-                    shopper_type: Shopper::TYPES.sample)
   end
 
   # Orders accepted by a shopper
