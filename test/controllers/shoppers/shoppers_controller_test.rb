@@ -4,7 +4,7 @@ require 'faker'
 class Shoppers::ShoppersControllerTest < ActionController::TestCase
 
  # ---------------- Index --------------------- #
-  test "clients, shoppers and anyone should not index shopper" do
+  test "clients, supervisors and anyone should not index supervisor" do
     get :index
     assert_response :unauthorized
 
@@ -13,14 +13,14 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     get :index
     assert_response :unauthorized
   end
 
 
-  test "only administrator should index shoppers" do
+  test "only administrator should index supervisors" do
     sign_in :user, users(:admin)
     get :index
 
@@ -29,8 +29,8 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
 
   # ---------------- Show ----------------------- #
 
-  test "only a shopper should do show action" do
-    sign_in :shopper, shoppers(:shopper)
+  test "only a supervisor should do show action" do
+    sign_in :user, users(:admin)
     get :show, id: shoppers(:shopper).id
 
     assert_response :ok
@@ -39,21 +39,21 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
 
   test "users should not do show" do
     sign_in :user, users(:user)
-    get :show, id: users(:user).id
+    get :show, id: shoppers(:shopper).id
 
     assert_response :unauthorized
   end
 
   # ---------------- Create ----------------------- #
 
-  test "only a admin can create a shopper" do
+  test "only a admin can create a supervisor" do
     sign_in :user, users(:admin)
     assert_difference('Shopper.count') do
       post :create, { first_name: 'Benito', last_name: 'Camelo',
                       email: 'benito97@frepi.com', identification: '11408743554',
                       address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                       latitude: Faker::Address.latitude, longitude: Faker::Address.longitude,
-                      password: 'frepi123', password_confirmation: 'frepi123', status: Shopper::STATUS.sample, shopper_type: Shopper::TYPES.sample }
+                      status: Shopper::STATUS.sample, shopper_type: Shopper::TYPES.sample }
 
       assert_response :created
     end
@@ -61,13 +61,13 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
   end
 
 
-  test 'An user or an shopper should not create an shopper' do
+  test 'An user or an supervisor should not create an supervisor' do
     assert_no_difference('Shopper.count') do
       post :create, { first_name: 'Benito', last_name: 'Camelo',
                       email: 'benito97@frepi.com', identification: '11408743554',
                       address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                       latitude: Faker::Address.latitude, longitude: Faker::Address.longitude,
-                      password: 'frepi123', password_confirmation: 'frepi123', status: Shopper::STATUS.sample, shopper_type: Shopper::TYPES.sample }
+                      status: Shopper::STATUS.sample, shopper_type: Shopper::TYPES.sample }
 
       assert_response :unauthorized
     end
@@ -80,20 +80,20 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
                       email: 'benito97@frepi.com', identification: '11408743554',
                       address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                       latitude: Faker::Address.latitude, longitude: Faker::Address.longitude,
-                      password: 'frepi123', password_confirmation: 'frepi123', status: 0}
+                      status: 0}
 
       assert_response :unauthorized
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('Shopper.count') do
       post :create, { first_name: 'Benito', last_name: 'Camelo',
                       email: 'benito97@frepi.com', identification: '11408743554',
                       address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                       latitude: Faker::Address.latitude, longitude: Faker::Address.longitude,
-                      password: 'frepi123', password_confirmation: 'frepi123', status: 0 }
+                      status: 0 }
 
       assert_response :unauthorized
     end
@@ -102,57 +102,56 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
 
   # ---------------- Update ----------------------- #
 
-  test "Only a shopper should update " do
-    sign_in :shopper, shoppers(:shopper)
-    put :update, { id: users(:admin).id, first_name: 'updated' }
+  test "Only a admin should update " do
+    sign_in :user, users(:admin)
+    put :update, id: shoppers(:shopper).id, first_name: 'updated'
     response = JSON.parse(@response.body)
 
     assert_match('updated', response['firstName'])
     assert_response :ok
   end
 
-  test "Users should not update a shopper" do
-    put :update, { id: users(:user).id, first_name: 'updated' }
-    response = JSON.parse(@response.body)
-
-    assert_no_match('updated', response['firstName'])
+  test "Users and supervisors should not update a supervisor" do
+    put :update, id: shoppers(:shopper).id, first_name: 'updated'
     assert_response :unauthorized
 
     sign_in :user, users(:user)
-    put :update, { id: users(:user).id, first_name: 'updated' }
-    response = JSON.parse(@response.body)
+    put :update,  id: shoppers(:shopper).id, first_name: 'updated'
+    assert_response :unauthorized
 
-    assert_no_match('updated', response['firstName'])
+    sign_in :supervisor, supervisors(:supervisor)
+    put :update,  id: shoppers(:shopper).id, first_name: 'updated'
     assert_response :unauthorized
   end
 
   # ---------------- Destroy ----------------------- #
-  # TODO: Create test
-=begin
-  test "administrator should destroy a user" do
+  test "Only a admin should destroy" do
     sign_in :user, users(:admin)
 
-    assert_difference('Country.count', -1) do
-      delete :destroy, id: users(:italy).id
-      assert_response :ok
-    end
+    delete :destroy, id: shoppers(:shopper).id
+    response = JSON.parse(@response.body)
+
+    assert_equal(false, response['active'])
+    assert_response :ok
   end
 
+  test "should not destroy (supervisor or anyone)" do
 
-  test "clients and shoppers should not destroy a user" do
+    assert_no_difference('Shopper.count') do
+      delete :destroy, id: shoppers(:shopper).id
+      assert_response :unauthorized
+
+      sign_in :supervisor, supervisors(:supervisor)
+      delete :destroy,  id: shoppers(:shopper).id
+      assert_response :unauthorized
+    end
+
     sign_in :user, users(:user)
-    assert_no_difference('Country.count') do
-      delete :destroy, id: users(:italy).id
-      assert_response :unauthorized
-    end
+    get :destroy, id: shoppers(:shopper).id
+    assert_response :unauthorized
 
-    sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
-
-    assert_no_difference('Country.count') do
-      delete :destroy, id: users(:italy).id
-      assert_response :unauthorized
-    end
+    sign_in :supervisor, supervisors(:supervisor)
+    get :destroy, id: shoppers(:shopper).id
+    assert_response :unauthorized
   end
-=end
 end

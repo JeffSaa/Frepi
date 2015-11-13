@@ -1,5 +1,5 @@
 class ExploreCategoriesController < ApplicationController
-  skip_before_action :authenticate_shopper!, :require_administrator, :authenticate_user!
+  skip_before_action :authenticate_supervisor!, :require_administrator, :authenticate_user!
   before_action :find_store_partner
 
   def index

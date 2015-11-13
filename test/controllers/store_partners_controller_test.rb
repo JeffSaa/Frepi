@@ -12,10 +12,10 @@ class StorePartnersControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :index
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :index, category_id: categories(:alcohol).id
@@ -33,10 +33,10 @@ class StorePartnersControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :show, id: store_partners(:olimpica).id
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: store_partners(:olimpica).id
@@ -56,7 +56,7 @@ class StorePartnersControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not create a store partner" do
+  test "clients and supervisors should not create a store partner" do
     sign_in :user, users(:user)
 
     assert_no_difference('StorePartner.count') do
@@ -67,7 +67,7 @@ class StorePartnersControllerTest < ActionController::TestCase
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('StorePartner.count') do
       post :create, { name: 'Exito', logo: 'http://robohash.org/sitsequiquia.png',
@@ -89,7 +89,7 @@ class StorePartnersControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not update a store partner" do
+  test "clients and supervisors should not update a store partner" do
     sign_in :user, users(:user)
     put :update, { id: store_partners(:olimpica).id, name: 'updated' }
     response = JSON.parse(@response.body)
@@ -99,7 +99,7 @@ class StorePartnersControllerTest < ActionController::TestCase
 
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     put :update, { id: store_partners(:olimpica).id, name: 'updated' }
     response = JSON.parse(@response.body)
 
@@ -119,7 +119,7 @@ class StorePartnersControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not destroy a store partner" do
+  test "clients and supervisors should not destroy a store partner" do
     sign_in :user, users(:user)
 
     assert_no_difference('StorePartner.count') do
@@ -128,7 +128,7 @@ class StorePartnersControllerTest < ActionController::TestCase
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('StorePartner.count') do
       delete :destroy, id: store_partners(:carulla).id

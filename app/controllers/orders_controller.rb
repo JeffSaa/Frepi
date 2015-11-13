@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
 
   before_action :find_order, only: [:show, :update, :destroy]
-  skip_before_action :require_administrator, :authenticate_shopper!
+  skip_before_action :require_administrator, :authenticate_supervisor!
 
   def index
     render json: current_user.orders.where(active: true)

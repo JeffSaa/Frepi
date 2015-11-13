@@ -12,12 +12,12 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response :ok
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     get :index
     assert_response :ok
 
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
     sign_in :user, users(:admin)
 
     get :index
@@ -34,10 +34,10 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :show, id: categories(:alcohol).id
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: categories(:alcohol).id
@@ -55,7 +55,7 @@ class CategoriesControllerTest < ActionController::TestCase
     end
   end
 
-  test "clients and shoppers or anyone should not create a category" do
+  test "clients and supervisors or anyone should not create a category" do
 
     assert_no_difference('Category.count') do
       post :create, name: 'food'
@@ -65,7 +65,7 @@ class CategoriesControllerTest < ActionController::TestCase
       post :create, name: 'food'
       assert_response :unauthorized
 
-      sign_in :shopper, shoppers(:shopper)
+      sign_in :supervisor, supervisors(:supervisor)
       post :create, name: 'food'
       assert_response :unauthorized
     end
@@ -82,7 +82,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers and any user not logged  should not update a category" do
+  test "clients and supervisors and any user not logged  should not update a category" do
     put :update, { id: categories(:alcohol).id, name: 'updated' }
     response = JSON.parse(@response.body)
     assert_no_match('updated', response['name'])
@@ -95,7 +95,7 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response :unauthorized
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     put :update, { id: categories(:alcohol).id, name: 'updated' }
     response = JSON.parse(@response.body)
     assert_no_match('updated', response['name'])
@@ -115,7 +115,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers or anyone should not destroy a category" do
+  test "clients and supervisors or anyone should not destroy a category" do
     assert_no_difference('Category.count') do
       delete :destroy, id: categories(:alcohol).id
       assert_response :unauthorized
@@ -128,7 +128,7 @@ class CategoriesControllerTest < ActionController::TestCase
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('Category.count') do
       delete :destroy, id: categories(:alcohol).id

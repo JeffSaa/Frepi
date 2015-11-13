@@ -12,10 +12,10 @@ class SucursalsControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :index, store_partner_id: store_partners(:olimpica).id
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :index, store_partner_id: store_partners(:olimpica).id
@@ -33,10 +33,10 @@ class SucursalsControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
@@ -58,7 +58,7 @@ class SucursalsControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not create a sucursal" do
+  test "clients and supervisors should not create a sucursal" do
     sign_in :user, users(:user)
 
     assert_no_difference('Sucursal.count') do
@@ -70,7 +70,7 @@ class SucursalsControllerTest < ActionController::TestCase
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('Sucursal.count') do
       post :create, { name: 'Olimpica 84', manager_full_name: 'Santo Domingo', manager_email: 'alexito96@olimpica.com',
@@ -93,7 +93,7 @@ class SucursalsControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not update a sucursal" do
+  test "clients and supervisors should not update a sucursal" do
     sign_in :user, users(:user)
     put :update, { id: sucursals(:olimpica).id, name: 'updated', store_partner_id: store_partners(:olimpica).id }
     response = JSON.parse(@response.body)
@@ -103,7 +103,7 @@ class SucursalsControllerTest < ActionController::TestCase
 
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     put :update, { id: sucursals(:olimpica).id, name: 'updated', store_partner_id: store_partners(:olimpica).id }
     response = JSON.parse(@response.body)
 
@@ -123,7 +123,7 @@ class SucursalsControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not destroy a sucursal" do
+  test "clients and supervisors should not destroy a sucursal" do
     sign_in :user, users(:user)
 
     assert_no_difference('Sucursal.count') do
@@ -132,7 +132,7 @@ class SucursalsControllerTest < ActionController::TestCase
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('Sucursal.count') do
       delete :destroy, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id

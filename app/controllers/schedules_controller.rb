@@ -1,6 +1,6 @@
 class SchedulesController < ApplicationController
 
-  skip_before_action :authenticate_shopper!, :require_administrator
+  skip_before_action :authenticate_supervisor!, :require_administrator
   before_action :find_order
   before_action :find_schedule, only: [:show, :update, :destroy]
 

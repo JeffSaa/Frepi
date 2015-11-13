@@ -13,6 +13,83 @@ if Rails.env.development?
   # Store Partners
   StorePartner.create!(nit: Faker::Company.duns_number, name: Faker::Company.name, logo: Faker::Company.logo, description: Faker::Lorem.sentence)
 
+  # ---------------------------------- ROLES ----------------------------------- #
+
+  # --- Default Frepi Admin --- #
+  User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
+                email: EMAILS[0], identification: Faker::Code.ean,
+                address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
+                image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
+                longitude: Faker::Address.longitude, user_type: User::USER_TYPES[0],
+                password: PASSWORD, password_confirmation: PASSWORD)
+
+  # ---- Default Client --- #
+  User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
+                email: EMAILS[1], identification: Faker::Code.ean,
+                address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
+                image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
+                longitude: Faker::Address.longitude, user_type: User::USER_TYPES[1],
+                password: PASSWORD, password_confirmation: PASSWORD)
+
+
+  # --- Defult Supervisors --- #
+  Supervisor.create!( first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                      identification: Faker::Code.ean, address: Faker::Address.street_address,
+                      phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                      email: EMAILS[2], city_id: city.id, password: PASSWORD,
+                      password_confirmation: PASSWORD)
+
+
+  # --- Defult IN-STORE Shopper --- #
+  Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                  identification: Faker::Code.ean, address: Faker::Address.street_address,
+                  phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                  email: EMAILS[3], status: Shopper::STATUS[0], city_id: city.id,
+                  shopper_type: Shopper::TYPES[0])
+
+
+  # --- Defult DELIVERY Shopper --- #
+  Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                  identification: Faker::Code.ean, address: Faker::Address.street_address,
+                  phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                  email: EMAILS[4], status: Shopper::STATUS[0], city_id: city.id,
+                  shopper_type: Shopper::TYPES[1])
+
+
+  # --- Users random --- #
+  10.times do |_|
+    User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
+                  email: Faker::Internet.email, identification: Faker::Code.ean,
+                  address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
+                  image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
+                  longitude: Faker::Address.longitude, user_type: User::USER_TYPES.sample,
+                  password: PASSWORD, password_confirmation: PASSWORD)
+  end
+
+
+  # --- Supervisors Random --- #
+  3.times do |_|
+    Supervisor.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                      identification: Faker::Code.ean, address: Faker::Address.street_address,
+                      phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                      company_email: Faker::Internet.email, email: Faker::Internet.email,
+                      password: PASSWORD, password_confirmation: PASSWORD,
+                      city_id: city.id)
+
+  end
+
+
+  # --- Shoppers Random --- #
+  3.times do |_|
+    Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
+                    identification: Faker::Code.ean, address: Faker::Address.street_address,
+                    phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
+                    email: Faker::Internet.email, status: Shopper::STATUS[0],
+                    shopper_type: Shopper::TYPES.sample)
+  end
+
+  # ------------------------------ FREPI CORE  ----------------------------------- #
+
   # Sucursals
   3.times do |_|
     store_partner = StorePartner.first
@@ -22,14 +99,14 @@ if Rails.env.development?
                                     latitude: Faker::Address.latitude, longitude: Faker::Address.longitude)
   end
 
-  3.times do |_|
-    # Categories
+  # Categories
+  5.times do |_|
     Category.create!(name: Faker::Commerce.department(1), description: Faker::Lorem.sentence)
   end
 
+   # Subcategories
   10.times do |_|
-    # Subcategories
-    category = Category.find(Faker::Number.between(1, 3))
+    category = Category.find(Faker::Number.between(1, 5))
     subcategory = category.subcategories.new(name: Faker::Commerce.department(1))
     until subcategory.valid?
       subcategory = category.subcategories.new(name: Faker::Commerce.department(1))
@@ -43,86 +120,11 @@ if Rails.env.development?
     subcategory = Subcategory.find(Faker::Number.between(1, 10))
     sucursal.products.create(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,
                               store_price: Faker::Commerce.price, frepi_price: Faker::Commerce.price, image: Faker::Avatar.image(nil, "960x800"),
-                              subcategory_id: subcategory.id, available: [true, false].sample)
+                              subcategory_id: subcategory.id, available: true)
   end
 
 
-  # ---------------------------------- ROLES ----------------------------------- #
-
-  # --- Default Frepi Admin --- #
-  User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
-                email: EMAILS[0], identification: Faker::Code.ean,
-                address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
-                image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
-                longitude: Faker::Address.longitude, user_type: 'administrator',
-                password: PASSWORD, password_confirmation: PASSWORD)
-
-  # ---- Default Client --- #
-  User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
-                email: EMAILS[1], identification: Faker::Code.ean,
-                address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
-                image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
-                longitude: Faker::Address.longitude, user_type: 'user',
-                password: PASSWORD, password_confirmation: PASSWORD)
-
-
-  # --- Defult Supervisors --- #
-  Supervisor.create!( first_name: Faker::Name.name, last_name: Faker::Name.last_name,
-                      identification: Faker::Code.ean, address: Faker::Address.street_address,
-                      phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
-                      email: EMAILS[2], password: PASSWORD,
-                      password_confirmation: PASSWORD)
-
-
-  # --- Defult IN-STORE Shopper --- #
-  Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
-                  identification: Faker::Code.ean, address: Faker::Address.street_address,
-                  phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
-                  email: EMAILS[3], status: Shopper::STATUS[0],
-                  shopper_type: Shopper::TYPES[0])
-
-
-  # --- Defult DELIVERY Shopper --- #
-  Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
-                  identification: Faker::Code.ean, address: Faker::Address.street_address,
-                  phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
-                  email: EMAILS[4], status: Shopper::STATUS[0],
-                  shopper_type: Shopper::TYPES[1])
-
-
-  # --- Users random --- #
-  10.times do |_|
-    User.create!( name: Faker::Name.name, last_name: Faker::Name.last_name,
-                  email: Faker::Internet.email, identification: Faker::Code.ean,
-                  address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
-                  image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
-                  longitude: Faker::Address.longitude, user_type: %w(user administrator).sample,
-                  password: PASSWORD, password_confirmation: PASSWORD)
-  end
-
-
-  # --- Supervisors Random --- #
-  5.times do |_|
-    Supervisor.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
-                    identification: Faker::Code.ean, address: Faker::Address.street_address,
-                    phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
-                    company_email: Faker::Internet.email, email: Faker::Internet.email,
-                    status: Shopper::STATUS[0], password: PASSWORD, password_confirmation: PASSWORD,
-                    shopper_type: Shopper::TYPES.sample)
-  end
-
-
-
-  # Shoppers
-  # Shopper.create!(first_name: Faker::Name.name, last_name: Faker::Name.last_name,
-  #                   identification: Faker::Code.ean, address: Faker::Address.street_address,
-  #                   phone_number: Faker::PhoneNumber.cell_phone, image: Faker::Avatar.image,
-  #                   company_email: Faker::Internet.email, email: Faker::Internet.email,
-  #                   status: Shopper::STATUS[0], password: password, password_confirmation: password,
-  #                   shopper_type: Shopper::TYPES.sample)
-
-
-  # ---------------------------------- Actions ------------------------------------ #
+  # ---------------------------------- ACTIONS ------------------------------------ #
 
   # Orders
   15.times do |item|

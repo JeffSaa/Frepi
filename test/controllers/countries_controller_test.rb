@@ -4,14 +4,14 @@ class CountriesControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
 
-  test "clients and shoppers should not index countries" do
+  test "clients and supervisor should not index countries" do
     sign_in :user, users(:user)
     get :index
     assert_response :unauthorized
 
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :index
     assert_response :unauthorized
   end
@@ -33,14 +33,14 @@ class CountriesControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
-  test "clients and shoppers should not show a country" do
+  test "clients and supervisor should not show a country" do
     sign_in :user, users(:user)
     get :show, id: countries(:italy).id
     assert_response :unauthorized
 
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :show, id: countries(:italy).id
     assert_response :unauthorized
   end
@@ -57,7 +57,7 @@ class CountriesControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not create a country" do
+  test "clients and supervisor should not create a country" do
     sign_in :user, users(:user)
 
     assert_no_difference('Country.count') do
@@ -66,7 +66,7 @@ class CountriesControllerTest < ActionController::TestCase
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('Country.count') do
       post :create, name: 'United State Of America'
@@ -86,7 +86,7 @@ class CountriesControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not update a country" do
+  test "clients and supervisor should not update a country" do
     sign_in :user, users(:user)
     put :update, { id: countries(:italy).id, name: 'updated' }
     response = JSON.parse(@response.body)
@@ -96,7 +96,7 @@ class CountriesControllerTest < ActionController::TestCase
 
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     put :update, { id: countries(:italy).id, name: 'updated' }
     response = JSON.parse(@response.body)
 
@@ -116,7 +116,7 @@ class CountriesControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not destroy a country" do
+  test "clients and supervisor should not destroy a country" do
     sign_in :user, users(:user)
     assert_no_difference('Country.count') do
       delete :destroy, id: countries(:italy).id
@@ -124,7 +124,7 @@ class CountriesControllerTest < ActionController::TestCase
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('Country.count') do
       delete :destroy, id: countries(:italy).id

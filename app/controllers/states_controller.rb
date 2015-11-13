@@ -2,7 +2,7 @@ class StatesController < ApplicationController
 
   before_action :find_country
   before_action :find_state, except: [:index, :create]
-  skip_before_action :authenticate_shopper!
+  skip_before_action :authenticate_supervisor!
 
   def index
     render json: @country.states.all

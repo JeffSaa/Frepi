@@ -1,11 +1,5 @@
 class Shopper < ActiveRecord::Base
 
-  # Exclude -> :rememberable, :confirmatable
-  devise  :database_authenticatable, :registerable,
-          :recoverable, :trackable, :validatable
-
-  include DeviseTokenAuth::Concerns::User
-
   # radius for find orders in KM
   DISTANCE = 40000
 
@@ -31,8 +25,4 @@ class Shopper < ActiveRecord::Base
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
   validates :company_email, allow_nil: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
   validates :first_name, :last_name, presence: true, length: { minimum: 3 }, format: { with: /\A[^0-9`!@#\$%\^&*+_=]+\z/ }
-
-  def generate_token
-    self.create_new_auth_token
-  end
 end

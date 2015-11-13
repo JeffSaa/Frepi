@@ -7,7 +7,7 @@ class OrdersControllerTest < ActionController::TestCase
     get :index, user_id: users(:user).id
     assert_response :unauthorized
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :index, user_id: users(:user).id
     assert_response :unauthorized
   end
@@ -27,11 +27,11 @@ class OrdersControllerTest < ActionController::TestCase
   end
 
 
-  test "shoppers or anyone should not do show of a user" do
+  test "supervisors or anyone should not do show of a user" do
     get :show, user_id: users(:user).id, id: orders(:one).id
     assert_response :unauthorized
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :show, user_id: users(:user).id, id: orders(:one).id
     assert_response :unauthorized
   end
@@ -48,12 +48,12 @@ class OrdersControllerTest < ActionController::TestCase
   end
 
 
-  test 'should not create an order, shoppers or anyone no logged' do
+  test 'should not create an order, supervisors or anyone no logged' do
     assert_no_difference('Order.count') do
       post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, {id: products(:jack).id, quantity: 1 } ]
       assert_response :unauthorized
 
-      sign_in :shopper, shoppers(:shopper)
+      sign_in :supervisor, supervisors(:supervisor)
       post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, {id: products(:jack).id, quantity: 1 } ]
       assert_response :unauthorized
     end
@@ -74,7 +74,7 @@ class OrdersControllerTest < ActionController::TestCase
 
     assert_response :unauthorized
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     put :update, user_id: users(:user).id, id: orders(:one).id, products: [ { id: products(:johnny).id, quantity: 999 } ]
 
     assert_response :unauthorized
@@ -85,19 +85,19 @@ class OrdersControllerTest < ActionController::TestCase
   test "Only a user should destroy" do
     sign_in :user, users(:user)
 
-    get :destroy, user_id: users(:user).id, id: orders(:one).id
+    delete :destroy, user_id: users(:user).id, id: orders(:one).id
     response = JSON.parse(@response.body)
 
     assert_equal(false, response['active'])
     assert_response :ok
   end
 
-  test "should not destroy a shopper or someone not logged" do
+  test "should not destroy a supervisor or someone not logged" do
     assert_no_difference('Order.count') do
       delete :destroy, user_id: users(:user).id, id: orders(:one).id
       assert_response :unauthorized
 
-      sign_in :shopper, shoppers(:shopper)
+      sign_in :supervisor, supervisors(:supervisor)
       delete :destroy, user_id: users(:user).id, id: orders(:one).id
       assert_response :unauthorized
     end

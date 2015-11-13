@@ -12,10 +12,10 @@ class ProductsControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :index, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :index, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
@@ -32,10 +32,10 @@ class ProductsControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :show, id: products(:johnny).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: products(:johnny).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
@@ -55,7 +55,7 @@ class ProductsControllerTest < ActionController::TestCase
     end
   end
 
-  test "clients and shoppers or anyone should not create a product" do
+  test "clients and supervisors or anyone should not create a product" do
 
     assert_no_difference('Product.count') do
       post :create, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id,
@@ -69,7 +69,7 @@ class ProductsControllerTest < ActionController::TestCase
 
       assert_response :unauthorized
 
-      sign_in :shopper, shoppers(:shopper)
+      sign_in :supervisor, supervisors(:supervisor)
       post :create, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id,
                     reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image'
 
@@ -88,7 +88,7 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers and any user not logged should not update a product" do
+  test "clients and supervisors and any user not logged should not update a product" do
     put :update, id: products(:johnny).id, name: 'updated', store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     response = JSON.parse(@response.body)
     assert_no_match('updated', response['name'])
@@ -101,7 +101,7 @@ class ProductsControllerTest < ActionController::TestCase
     assert_response :unauthorized
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     put :update, id: products(:johnny).id, name: 'updated', store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     response = JSON.parse(@response.body)
     assert_no_match('updated', response['name'])
@@ -121,7 +121,7 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers or anyone should not destroy a subcategory" do
+  test "clients and supervisors or anyone should not destroy a subcategory" do
     assert_no_difference('Product.count') do
       delete :destroy, id: products(:jack).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
       assert_response :unauthorized
@@ -134,7 +134,7 @@ class ProductsControllerTest < ActionController::TestCase
     end
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     assert_no_difference('Product.count') do
       delete :destroy, id: products(:jack).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
       assert_response :unauthorized

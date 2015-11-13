@@ -6,9 +6,8 @@ shopper:
   email: shopper@frepi.com
   address: MyString
   city_id: cities(:palermo).id
-  uid: email
   latitude: 9.99
   longitude: 9.99
   phone_number: MyString
   status: active
-  shopper_type: 'IN-STORE'
+  shopper_type: IN-STORE

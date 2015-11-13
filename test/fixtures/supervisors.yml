@@ -1,21 +1,12 @@
-one:
+supervisor:
+  id: 1
   city_id: 1
-  first_name: MyString
-  last_name: MyString
-  phone_numbre: MyString
-  active: false
+  identification: 1114340012
+  first_name: Aquiles
+  last_name: Bailo
+  phone_number: 3013244242
+  active: true
   address: MyString
-  company_email: MyString
-  personal_email: MyString
-  image: MyString
-
-two:
-  city_id: 1
-  first_name: MyString
-  last_name: MyString
-  phone_numbre: MyString
-  active: false
-  address: MyString
-  company_email: MyString
-  personal_email: MyString
+  company_email: MyString@gmail.com
+  email: supervisor@gmail.com
   image: MyString

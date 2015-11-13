@@ -2,6 +2,9 @@ require 'test_helper'
 
 class Shoppers::OrdersControllerTest < ActionController::TestCase
 
+# NOTE: NOT BELONGS TO MVP
+
+=begin
   # ---------------- Index --------------------- #
   test "anyone should not index the orders of a shopper" do
     get :index, shopper_id: shoppers(:shopper).id
@@ -105,5 +108,6 @@ class Shoppers::OrdersControllerTest < ActionController::TestCase
     assert_not_equal(false, response['active'])
     assert_response :unauthorized
   end
+=end
 
 end

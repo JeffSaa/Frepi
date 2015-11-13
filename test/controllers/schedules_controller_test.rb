@@ -2,6 +2,10 @@ require 'test_helper'
 
 class SchedulesControllerTest < ActionController::TestCase
 
+# NOTE: NOT BELONGS TO MVP
+
+
+=begin
  # ---------------- Index --------------------- #
 
   test "Shoppers and anyone should not index the schedules of a order" do
@@ -110,4 +114,5 @@ class SchedulesControllerTest < ActionController::TestCase
       assert_response :unauthorized
     end
   end
+=end
 end

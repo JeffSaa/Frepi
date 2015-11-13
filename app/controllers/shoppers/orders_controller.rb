@@ -1,10 +1,11 @@
 class Shoppers::OrdersController < ApplicationController
 
+# NOTE: NOT for MVP version
+=begin
   skip_before_action :authenticate_user!, :require_administrator
   before_action :find_order, only: [:show, :update, :destroy]
 
   def index
-    establish_headers
     render json: current_shopper.orders
   end
 
@@ -26,7 +27,6 @@ class Shoppers::OrdersController < ApplicationController
   def update
     @order.assign_attributes(params_order)
     if @order.save
-      establish_headers
       render(json: @order)
     else
       render(json: { errors: order.errors }, status: :bad_request)
@@ -34,7 +34,6 @@ class Shoppers::OrdersController < ApplicationController
   end
 
   def destroy
-    establish_headers
     @order.delete_order
     @order.save
     render(json: @order)
@@ -52,13 +51,5 @@ class Shoppers::OrdersController < ApplicationController
   def params_order
     params.permit(:status, :delivery_time)
   end
-
-  def establish_headers
-    header = current_shopper.generate_token
-    response.headers['access-token'] = header["access-token"]
-    response.headers['token-type'] = header["token-type"]
-    response.headers['client'] = header["client"]
-    response.headers['uid'] = header["uid"]
-    response.headers['expiry'] = header["expiry"]
-  end
+=end
 end

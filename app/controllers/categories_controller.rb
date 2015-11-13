@@ -2,7 +2,7 @@ class CategoriesController < ApplicationController
 
   before_action :find_category, except: [:index, :create]
   skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
-  skip_before_action :authenticate_shopper!
+  skip_before_action :authenticate_supervisor!
 
   def index
     render(json: Category.all)

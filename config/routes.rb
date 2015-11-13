@@ -8,12 +8,9 @@ Rails.application.routes.draw do
 
   # Devise
   mount_devise_token_auth_for 'User', at: 'auth', skip: [:omniauth_callbacks]
-  mount_devise_token_auth_for 'Shopper', at: 'auth_shopper', skip: [:omniauth_callbacks]
   mount_devise_token_auth_for 'Supervisor', at: 'auth_supervisor', skip: [:omniauth_callbacks]
 
-  as :supervisor do
-    resources :supervisors, except: [:new, :edit]
-  end
+  resources :supervisors, except: [:new, :edit]
 
   resources :users, except: [:new, :edit] do
     resources :orders, except: [:new, :edit] do

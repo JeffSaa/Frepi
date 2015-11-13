@@ -1,23 +1,20 @@
 class Shoppers::ShoppersController < ApplicationController
 
-  skip_before_action :authenticate_shopper!, only: [:index, :create]
-  skip_before_action :authenticate_user!, :require_administrator, except: [:index, :create]
+  before_action      :set_supervisor, only: [:show, :update, :destroy]
+  skip_before_action :authenticate_supervisor!
 
   def index
     render json: Shopper.all
   end
 
   def show
-    establish_headers(current_shopper)
-    render json: current_shopper, root: 'shopper'
+    render json: @shopper, root: 'shopper'
   end
 
   def create
-    # TODO: change default user_type, Changes city when the app grow
+    # TODO: change default user_type, Changes city when the app grow up
     shopper = Shopper.new(shopper_params.merge(city_id: City.first.id))
     if shopper.save
-      establish_headers(shopper)
-      sign_in :shopper, shopper
       render(json: shopper, status: :created)
     else
       render(json: shopper.errors, status: :bad_request)
@@ -25,19 +22,17 @@ class Shoppers::ShoppersController < ApplicationController
   end
 
   def update
-    current_shopper.assign_attributes(shopper_params)
-    if current_shopper.save
-      establish_headers(current_shopper)
-      render(json: current_shopper)
+    if @shopper.update(shopper_params)
+      render(json: @shopper)
     else
-      render(json: current_shopper.errors, status: :bad_request)
+      render(json: @shopper.errors, status: :bad_request)
     end
   end
 
   def destroy
-    # TODO: disable current shopper
-    #current_shopper.destroy
-    render json: current_shopper
+    @shopper.active = false
+    @shopper.save
+    render json: @shopper
   end
 
 
@@ -45,17 +40,10 @@ class Shoppers::ShoppersController < ApplicationController
 
   def shopper_params
     params.permit(:first_name, :last_name, :email, :identification, :address, :status,
-                  :phone_number, :image, :latitude, :longitude, :active, :password,
-                  :password_confirmation, :company_email, :shopper_type)
+                  :phone_number, :image, :latitude, :longitude, :active, :company_email, :shopper_type)
   end
 
-
-  def establish_headers(shopper)
-    header = shopper.generate_token
-    response.headers['access-token'] = header["access-token"]
-    response.headers['token-type'] = header["token-type"]
-    response.headers['client'] = header["client"]
-    response.headers['uid'] = header["uid"]
-    response.headers['expiry'] = header["expiry"]
+  def set_supervisor
+    @shopper = Shopper.find(params[:id])
   end
 end

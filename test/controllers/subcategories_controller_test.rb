@@ -12,10 +12,10 @@ class SubcategoriesControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :index, category_id: categories(:alcohol).id
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :index, category_id: categories(:alcohol).id
@@ -32,10 +32,10 @@ class SubcategoriesControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     get :show, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id
     assert_response :ok
-    sign_out shoppers(:shopper)
+    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id
@@ -52,7 +52,7 @@ class SubcategoriesControllerTest < ActionController::TestCase
     end
   end
 
-  test "clients and shoppers or anyone should not create a subcategory" do
+  test "clients and supervisors or anyone should not create a subcategory" do
 
     assert_no_difference('Subcategory.count') do
       post :create, name: 'beers', category_id: categories(:alcohol).id
@@ -62,7 +62,7 @@ class SubcategoriesControllerTest < ActionController::TestCase
       post :create, name: 'beers', category_id: categories(:alcohol).id
       assert_response :unauthorized
 
-      sign_in :shopper, shoppers(:shopper)
+      sign_in :supervisor, supervisors(:supervisor)
       post :create, name: 'beers', category_id: categories(:alcohol).id
       assert_response :unauthorized
     end
@@ -79,7 +79,7 @@ class SubcategoriesControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers and any user not logged should not update a subcategory" do
+  test "clients and supervisors and any user not logged should not update a subcategory" do
     put :update, id: subcategories(:whiskies).id, name: 'updated', category_id: categories(:alcohol).id
     response = JSON.parse(@response.body)
     assert_no_match('updated', response['name'])
@@ -92,7 +92,7 @@ class SubcategoriesControllerTest < ActionController::TestCase
     assert_response :unauthorized
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     put :update, id: subcategories(:whiskies).id, name: 'updated', category_id: categories(:alcohol).id
     response = JSON.parse(@response.body)
     assert_no_match('updated', response['name'])
@@ -112,7 +112,7 @@ class SubcategoriesControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers or anyone should not destroy a subcategory" do
+  test "clients and supervisors or anyone should not destroy a subcategory" do
     assert_no_difference('Subcategory.count') do
       delete :destroy, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id
       assert_response :unauthorized
@@ -125,7 +125,7 @@ class SubcategoriesControllerTest < ActionController::TestCase
     end
     sign_out users(:user)
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     assert_no_difference('Subcategory.count') do
       delete :destroy, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id
       assert_response :unauthorized

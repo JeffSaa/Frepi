@@ -1,7 +1,7 @@
 class CountriesController < ApplicationController
 
   before_action :find_country, except: [:index, :create]
-  skip_before_action :authenticate_shopper!
+  skip_before_action :authenticate_supervisor!
 
   def index
     render json: Country.all

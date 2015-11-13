@@ -4,6 +4,7 @@ class CreateOrdersProducts < ActiveRecord::Migration
       t.references :order,    index: true, foreign_key: true
       t.references :product,  index: true, foreign_key: true
       t.integer    :quantity, null: false, default: 0
+      t.text       :comment
 
       t.timestamps null: false
     end

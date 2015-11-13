@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   # NOTE: Only a Super User (administrator) can do any action
   skip_before_action :authenticate_user!, only: :create
   skip_before_action :require_administrator, except: :index
-  skip_before_action :authenticate_shopper!
+  skip_before_action :authenticate_supervisor!
 
   def index
     render json: User.all
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   def create
     # TODO: change default user_type, Changes city when the app grow
-    user = User.new(user_params.merge(city_id: City.first.id, user_type: 'user'))
+    user = User.new(user_params.merge(city_id: City.first.id, user_type: User::USER_TYPES[1]))
     if user.save
       sign_in :user, user
       render(json: user, status: :created)

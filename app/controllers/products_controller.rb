@@ -4,20 +4,20 @@ class ProductsController < ApplicationController
   before_action :find_store_partner, :find_sucursals
   before_action :find_product, except: [:index, :create]
   skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
-  skip_before_action :authenticate_shopper!
+  skip_before_action :authenticate_supervisor!
 
   def index
-    # TODO: refactor code!!!
+=begin
     categories = @sucursal.categories.uniq
     products = @sucursal.products
     subcategories = @sucursal.subcategories.uniq
-=begin
+
     render(json: categories.as_json(include: {
                                       subcategories:  {
                                         include: { products: { except: [:created_at, :updated_at] }
                                         }, except: [:created_at, :updated_at] }
                                     }, except: [:created_at, :updated_at]))
-=end
+
 
 
 
@@ -37,8 +37,8 @@ class ProductsController < ApplicationController
       json[:subcategories] = response_subcategory.select { |e| e['category_id'] == category.id}
       response.push << json
     end
-
-    render(json: response, serializer: nil)
+=end
+    render(json: Product.all, serializer: nil)
   end
 
   def show

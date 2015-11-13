@@ -2,6 +2,9 @@ require 'test_helper'
 
 class Shoppers::SchedulesControllerTest < ActionController::TestCase
 
+# NOTE: NOT BELONGS TO MVP
+
+=begin
  # ---------------- Index --------------------- #
   test "users or any no logged should not index the schedules of a shopper" do
     get :index, shopper_id: shoppers(:shopper).id
@@ -109,5 +112,6 @@ class Shoppers::SchedulesControllerTest < ActionController::TestCase
       assert_response :unauthorized
     end
   end
+=end
 
 end

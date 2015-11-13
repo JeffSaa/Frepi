@@ -4,7 +4,7 @@ require 'faker'
 class UsersControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
-  test "clients, shoppers and anyone should not index users" do
+  test "clients, supervisors and anyone should not index users" do
     get :index
     assert_response :unauthorized
 
@@ -13,7 +13,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     get :index
     assert_response :unauthorized
@@ -40,8 +40,8 @@ class UsersControllerTest < ActionController::TestCase
   end
 
 
-  test "shoppers should not do show of a user" do
-    sign_in :shopper, shoppers(:shopper)
+  test "supervisors should not do show of a user" do
+    sign_in :supervisor, supervisors(:supervisor)
     get :show, id: users(:user).id
 
     assert_response :unauthorized
@@ -61,7 +61,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_response :created
     end
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     assert_difference('User.count') do
       post :create, { name: 'Edgar', last_name: 'Gajo',
                       email: 'Edgar@frepi.com', identification: '34408743554',
@@ -71,8 +71,8 @@ class UsersControllerTest < ActionController::TestCase
 
       assert_response :created
     end
+    sign_out supervisors(:supervisor)
 
-    sign_out shoppers(:shopper)
     sign_in :user, users(:user)
     assert_difference('User.count') do
       post :create, { name: 'Elena', last_name: 'Nito',
@@ -83,8 +83,8 @@ class UsersControllerTest < ActionController::TestCase
 
       assert_response :created
     end
-
     sign_out users(:user)
+
     sign_in :user, users(:admin)
     assert_difference('User.count') do
       post :create, { name: 'Lali', last_name: 'Cuadora',
@@ -115,14 +115,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
-  test "shoppers should not update an user and user not logged should not update" do
+  test "supervisors should not update an user and user not logged should not update" do
     put :update, { id: users(:user).id, name: 'updated' }
     response = JSON.parse(@response.body)
 
     assert_no_match('updated', response['name'])
     assert_response :unauthorized
 
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
     put :update, { id: users(:user).id, name: 'updated' }
     response = JSON.parse(@response.body)
 
@@ -143,7 +143,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
 
-  test "clients and shoppers should not destroy a user" do
+  test "clients and supervisors should not destroy a user" do
     sign_in :user, users(:user)
     assert_no_difference('Country.count') do
       delete :destroy, id: users(:italy).id
@@ -151,7 +151,7 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     sign_out users(:user)
-    sign_in :shopper, shoppers(:shopper)
+    sign_in :supervisor, supervisors(:supervisor)
 
     assert_no_difference('Country.count') do
       delete :destroy, id: users(:italy).id

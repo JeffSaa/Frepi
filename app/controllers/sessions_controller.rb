@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-  skip_before_action :authenticate_user!, :require_administrator, :authenticate_shopper!
+  skip_before_action :authenticate_user!, :require_administrator, :authenticate_supervisor!
 
   def create
     # TODO: refactor code

@@ -1,5 +1,6 @@
 class Shoppers::SchedulesController < ApplicationController
 
+=begin
   skip_before_action :authenticate_user!, :require_administrator
   before_action :find_schedule, only: [:show, :update, :destroy]
 
@@ -49,4 +50,5 @@ class Shoppers::SchedulesController < ApplicationController
       render(json: { error: e.message }, status: :not_found)
     end
   end
+=end
 end

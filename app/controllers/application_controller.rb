@@ -6,8 +6,8 @@ class ApplicationController < ActionController::API
   before_action :set_access_control_headers
 
   # Security
-  before_action :authenticate_user!, :authenticate_shopper!, :require_administrator, except: [:handle_options_request, :set_access_control_headers]
-  skip_before_action :authenticate_user!, :authenticate_shopper!, :require_administrator, if: :devise_controller?
+  before_action :authenticate_user!, :authenticate_supervisor!, :require_administrator, except: [:handle_options_request, :set_access_control_headers]
+  skip_before_action :authenticate_user!, :authenticate_supervisor!, :require_administrator, if: :devise_controller?
 
   def handle_options_request
     head(:ok) if request.request_method == "OPTIONS"
@@ -21,6 +21,6 @@ class ApplicationController < ActionController::API
   end
 
   def require_administrator
-    render(json: {errors: 'Authorized only for administrator.'} , status: :unauthorized) unless current_user.administrator?
+    render( json: {errors: 'Authorized only for administrator.'} , status: :unauthorized) unless current_user.administrator?
   end
 end

@@ -1,10 +1,10 @@
 class CreateSupervisors < ActiveRecord::Migration
   def change
     create_table :supervisors do |t|
-      # Relation
-      t.references :city,           index: true, foreign_key: true, null: false
+
 
       # -------------------- Basic information ----------------- #
+
       t.string     :identification, null: false
       t.string     :first_name,     null: false
       t.string     :last_name,      null: false
@@ -15,6 +15,7 @@ class CreateSupervisors < ActiveRecord::Migration
       t.string     :company_email
       t.string     :image
 
+      t.references :city,           index: true, foreign_key: true, null: false
       #------------------------- Devise ------------------------ #
 
       # Required
