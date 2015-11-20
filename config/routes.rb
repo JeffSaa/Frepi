@@ -30,6 +30,11 @@ Rails.application.routes.draw do
   #end
 
   namespace :supervisors, path: '' do
+    namespace :orders do
+      get 'delivering' => 'delivering#index'
+      get 'dispatched' => 'dispatched#index'
+      get 'received' => 'received#index'
+    end
     resources :orders, except: [:new, :edit]
   end
 

@@ -4,18 +4,15 @@ class Supervisors::OrdersController < ApplicationController
   before_action :find_shopper, only: :create
 
   def index
-    received = Order.where(active: true, status: 0).map { |order| SupervisorOrderSerializer.new(order) }
-    delivering = Order.where(active: true, status: 1).map { |order| SupervisorOrderSerializer.new(order) }
-    dispatched = Order.where(active: true, status: 2).map { |order| SupervisorOrderSerializer.new(order) }
-
-    render json: { received: received, delivering: delivering, dispatched: dispatched }
+    #received = Order.where(active: true, status: 0).map { |order| SupervisorOrderSerializer.new(order) }
+    render json: order.all, each_serializer: SupervisorOrderSerializer
   end
 
   def show
   end
 
   def create
-    shopper_order = @shopper.shoppers_orders.build(order_id: params[:order_id])
+    shopper_order = ShoppersOrder.new(order_params)
     if shopper_order.valid?
       order = shopper_order.order
       order.status = 1
@@ -48,6 +45,10 @@ class Supervisors::OrdersController < ApplicationController
     rescue => e
       render(json: { error: e.message }, status: :not_found)
     end
+  end
+
+  def order_params
+    params.permit(:order_id, :shopper_id)
   end
 
 end
