@@ -11,10 +11,10 @@ class Shopper < ActiveRecord::Base
 
   # Associations
   belongs_to :city
-  has_many :shoppers_orders
-  has_many :shoppers_schedules
-  has_many :orders, through: :shoppers_orders
-  has_many :schedules,through: :shoppers_schedules
+  has_many   :shoppers_orders
+  has_many   :shoppers_schedules
+  has_many   :orders, through: :shoppers_orders
+  has_many   :schedules,through: :shoppers_schedules
 
   # Validations
   validates :active, :phone_number, :status, presence: true

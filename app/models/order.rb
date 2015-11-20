@@ -6,8 +6,8 @@ class Order < ActiveRecord::Base
 
   # Associations
   belongs_to  :user, counter_cache: :counter_orders
-  has_one     :shopper, through: :shoppers_order
-  has_one     :shoppers_order
+  has_many    :shopper, through: :shoppers_order
+  has_many    :shoppers_order
   has_many    :sucursals, through: :products
   has_many    :products, through: :orders_products
   has_many    :schedules, through: :orders_schedules
@@ -63,6 +63,20 @@ class Order < ActiveRecord::Base
     self
   end
 
+
+  def products_not_acquired(products)
+    products.each do |product|
+
+      order_products = self.orders_products.find_by(product_id: product['id'])
+      if order_products
+        order_products.update(acquired: product['acquired'])
+      else
+        return { error: "product #{product['id']} not found" }
+      end
+    end
+    true
+  end
+
   def delete_order
     self.active = false
     User.decrement_counter(:counter_orders, self.user.id)
@@ -76,10 +90,6 @@ class Order < ActiveRecord::Base
     true
   end
 
-
-  def self.hola(order)
-    ActiveModel::SerializableResource.new(order).serializable_hash
-  end
   # ---------------------- Private ---------------------------- #
   private
 

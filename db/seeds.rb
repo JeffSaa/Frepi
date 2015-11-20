@@ -145,7 +145,10 @@ if Rails.env.development?
   5.times do |id|
     id = id + 1
     shopper = Shopper.find(id)
-    shopper.shoppers_orders.create!(order_id: Order.find(id).id, accepted_date: Faker::Date.forward(id))
+    order = shopper.shoppers_orders.create!(order_id: Order.find(id).id, accepted_date: Faker::Date.forward(id))
+    order = Order.find(id)
+    order.status = 1
+    order.save
   end
 
   # Orders with schedules

@@ -64,10 +64,11 @@ ActiveRecord::Schema.define(version: 19) do
   create_table "orders_products", force: :cascade do |t|
     t.integer  "order_id"
     t.integer  "product_id"
-    t.integer  "quantity",   default: 0, null: false
+    t.integer  "quantity",   default: 0,    null: false
+    t.boolean  "acquired",   default: true, null: false
     t.text     "comment"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "orders_products", ["order_id"], name: "index_orders_products_on_order_id"

@@ -1,5 +1,5 @@
 class OrdersProductSerializer < ActiveModel::Serializer
-  attributes :quantity, :comment
+  attributes :quantity, :comment, :acquired
   has_one    :product
 
   def product

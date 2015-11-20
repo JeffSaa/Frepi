@@ -6,10 +6,11 @@ class OrdersProduct < ActiveRecord::Base
 
   # Validations
   validates :order, :product, presence: true
-  validates :quantity, numericality: { only_integer: true,  greater_than: 0}
+  validates :quantity, numericality: { only_integer: true,  greater_than: 0 }
+  validates :acquired, inclusion: { in: [true, false] }
 
   # Callbacks
-  after_create :increment_counter
+  after_create  :increment_counter
   after_destroy :decrement_counter
 
   # Methods
