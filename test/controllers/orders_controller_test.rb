@@ -65,7 +65,7 @@ class OrdersControllerTest < ActionController::TestCase
     put :update, { user_id: users(:user).id, id: orders(:one).id, products: [ { id: products(:johnny).id, quantity: 999 } ]}
     response = JSON.parse(@response.body)
 
-    assert_equal(999, response['ordersProducts'].first['quantity'])
+    assert_equal(999, response['products'].first['quantity'])
     assert_response :ok
   end
 

@@ -20,7 +20,7 @@ if Rails.env.development?
                 email: EMAILS[0], identification: Faker::Code.ean,
                 address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                 image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
-                longitude: Faker::Address.longitude, user_type: User::USER_TYPES[0],
+                longitude: Faker::Address.longitude, administrator: true,
                 password: PASSWORD, password_confirmation: PASSWORD)
 
   # ---- Default Client --- #
@@ -28,8 +28,7 @@ if Rails.env.development?
                 email: EMAILS[1], identification: Faker::Code.ean,
                 address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                 image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
-                longitude: Faker::Address.longitude, user_type: User::USER_TYPES[1],
-                password: PASSWORD, password_confirmation: PASSWORD)
+                longitude: Faker::Address.longitude, password: PASSWORD, password_confirmation: PASSWORD)
 
 
   # --- Defult Supervisors --- #
@@ -62,7 +61,7 @@ if Rails.env.development?
                   email: Faker::Internet.email, identification: Faker::Code.ean,
                   address: Faker::Address.street_address, phone_number: Faker::PhoneNumber.cell_phone,
                   image: Faker::Avatar.image, city_id: city.id, latitude: Faker::Address.latitude,
-                  longitude: Faker::Address.longitude, user_type: User::USER_TYPES.sample,
+                  longitude: Faker::Address.longitude,
                   password: PASSWORD, password_confirmation: PASSWORD)
   end
 
@@ -133,7 +132,7 @@ if Rails.env.development?
                                 total_price: Faker::Commerce.price)
     #order.products << Product.find(item + 1)
     quantity = Faker::Number.between(1, 10)
-    order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity)
+    order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity, comment: Faker::Lorem.sentence)
   end
 
   # Complaints

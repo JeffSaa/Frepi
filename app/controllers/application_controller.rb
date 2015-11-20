@@ -21,6 +21,12 @@ class ApplicationController < ActionController::API
   end
 
   def require_administrator
-    render( json: {errors: 'Authorized only for administrator.'} , status: :unauthorized) unless current_user.administrator?
+    render( json: {errors: 'Authorized only for administrator.'} , status: :unauthorized) unless current_user.administrator
+  end
+
+  def administrador_supervisor
+    unless (current_user.try('administrator') || current_supervisor)
+      render( json: {errors: 'Authorized only for administrator and supervisors.'} , status: :unauthorized)
+    end
   end
 end

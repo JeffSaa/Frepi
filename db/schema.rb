@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 19) do
     t.integer  "order_id"
     t.integer  "product_id"
     t.integer  "quantity",   default: 0, null: false
+    t.text     "comment"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
@@ -202,7 +203,6 @@ ActiveRecord::Schema.define(version: 19) do
   add_index "sucursals_products", ["sucursal_id"], name: "index_sucursals_products_on_sucursal_id"
 
   create_table "supervisors", force: :cascade do |t|
-    t.integer  "city_id",                                  null: false
     t.string   "identification",                           null: false
     t.string   "first_name",                               null: false
     t.string   "last_name",                                null: false
@@ -212,6 +212,7 @@ ActiveRecord::Schema.define(version: 19) do
     t.string   "address"
     t.string   "company_email"
     t.string   "image"
+    t.integer  "city_id",                                  null: false
     t.string   "provider",               default: "email", null: false
     t.string   "uid",                    default: "",      null: false
     t.string   "encrypted_password"
@@ -245,7 +246,7 @@ ActiveRecord::Schema.define(version: 19) do
     t.string   "identification"
     t.string   "address"
     t.string   "phone_number"
-    t.integer  "user_type",                                        default: 0,       null: false
+    t.boolean  "administrator",                                    default: false,   null: false
     t.boolean  "active",                                           default: true,    null: false
     t.string   "image"
     t.integer  "counter_orders",                                   default: 0,       null: false

@@ -8,7 +8,7 @@ user:
   city: cities(:barranquilla)
   latitude: 9.99
   longitude: 9.99
-  user_type: 1
+  administrator: false
   uid: email3
   phone_number: MyString
 
@@ -22,5 +22,5 @@ admin:
   uid: email
   latitude: 9.99
   longitude: 9.99
-  user_type: 0
+  administrator: true
   phone_number: MyString

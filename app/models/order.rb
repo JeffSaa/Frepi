@@ -1,4 +1,5 @@
 class Order < ActiveRecord::Base
+  include ActiveModel::Serializers::JSON
 
   STATUS = %w(RECEIVED DELIVERING DISPATCHED)
   enum status: STATUS
@@ -75,6 +76,10 @@ class Order < ActiveRecord::Base
     true
   end
 
+
+  def self.hola(order)
+    ActiveModel::SerializableResource.new(order).serializable_hash
+  end
   # ---------------------- Private ---------------------------- #
   private
 

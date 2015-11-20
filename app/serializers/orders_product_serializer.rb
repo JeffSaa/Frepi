@@ -1,4 +1,8 @@
 class OrdersProductSerializer < ActiveModel::Serializer
-  attributes :quantity
+  attributes :quantity, :comment
   has_one    :product
+
+  def product
+    object.product
+  end
 end

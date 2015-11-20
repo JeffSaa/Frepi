@@ -21,12 +21,16 @@ Rails.application.routes.draw do
   namespace :shoppers, path: '' do
     resources :shoppers, except: [:new, :edit] do
       resources :orders, except: [:new, :edit]
-      resources :schedules, except: [:new, :edit]
+      # resources :schedules, except: [:new, :edit]
     end
   end
 
-  namespace :orders, path: '' do
-    resources :orders, only: :index
+  #namespace :orders, path: '' do
+#    resources :orders, only: :index
+  #end
+
+  namespace :supervisors, path: '' do
+    resources :orders, except: [:new, :edit]
   end
 
   resources :categories, except: [:new, :edit] do

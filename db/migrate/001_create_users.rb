@@ -9,7 +9,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string  :identification
       t.string  :address
       t.string  :phone_number
-      t.integer :user_type,         null: false, default: 0
+      t.boolean :administrator,     null: false, default: false
       t.boolean :active,            null: false, default: true
       t.string  :image
       t.integer :counter_orders,    null: false, default: 0

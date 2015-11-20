@@ -1,7 +1,9 @@
 class Shoppers::ShoppersController < ApplicationController
 
-  before_action      :set_supervisor, only: [:show, :update, :destroy]
+  before_action      :set_shopper, only: [:show, :update, :destroy]
   skip_before_action :authenticate_supervisor!
+  skip_before_action :authenticate_user!, :require_administrator, only: :index
+  before_action      :administrador_supervisor, only: :index
 
   def index
     render json: Shopper.all
@@ -12,7 +14,7 @@ class Shoppers::ShoppersController < ApplicationController
   end
 
   def create
-    # TODO: change default user_type, Changes city when the app grow up
+    # TODO: Changes city when the app grow up
     shopper = Shopper.new(shopper_params.merge(city_id: City.first.id))
     if shopper.save
       render(json: shopper, status: :created)
@@ -43,7 +45,7 @@ class Shoppers::ShoppersController < ApplicationController
                   :phone_number, :image, :latitude, :longitude, :active, :company_email, :shopper_type)
   end
 
-  def set_supervisor
+  def set_sshopper
     @shopper = Shopper.find(params[:id])
   end
 end

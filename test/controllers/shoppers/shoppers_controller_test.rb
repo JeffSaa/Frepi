@@ -12,18 +12,17 @@ class Shoppers::ShoppersControllerTest < ActionController::TestCase
     get :index
     assert_response :unauthorized
 
-    sign_out users(:user)
-    sign_in :supervisor, supervisors(:supervisor)
-
-    get :index
-    assert_response :unauthorized
   end
 
 
   test "only administrator should index supervisors" do
     sign_in :user, users(:admin)
     get :index
+    assert_response :ok
+    sign_out users(:admin)
 
+    sign_in :supervisor, supervisors(:supervisor)
+    get :index
     assert_response :ok
   end
 

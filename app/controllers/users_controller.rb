@@ -14,8 +14,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    # TODO: change default user_type, Changes city when the app grow
-    user = User.new(user_params.merge(city_id: City.first.id, user_type: User::USER_TYPES[1]))
+    # TODO: Change city when the app grow
+    user = User.new(user_params.merge(city_id: City.first.id, administrator: false))
     if user.save
       sign_in :user, user
       render(json: user, status: :created)
