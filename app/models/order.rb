@@ -65,6 +65,8 @@ class Order < ActiveRecord::Base
 
 
   def products_not_acquired(products)
+    products = [] || products
+
     products.each do |product|
 
       order_products = self.orders_products.find_by(product_id: product['id'])
@@ -74,7 +76,21 @@ class Order < ActiveRecord::Base
         return { error: "product #{product['id']} not found" }
       end
     end
-    true
+    nil
+  end
+
+  def updated_shopper(shoppers)
+    shoppers = [] || shoppers
+    shoppers.each do |shopper|
+      shopper_order = self.shoppers_order.where(shopper_id: shopper['old_shopper').first
+      if shopper_order
+        shopper_order.shopper_id = shopper['new_shopper')
+        self.save
+      else
+        return { error: "Shopper #{product['oldShopper']} not found" }
+      end
+    end
+    nil
   end
 
   def delete_order

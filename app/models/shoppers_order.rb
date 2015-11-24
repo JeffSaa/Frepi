@@ -6,6 +6,7 @@ class ShoppersOrder < ActiveRecord::Base
 
   # Validations
   validates :shopper, :order, presence: true
+  validates :shopper_id, uniqueness: { scope: :order_id }
 
   # Callbacks
   before_create :set_date
