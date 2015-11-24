@@ -27,11 +27,13 @@ class Supervisors::OrdersController < ApplicationController
   def update
     if @order.update(order_params)
       if params[:products] || params[:shoppers]
-        if response_product = @order.products_not_acquired(params[:products]) || response_shopper = @order.updated_shopper(params[:products])
-          render json: @order, serializer: SupervisorOrderSerializer
+        response_product = @order.products_not_acquired(params[:products])
+        response_shopper = @order.updated_shopper(params[:shoppers])
+        if response_product || response_shopper
+          render json: response_product, status: :unprocessable_entity and return if response_product
+          render json: response_shopper, status: :unprocessable_entity and return if response_shopper
         else
-          render json: response_product, status: :unprocessable_entity if response_product
-          render json: response_shopper, status: :unprocessable_entity if response_shopper
+          render json: @order, serializer: SupervisorOrderSerializer
         end
       else
         render json: @order, serializer: SupervisorOrderSerializer
@@ -43,6 +45,7 @@ class Supervisors::OrdersController < ApplicationController
 
   def destroy
     @order.status = 0
+    @orde.shoppers_order.destroy_all
     @order.save
   end
 
