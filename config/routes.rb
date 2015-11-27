@@ -19,15 +19,14 @@ Rails.application.routes.draw do
   end
 
   namespace :shoppers, path: '' do
+    get 'shoppers/in-store' => 'instore_shoppers#index'
+    get 'shoppers/delivery' => 'delivery_shoppers#index'
+
     resources :shoppers, except: [:new, :edit] do
       resources :orders, except: [:new, :edit]
       # resources :schedules, except: [:new, :edit]
     end
   end
-
-  #namespace :orders, path: '' do
-#    resources :orders, only: :index
-  #end
 
   namespace :supervisors, path: '' do
     namespace :orders do
@@ -60,4 +59,8 @@ Rails.application.routes.draw do
 
   # Explore
   get 'subcategories/:subcategory_id/products', to: 'explore_products#index'
+
+  # namespace :orders, path: '' do
+    # resources :orders, only: :index
+  # end
 end

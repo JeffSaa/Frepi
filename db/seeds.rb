@@ -128,10 +128,26 @@ if Rails.env.development?
   # Orders
   15.times do |item|
     user = User.find(Faker::Number.between(1, 10))
-    order = user.orders.create!(active: true, status: 0,
-                                total_price: Faker::Commerce.price)
+    arrival_time =  Faker::Time.forward(3, :afternoon)
+
+    extra_attributes = {}
+
+    if item >= 12
+      extra_attributes = { comment: Faker::Lorem.sentence, address: "#{Faker::Address.street_address} #{Faker::Address.secondary_address}" }
+    elsif item >= 9
+      extra_attributes = { comment: Faker::Lorem.sentence }
+    elsif item > 3
+      extra_attributes = { address: "#{Faker::Address.street_address} #{Faker::Address.secondary_address}" }
+    end
+
+    attributes = { active: true, status: 0, total_price: Faker::Commerce.price,
+                   arrival_time: arrival_time, expiry_time: arrival_time + 2.hours,
+                   scheduled_date: arrival_time }.merge(extra_attributes)
+
+    order = user.orders.create!(attributes)
+
     #order.products << Product.find(item + 1)
-    (1..30).to_a.sample.times do |_|
+    (1..30).to_a.sample.times do |i|
       quantity = Faker::Number.between(1, 10)
       order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity, comment: Faker::Lorem.sentence)
     end

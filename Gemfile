@@ -8,13 +8,13 @@ gem 'rails-api'
 group :development do
   gem 'sqlite3'
   gem 'faker'
-  gem 'thin'
 end
 
 group :production do
-  gem 'puma'
   gem 'pg'
 end
+
+gem 'puma'
 
 # General
 gem 'validates_timeliness'

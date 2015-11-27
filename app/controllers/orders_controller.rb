@@ -58,7 +58,7 @@ class OrdersController < ApplicationController
   end
 
   def params_shedules
-    params.permit(:expiry_time, :arrival_time, :scheduled_date)
+    params.permit(:expiry_time, :arrival_time, :scheduled_date, :comment)
   end
 
 end

@@ -15,12 +15,13 @@ class Order < ActiveRecord::Base
   has_many    :orders_schedules
 
   # Validations
-  validates :user, :total_price, presence: true
+  validates :user, :total_price, :scheduled_date, :expiry_time, :arrival_time, presence: true
   validates :status, inclusion: { in: STATUS }
   validates :active, inclusion: { in: [true, false] }
   validates :total_price, numericality: true
-  validates_datetime :delivery_time, :scheduled_date, :expiry_time, allow_nil: true
-  validates_datetime :expiry_time, after: :arrival_time, allow_nil: true
+  validates_datetime :delivery_time, allow_nil: true
+  validates_datetime :scheduled_date, :expiry_time
+  validates_datetime :expiry_time, after: :arrival_time
 
   # Callbacks
   before_create :set_date

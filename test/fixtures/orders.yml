@@ -5,6 +5,8 @@ one:
   date: 2015-08-03 13:51:19
   total_price: 20.98
   user_id: 1
+  address: 'Cll 43 # 51 Apto 204 bloque A'
+  comment: Dolore illum animi et neque accusantium
 
 two:
   id: 2
@@ -13,3 +15,8 @@ two:
   date: 2015-09-11 15:51:19
   total_price: 20.98
   user_id: users(:user).id
+  address: ''
+  comment: Dolore illum animi et neque accusantium
+
+
+
