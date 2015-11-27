@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Supervisors::Orders::DispatchedControllerTest < ActionController::TestCase
+class Supervisors::Orders::ShoppingControllerTest < ActionController::TestCase
   test "should get index" do
     sign_in :supervisor, supervisors(:supervisor)
 

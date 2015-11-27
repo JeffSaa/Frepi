@@ -34,6 +34,8 @@ Rails.application.routes.draw do
       get 'delivering' => 'delivering#index'
       get 'dispatched' => 'dispatched#index'
       get 'received' => 'received#index'
+      get 'shopping' => 'shopping#index'
+      post ':id/optimize' => 'optimized#create'
     end
     resources :orders, except: [:new, :edit]
   end

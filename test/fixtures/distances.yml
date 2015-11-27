@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sucursal_id:  1
+  destination_id:  2
+  distance: 9.99
+
+two:
+  sucursal_id: 1
+  destination_id: 2
+  distance: 9.99

@@ -114,7 +114,7 @@ if Rails.env.development?
   end
 
   # Products
-  150.times do |_|
+  300.times do |_|
     sucursal = Sucursal.find([1, 2, 3].sample)
     subcategory = Subcategory.find(Faker::Number.between(1, 10))
     sucursal.products.create(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,
@@ -131,8 +131,10 @@ if Rails.env.development?
     order = user.orders.create!(active: true, status: 0,
                                 total_price: Faker::Commerce.price)
     #order.products << Product.find(item + 1)
-    quantity = Faker::Number.between(1, 10)
-    order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity, comment: Faker::Lorem.sentence)
+    (1..30).to_a.sample.times do |_|
+      quantity = Faker::Number.between(1, 10)
+      order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity, comment: Faker::Lorem.sentence)
+    end
   end
 
   # Complaints
@@ -144,7 +146,7 @@ if Rails.env.development?
   # Orders accepted by a shopper
   5.times do |id|
     id = id + 1
-    shopper = Shopper.find(id)
+    shopper = Shopper.where(shopper_type: 'IN-STORE').sample
     order = shopper.shoppers_orders.create!(order_id: Order.find(id).id, accepted_date: Faker::Date.forward(id))
     order = Order.find(id)
     order.status = 1

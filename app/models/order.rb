@@ -1,7 +1,7 @@
 class Order < ActiveRecord::Base
   include ActiveModel::Serializers::JSON
 
-  STATUS = %w(RECEIVED DELIVERING DISPATCHED)
+  STATUS = %w(RECEIVED SHOPPING DELIVERING DISPATCHED)
   enum status: STATUS
 
   # Associations

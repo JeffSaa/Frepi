@@ -15,7 +15,8 @@ class Supervisors::OrdersController < ApplicationController
     shopper_order = ShoppersOrder.new(orders_shopper_params)
     if shopper_order.valid?
       order = shopper_order.order
-      order.status = 1
+      shopper = Shopper.find(params[:shopper_id])
+      shopper.shopper_type  == 'IN-STORE' ? order.status = 1 : order.status = 2
       order.save
       shopper_order.save
       render json: shopper_order.order, serializer: SupervisorOrderSerializer, status: :created
