@@ -1,0 +1,57 @@
+.home {
+  .main.menu {
+    background-color: rgb(34, 182, 118) !important;
+
+    #landing-logo {
+      padding: 0;
+
+      img {
+        min-height: 2.857142em;
+        min-width: 7em;
+      }
+    }
+  }
+
+  .orders.menu {
+    background-color: #513C2C !important;
+    top: 46px;
+    -webkit-transition: box-shadow .218s ease-out;
+    transition: box-shadow .218s ease-out;
+
+    .container {
+      width: 97% !important;
+    }
+
+    .container > .item{
+      font-weight: 700;
+
+      .state {
+        display: none;
+      }
+    }
+  }
+
+  #received-orders {
+    position: relative;
+    top: 10em;
+
+    .dimmer {
+      position: fixed;
+      top: 86px !important;
+
+      .loader {
+        top: 30%;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .home {
+    .orders.menu {
+      .state {
+        display: inline-block !important;
+      }
+    }
+  }
+}

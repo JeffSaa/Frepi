@@ -559,21 +559,41 @@ header #shopping-cart .icon {
   text-align: center;
 }
 
+.checkout .steps {
+  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+}
+
 .checkout .clearfix.segment {
   width: 100%;
 }
 
-.checkout #delivery, .checkout #review {
+.checkout #delivery, .checkout #review, .checkout #confirm {
   display: none;
   width: 100%;
 }
 
-.checkout #delivery form {
+.checkout #delivery form, .checkout #confirm .details-content {
   margin-bottom: 1em;
 }
 
-.checkout .steps {
-  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+.checkout #confirm .line {
+  width: 100%;
+}
+
+.checkout #confirm .line .title,
+.checkout #confirm .line .value {
+  display: inline-block;
+  float: left;
+  padding: 10px;
+}
+
+.checkout #confirm .line .title {
+  font-weight: bold;
+  width: 25%;
+}
+
+.checkout #confirm .line .value {
+  width: 75%;
 }
 
 .checkout .container>.header {
@@ -593,16 +613,8 @@ header #shopping-cart .icon {
 
 .checkout .container .labeled.icon {
   float: right;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+  margin-left: .25em;
 }
-
-/*.checkout .container .labeled.icon:hover {
-  cursor: default;
-  background-color: #00b5ad;
-}*/
 
 /* Category rules */
 

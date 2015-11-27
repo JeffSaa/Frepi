@@ -25,14 +25,17 @@ class LoginVM
 						$('#login').removeClass('loading')
 						$form.addClass('error')
 						console.log 'An error has ocurred in the authentication.'
-						@errorTextResponse(error.responseJSON.errors.toString())
+						if error.responseJSON
+							@errorTextResponse(error.responseJSON.errors.toString())
+						else
+							@errorTextResponse('No se pudo establecer conexión')
 					else
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers))
 						Config.setItem('credentials', JSON.stringify(data))
 						Config.setItem('userObject', JSON.stringify(success.data))
 
-						if success.data.user_type is 'user'
+						if success.data.user_type is 'USER'
 							window.location.href = '../../store/index.html'
 						else
 							window.location.href = '../../admin.html'
@@ -81,7 +84,7 @@ class LoginVM
 								Config.setItem('uid', headers.uid)
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
-								if success.user.userType is 'user'
+								if success.user.userType is 'USER'
 									window.location.href = '../../store/index.html'
 								else
 									window.location.href = '../../admin.html'
