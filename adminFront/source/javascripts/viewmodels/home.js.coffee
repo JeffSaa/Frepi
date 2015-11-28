@@ -17,9 +17,38 @@ class HomeVM
 		ko.mapping.fromJS(order, @selectedOrder)
 		$('#assign-shopper').modal('show')
 
+	pickShopperForShopping: ->
+		$('#assign-shopper .actions .button:last-child').addClass('loading')
+		$('#assign-shopper .dropdown').removeClass('error')
+		shopperID = parseInt($('#assign-shopper .dropdown').dropdown('get value')[0])
+		orderID = @selectedOrder.id()
+		if !!shopperID
+			data = 
+				shopperId : shopperID
+				orderId 	: orderID
+
+			RESTfulService.makeRequest('POST', '/orders', data, (error, success, headers) =>
+				if error
+					console.log error
+				else
+					console.log success
+					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+					$('#assign-shopper .actions .button:last-child').removeClass('black basic loading')
+					$('#assign-shopper .actions .button:last-child').addClass('green')
+					$('#assign-shopper .actions .button:last-child').text('Hecho!')
+					setTimeout( ->
+							$('#assign-shopper').modal('hide')
+						, 100)					
+					@refresh()
+			)
+		else
+			$('#assign-shopper .dropdown').addClass('error')
+
+		$('#assign-shopper .actions .button:last-child').removeClass('loading')
+
 	printList: ->
 		@currentDate(moment().format('LLL'))
-		divToPrint = document.getElementById('unasigned-shopper')
+		divToPrint = document.getElementById('unassigned-shopper')
 		newWin = window.open("")
 		newWin.document.write(divToPrint.outerHTML)
 		head  = newWin.document.getElementsByTagName('head')[0]
@@ -70,8 +99,11 @@ class HomeVM
 				console.log 'An error has ocurred'
 			else
 				Config.destroyLocalStorage()
-				window.location.href = '../../login.html'
+				window.location.href = '../../'
 		)
+		# IMPORTANT: Review this, the request isn't logging me out or destroying the session
+		# Config.destroyLocalStorage()
+		# window.location.href = '../../'
 
 	refresh: ->
 		@loading(true)

@@ -31,12 +31,12 @@ html
 					button.ui.black.basic.button data-bind="click: printList"
 						i.print.icon
 						|Imprimir lista
-					button.ui.black.basic.button
+					button.ui.black.basic.button data-bind="click: pickShopperForShopping"
 						i.check.icon
 						|Asignar Shopper
 		// Tables for printing
-		/ Unasigned Shopper
-		#unasigned-shopper
+		/ Unassigned Shopper
+		#unassigned-shopper
 			h2.ui.header
 				|Frepi
 				.sub.header data-bind="text: currentDate"

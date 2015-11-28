@@ -25,8 +25,12 @@ a {
   white-space: nowrap;
 }
 
-#unasigned-shopper {
+#unassigned-shopper {
   display: none;
+}
+
+.unscrollable {
+  overflow: hidden;
 }
 
 /* Events effects*/

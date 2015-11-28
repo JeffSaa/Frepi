@@ -14,15 +14,22 @@ class CheckoutVM
 				products 				: ko.observableArray()
 				price 					: ko.observable()
 		@availableDateTime = null
+		@user = JSON.parse(Config.getItem('userObject'))
 		@headerMessage = ko.observable('Confirma tu orden')
 		@orderGenerated = ko.observable(false)
+		@selectedDay = ko.observable()
+		@selectedDate = ko.observable()
+		@selectedHour = ko.observable()
+		@selectedExpiredHour = ko.observable()
+		@availableDays = ko.observableArray()
+		@availableHours = ko.observableArray()
 		@userName = ko.observable()
-		@user = null
+		@comment = ko.observable()		
+		@address = ko.observable(@user.address)
 		@setDOMElements()
 		@setOrderToPay()
 		@setSizeButtons()
 		@setAvailableDeliveryDateTime()
-		console.log 'ava date'
 		console.log @availableDateTime
 
 	seeDeliveryRight: ->
@@ -38,8 +45,9 @@ class CheckoutVM
 		$('#delivery').transition('fade left')
 
 	seeConfirm: ->
-		$('#delivery').transition('fade right')
-		$('#confirm').transition('fade left')
+		if !!@selectedDay() and !!@selectedHour() and !!@address()
+			$('#delivery').transition('fade right')
+			$('#confirm').transition('fade left')
 
 	logout: ->
 		Config.destroyLocalStorage()
@@ -53,16 +61,17 @@ class CheckoutVM
 
 		productsToSend = []
 
-		for product in @order.products()
+		for product in @session.currentOrder.products()
 			productsToSend.push({
-					id: product.id()
-					quantity: product.quantity()
+					id: product.id
+					quantity: product.quantity
 				})
 		
 		data =
 			products:	productsToSend
-			sucursalId: @order.sucursalId()
-			totalPrice: @order.price()
+			arrivalTime: @selectedHour()
+			expireTime: @selectedExpiredHour()
+			scheduled_date: @selectedDate()
 
 		RESTfulService.makeRequest('POST', "/users/#{@user.id}/orders", data, (error, success, headers) =>
 			if error
@@ -72,7 +81,7 @@ class CheckoutVM
 				@orderGenerated(true)
 				console.log 'Order has been created'
 				setTimeout(( ->
-						window.location.href = '../../store.html'
+						window.location.href = '../../store'
 					), 2500)
 				console.log success
 				Config.setItem('headers', JSON.stringify(headers))
@@ -95,34 +104,55 @@ class CheckoutVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
-		$('.dropdown').dropdown()
+		# $('.dropdown').dropdown()
+
+	setHours: =>
+		console.log 'It should set the new hours'
+		if !!@selectedDay()
+			@availableHours(@selectedDay().availableHours)
+			@selectedDate(@selectedDay().date)
+		else	
+			@availableHours([])
+			@selectedDate('')
+
+	setExpireHour: =>
+		if !!@selectedHour()
+			expireHour = moment(@selectedHour(), 'H:mm').add(1, 'hours')
+			@selectedExpiredHour(expireHour.format('H:mm'))
+		
 
 	setAvailableDeliveryDateTime: =>
-		today = moment().minutes(0)
+		today = if moment().hours() > 8 then moment().add(2, 'hours').minutes(0) else moment().hours(8).minutes(0)
 		tomorrow = moment().add(1, 'days').hours(8).minutes(0)
 		aftertomorrow = moment().add(2, 'days').hours(8).minutes(0)
 		@availableDateTime =
 			today: 
-				date: today.format('MMMM Do YYYY, h:mm a')
+				date: today.format('YYYY-MM-DD')
 				availableHours: @generateAvailableHours(today)
 			tomorrow: 
-				date: tomorrow.format('MMMM Do YYYY, h:mm a')
+				date: tomorrow.format('YYYY-MM-DD')
 				availableHours: @generateAvailableHours(tomorrow)
 			aftertomorrow: 
-				date: aftertomorrow.format('MMMM Do YYYY, h:mm a')
+				date: aftertomorrow.format('YYYY-MM-DD')
 				availableHours: @generateAvailableHours(aftertomorrow)
 
+		@availableDays([
+				@availableDateTime.today
+				@availableDateTime.tomorrow
+				@availableDateTime.aftertomorrow
+			])
+		console.log @availableDays()
+
 	generateAvailableHours: (startHour) ->
-		endHour = moment(startHour.format('MMMM Do YYYY, h:mm a'), 'MMMM Do YYYY, h:mm a').hours(19).minutes(0)
+		endHour = moment(startHour.format('YYYY-MM-DD'), 'YYYY-MM-DD').hours(19).minutes(0)
 		hours = []
 		for i in [0..startHour.diff(endHour, 'hours')]
-			hours.push(startHour.add(1, 'hours').format('MMMM Do YYYY, h:mm a'))
+			hours.push(startHour.add(1, 'hours').format('H:mm'))
 
 		return hours
 
 
 	setOrderToPay: ->
-		@user = JSON.parse(Config.getItem('userObject'))
 		console.log @user
 		@userName(@user.name.split(' ')[0])
 		order = JSON.parse(Config.getItem('orderToPay'))

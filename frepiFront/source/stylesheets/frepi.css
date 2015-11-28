@@ -19,6 +19,11 @@ a {
   cursor: pointer;
 }
 
+footer p {
+  margin: 3rem 0 1rem 0 !important;
+  text-align: center;
+}
+
 .truncated {
   overflow: hidden;
   -ms-text-overflow: ellipsis;

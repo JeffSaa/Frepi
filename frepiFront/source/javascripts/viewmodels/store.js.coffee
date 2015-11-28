@@ -72,7 +72,7 @@ class StoreVM extends TransactionalPageVM
 		$('#modal-dropdown').dropdown()
 
 	showProduct: (product) ->
-		# @selectedProduct = product
+		@selectedProduct = product
 		@selectedProductCategory(product.subcategoryName)
 		@selectedProductImage(product.image)
 		@selectedProductName(product.name)

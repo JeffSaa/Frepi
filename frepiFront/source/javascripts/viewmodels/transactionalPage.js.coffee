@@ -92,13 +92,13 @@ class window.TransactionalPageVM
 			$('#modal-dropdown').dropdown('set text', 'Cantidad')
 			$('#modal-dropdown').dropdown('set value', '')
 			$('#product-desc').modal('hide')
-			console.log @session.currentOrder.products()
-			@saveOrder()
-
+			
 			if @session.currentOrder.products().length isnt 1
 				@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
 			else
 				@session.currentOrder.numberProducts("1 item")
+
+			@saveOrder()
 
 	logout: ->
 		Config.destroyLocalStorage()

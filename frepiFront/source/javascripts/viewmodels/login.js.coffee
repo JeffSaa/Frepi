@@ -12,6 +12,7 @@ class LoginVM
 			})
 
 	login: ->
+		console.log 'normal log'
 		$form = $('.ui.form')
 		$form.removeClass('error')
 		if $form.form('is valid')
@@ -35,13 +36,14 @@ class LoginVM
 						Config.setItem('credentials', JSON.stringify(data))
 						Config.setItem('userObject', JSON.stringify(success.data))
 
-						if success.data.user_type is 'USER'
-							window.location.href = '../../store/index.html'
-						else
+						if success.data.administrator
 							window.location.href = '../../admin.html'
+						else
+							window.location.href = '../../store/index.html'
 				)
 
 	loginFB: ->
+		console.log 'fb log'
 		FBcredentials = {}
 
 		FB.login(((response) ->
@@ -71,10 +73,10 @@ class LoginVM
 													console.log success
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
-													if success.user.userType is 'user'
-														window.location.href = '../../store/index.html'
-													else
+													if success.user.administrator
 														window.location.href = '../../admin.html'
+													else
+														window.location.href = '../../store/index.html'
 										)
 								)
 							else
@@ -84,10 +86,10 @@ class LoginVM
 								Config.setItem('uid', headers.uid)
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
-								if success.user.userType is 'USER'
-									window.location.href = '../../store/index.html'
-								else
+								if success.user.administrator
 									window.location.href = '../../admin.html'
+								else
+									window.location.href = '../../store/index.html'
 					)
 				else if response.status is 'not_authorized'
 					console.log 'Doesnt logged into FrepiTest!'

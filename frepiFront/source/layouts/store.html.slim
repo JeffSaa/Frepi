@@ -142,9 +142,9 @@ html
 		.pusher					
 			header
 				#store-primary-navbar.ui.fixed.inverted.menu
-					#store-frepi-logo data-bind="click: store"
+					#store-frepi-logo
 						i.sidebar.icon
-						img.ui.image src="../images/landing/logoassd.png" alt="Frepi's logo"
+						img.ui.image data-bind="click: store" src="../images/landing/logoassd.png" alt="Frepi's logo"
 					#target-store
 						.item
 							.content
@@ -186,3 +186,6 @@ html
 								|<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
 				.main-content
 					== yield
+
+			footer
+				p © 2015 Frepi, inc. Todos los derechos reservados.

@@ -143,31 +143,24 @@ html
 										form.ui.form
 											.field
 												label Dirección
-												input name="address" type="text" placeholder="Ej: Cra 45 # 65 - 56"
+												input name="address" type="text" data-bind="textInput: address" placeholder="Ej: Cra 45 # 65 - 56"
 											.field
 												label Instrucciones
-												textarea name="instructions" rows="3" placeholder="Ej: Dejar en portería o llámame cuando llegue"
+												textarea name="instructions" rows="3" data-bind="textInput: comment" placeholder="Ej: Dejar en portería o llámame cuando llegue"
 											.field
 												label ¿Cuándo lo llevamos?
 												.two.fields
 													.field
-														.ui.fluid.selection.dropdown
-															input name="day" type="hidden"
-															i.dropdown.icon
-															.default.text Día
-															.menu
-																.item Hoy
-																.item Mañana
-																.item Pasado mañana
+														select.ui.fluid.dropdown data-bind="options: availableDays,
+																																optionsText: 'date',
+																																value: selectedDay,
+																																event: {change: setHours},
+																																optionsCaption: 'Fecha'"
 													.field
-														.ui.fluid.selection.dropdown
-															input name="time" type="hidden"
-															i.dropdown.icon
-															.default.text Hora
-															.menu
-																.item 7 AM
-																.item 8 AM
-																.item 9 AM
+														select.ui.fluid.dropdown data-bind="options: availableHours,
+																																value: selectedHour,
+																																event: {change: setExpireHour},
+																																optionsCaption: 'Hora'"
 										.ui.buttons.left.floated
 											.ui.labeled.icon.teal.button data-bind="click: seeProducts"
 												|Productos
@@ -179,16 +172,16 @@ html
 									.details-content
 										.clearfix.line
 											span.title Valor compra
-											span.value data-bind="text: session.currentOrder.price"
+											span.value data-bind="text: '$'+session.currentOrder.price()"
 										.clearfix.line
 											span.title Dirección
-											span.value data-bind="text: user.name"
+											span.value data-bind="text: address"
 										.clearfix.line
 											span.title Fecha llegada
-											span.value data-bind="text: user.lastName"
+											span.value data-bind="text: selectedDate()+' / '+selectedHour()"
 										.clearfix.line
 											span.title Instrucciones
-											span.value data-bind="text: user.phone"
+											span.value data-bind="text: comment"
 									.ui.buttons.left.floated
 											.ui.labeled.icon.teal.button data-bind="click: seeDeliveryLeft"
 												|Entrega
@@ -197,6 +190,9 @@ html
 										|Listo
 										i.check.icon
 									.ui.button.right.floated data-bind="click: cancel" Cancelar
+
+			footer
+				p © 2015 Frepi, inc. Todos los derechos reservados.	
 						
 		script src="javascripts/knockout.js"
 		script src="javascripts/plugins/crypto-js.min.js"
