@@ -12,14 +12,12 @@ class OrdersController < ApplicationController
   end
 
   def create
-    new_order = Order.buy(current_user, params[:products])
-    if new_order
-      new_order.assign_attributes(params_shedules)
-      if new_order.valid?
-        new_order.save
-        render(json: new_order, status: :created)
+    order = current_user.orders.build(params_order)
+    if order.buy(current_user, params[:products])
+      if order.save
+        render(json: order, status: :created)
       else
-        render(json: { errors: new_order.errors }, status: :bad_request)
+        render(json: { errors: order.errors }, status: :bad_request)
       end
     else
       render(json: { errors: 'Product not found' }, status: :bad_request)
@@ -29,7 +27,7 @@ class OrdersController < ApplicationController
   def update
     order_update = @order.update_products(params[:products])
     if order_update
-      order_update.assign_attributes(params_shedules)
+      order_update.assign_attributes(params_order)
       if order_update.valid?
         order_update.save
         render(json: order_update)
@@ -57,7 +55,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  def params_shedules
+  def params_order
     params.permit(:expiry_time, :arrival_time, :scheduled_date, :comment)
   end
 

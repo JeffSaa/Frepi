@@ -13,7 +13,7 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    category = Category.new(category_params)
+    category = Category.new(category_params.merge(store_partner_id: StorePartner.first.id))
     if category.save
       render(json: category, status: :created)
     else
@@ -47,6 +47,6 @@ class CategoriesController < ApplicationController
   end
 
   def category_params
-    params.permit(:name, :description)
+    params.permit(:name, :description, :store_partner_id)
   end
 end

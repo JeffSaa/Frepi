@@ -20,26 +20,26 @@ class Order < ActiveRecord::Base
   validates :active, inclusion: { in: [true, false] }
   validates :total_price, numericality: true
   validates_datetime :delivery_time, allow_nil: true
-  validates_datetime :scheduled_date, :expiry_time
-  validates_datetime :expiry_time, after: :arrival_time
+  validates_datetime :scheduled_date
+  validates_time :expiry_time, after: :arrival_time
 
   # Callbacks
   before_create :set_date
   before_save   :round_price
 
   # Methods
-  def self.buy(user, products)
-    return false if not self.products_valid?(products)
-    new_order = user.orders.new
+  def buy(user, products)
+    return false if not Order.products_valid?(products)
     products.each do |product|
-      new_order.add_products(product)
+      p product
+      self.add_products(product)
     end
-    new_order
+    self
   end
 
 
   def add_products(product)
-    order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity].to_i)
+    order_products = self.orders_products.build(product_id: product[:id], quantity: product[:quantity].to_i, comment: product[:comment])
     self.total_price += Product.find(product[:id]).frepi_price * product[:quantity].to_i
   end
 
@@ -70,7 +70,9 @@ class Order < ActiveRecord::Base
     products.each do |product|
       order_products = self.orders_products.where(product_id: product['id']).first
       if order_products
+        acquired = product['acquired']
         order_products.update(acquired: product['acquired'])
+        self.total_price -=  order_products.product.frepi_price * order_products.quantity unless acquired
       else
         return { error: "product #{product['id']} not found" }
       end
@@ -101,7 +103,7 @@ class Order < ActiveRecord::Base
 
   def self.products_valid?(products)
     products.each do |product|
-      return false if not Product.exists?(product['id'])
+      return false if not Product.exists?(product[:id])
     end
     true
   end

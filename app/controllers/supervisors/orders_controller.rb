@@ -26,21 +26,19 @@ class Supervisors::OrdersController < ApplicationController
   end
 
   def update
-    if @order.update(order_params)
-      if params[:products] || params[:shoppers]
-        response_product = @order.products_not_acquired(params[:products])
-        response_shopper = @order.updated_shopper(params[:shoppers])
-        if response_product || response_shopper
-          render json: response_product, status: :unprocessable_entity and return if response_product
-          render json: response_shopper, status: :unprocessable_entity and return if response_shopper
-        else
-          render json: @order, serializer: SupervisorOrderSerializer
-        end
+    if params[:products] || params[:shoppers] || params[:status]
+      response_product = @order.products_not_acquired(params[:products])
+      response_shopper = @order.updated_shopper(params[:shoppers])
+      response_status = @order.assign_attributes(status: params[:status]) if params[:status]
+      if response_product || response_shopper || !@order.valid?
+        render json: response_product, status: :unprocessable_entity and return if response_product
+        render json: response_shopper, status: :unprocessable_entity and return if response_shopper
+        render json: @order.errors, status: :unprocessable_entity and return unless @order.valid?
       else
+        @order.status = 'DELIVERING' if params[:products]
+        @order.save
         render json: @order, serializer: SupervisorOrderSerializer
       end
-    else
-      render json: @order.errors, status: :unprocessable_entity
     end
   end
 

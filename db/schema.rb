@@ -14,10 +14,11 @@
 ActiveRecord::Schema.define(version: 20) do
 
   create_table "categories", force: :cascade do |t|
-    t.string   "name",        null: false
+    t.string   "name",             null: false
+    t.integer  "store_partner_id", null: false
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "cities", force: :cascade do |t|

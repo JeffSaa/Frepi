@@ -100,10 +100,10 @@ if Rails.env.development?
 
   # Categories
   5.times do |_|
-    Category.create!(name: Faker::Commerce.department(1), description: Faker::Lorem.sentence)
+    Category.create!(name: Faker::Commerce.department(1), description: Faker::Lorem.sentence, store_partner_id: StorePartner.first.id)
   end
 
-   # Subcategories
+  # Subcategories
   10.times do |_|
     category = Category.find(Faker::Number.between(1, 5))
     subcategory = category.subcategories.new(name: Faker::Commerce.department(1))
@@ -117,9 +117,16 @@ if Rails.env.development?
   300.times do |_|
     sucursal = Sucursal.find([1, 2, 3].sample)
     subcategory = Subcategory.find(Faker::Number.between(1, 10))
-    sucursal.products.create(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,
-                              store_price: Faker::Commerce.price, frepi_price: Faker::Commerce.price, image: Faker::Avatar.image(nil, "960x800"),
-                              subcategory_id: subcategory.id, available: true)
+    valid = false
+    until valid
+      product = sucursal.products.create(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,
+                                         store_price: Faker::Commerce.price, frepi_price: Faker::Commerce.price,
+                                         image: Faker::Avatar.image(nil, "960x800"),
+                                         subcategory_id: subcategory.id, available: true)
+      valid = product.valid?
+      product.save
+    end
+
   end
 
 
@@ -128,7 +135,7 @@ if Rails.env.development?
   # Orders
   15.times do |item|
     user = User.find(Faker::Number.between(1, 10))
-    arrival_time =  Faker::Time.forward(3, :afternoon)
+    arrival_time =  Faker::Time.forward(3, :morning)
 
     extra_attributes = {}
 
@@ -141,16 +148,19 @@ if Rails.env.development?
     end
 
     attributes = { active: true, status: 0, total_price: Faker::Commerce.price,
-                   arrival_time: arrival_time, expiry_time: arrival_time + 2.hours,
+                   arrival_time: arrival_time.to_formatted_s(:time), expiry_time: (arrival_time + 2.hours).to_formatted_s(:time),
                    scheduled_date: arrival_time }.merge(extra_attributes)
 
     order = user.orders.create!(attributes)
+    products =  {}
+    products[:products] = []
 
-    #order.products << Product.find(item + 1)
     (1..30).to_a.sample.times do |i|
       quantity = Faker::Number.between(1, 10)
-      order.orders_products.create!(product_id: Product.find(item + 1).id, quantity: quantity, comment: Faker::Lorem.sentence)
+      products[:products] << { id: Faker::Number.between(1, 300), quantity: quantity, comment: Faker::Lorem.sentence }
+      #order.orders_products.create!(product_id: Product.find(Faker::Number.between(1, 300)).id, quantity: quantity, comment: Faker::Lorem.sentence)
     end
+    p order.buy(user, products[:products]).save
   end
 
   # Complaints
