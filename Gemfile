@@ -14,7 +14,7 @@ group :production do
   gem 'pg'
 end
 
-gem 'thin'
+gem 'puma'
 
 # General
 gem 'validates_timeliness'
