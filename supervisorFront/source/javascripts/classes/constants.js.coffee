@@ -2,6 +2,7 @@ class window.DefaultModels
 	@ORDER = 
 		active: true
 		arrivalTime: null
+		comment: null
 		date: "2015-11-20T19:26:14.736Z"
 		deliveryTime: null
 		expiryTime: null

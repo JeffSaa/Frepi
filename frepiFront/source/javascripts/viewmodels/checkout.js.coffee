@@ -68,10 +68,11 @@ class CheckoutVM
 				})
 		
 		data =
-			products:	productsToSend
-			arrivalTime: @selectedHour()
-			expireTime: @selectedExpiredHour()
-			scheduled_date: @selectedDate()
+			comment 				: @comment()
+			products 				:	productsToSend
+			arrivalTime			: @selectedHour()
+			scheduled_date	: @selectedDate()
+			expireTime			: @selectedExpiredHour()
 
 		RESTfulService.makeRequest('POST', "/users/#{@user.id}/orders", data, (error, success, headers) =>
 			if error
@@ -146,8 +147,10 @@ class CheckoutVM
 	generateAvailableHours: (startHour) ->
 		endHour = moment(startHour.format('YYYY-MM-DD'), 'YYYY-MM-DD').hours(19).minutes(0)
 		hours = []
-		for i in [0..startHour.diff(endHour, 'hours')]
-			hours.push(startHour.add(1, 'hours').format('H:mm'))
+		difference = startHour.diff(endHour, 'hours')
+		if difference > 0
+			for i in [0..difference]
+				hours.push(startHour.add(1, 'hours').format('H:mm'))
 
 		return hours
 

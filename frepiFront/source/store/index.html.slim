@@ -18,7 +18,7 @@
 	#frepi-categories.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
 		section
 			h2.ui.header data-bind="text: $data.name"
-			#products-x-categories.ui.five.column.stackable.grid data-bind="foreach: $data.products"
+			#products-x-categories.ui.five.column.doubling.grid data-bind="foreach: $data.products"
 				.column
 					.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"
 						.image

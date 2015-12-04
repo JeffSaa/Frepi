@@ -101,8 +101,13 @@ class window.TransactionalPageVM
 			@saveOrder()
 
 	logout: ->
-		Config.destroyLocalStorage()
-		window.location.href = '../../login.html'
+		RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (error, success, headers) =>			
+			if error
+				console.log 'An error has ocurred'
+			else
+				Config.destroyLocalStorage()
+				window.location.href = '../../login.html'
+		)
 
 	saveOrder: ->
 		session =

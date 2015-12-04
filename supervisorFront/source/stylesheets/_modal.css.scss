@@ -17,6 +17,11 @@
       font-size: 1em;
       font-weight: 700;      
     }
+    .items {
+      .acquired {
+        text-decoration: line-through;
+      }
+    }
     .dropdown {
       background-color: transparent !important;
 

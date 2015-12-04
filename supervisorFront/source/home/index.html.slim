@@ -17,15 +17,16 @@ html
 			i.close.icon
 			.content
 				.header data-bind="text: selectedOrder.user.address"
-				.meta data-bind="text: 'Hasta '+selectedOrder.expiryTime()"
+				.meta data-bind="text: 'Hasta '+$root.parseDate(selectedOrder.expiryTime())"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
-				p Asignar a:
+				p
+					strong Asignar a:
 				.ui.selection.dropdown
 					input type="hidden"
 					i.dropdown.icon
 					.default.text Selecciona Shopper
-					.menu data-bind="foreach: activeShoppers"
+					.menu data-bind="foreach: inStoreShoppers"
 						.item data-bind="attr: {'data-value': $data.id}, text: $data.firstName+' '+$data.lastName"
 				.actions
 					button.ui.black.basic.button data-bind="click: printList"
@@ -34,12 +35,46 @@ html
 					button.ui.black.basic.button data-bind="click: pickShopperForShopping"
 						i.check.icon
 						|Asignar Shopper
+		#shopping-order.ui.small.frepi.modal
+			i.close.icon
+			.content
+				.header data-bind="text: selectedOrder.user.address"
+				.meta data-bind="text: 'Hasta '+$root.parseDate(selectedOrder.expiryTime())"
+				ul.items data-bind="foreach: selectedOrder.products"
+					li.ui.checkbox data-bind="css: {checked: $data.acquired}, click: $root.markAsAcquired"
+						input type="checkbox" checked=""
+					 	label data-bind="text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
+				p
+					strong Asignar a:
+				.ui.selection.dropdown
+					input type="hidden"
+					i.dropdown.icon
+					.default.text Selecciona Shopper
+					.menu data-bind="foreach: deliveringShoppers"
+						.item data-bind="attr: {'data-value': $data.id}, text: $data.firstName+' '+$data.lastName"
+				.actions
+					button.ui.black.basic.button data-bind="click: printInvoice"
+						i.print.icon
+						|Imprimir lista
+					button.ui.black.basic.button data-bind="click: pickShopperForDelivering"
+						i.check.icon
+						|Asignar Delivering Shopper
 		// Tables for printing
-		/ Unassigned Shopper
-		#unassigned-shopper
+		/ Pre order
+		#pre-order
 			h2.ui.header
 				|Frepi
 				.sub.header data-bind="text: currentDate"
+			table.ui.fixed.celled.table
+				tbody
+					tr
+						td
+							strong Cliente
+						td data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
+					tr
+						td
+							strong Dirección
+						td data-bind="text: selectedOrder.user.address()"
 			table.ui.celled.table
 				thead
 					tr
@@ -49,6 +84,52 @@ html
 					tr
 						td data-bind="text: $data.product.name()"
 						td data-bind="text: $data.quantity()"
+			p
+				strong Instrucciones del cliente:
+			span data-bind="text: selectedOrder.comment()"
+
+		#pos-order
+			h2.ui.header
+				|Frepi
+				.sub.header data-bind="text: currentDate"
+			table.ui.fixed.celled.table
+				tbody
+					tr
+						td
+							strong Cliente
+						td data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
+					tr
+						td
+							strong Dirección
+						td data-bind="text: selectedOrder.user.address()"
+					tr
+						td
+							strong Teléfono
+						td data-bind="text: selectedOrder.user.phoneNumber()"
+					tr
+						td
+							strong Fecha entrega
+						td data-bind="text: $root.parseDate(selectedOrder.expiryTime())"
+			table.ui.celled.table
+				thead
+					tr
+						th Producto
+						th Cantidad
+						th Valor C/U
+				tbody data-bind="foreach: selectedOrder.products"
+					tr
+						td data-bind="text: $data.product.name()"
+						td data-bind="text: $data.quantity()"
+						td data-bind="text: $data.product.frepiPrice()"
+			table.ui.fixed.celled.table
+				tbody
+					tr
+						td
+							strong Precio Total
+						td data-bind="text: '$'+selectedOrder.totalPrice()"
+			p
+				strong Instrucciones del cliente:
+			span data-bind="text: selectedOrder.comment()"
 
 		.ui.home
 			header
@@ -63,7 +144,8 @@ html
 						a.item data-bind="click: function(data, event){ fetchOrders('received') }"
 							i.inbox.icon
 							span.state Recibidas
-						a.item data-bind="click: function(data, event){ fetchOrders('received') }"
+							.floating.ui.red.circular.label data-bind="text: receivedOrders().length, visible: receivedOrders().length > 0"
+						a.item data-bind="click: function(data, event){ fetchOrders('shopping') }"
 							i.add.to.cart.icon
 							span.state Comprando
 						a.item data-bind="click: function(data, event){ fetchOrders('delivering') }"
@@ -80,26 +162,22 @@ html
 				.ui.active.inverted.dimmer data-bind="visible: loading"
 					.ui.loader
 				.ui.container
+					h2 
+						|Estas viendo, 
+						span data-bind="text: currentState"
 					.ui.five.column.doubling.grid data-bind="foreach: activeOrders"
 						.column
 							.ui.frepi-card data-bind="click: $root.pickOrder"
 								.content 
 									.header data-bind="text: $data.user.address"
-									.meta data-bind="text: 'Hasta '+$data.expiryTime"
+									.meta data-bind="text: 'Hasta '+$root.parseDate($data.expiryTime)"
 								
 									ul.items data-bind="foreach: $data.products"
 										li data-bind="text: $data.product.name+' x '+$data.quantity"
-									/ ul.items
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
-									/ 	li Gorgeous Plastic Computer
+
+									p.comment
+										strong Comentario:
+									p data-bind="text: $data.comment"
 
 		script src="javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"
 		script src="javascripts/knockout.js" type="text/javascript"
