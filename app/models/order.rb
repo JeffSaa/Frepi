@@ -31,7 +31,6 @@ class Order < ActiveRecord::Base
   def buy(user, products)
     return false if not Order.products_valid?(products)
     products.each do |product|
-      p product
       self.add_products(product)
     end
     self

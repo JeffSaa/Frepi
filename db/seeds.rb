@@ -160,7 +160,7 @@ if Rails.env.development?
       products[:products] << { id: Faker::Number.between(1, 300), quantity: quantity, comment: Faker::Lorem.sentence }
       #order.orders_products.create!(product_id: Product.find(Faker::Number.between(1, 300)).id, quantity: quantity, comment: Faker::Lorem.sentence)
     end
-    p order.buy(user, products[:products]).save
+    order.buy(user, products[:products]).save
   end
 
   # Complaints
