@@ -8,6 +8,14 @@ class HomeVM
 		@inStoreShoppers = ko.observableArray()
 		@deliveringShoppers = ko.observableArray()
 		@selectedOrder = ko.mapping.fromJS(DefaultModels.ORDER)
+		
+		@shopperFullName = ko.computed( =>
+				length = @selectedOrder.shopper().length
+				if length > 0
+					return @selectedOrder.shopper()[length - 1].firstName()+' '+@selectedOrder.shopper()[length - 1].lastName()
+				else
+					return null				
+			)
 		@lastFetchedState = null
 
 		moment.locale('es')
@@ -15,55 +23,52 @@ class HomeVM
 		@setSectionVisiblity()
 		@setDOMElements()
 
-	
-	parseDate: (date) -> 
-		return moment(date, moment.ISO_8601).format('dddd, DD MMMM YYYY, h:mm A')
-			
 
-	pickOrder: (order) =>
-		console.log order
-		ko.mapping.fromJS(order, @selectedOrder)
-		if @lastFetchedState is 'shopping'
-			$('#shopping-order').modal('show')
-		else
-			$('#assign-shopper').modal('show')
-
-	pickShopperForDelivering: ->
-		unacquiredProducts = []
-
-		for product in @selectedOrder.products()
-			unacquiredProducts.push({id: product.product.id(), acquired: false}) if not product.acquired()
-
-		$('#shopping-order .actions .button:last-child').addClass('loading')
-		$('#shopping-order .dropdown').removeClass('error')
-
-		shopperID = parseInt($('#shopping-order .dropdown').dropdown('get value')[0])
+	finishOrder: ->
 		orderID = @selectedOrder.id()
+		data = {
+			status: 'DISPATCHED'
+		}
 
-		if !!shopperID
-			data = 
-				products 	: unacquiredProducts
-
-			RESTfulService.makeRequest('PUT', "/orders/#{orderID}", data, (error, success, headers) =>
+		RESTfulService.makeRequest('PUT', "/orders/#{orderID}", data, (error, success, headers) =>
 				if error
 					console.log error
 				else
 					console.log success
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 					setTimeout( ->
-							$('#shopping-order').modal('hide')
+							$('#delivering-order').modal('hide')
 						, 100)
 					@refresh()
 			)
+	
+	parseDate: (date) -> 
+		return moment(date, moment.ISO_8601).format('dddd, DD MMMM YYYY')
+
+	parseTime: (date) -> 
+		return moment(date, moment.ISO_8601).format('h:mm A')			
+
+	pickOrder: (order) =>
+		console.log order
+		ko.mapping.fromJS(order, @selectedOrder)
+		switch @lastFetchedState
+			when 'received'
+				$('#assign-shopper').modal('show')
+			when 'shopping'
+				$('#shopping-order').modal('show')
+			when 'delivering'
+				$('#delivering-order').modal('show')
+
+	setShopperToOrder: ->
+		modal = ''
+		if @lastFetchedState is 'shopping'
+			modal = '#shopping-order'
 		else
-			$('#shopping-order .dropdown').addClass('error')
-
-		$('#shopping-order .actions .button:last-child').removeClass('loading')
-
-	pickShopperForShopping: ->
-		$('#assign-shopper .actions .button:last-child').addClass('loading')
-		$('#assign-shopper .dropdown').removeClass('error')
-		shopperID = parseInt($('#assign-shopper .dropdown').dropdown('get value')[0])
+			modal = '#assign-shopper'
+		
+		$("#{modal} .actions .button:last-child").addClass('loading')
+		$("#{modal} .dropdown").removeClass('error')
+		shopperID = parseInt($("#{modal} .dropdown").dropdown('get value')[0])
 		orderID = @selectedOrder.id()
 		if !!shopperID
 			data = 
@@ -77,16 +82,47 @@ class HomeVM
 					console.log success
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 					setTimeout( ->
-							$('#assign-shopper .dropdown').dropdown('set text', 'Selecciona Shopper')
-							$('#assign-shopper .dropdown').dropdown('set value', '')
-							$('#assign-shopper').modal('hide')
+							$("#{modal} .dropdown").dropdown('set text', 'Selecciona Shopper')
+							$("#{modal} .dropdown").dropdown('set value', '')
+							$("#{modal}").modal('hide')
 						, 100)
 					@refresh()
 			)
 		else
-			$('#assign-shopper .dropdown').addClass('error')
+			$("#{modal} .dropdown").addClass('error')
 
-		$('#assign-shopper .actions .button:last-child').removeClass('loading')
+		$("#{modal} .actions .button:last-child").removeClass('loading')
+
+	updateProductsOrder: =>
+
+		# * NOTE: 
+		# 		When the order products list is updated, the order is changed to the state DELIVERING,
+		# 		I don't think that it's correct.
+
+		$('#shopping-order .items + .button').addClass('loading')
+
+		unacquiredProducts = []
+		for product in @selectedOrder.products()
+			unacquiredProducts.push({id: product.product.id(), acquired: false}) if not product.acquired()
+
+		console.log unacquiredProducts
+
+		if unacquiredProducts.length > 0
+			data = 
+				products 	: unacquiredProducts
+
+			orderID = @selectedOrder.id()
+
+			RESTfulService.makeRequest('PUT', "/orders/#{orderID}", data, (error, success, headers) =>
+				if error
+					console.log error
+				else
+					console.log success
+					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+					ko.mapping.fromJS(success, @selectedOrder)
+			)
+
+		$('#shopping-order .items + .button').removeClass('loading')
 
 	printInvoice: ->
 		@currentDate(moment().format('LLLL'))
@@ -185,24 +221,21 @@ class HomeVM
 		)
 
 	logout: ->
-		RESTfulService.makeRequest('DELETE', "/auth_supervisor/sign_out", '', (error, success, headers) =>			
-			if error
-				console.log 'An error has ocurred'
-			else
-				Config.destroyLocalStorage()
-				window.location.href = '../../'
-		)
+		# RESTfulService.makeRequest('DELETE', "/auth_supervisor/sign_out", '', (error, success, headers) =>			
+		# 	if error
+		# 		console.log 'An error has ocurred'
+		# 	else
+		# 		Config.destroyLocalStorage()
+		# 		window.location.href = '../../'
+		# )
 		# IMPORTANT: Review this, the request isn't logging me out or destroying the session
-		# Config.destroyLocalStorage()
-		# window.location.href = '../../'
+		Config.destroyLocalStorage()
+		window.location.href = '../../'
 
-	markAsAcquired: (product, event) ->
-		console.log 'product before unchecking'
-		console.log product
+	markAsAcquired: (product, event) =>
+		console.log event
 		product.acquired(!product.acquired())
-		console.log 'product after unchecking'
-		console.log product
-
+		return true
 
 	refresh: ->
 		@loading(true)
@@ -222,9 +255,7 @@ class HomeVM
 		$nav = $('.orders.menu')
 		$('#received-orders').visibility(
 				onUpdate: (calculations) ->
-					console.log 'Calculations updated!!!!!'
 					if calculations.topPassed
-						console.log 'TOP PASSEDD!!!'
 						$nav.addClass('nav-on-content')
 					else
 						$nav.removeClass('nav-on-content')

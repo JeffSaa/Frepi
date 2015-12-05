@@ -10,6 +10,7 @@
     0 1px 5px 0 rgba(0,0,0,0.12);
   cursor: pointer;
   padding: 15px 12px;
+  position: relative;
   transition: box-shadow .218s ease-in;
   -webkit-transition: box-shadow .218s ease-in;
   width: 100%;
@@ -28,8 +29,16 @@
     }
     .items {
       height: 11.5em;
+      list-style-type: square;
       overflow: auto;
       overflow-wrap: break-word;
+      &+p{
+        margin: 0;
+      }
+    }
+    .comment {
+      top: 280px;
+      position: absolute;
     }
   }
 

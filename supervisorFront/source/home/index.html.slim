@@ -16,8 +16,8 @@ html
 		#assign-shopper.ui.small.frepi.modal
 			i.close.icon
 			.content
-				.header data-bind="text: selectedOrder.user.address"
-				.meta data-bind="text: 'Hasta '+$root.parseDate(selectedOrder.expiryTime())"
+				.header data-bind="text: selectedOrder.address"
+				.meta data-bind="text: 'Hasta '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.expiryTime())"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
 				p
@@ -32,18 +32,21 @@ html
 					button.ui.black.basic.button data-bind="click: printList"
 						i.print.icon
 						|Imprimir lista
-					button.ui.black.basic.button data-bind="click: pickShopperForShopping"
+					button.ui.black.basic.button data-bind="click: setShopperToOrder"
 						i.check.icon
 						|Asignar Shopper
 		#shopping-order.ui.small.frepi.modal
 			i.close.icon
 			.content
-				.header data-bind="text: selectedOrder.user.address"
-				.meta data-bind="text: 'Hasta '+$root.parseDate(selectedOrder.expiryTime())"
-				ul.items data-bind="foreach: selectedOrder.products"
-					li.ui.checkbox data-bind="css: {checked: $data.acquired}, click: $root.markAsAcquired"
-						input type="checkbox" checked=""
-					 	label data-bind="text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
+				.header data-bind="text: selectedOrder.address"
+				.meta data-bind="text: 'Hasta '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.expiryTime())"
+				ul.checking.items data-bind="foreach: selectedOrder.products"
+					li.ui.checkbox data-bind="click: $root.markAsAcquired"
+						input type="checkbox"
+						label data-bind="text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
+				button.ui.tiny.black.basic.button data-bind="click: updateProductsOrder"
+						i.refresh.icon
+						|Actualizar lista
 				p
 					strong Asignar a:
 				.ui.selection.dropdown
@@ -56,9 +59,24 @@ html
 					button.ui.black.basic.button data-bind="click: printInvoice"
 						i.print.icon
 						|Imprimir lista
-					button.ui.black.basic.button data-bind="click: pickShopperForDelivering"
+					button.ui.black.basic.button data-bind="click: setShopperToOrder"
 						i.check.icon
 						|Asignar Delivering Shopper
+
+		#delivering-order.ui.small.frepi.modal
+			i.close.icon
+			.content
+				.header data-bind="text: selectedOrder.address"
+				.meta data-bind="text: 'Hasta '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.expiryTime())"
+				ul.items data-bind="foreach: selectedOrder.products"
+					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
+				p
+					strong Orden llevada por:
+					span data-bind="text: shopperFullName"
+				.actions
+					button.ui.black.basic.button data-bind="click: finishOrder"
+						i.check.icon
+						|Finalizar orden
 		// Tables for printing
 		/ Pre order
 		#pre-order
@@ -74,7 +92,7 @@ html
 					tr
 						td
 							strong Dirección
-						td data-bind="text: selectedOrder.user.address()"
+						td data-bind="text: selectedOrder.address()"
 			table.ui.celled.table
 				thead
 					tr
@@ -101,7 +119,7 @@ html
 					tr
 						td
 							strong Dirección
-						td data-bind="text: selectedOrder.user.address()"
+						td data-bind="text: selectedOrder.address()"
 					tr
 						td
 							strong Teléfono
@@ -109,7 +127,7 @@ html
 					tr
 						td
 							strong Fecha entrega
-						td data-bind="text: $root.parseDate(selectedOrder.expiryTime())"
+						td data-bind="text: $root.parseDate(selectedOrder.scheduledDate())+', '+$root.parseTime(selectedOrder.expiryTime())"
 			table.ui.celled.table
 				thead
 					tr
@@ -117,10 +135,12 @@ html
 						th Cantidad
 						th Valor C/U
 				tbody data-bind="foreach: selectedOrder.products"
+					<!-- ko if: ($data.acquired) -->
 					tr
 						td data-bind="text: $data.product.name()"
 						td data-bind="text: $data.quantity()"
 						td data-bind="text: $data.product.frepiPrice()"
+					<!-- /ko -->
 			table.ui.fixed.celled.table
 				tbody
 					tr
@@ -169,15 +189,15 @@ html
 						.column
 							.ui.frepi-card data-bind="click: $root.pickOrder"
 								.content 
-									.header data-bind="text: $data.user.address"
-									.meta data-bind="text: 'Hasta '+$root.parseDate($data.expiryTime)"
+									.header data-bind="text: $data.address"
+									.meta data-bind="text: 'Hasta '+$root.parseDate($data.scheduledDate)+', '+$root.parseTime($data.expiryTime)"
 								
 									ul.items data-bind="foreach: $data.products"
 										li data-bind="text: $data.product.name+' x '+$data.quantity"
 
 									p.comment
-										strong Comentario:
-									p data-bind="text: $data.comment"
+										strong Comentario: 
+										span data-bind="text: $data.comment"
 
 		script src="javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"
 		script src="javascripts/knockout.js" type="text/javascript"

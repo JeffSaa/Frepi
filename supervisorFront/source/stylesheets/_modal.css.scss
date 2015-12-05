@@ -18,8 +18,24 @@
       font-weight: 700;      
     }
     .items {
+      list-style-type: square;
       .acquired {
         text-decoration: line-through;
+      }
+
+      &+.button{
+        display: block;
+        margin-bottom: 1em;
+      }
+
+      &.checking li {
+        display: block;
+      }
+    }
+    p {
+      display: inline-block;
+      strong {
+        margin-right: 10px;
       }
     }
     .dropdown {
