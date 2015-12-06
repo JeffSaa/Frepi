@@ -35,7 +35,6 @@ class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
         render json: response_shopper, status: :unprocessable_entity and return if response_shopper
         render json: @order.errors, status: :unprocessable_entity and return unless @order.valid?
       else
-        @order.status = 'DELIVERING' if params[:products]
         @order.save
         render json: @order, serializer: SupervisorOrderSerializer
       end
