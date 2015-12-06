@@ -7,6 +7,10 @@ one:
   user_id: 1
   address: 'Cll 43 # 51 Apto 204 bloque A'
   comment: Dolore illum animi et neque accusantium
+  arrival_time: "20:40"
+  expiry_time: "22:00"
+  scheduled_date: "2015-11-06"
+
 
 two:
   id: 2
@@ -15,8 +19,11 @@ two:
   date: 2015-09-11 15:51:19
   total_price: 20.98
   user_id: users(:user).id
-  address: ''
+  address: 'cll 98 # 42 - 54'
   comment: Dolore illum animi et neque accusantium
+  arrival_time: "20:40"
+  expiry_time: "22:00"
+  scheduled_date: "2015-11-06"
 
 
 

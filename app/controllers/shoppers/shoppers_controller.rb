@@ -45,7 +45,7 @@ class Shoppers::ShoppersController < ApplicationController
                   :phone_number, :image, :latitude, :longitude, :active, :company_email, :shopper_type)
   end
 
-  def set_sshopper
+  def set_shopper
     @shopper = Shopper.find(params[:id])
   end
 end

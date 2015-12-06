@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'faker'
 
 class OrdersControllerTest < ActionController::TestCase
 
@@ -41,7 +42,7 @@ class OrdersControllerTest < ActionController::TestCase
     sign_in :user, users(:user)
 
     assert_difference('Order.count') do
-      post :create, {user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, { id: products(:jack).id, quantity: 1 } ]}, { "Accept" => "application/json", "Content-Type" => "application/json" }
+      post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, { id: products(:jack).id, quantity: 1 } ], arrival_time: "14:00", expiry_time: "16:00", scheduled_date: "2015-11-06"
 
       assert_response :created
     end
@@ -50,11 +51,11 @@ class OrdersControllerTest < ActionController::TestCase
 
   test 'should not create an order, supervisors or anyone no logged' do
     assert_no_difference('Order.count') do
-      post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, {id: products(:jack).id, quantity: 1 } ]
+      post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, { id: products(:jack).id, quantity: 1 } ], arrival_time: "14:00", expiry_time: "16:00", scheduled_date: "2015-11-06"
       assert_response :unauthorized
 
       sign_in :supervisor, supervisors(:supervisor)
-      post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, {id: products(:jack).id, quantity: 1 } ]
+      post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 10 }, { id: products(:jack).id, quantity: 1 } ], arrival_time: "14:00", expiry_time: "16:00", scheduled_date: "2015-11-06"
       assert_response :unauthorized
     end
   end
@@ -64,7 +65,6 @@ class OrdersControllerTest < ActionController::TestCase
     sign_in :user, users(:user)
     put :update, { user_id: users(:user).id, id: orders(:one).id, products: [ { id: products(:johnny).id, quantity: 999 } ]}
     response = JSON.parse(@response.body)
-
     assert_equal(999, response['products'].first['quantity'])
     assert_response :ok
   end

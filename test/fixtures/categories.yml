@@ -2,3 +2,4 @@ alcohol:
   id: 1
   name: Alcohol
   description: alcoholics drinks
+  store_partner_id: 1

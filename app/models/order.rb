@@ -19,9 +19,9 @@ class Order < ActiveRecord::Base
   validates :status, inclusion: { in: STATUS }
   validates :active, inclusion: { in: [true, false] }
   validates :total_price, numericality: true
+  validates_time :expiry_time, on_or_after: :arrival_time
   validates_datetime :delivery_time, allow_nil: true
   validates_datetime :scheduled_date
-  validates_time :expiry_time, after: :arrival_time
 
   # Callbacks
   before_create :set_date
