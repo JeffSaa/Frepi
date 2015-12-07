@@ -72,14 +72,7 @@ class Order < ActiveRecord::Base
       if order_products
         acquired = product['acquired']
         order_products.update(acquired: product['acquired'])
-        if acquired
-          self.total_price +=  order_products.product.frepi_price * order_products.quantity
-        else
-          puts self.total_price
-          puts "#{order_products.product.frepi_price},  #{order_products.quantity}"
-          self.total_price -=  order_products.product.frepi_price * order_products.quantity
-          puts self.total_price
-        end
+        self.total_price +=  order_products.product.frepi_price * order_products.quantity if acquired
       else
         return { error: "product #{product['id']} not found" }
       end
