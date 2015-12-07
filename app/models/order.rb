@@ -66,16 +66,25 @@ class Order < ActiveRecord::Base
 
   def products_not_acquired(products)
     products ||= []
+    self.total_price = 0
     products.each do |product|
       order_products = self.orders_products.where(product_id: product['id']).first
       if order_products
         acquired = product['acquired']
         order_products.update(acquired: product['acquired'])
-        self.total_price -=  order_products.product.frepi_price * order_products.quantity unless acquired
+        if acquired
+          self.total_price +=  order_products.product.frepi_price * order_products.quantity
+        else
+          puts self.total_price
+          puts "#{order_products.product.frepi_price},  #{order_products.quantity}"
+          self.total_price -=  order_products.product.frepi_price * order_products.quantity
+          puts self.total_price
+        end
       else
         return { error: "product #{product['id']} not found" }
       end
     end
+    self.save
     nil
   end
 
