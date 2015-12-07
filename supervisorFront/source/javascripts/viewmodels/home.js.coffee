@@ -9,12 +9,20 @@ class HomeVM
 		@deliveringShoppers = ko.observableArray()
 		@selectedOrder = ko.mapping.fromJS(DefaultModels.ORDER)
 		
-		@shopperFullName = ko.computed( =>
+		@deliveryShopperFullName = ko.computed( =>
 				length = @selectedOrder.shopper().length
 				if length > 0
 					return @selectedOrder.shopper()[length - 1].firstName()+' '+@selectedOrder.shopper()[length - 1].lastName()
 				else
-					return null				
+					return null
+			)
+
+		@inStoreShopperFullName = ko.computed( =>
+				length = @selectedOrder.shopper().length
+				if length > 0
+					return @selectedOrder.shopper()[0].firstName()+' '+@selectedOrder.shopper()[0].lastName()
+				else
+					return null
 			)
 		@lastFetchedState = null
 
@@ -58,6 +66,8 @@ class HomeVM
 				$('#shopping-order').modal('show')
 			when 'delivering'
 				$('#delivering-order').modal('show')
+			when 'dispatched'
+				$('#dispatched-order').modal('show')
 
 	setShopperToOrder: ->
 		modal = ''
@@ -81,48 +91,37 @@ class HomeVM
 				else
 					console.log success
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-					setTimeout( ->
-							$("#{modal} .dropdown").dropdown('set text', 'Selecciona Shopper')
-							$("#{modal} .dropdown").dropdown('set value', '')
-							$("#{modal}").modal('hide')
+					$("#{modal} .actions .button:last-child").removeClass('loading')
+					setTimeout( ->								
+								$("#{modal}").modal('hide')
 						, 100)
 					@refresh()
 			)
 		else
 			$("#{modal} .dropdown").addClass('error')
-
-		$("#{modal} .actions .button:last-child").removeClass('loading')
+			$("#{modal} .actions .button:last-child").removeClass('loading')
 
 	updateProductsOrder: =>
-
-		# * NOTE: 
-		# 		When the order products list is updated, the order is changed to the state DELIVERING,
-		# 		I don't think that it's correct.
-
 		$('#shopping-order .items + .button').addClass('loading')
 
 		unacquiredProducts = []
 		for product in @selectedOrder.products()
-			unacquiredProducts.push({id: product.product.id(), acquired: false}) if not product.acquired()
+			unacquiredProducts.push({id: product.product.id(), acquired: product.acquired()})
 
-		console.log unacquiredProducts
+		data = 
+			products 	: unacquiredProducts
 
-		if unacquiredProducts.length > 0
-			data = 
-				products 	: unacquiredProducts
+		orderID = @selectedOrder.id()
 
-			orderID = @selectedOrder.id()
-
-			RESTfulService.makeRequest('PUT', "/orders/#{orderID}", data, (error, success, headers) =>
-				if error
-					console.log error
-				else
-					console.log success
-					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-					ko.mapping.fromJS(success, @selectedOrder)
-			)
-
-		$('#shopping-order .items + .button').removeClass('loading')
+		RESTfulService.makeRequest('PUT', "/orders/#{orderID}", data, (error, success, headers) =>
+			if error
+				console.log error
+			else
+				console.log success
+				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				ko.mapping.fromJS(success, @selectedOrder)
+				$('#shopping-order .items + .button').removeClass('loading')
+		)
 
 	printInvoice: ->
 		@currentDate(moment().format('LLLL'))
@@ -232,10 +231,8 @@ class HomeVM
 		Config.destroyLocalStorage()
 		window.location.href = '../../'
 
-	markAsAcquired: (product, event) =>
-		console.log event
+	markAsAcquired: (product) =>
 		product.acquired(!product.acquired())
-		return true
 
 	refresh: ->
 		@loading(true)
@@ -262,6 +259,16 @@ class HomeVM
 			)
 
 	setDOMElements: ->
+		$('#assign-shopper').modal({
+				onHidden: ->
+					$("#assign-shopper .content .ui.dropdown").dropdown('set text', 'Selecciona Shopper')
+					$("#assign-shopper .content .ui.dropdown").dropdown('restore defaults')
+			})
+		$('#shopping-order').modal({
+				onHidden: ->
+					$("#shopping-order .content .ui.dropdown").dropdown('set text', 'Selecciona Shopper')
+					$("#shopping-order .content .ui.dropdown").dropdown('restore defaults')
+			})
 		$('.ui.dropdown').dropdown()
 		$('.ui.checkbox').checkbox()
 

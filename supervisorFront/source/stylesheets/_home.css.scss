@@ -32,8 +32,12 @@
   }
 
   #received-orders {
-    position: relative;
-    top: 10em;
+    margin-top: 9em;
+    min-height: 35em;
+
+    h2 {
+      margin-bottom: 1em;
+    }
 
     .dimmer {
       position: fixed;
@@ -42,6 +46,13 @@
       .loader {
         top: 30%;
       }
+    }
+  }
+
+  footer {
+    margin: 3em 0 1em;
+    p {
+      text-align: center;
     }
   }
 }

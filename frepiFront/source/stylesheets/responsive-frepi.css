@@ -43,6 +43,19 @@
   .modal .buttons-to-right {
     padding: 0.1rem;
   }
+
+  .card .header {
+    font-size: 1em !important;
+  }
+
+  .card .extra.content {
+    padding-top: 0;
+    text-align: center;
+  }
+
+  .card .extra.content .button {
+    float: none;
+  }
 }
 
 @media only screen and (max-width: 767px){

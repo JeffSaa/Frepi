@@ -18,8 +18,17 @@ html
 			.content
 				.header data-bind="text: selectedOrder.address"
 				.meta data-bind="text: 'Hasta '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.expiryTime())"
+				p
+					strong Nombre cliente:  
+					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
+				p
+					strong Teléfono cliente:  
+					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
+				p
+					strong Instrucciones del cliente:  
+					span data-bind="text: selectedOrder.comment()"
 				p
 					strong Asignar a:
 				.ui.selection.dropdown
@@ -40,13 +49,20 @@ html
 			.content
 				.header data-bind="text: selectedOrder.address"
 				.meta data-bind="text: 'Hasta '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.expiryTime())"
+				p
+					strong Nombre cliente:  
+					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
+				p
+					strong Teléfono cliente:  
+					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.checking.items data-bind="foreach: selectedOrder.products"
-					li.ui.checkbox data-bind="click: $root.markAsAcquired"
-						input type="checkbox"
-						label data-bind="text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
+					li data-bind="click: $root.markAsAcquired, text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
 				button.ui.tiny.black.basic.button data-bind="click: updateProductsOrder"
 						i.refresh.icon
 						|Actualizar lista
+				p
+					strong Instrucciones del cliente:  
+					span data-bind="text: selectedOrder.comment()"
 				p
 					strong Asignar a:
 				.ui.selection.dropdown
@@ -67,21 +83,51 @@ html
 			i.close.icon
 			.content
 				.header data-bind="text: selectedOrder.address"
-				.meta data-bind="text: 'Hasta '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.expiryTime())"
+				.meta data-bind="text: 'Hasta '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.
+				expiryTime())"
+				p
+					strong Nombre cliente:  
+					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
+				p
+					strong Teléfono cliente:  
+					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
 				p
+					strong Instrucciones del cliente:  
+					span data-bind="text: selectedOrder.comment()"
+				p
 					strong Orden llevada por:
-					span data-bind="text: shopperFullName"
+					span data-bind="text: deliveryShopperFullName"
 				.actions
 					button.ui.black.basic.button data-bind="click: finishOrder"
 						i.check.icon
 						|Finalizar orden
+		#dispatched-order.ui.small.frepi.modal
+			i.close.icon
+			.content
+				.header data-bind="text: selectedOrder.address"
+				.meta data-bind="text: 'Hasta '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.expiryTime())"
+				p
+					strong Nombre cliente:  
+					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
+				ul.items data-bind="foreach: selectedOrder.products"
+					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
+				p
+					strong Instrucciones del cliente:  
+					span data-bind="text: selectedOrder.comment()"
+				p
+					strong Orden comprada por:  
+					span data-bind="text: inStoreShopperFullName"
+				p
+					strong Orden llevada por:
+					span data-bind="text: deliveryShopperFullName"
 		// Tables for printing
 		/ Pre order
 		#pre-order
 			h2.ui.header
 				|Frepi
+				.sub.header NIT: 900 800 498 - 1
 				.sub.header data-bind="text: currentDate"
 			table.ui.fixed.celled.table
 				tbody
@@ -102,13 +148,18 @@ html
 					tr
 						td data-bind="text: $data.product.name()"
 						td data-bind="text: $data.quantity()"
-			p
+					tr data-bind="visible: $data.comment() != null"
+						td colspan="2"
+							strong Nota: 
+							span data-bind="text: $data.comment()"
+			p data-bind="visible: selectedOrder.comment() != null"
 				strong Instrucciones del cliente:
 			span data-bind="text: selectedOrder.comment()"
 
 		#pos-order
 			h2.ui.header
 				|Frepi
+				.sub.header NIT: 900 800 498 - 1
 				.sub.header data-bind="text: currentDate"
 			table.ui.fixed.celled.table
 				tbody
@@ -140,6 +191,10 @@ html
 						td data-bind="text: $data.product.name()"
 						td data-bind="text: $data.quantity()"
 						td data-bind="text: $data.product.frepiPrice()"
+					tr data-bind="visible: $data.comment() != null"
+						td colspan="2"
+							strong Nota: 
+							span data-bind="text: $data.comment()"
 					<!-- /ko -->
 			table.ui.fixed.celled.table
 				tbody
@@ -198,6 +253,9 @@ html
 									p.comment
 										strong Comentario: 
 										span data-bind="text: $data.comment"
+
+			footer
+				p © 2015 Frepi, inc. Todos los derechos reservados.	
 
 		script src="javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"
 		script src="javascripts/knockout.js" type="text/javascript"

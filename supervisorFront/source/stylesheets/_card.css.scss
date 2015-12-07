@@ -37,8 +37,13 @@
       }
     }
     .comment {
-      top: 280px;
+      display: -webkit-box;
+      height: 60px;
+      overflow: hidden;
       position: absolute;
+      top: 280px;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;      
     }
   }
 

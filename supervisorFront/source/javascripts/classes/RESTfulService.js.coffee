@@ -1,6 +1,6 @@
 class window.RESTfulService
   # @URL = 'http://10.20.20.69'
-  @URL = 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:3000'
+  @URL = 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:3000/api/v1'
   @makeRequest: (method, url, data, callback) ->
     $.ajax({
         method: method,
