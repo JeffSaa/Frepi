@@ -1,5 +1,20 @@
-user:
+admin:
   id: 1
+  name: MyString
+  last_name: MyString
+  email: admin@frepi.com
+  identification: 10382454
+  address: MyString
+  city: cities(:palermo)
+  uid: admin@frepi.com
+  latitude: 9.99
+  longitude: 9.99
+  administrator: true
+  phone_number: MyString
+  active: true
+
+user:
+  id: 2
   name: MyString
   last_name: MyString
   email: user@frepi.com
@@ -11,16 +26,35 @@ user:
   administrator: false
   uid: email3
   phone_number: MyString
+  active: true
 
-admin:
+disable_client:
+  id: 3
   name: MyString
   last_name: MyString
-  email: admin@frepi.com
-  identification: 10382454
+  email: client2@frepi.com
+  identification: 1038245434
   address: MyString
   city: cities(:palermo)
-  uid: email
+  uid: client2@frepi.com
+  latitude: 9.99
+  longitude: 9.99
+  administrator: false
+  phone_number: MyString
+  active: false
+
+
+disable_admin:
+  id: 4
+  name: MyString
+  last_name: MyString
+  email: admin2@frepi.com
+  identification: 110382454
+  address: MyString
+  city: cities(:palermo)
+  uid:  admin2@frepi.com
   latitude: 9.99
   longitude: 9.99
   administrator: true
   phone_number: MyString
+  active: false

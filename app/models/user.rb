@@ -13,9 +13,8 @@ class User < ActiveRecord::Base
   belongs_to :city
 
   # Validations
-  validates :active, presence: true
   validates :latitude, :longitude, numericality: true, allow_nil: true
-  validates :administrator, inclusion: { in: [true, false] }
+  validates :administrator, :active,  inclusion: { in: [true, false] }
   validates :identification, uniqueness: true, allow_nil: true
   validates :counter_orders, numericality: { only_integer: true }
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }

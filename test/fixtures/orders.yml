@@ -4,7 +4,7 @@ one:
   status: 0
   date: 2015-08-03 13:51:19
   total_price: 20.98
-  user_id: 1
+  user_id: 2
   address: 'Cll 43 # 51 Apto 204 bloque A'
   comment: Dolore illum animi et neque accusantium
   arrival_time: "20:40"
@@ -18,7 +18,7 @@ two:
   status: 1
   date: 2015-09-11 15:51:19
   total_price: 20.98
-  user_id: users(:user).id
+  user_id: 2
   address: 'cll 98 # 42 - 54'
   comment: Dolore illum animi et neque accusantium
   arrival_time: "20:40"

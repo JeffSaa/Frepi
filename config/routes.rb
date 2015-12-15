@@ -31,6 +31,10 @@ Rails.application.routes.draw do
         end
       end
 
+      namespace :administrator do
+        resources :users, except: [:new, :edit]
+      end
+
       namespace :supervisors, path: '' do
         namespace :orders do
           get 'delivering' => 'delivering#index'
