@@ -5,6 +5,6 @@ class ProductSerializer < ActiveModel::Serializer
   has_one    :sucursal_id
 
   def sucursal_id
-    object.sucursal_ids.first
+    object.sucursals.limit(1).pluck(:id).first
   end
 end

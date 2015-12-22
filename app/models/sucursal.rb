@@ -11,16 +11,16 @@ class Sucursal < ActiveRecord::Base
 
   # Validations
   validates :store_partner, :name, :address, presence: true
-  validates :latitude, :longitude, presence: true, numericality: true
+  validates :latitude, :longitude, numericality: true, allow_nil: true
   validates :name, uniqueness: { scope: :store_partner_id }
 
   # Geocode
-  reverse_geocoded_by :latitude, :longitude
+  #reverse_geocoded_by :latitude, :longitude
 
   # Callbacks
-  before_update :recalculate_distances
-  after_destroy :destroy_relations
-  after_create  :set_distances
+  #before_update :recalculate_distances
+  #after_destroy :destroy_relations
+  #after_create  :set_distances
 
   # Methods
   private

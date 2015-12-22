@@ -7,10 +7,10 @@ class CreateShoppers < ActiveRecord::Migration
       t.string  :last_name,         null: false
       t.string  :identification,    null: false
       t.string  :phone_number,      null: false
-      t.integer :status,            null: false
       t.integer :shopper_type,      null: false
       t.string  :email,             null: false
       t.boolean :active,            null: false, default: true
+      t.integer :status,            default: 0
       t.string  :address
       t.string  :company_email
       t.string  :image

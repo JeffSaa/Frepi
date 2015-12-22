@@ -126,10 +126,10 @@ ActiveRecord::Schema.define(version: 20) do
     t.string   "last_name",                                               null: false
     t.string   "identification",                                          null: false
     t.string   "phone_number",                                            null: false
-    t.integer  "status",                                                  null: false
     t.integer  "shopper_type",                                            null: false
     t.string   "email",                                                   null: false
     t.boolean  "active",                                   default: true, null: false
+    t.integer  "status",                                   default: 0
     t.string   "address"
     t.string   "company_email"
     t.string   "image"
@@ -198,8 +198,8 @@ ActiveRecord::Schema.define(version: 20) do
     t.string   "manager_phone_number"
     t.string   "phone_number"
     t.string   "address",                                        null: false
-    t.decimal  "latitude",             precision: 15, scale: 10, null: false
-    t.decimal  "longitude",            precision: 15, scale: 10, null: false
+    t.decimal  "latitude",             precision: 15, scale: 10
+    t.decimal  "longitude",            precision: 15, scale: 10
     t.integer  "store_partner_id",                               null: false
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false

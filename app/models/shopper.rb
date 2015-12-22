@@ -17,9 +17,8 @@ class Shopper < ActiveRecord::Base
   has_many   :schedules,through: :shoppers_schedules
 
   # Validations
-  validates :active, :phone_number, :status, presence: true
+  validates :active, :phone_number, presence: true
   validates :latitude, :longitude, numericality: true, allow_nil: true
-  validates :status, inclusion: { in: STATUS }
   validates :shopper_type, inclusion: { in: TYPES }
   validates :identification, uniqueness: true, presence: true
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
