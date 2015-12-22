@@ -5,7 +5,7 @@ class Api::V1::ApiController < ApplicationController
   skip_before_action :authenticate_user!, :authenticate_supervisor!, :require_administrator, :is_active?, if: :devise_controller?
 
   def require_administrator
-    render(json: {errors: 'Authorized only for administrator.'} , status: :unauthorized) unless current_user.administrator
+    render(json: {errors: 'Authorized only for administrator.'} , status: :unauthorized) if current_user.administrator == false
   end
 
   def administrador_supervisor

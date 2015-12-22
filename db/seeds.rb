@@ -6,7 +6,7 @@ city = state.cities.create!(name: 'barranquilla')
 # email: admin@frepi.com | client@frepi.com | supervisor@frepi.com
 # Password: frepi123
 
-if Rails.env.development?
+#if Rails.env.development?
   PASSWORD =  'frepi123'
   EMAILS = %w(admin@frepi.com client@frepi.com supervisor@frepi.com in-store-shopper@gmail.com delivery-shopper@gmail.com)
 
@@ -191,4 +191,4 @@ if Rails.env.development?
     shopper = Shopper.find(shopper_id + 1)
     shopper.schedules.create!( day: Schedule::DAY.sample, start_hour: Time.now, end_hour: Time.now + 2.hour)
   end
-end
+#end

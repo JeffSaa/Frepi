@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
       namespace :administrator do
         resources :users, except: [:new, :edit]
+        resources :products, except: [:new, :edit]
       end
 
       namespace :supervisors, path: '' do
