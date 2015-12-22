@@ -1,4 +1,4 @@
-class Api::V1::Administrator::ProductsController < ApplicationController
+class Api::V1::Administrator::ProductsController < Api::V1::ApiController
 
   skip_before_action :authenticate_supervisor!
   before_action :find_sucursal, only: :create
