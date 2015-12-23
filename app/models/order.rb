@@ -120,7 +120,7 @@ class Order < ActiveRecord::Base
 
     def set_shopping_at
       if self.status_changed?(from: "RECEIVED", to: "SHOPPING") || self.status_changed?(from: nil, to: "SHOPPING")
-        self.shopping_at = DateTime.current
+        self.shopping_at = Date.current
       end
     end
 end

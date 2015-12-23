@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
         resources :users, except: [:new, :edit]
         resources :products, except: [:new, :edit]
+        resources :admins, only: :index
 
         namespace :statistics do
           resources :products, only: :index

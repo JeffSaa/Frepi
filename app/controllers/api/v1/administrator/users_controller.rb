@@ -3,7 +3,7 @@ class Api::V1::Administrator::UsersController < Api::V1::ApiController
   before_action :find_user, only: [:show, :update, :destroy]
 
   def index
-    render json: User.where('id > 1')
+    render json: User.where(administrator: false)
   end
 
   def show

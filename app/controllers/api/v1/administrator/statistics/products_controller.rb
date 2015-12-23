@@ -5,9 +5,17 @@ class Api::V1::Administrator::Statistics::ProductsController < Api::V1::ApiContr
 
   def index
     if params[:start_date] || params[:end_date]
-      orders = Order.where("status > ? AND active = ?", 0, true )#.where("shopping_at >= ? AND shopping_at <= ?", params[:start_date], params[:end_date])
-      #quantities = orders.map { |order| order.orders_products.quantity }
-      render json: orders
+
+      orders = Order.where("status > ? AND active = ?", 0, true ).where("shopping_at >= ? AND shopping_at <= ?", params[:start_date], params[:end_date])
+      products = Hash.new(0)
+      orders.each do |order|
+        quantities = Hash.new(0)
+        order.orders_products.each { |order| quantities[order.product_id] += order.quantity }
+
+        quantities.each { |product, quantity|  products[product] += quantity }
+      end
+
+      render json: products, each_serializer: StatisticsSerializer
     end
   end
 end
