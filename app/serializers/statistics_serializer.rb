@@ -1,10 +1,13 @@
 class StatisticsSerializer < ActiveModel::Serializer
-  ]
 
-  has_one :product
+  attributes :products
 
-  def product
-    object
+  def products
+    object.map do |key, value|
+      product = Product.find(key)
+      product.sales_count = value
+      product
+    end
   end
 
 end

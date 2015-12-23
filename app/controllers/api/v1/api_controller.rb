@@ -9,8 +9,16 @@ class Api::V1::ApiController < ApplicationController
   end
 
   def administrador_supervisor
-    unless current_user.try('administrator') || current_supervisor
-      render(json: {errors: 'Authorized only for administrator and supervisors.'}, status: :unauthorized)
+    p current_supervisor
+    p current_user
+    if current_supervisor || current_user
+      if current_user
+        if current_user.administrator == false
+          render(json: {errors: 'Authorized only for administrator and supervisors.'}, status: :unauthorized)
+        end
+      end
+    else
+     render(json: {errors: 'Authorized only for administrator and supervisors.'}, status: :unauthorized)
     end
   end
 
@@ -21,3 +29,20 @@ class Api::V1::ApiController < ApplicationController
     end
   end
 end
+
+
+=begin
+
+F || v = V
+V || f = V
+V || v = V
+F || F = F
+
+
+F && F = F
+V && V = V
+V && F = F
+F && V = F
+
+
+=end

@@ -15,7 +15,7 @@ class Api::V1::Administrator::Statistics::ProductsController < Api::V1::ApiContr
         quantities.each { |product, quantity|  products[product] += quantity }
       end
 
-      render json: products, each_serializer: StatisticsSerializer
+      render json: products, serializer: StatisticsSerializer
     end
   end
 end

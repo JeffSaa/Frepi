@@ -1,6 +1,6 @@
 class  Api::V1::OrdersController < Api::V1::ApiController
 
-  before_action :find_order, only: [:show, :update, :destroy]
+  before_action      :find_order, only: [:show, :update, :destroy]
   skip_before_action :require_administrator, :authenticate_supervisor!
 
   def index

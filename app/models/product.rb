@@ -1,7 +1,5 @@
 class Product < ActiveRecord::Base
 
-  attr_accessor :counter
-
   # Associations
   belongs_to :subcategory
   has_many   :orders_products
