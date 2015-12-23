@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.time     "expiry_time",                                           null: false
     t.string   "comment"
     t.string   "address"
+    t.datetime "shopping_at"
     t.datetime "delivery_time"
     t.integer  "user_id",                                               null: false
     t.datetime "created_at"

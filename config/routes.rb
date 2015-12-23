@@ -32,8 +32,14 @@ Rails.application.routes.draw do
       end
 
       namespace :administrator do
+
         resources :users, except: [:new, :edit]
         resources :products, except: [:new, :edit]
+
+        namespace :statistics do
+          resources :products, only: :index
+        end
+
       end
 
       namespace :supervisors, path: '' do

@@ -16,7 +16,11 @@ class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
     if shopper_order.valid?
       order = shopper_order.order
       shopper = Shopper.find(params[:shopper_id])
-      shopper.shopper_type  == 'IN-STORE' ? order.status = 1 : order.status = 2
+      if shopper.shopper_type  == 'IN-STORE'
+        order.status = 1
+      else
+        order.status = 2
+      end
       order.save
       shopper_order.save
       render json: shopper_order.order, serializer: SupervisorOrderSerializer, status: :created

@@ -6,14 +6,16 @@ gem 'rails-api'
 
 
 group :development do
+  #gem 'faker'
   gem 'sqlite3'
-  gem 'faker'
 end
 
 group :production do
   gem 'pg'
 end
 
+# TODO: delete line 18. just for test
+gem 'faker'
 gem 'puma'
 
 # General

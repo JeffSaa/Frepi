@@ -25,7 +25,7 @@ class Order < ActiveRecord::Base
 
   # Callbacks
   before_create :set_date
-  before_save   :round_price
+  before_save   :round_price, :set_shopping_at
 
   # Methods
   def buy(user, products)
@@ -109,14 +109,18 @@ class Order < ActiveRecord::Base
     true
   end
 
-  # ---------------------- Private ---------------------------- #
   private
+    def set_date
+      self.date = DateTime.current
+    end
 
-  def set_date
-    self.date = DateTime.current
-  end
+    def round_price
+      self.total_price.round(2)
+    end
 
-  def round_price
-    self.total_price.round(2)
-  end
+    def set_shopping_at
+      if self.status_changed?(from: "RECEIVED", to: "SHOPPING") || self.status_changed?(from: nil, to: "SHOPPING")
+        self.shopping_at = DateTime.current
+      end
+    end
 end

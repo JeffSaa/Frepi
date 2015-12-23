@@ -10,6 +10,7 @@ class CreateOrders < ActiveRecord::Migration
       t.time        :expiry_time,    null: false
       t.string      :comment
       t.string      :address
+      t.datetime    :shopping_at
 
       # Review Attribute -> delivery_time
       t.datetime    :delivery_time
