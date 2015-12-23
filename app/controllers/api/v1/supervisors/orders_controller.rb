@@ -1,6 +1,7 @@
 class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
-  skip_before_action :authenticate_user!, :require_administrator
+  skip_before_action :authenticate_user!, :require_administrator, :authenticate_supervisor!
   before_action :find_order, only: [:show, :update, :destroy]
+  before_action :administrador_supervisor
 
   def index
     #received = Order.where(active: true, status: 0).map { |order| SupervisorOrderSerializer.new(order) }
