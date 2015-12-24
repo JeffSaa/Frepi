@@ -9,8 +9,6 @@ class Api::V1::ApiController < ApplicationController
   end
 
   def administrador_supervisor
-    p current_supervisor
-    p current_user
     if current_supervisor || current_user
       if current_user
         if current_user.administrator == false
@@ -29,20 +27,3 @@ class Api::V1::ApiController < ApplicationController
     end
   end
 end
-
-
-=begin
-
-F || v = V
-V || f = V
-V || v = V
-F || F = F
-
-
-F && F = F
-V && V = V
-V && F = F
-F && V = F
-
-
-=end

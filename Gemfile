@@ -31,3 +31,4 @@ gem 'figaro'
 
 # Distance Haversine formula
 gem 'geocoder'
+gem 'sidekiq'
