@@ -42,8 +42,12 @@ GEM
     bcrypt (3.1.10)
     bcrypt (3.1.10-x86-mingw32)
     builder (3.2.2)
+    clockwork (1.2.0)
+      activesupport
+      tzinfo
     concurrent-ruby (1.0.0)
     connection_pool (2.2.0)
+    daemons (1.2.3)
     devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -163,6 +167,8 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  clockwork
+  daemons
   devise
   devise_token_auth
   faker

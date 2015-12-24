@@ -6,7 +6,7 @@ class  Api::V1::Shoppers::ShoppersController < Api::V1::ApiController
   before_action      :administrador_supervisor, only: :index
 
   def index
-    render json: Shopper.all
+    render json: Shopper.where(active: true)
   end
 
   def show
