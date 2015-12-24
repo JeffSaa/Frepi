@@ -1,9 +1,14 @@
 class OrdersWorker
-  p 'sadsadas' * 23
   include Sidekiq::Worker
 
   def perform
     #OrderExpiredMailer.notification_email(Order.first).deliver_now
-    p 'sending' * 100
+    puts 'sending'
+  end
+
+
+  def self.send_notification
+    Orders.where(active: true, status: 0)
+    perform_async
   end
 end

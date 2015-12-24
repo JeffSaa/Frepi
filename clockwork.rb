@@ -1,5 +1,10 @@
+require_relative "config/boot"
+require_relative "config/environment"
 require 'clockwork'
+require 'sidekiq'
+
 module Clockwork
+
   handler do |job|
     puts "Running #{job}"
   end
@@ -9,5 +14,10 @@ module Clockwork
   #   puts "Running #{job}, at #{time}"
   # end
 
-  every(3.seconds, 'OrdersWorker.perform_async')
+
+
+  every(5.seconds, 'orders_worker.send_notification') do
+    OrdersWorker.send_notification
+  end
+
 end
