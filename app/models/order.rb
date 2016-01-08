@@ -4,15 +4,20 @@ class Order < ActiveRecord::Base
   STATUS = %w(RECEIVED SHOPPING DELIVERING DISPATCHED)
   enum status: STATUS
 
+  # Scopes
+  scope :in_progress, -> { where(active: true).where('status >= 0 AND status <= 2') }
+  scope :expiries, -> (datetime) { where('scheduled_date > ?', datetime ) }
+  scope :created_between, lambda {|start_date, end_date| where("created_at >= ? AND created_at <= ?", start_date, end_date )}
+
   # Associations
   belongs_to  :user, counter_cache: :counter_orders
   has_many    :shopper, through: :shoppers_order
-  has_many    :shoppers_order
+  has_many    :shoppers_order,  dependent: :delete_all
   has_many    :sucursals, through: :products
   has_many    :products, through: :orders_products
   has_many    :schedules, through: :orders_schedules
-  has_many    :orders_products
-  has_many    :orders_schedules
+  has_many    :orders_products, dependent: :delete_all
+  has_many    :orders_schedules, dependent: :delete_all
 
   # Validations
   validates :user, :total_price, :scheduled_date, :expiry_time, :arrival_time, presence: true
@@ -25,7 +30,7 @@ class Order < ActiveRecord::Base
 
   # Callbacks
   before_create :set_date
-  before_save   :round_price, :set_shopping_at
+  before_save   :round_price, :set_shopping_at, :set_scheduled_date
 
   # Methods
   def buy(user, products)
@@ -100,6 +105,7 @@ class Order < ActiveRecord::Base
     self.active = false
     User.decrement_counter(:counter_orders, self.user.id)
     self.orders_products.each { |order| order.decrement_counter }
+    self.save
   end
 
   def self.products_valid?(products)
@@ -122,5 +128,9 @@ class Order < ActiveRecord::Base
       if self.status_changed?(from: "RECEIVED", to: "SHOPPING") || self.status_changed?(from: nil, to: "SHOPPING")
         self.shopping_at = Date.current
       end
+    end
+
+    def set_scheduled_date
+      self.scheduled_date = self.scheduled_date.change({ hour: 0}) + self.expiry_time.seconds_since_midnight.seconds
     end
 end

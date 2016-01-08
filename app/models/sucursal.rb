@@ -2,12 +2,12 @@ class Sucursal < ActiveRecord::Base
 
   # Associations
   belongs_to :store_partner
-  has_many   :sucursals_products
-  has_many   :orders
-  has_many   :distances,          dependent: :delete_all
-  has_many   :products,           through: :sucursals_products
-  has_many   :subcategories,      through: :products
+  has_many   :products,           through: :sucursals_products, dependent: :destroy
   has_many   :categories,         through: :subcategories
+  has_many   :subcategories,      through: :products
+  has_many   :distances,          dependent: :delete_all
+  has_many   :sucursals_products, dependent: :delete_all
+  has_many   :orders
 
   # Validations
   validates :store_partner, :name, :address, presence: true

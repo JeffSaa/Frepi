@@ -17,6 +17,7 @@ class CreateUsers < ActiveRecord::Migration
       # Extra information
       t.decimal :latitude,          precision: 15, scale: 10
       t.decimal :longitude,         precision: 15, scale: 10
+      t.boolean :loyal_costumer,    default: false
 
       # Associations
       t.references :city,           index: true, foreign_key: true

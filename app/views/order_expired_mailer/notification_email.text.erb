@@ -1,11 +1,21 @@
-UNA ORDEN SE HA VENCIDO, <%= @user.name %>
+Las siguientes ordenes se encuentran vencidas!
 ===============================================
 
-Orden:
 
-Fecha de creación: <%= @order.date %>
-Hora de llegada
+Ordenes:
+
+<% @orders.each do |order| %>
+  Nombre completo: <%= "#{order.user.name} #{order.user.last_name}" %>
+  Email: <%= order.user.email %>
+  Telefono: <%= order.user.phone_number %>
+  Fecha de creación: <%= @order.date.to_formatted_s(:long) %>
+  Tiempo de llegada maximo: <%= @order.scheduled_date.to_formatted_s(:long) %>
+  Rango horas de llegada:  <%= @order.scheduled_date.to_formatted_s(:time) - @order.scheduled_date.to_formatted_s(:time)%>
+
+---------------------------------------------------------------
+
+<% end %>
 
 
-user is: <%= "#{@user.name} #{@user.last_name}" %>.
 
+Fecha de generación: <%= Datetime.current.to_formatted_s(:long) %>

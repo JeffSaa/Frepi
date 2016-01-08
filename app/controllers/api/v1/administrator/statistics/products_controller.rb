@@ -16,6 +16,8 @@ class Api::V1::Administrator::Statistics::ProductsController < Api::V1::ApiContr
       end
 
       render json: products, serializer: StatisticsSerializer
+    else
+      head(:bad_request)
     end
   end
 end

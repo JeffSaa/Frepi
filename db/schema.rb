@@ -268,6 +268,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.integer  "counter_orders",                                   default: 0,       null: false
     t.decimal  "latitude",               precision: 15, scale: 10
     t.decimal  "longitude",              precision: 15, scale: 10
+    t.boolean  "loyal_costumer",                                   default: false
     t.integer  "city_id"
     t.string   "provider",                                         default: "email", null: false
     t.string   "uid",                                              default: "",      null: false

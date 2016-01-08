@@ -5,7 +5,7 @@ class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
 
   def index
     #received = Order.where(active: true, status: 0).map { |order| SupervisorOrderSerializer.new(order) }
-    render json: Order.all, each_serializer: SupervisorOrderSerializer
+    render json: Order.all.order(:scheduled_date, :expiry_time), each_serializer: SupervisorOrderSerializer
   end
 
   def show
@@ -48,7 +48,7 @@ class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
 
   def destroy
     @order.status = 0
-    @orde.shoppers_order.destroy_all
+    @order.shoppers_order.destroy_all
     @order.save
   end
 

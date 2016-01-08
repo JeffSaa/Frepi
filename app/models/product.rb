@@ -2,11 +2,11 @@ class Product < ActiveRecord::Base
 
   # Associations
   belongs_to :subcategory
-  has_many   :orders_products
-  has_many   :sucursals_products
-  has_many   :orders, through: :orders_products
+  has_many   :orders, through: :orders_products, dependent: :delete_all
   has_many   :sucursals, through: :sucursals_products
-  has_one    :category, through: :subcategory
+  has_one    :category, through: :subcategory, dependent: :delete
+  has_many   :orders_products,  dependent: :destroy
+  has_many   :sucursals_products, dependent: :delete_all
 
   # Validations
   validates :name, :store_price, :frepi_price, :image, presence: true
