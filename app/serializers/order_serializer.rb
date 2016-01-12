@@ -1,6 +1,6 @@
 class OrderSerializer < ActiveModel::Serializer
-  attributes :id, :active, :status, :total_price, :date, :delivery_time,
-             :scheduled_date, :arrival_time, :expiry_time, :comment, :address, :shopping_at
+  attributes :id, :active, :status, :total_price, :date,
+             :scheduled_date, :arrival_time, :expiry_time, :comment, :address, :shopping_at, :notification_email
 
   has_many :products
 

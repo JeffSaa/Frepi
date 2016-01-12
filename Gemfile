@@ -8,6 +8,7 @@ gem 'rails-api'
 group :development do
   #gem 'faker'
   gem 'sqlite3'
+  gem "letter_opener"
 end
 
 group :production do

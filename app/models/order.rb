@@ -5,9 +5,9 @@ class Order < ActiveRecord::Base
   enum status: STATUS
 
   # Scopes
-  scope :in_progress, -> { where(active: true).where('status >= 0 AND status <= 2') }
+  scope :in_progress, -> { where(active: true, notification_email: false).where('status >= 0 AND status <= 2') }
   scope :expiries, -> (datetime) { where('scheduled_date > ?', datetime ) }
-  scope :created_between, lambda {|start_date, end_date| where("created_at >= ? AND created_at <= ?", start_date, end_date )}
+  scope :created_between, lambda { |start_date, end_date| where("created_at >= ? AND created_at <= ?", start_date, end_date ) }
 
   # Associations
   belongs_to  :user, counter_cache: :counter_orders
@@ -25,7 +25,6 @@ class Order < ActiveRecord::Base
   validates :active, inclusion: { in: [true, false] }
   validates :total_price, numericality: true
   validates_time :expiry_time, on_or_after: :arrival_time
-  validates_datetime :delivery_time, allow_nil: true
   validates_datetime :scheduled_date
 
   # Callbacks

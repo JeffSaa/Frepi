@@ -38,6 +38,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.4.0)
     arel (6.0.2)
     bcrypt (3.1.10)
     bcrypt (3.1.10-x86-mingw32)
@@ -72,6 +73,10 @@ GEM
     i18n (0.7.0)
     json (1.8.3)
     jwt (1.5.1)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -174,6 +179,7 @@ DEPENDENCIES
   faker
   figaro
   geocoder
+  letter_opener
   omniauth
   omniauth-facebook
   pg

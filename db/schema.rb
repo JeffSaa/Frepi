@@ -58,18 +58,18 @@ ActiveRecord::Schema.define(version: 20) do
   add_index "distances", ["sucursal_id"], name: "index_distances_on_sucursal_id"
 
   create_table "orders", force: :cascade do |t|
-    t.boolean  "active",                                 default: true, null: false
-    t.integer  "status",                                 default: 0,    null: false
-    t.decimal  "total_price",    precision: 8, scale: 2, default: 0.0,  null: false
-    t.datetime "date",                                                  null: false
-    t.datetime "scheduled_date",                                        null: false
-    t.time     "arrival_time",                                          null: false
-    t.time     "expiry_time",                                           null: false
+    t.boolean  "active",                                     default: true,  null: false
+    t.integer  "status",                                     default: 0,     null: false
+    t.decimal  "total_price",        precision: 8, scale: 2, default: 0.0,   null: false
+    t.datetime "date",                                                       null: false
+    t.datetime "scheduled_date",                                             null: false
+    t.time     "arrival_time",                                               null: false
+    t.time     "expiry_time",                                                null: false
+    t.boolean  "notification_email",                         default: false, null: false
     t.string   "comment"
     t.string   "address"
     t.date     "shopping_at"
-    t.datetime "delivery_time"
-    t.integer  "user_id",                                               null: false
+    t.integer  "user_id",                                                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

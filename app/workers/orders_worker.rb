@@ -7,22 +7,19 @@ class OrdersWorker
 
   def perform(orders)
     orders = ActiveSupport::JSON.decode(orders)
-    #OrderExpiredMailer.notification_email(orders).deliver_now
+    OrderExpiredMailer.notification_email(orders).deliver_now
     puts 'sending'
   end
 
   # Include User information!!
   def self.send_notification
     orders = Order.in_progress.expiries(DateTime.current)
-    p orders
-    #zp SupervisorOrderSerializer.new(orders)
-    if orders
-      #orders.to_json(include: user)
-      #perform_async(orders.to_json)
-    end
+    puts 'sending orders'
+    perform_async(orders.to_json) unless orders.empty?
   end
 
   def self.establish_best_customers
+    p 'userss'
     start_date = DateTime.now.beginning_of_month
     end_date = DateTime.now.end_of_month
     loyal_users = Order.created_between(start_date, end_date).group(:user).count.keep_if { |user, orders_counter|  orders_counter >= 2 }
