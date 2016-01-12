@@ -5,7 +5,13 @@ class Api::V1::Administrator::ProductsController < Api::V1::ApiController
   before_action :find_product, only: [:show, :update, :destroy]
 
   def index
-    render json: Product.all
+    if params[:page]
+      @products = Product.paginate(per_page: params[:per_page], page: params[:page])
+      set_pagination_headers :products
+      render json: @products
+    else
+      render json: { error: "param 'page' has not been found" }, status: :bad_request
+    end
   end
 
   def show

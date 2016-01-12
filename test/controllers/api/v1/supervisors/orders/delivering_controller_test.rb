@@ -2,9 +2,9 @@ require 'test_helper'
 
 class  Api::V1::Supervisors::Orders::DeliveringControllerTest < ActionController::TestCase
   test "should get index" do
-   sign_in :supervisor, supervisors(:supervisor)
+    sign_in :supervisor, supervisors(:supervisor)
 
-    get :index
+    get :index, page: 1
     assert_response :ok
   end
 

@@ -15,7 +15,7 @@ group :production do
   gem 'pg'
 end
 
-# TODO: delete line 18. just for test
+# TODO: delete line 19. just for test
 gem 'faker'
 gem 'puma'
 
@@ -32,6 +32,12 @@ gem 'figaro'
 
 # Distance Haversine formula
 gem 'geocoder'
+
+# Background process
 gem 'sidekiq'
 gem 'daemons'
 gem 'clockwork'
+
+# Pagination
+gem 'will_paginate', '~> 3.0.6'
+gem 'api_pagination_headers'

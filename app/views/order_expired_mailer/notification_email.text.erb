@@ -3,8 +3,8 @@ Las siguientes ordenes se encuentran vencidas!
 
 Ordenes:
 
-<% @orders.each_with_index do |order, index| %>
-  <% user = @users[index] %>
+<% @expire_orders.each_with_index do |order, index| %>
+  <% user = @customers[index] %>
   Nombre del cliente: <%= "#{user.name} #{user.last_name}" %>
   Email: <%= user.email %>
   Telefono: <%= user.phone_number %>
@@ -16,4 +16,4 @@ Ordenes:
 <% end %>
 
 
-Fecha de generación: <%= DateTime.current.to_formatted_s(:long) %>
+Fecha de generación: <%= DateTime.current.to_formatted_s(:long) %>cc

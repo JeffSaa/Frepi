@@ -3,7 +3,13 @@ class Api::V1::Administrator::UsersController < Api::V1::ApiController
   before_action :find_user, only: [:show, :update, :destroy]
 
   def index
-    render json: User.where(administrator: false, active: true)
+    if params[:page]
+      @users = User.where(administrator: false).paginate(per_page: params[:per_page], page: params[:page])
+      set_pagination_headers :users
+      render json: @users
+    else
+      render json: { error: "param 'page' has not been found" }, status: :bad_request
+    end
   end
 
   def show
@@ -57,6 +63,6 @@ class Api::V1::Administrator::UsersController < Api::V1::ApiController
 
   def user_params
     params.permit(:name, :last_name, :email, :identification, :address, :phone_number, :image,
-                  :latitude, :longitude, :password, :password_confirmation)
+                  :latitude, :longitude, :password, :password_confirmation, :active)
   end
 end

@@ -5,24 +5,24 @@ class  Api::V1::SupervisorsControllerTest < ActionController::TestCase
 
  # ---------------- Index --------------------- #
   test "clients and anyone should not index supervisor" do
-    get :index
+    get :index, page: 1
     assert_response :unauthorized
 
     sign_in :user, users(:user)
-    get :index
+    get :index, page: 1
     assert_response :unauthorized
 
     sign_out users(:user)
     sign_in :supervisor, supervisors(:supervisor)
 
-    get :index
+    get :index, page: 1
     assert_response :unauthorized
   end
 
 
   test "only administrator should index supervisors" do
     sign_in :user, users(:admin)
-    get :index
+    get :index, page: 1
 
     assert_response :ok
   end

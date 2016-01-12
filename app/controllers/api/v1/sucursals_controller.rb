@@ -6,7 +6,13 @@ class  Api::V1::SucursalsController < Api::V1::ApiController
   skip_before_action :authenticate_supervisor!
 
   def index
-    render(json: @store_partner.sucursals)
+    if params[:page]
+      @sucursals = @store_partner.sucursals.paginate(per_page: params[:per_page], page: params[:page])
+      set_pagination_headers(:sucursals)
+      render json: @sucursals
+    else
+      render json: { error: "param 'page' has not been found" }, status: :bad_request
+    end
   end
 
   def show

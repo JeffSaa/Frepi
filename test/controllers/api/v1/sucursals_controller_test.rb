@@ -4,21 +4,21 @@ class  Api::V1::SucursalsControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
   test "anyone should index subcategories" do
-    get :index, store_partner_id: store_partners(:olimpica).id
+    get :index, store_partner_id: store_partners(:olimpica).id, page: 1
     assert_response :ok
 
     sign_in :user, users(:user)
-    get :index, store_partner_id: store_partners(:olimpica).id
+    get :index, store_partner_id: store_partners(:olimpica).id, page: 1
     assert_response :ok
     sign_out users(:user)
 
     sign_in :supervisor, supervisors(:supervisor)
-    get :index, store_partner_id: store_partners(:olimpica).id
+    get :index, store_partner_id: store_partners(:olimpica).id, page: 1
     assert_response :ok
     sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
-    get :index, store_partner_id: store_partners(:olimpica).id
+    get :index, store_partner_id: store_partners(:olimpica).id, page: 1
     assert_response :ok
   end
 

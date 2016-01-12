@@ -6,7 +6,13 @@ class  Api::V1::Shoppers::ShoppersController < Api::V1::ApiController
   before_action      :administrador_supervisor, only: :index
 
   def index
-    render json: Shopper.where(active: true)
+    if params[:page]
+      @shopper = Shopper.paginate(per_page: params[:per_page], page: params[:page])
+      set_pagination_headers(:shopper)
+      render json: @shopper
+    else
+      render json: { error: "param 'page' has not been found" }, status: :bad_request
+    end
   end
 
   def show

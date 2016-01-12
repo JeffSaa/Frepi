@@ -4,7 +4,7 @@ class  Api::V1::Supervisors::Orders::ShoppingControllerTest < ActionController::
   test "should get index" do
     sign_in :supervisor, supervisors(:supervisor)
 
-    get :index
+    get :index, page: 1
     assert_response :ok
   end
 

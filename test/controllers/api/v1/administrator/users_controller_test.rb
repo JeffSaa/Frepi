@@ -26,7 +26,7 @@ class Api::V1::Administrator::UsersControllerTest < ActionController::TestCase
 
   test "only administrator should index users" do
     sign_in :user, users(:admin)
-    get :index
+    get :index, page: 1
     sign_out users(:admin)
 
     assert_response :ok

@@ -2,6 +2,7 @@ class Api::V1::ApiController < ApplicationController
 
   # Security
   before_action :authenticate_user!, :authenticate_supervisor!, :require_administrator, :is_active?, except: [:handle_options_request, :set_access_control_headers]
+  before_action :establish_per_page_paramater
   skip_before_action :authenticate_user!, :authenticate_supervisor!, :require_administrator, :is_active?, if: :devise_controller?
 
   def require_administrator
@@ -12,11 +13,11 @@ class Api::V1::ApiController < ApplicationController
     if current_supervisor || current_user
       if current_user
         if current_user.administrator == false
-          render(json: {errors: 'Authorized only for administrator and supervisors.'}, status: :unauthorized)
+          render(json: { errors: 'Authorized only for administrator and supervisors.' }, status: :unauthorized)
         end
       end
     else
-     render(json: {errors: 'Authorized only for administrator and supervisors.'}, status: :unauthorized)
+     render(json: { errors: 'Authorized only for administrator and supervisors.' }, status: :unauthorized)
     end
   end
 
@@ -25,5 +26,9 @@ class Api::V1::ApiController < ApplicationController
     if user_signed_in? || supervisor_signed_in?
       render(json: {errors: 'you are disabled. please get in contact with the administrator'}, status: :unauthorized) unless current_user.try('active') || current_supervisor.try('active')
     end
+  end
+
+  def establish_per_page_paramater
+    params[:per_page] = 10 if params[:per_page].blank?
   end
 end

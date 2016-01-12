@@ -9,7 +9,7 @@ class  Api::V1::Shoppers::ShoppersControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     sign_in :user, users(:user)
-    get :index
+    get :index, page: 1
     assert_response :unauthorized
 
   end
@@ -17,12 +17,12 @@ class  Api::V1::Shoppers::ShoppersControllerTest < ActionController::TestCase
 
   test "only administrator should index supervisors" do
     sign_in :user, users(:admin)
-    get :index
+    get :index, page: 1
     assert_response :ok
     sign_out users(:admin)
 
     sign_in :supervisor, supervisors(:supervisor)
-    get :index
+    get :index, page: 1
     assert_response :ok
   end
 

@@ -5,11 +5,10 @@ class  Api::V1::SessionsController < Api::V1::ApiController
   def create
     # TODO: refactor code
     user = User.find_by(provider: params[:provider], uid: params[:uid])
-
     if user
       sign_in(:user, user)
       render(json: user, status: :accepted, root: 'user')
-    elsif params.keys.size > 4
+    elsif params.keys.size > 5
       user = User.from_omniauth(user_params)
       sign_in :user, user
       render(json: user, status: :created, root: 'user')

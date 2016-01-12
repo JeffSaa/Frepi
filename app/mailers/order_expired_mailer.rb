@@ -1,14 +1,14 @@
 class OrderExpiredMailer < ApplicationMailer
   ADMIN = 'amcamargo95@gmail.com'
 
-  # TODO: ADD information about products (ask aboout it to ernesto)
+  # TODO: ADD information about products (ask about it to ernesto)
   def notification_email(orders)
-    @orders = orders
-    @users = []
+    @expire_orders = orders
+    @customers = []
     p orders
-    @orders.each do |order|
+    @expire_orders.each do |order|
       order = Order.find(order['id'])
-      @users.push(order.user)
+      @customers.push(order.user)
       order.notification_email = true
       order.save
     end
