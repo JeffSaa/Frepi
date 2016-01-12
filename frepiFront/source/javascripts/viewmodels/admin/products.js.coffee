@@ -121,6 +121,7 @@ class ProductsVM extends AdminPageVM
 				console.log success
 				@availableSucursals(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				@fetchCategories()
 		)
 
 	setRulesValidation: ->
@@ -157,7 +158,6 @@ class ProductsVM extends AdminPageVM
 			.modal(
 					onShow: =>
 						@fetchSucursals()
-						@fetchCategories()
 				)
 			.modal('attach events', '.create.button', 'show')
 		$('.modal .ui.image')
