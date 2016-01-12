@@ -88,8 +88,6 @@ class ProductsVM extends AdminPageVM
 				console.log success
 				@currentProducts(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				@fetchSucursals()
-				@fetchCategories()
 		)
 
 	fetchCategories: ->
@@ -155,6 +153,13 @@ class ProductsVM extends AdminPageVM
 				})
 
 	setDOMProperties: ->
+		$('.ui.create.modal')
+			.modal(
+					onShow: =>
+						@fetchSucursals()
+						@fetchCategories()
+				)
+			.modal('attach events', '.create.button', 'show')
 		$('.modal .ui.image')
 			.dimmer({
 					on: 'hover'
