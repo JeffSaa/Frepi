@@ -212,12 +212,14 @@ class ProfileVM extends TransactionalPageVM
 
 	setStatus: (status, truncated) ->
 		switch status
-			when 'delivering'
+			when 'DELIVERING'
 				if not truncated then 'En camino' else 'E'
-			when 'dispatched'
+			when 'DISPATCHED'
 				if not truncated then 'Entregada' else 'E'
-			when 'received'
+			when 'RECEIVED'
 				if not truncated then 'Recibida' else 'R'
+			when 'SHOPPING'
+				if not truncated then 'Comprando' else 'C'
 
 	updateUser: (attributeToUpdate) ->
 		data = {}
@@ -259,7 +261,7 @@ class ProfileVM extends TransactionalPageVM
 						else
 							console.log 'User has been updated'
 							console.log success
-							Config.setItem('headers', JSON.stringify(headers))
+							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
 							credentials = JSON.parse(Config.getItem('credentials'))
 							credentials.pass = newPassword
@@ -290,7 +292,7 @@ class ProfileVM extends TransactionalPageVM
 							console.log 'User has been updated'
 							console.log success
 							Config.setItem('userObject', JSON.stringify(success))
-							Config.setItem('headers', JSON.stringify(headers))
+							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							@setUserInfo()
 							$('#edit-user-info').modal('hide')
 					)				

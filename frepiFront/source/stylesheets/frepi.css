@@ -85,13 +85,13 @@ footer p {
 }
 
 /* Admin */
-.admin {
+.admin.loader {
   background-color: rgb(34, 182, 118);
   height: 100%;
   position: relative;
 }
 
-.admin .header {
+.admin.loader .header {
   color: #FFF;
   left: 50%;
   position: absolute;
@@ -404,7 +404,7 @@ header #shopping-cart .icon {
   margin-top: 1em;
 }
 
-.modal .description {
+.modal .product.description {
   width: calc(100% - 450px + 2em) !important;
 }
 
@@ -549,6 +549,12 @@ header #shopping-cart .icon {
   color: #FFF;
 }
 
+.profile .table tr td:last-of-type .received {
+  background-color: #00B5AD;
+  border-color: #00B5AD;
+  color: #FFF;
+}
+
 /* Checkout rules */
 
 #store-secondary-navbar.checkout .right.menu .button{
@@ -630,4 +636,112 @@ header #shopping-cart .icon {
 .category .category-info .horizontal.list {
   display: block;
   text-align: center;
+}
+
+/**
+ **  Admin Layout Rules
+ **/
+
+.dimmer.modals {
+  z-index: 2000 !important;
+}
+
+nav.admin.menu {
+  height: 60px !important;
+  z-index: 1500 !important;
+}
+
+nav.admin.menu #landing-logo {
+  padding: 0;
+}
+
+nav.admin.menu #landing-logo img {
+  margin-left: 1em;
+  min-height: 2.857142em;
+  min-width: 7em;
+}
+
+.admin.content {
+  padding-top: 8.571428em;
+  width: 90%;
+}
+
+.admin.content .twelve.wide.column {
+  min-height: 37rem;
+}
+
+.admin.content .twelve.wide.column .dimmer .loader {
+  top: 19rem !important;
+}
+
+.admin.content section {
+  margin-top: 1.5em;
+}
+
+.admin .vertical.menu i {
+  margin: 0 .65em 0 0 !important;
+}
+
+.admin tbody {
+  font-size: 0.857142em;
+}
+
+.admin tbody tr.overdue td {
+  background-color: red!important;
+  color: rgba(255, 255, 255, .945);
+}
+
+.admin tbody td.delivering {
+  background-color: #B5CC18;
+  color: #FFF;
+}
+
+.admin tbody td.dispatched {
+  background-color: #21BA45;
+  color: #FFF;
+}
+
+.admin tbody td.received {
+  background-color: #FBBD08;
+  color: #FFF;
+}
+
+.admin tbody td.shopping {
+  background-color: #00B5AD;
+  color: #FFF;
+}
+
+.create.modal .dropdown,
+.create.modal .dropdown .item {
+  font-size: 1rem !important;
+}
+
+.create.modal .buttons-to-right {
+  padding: 1rem 0;
+}
+
+.create.modal .buttons-to-right .button {
+  margin-right: 0;
+}
+
+/* Style input upload button */
+
+.file.button {
+  position: relative;
+  overflow: hidden;
+}
+.file.button input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
 }

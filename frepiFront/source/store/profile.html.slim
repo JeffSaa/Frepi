@@ -92,25 +92,29 @@
 			#guide-status.ui.centered.green.segment
 				.ui.centered.header Estados de orden
 				#status
-					.ui.yellow.label R
-					span Recibida
-					.ui.olive.label E
-					span En camino
-					.ui.green.label E
-					span Entregada
+					.first.row
+						.ui.yellow.label R
+						span Recibida
+						.ui.teal.label C
+						span Comprando
+					.second.row
+						.ui.olive.label E
+						span En camino
+						.ui.green.label E
+						span Entregada
 			table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
 				thead
 					tr
 						th.three.wide Fecha
-						th.four.wide Tienda
-						th.four.wide Dirección
+						th.four.wide Hora
+						th.four.wide Productos
 						th.three.wide Valor($)
 						th.two.wide Estado
 				tbody data-bind="foreach: currentOrders"
 					tr
-						td data-bind="text: $data.date"
-						td data-bind="text: $data.sucursal.name"
-						td data-bind="text: $data.sucursal.address"
+						td data-bind="text: $data.scheduledDate"
+						td data-bind="text: $data.arrivalTime"
+						td data-bind="text: $data.products"
 						td data-bind="text: $data.totalPrice"
 						/ td.center.aligned
 						/   a.ui.teal.label
@@ -119,8 +123,8 @@
 						/   a.ui.teal.truncated.label
 						/     |<!--ko text: $data.ordersProducts.length--><!--/ko-->
 						td.center.aligned
-							.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status"
-							.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status"
+							.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status.toLowerCase()"
+							.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status.toLowerCase()"
 			.ui.centered.header data-bind="visible: showEmptyMessage" No hay pedidos registrados
 
 script src="../javascripts/viewmodels/profile.js"

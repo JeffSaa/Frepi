@@ -1,0 +1,58 @@
+doctype html
+html
+	head
+		meta charset="utf-8" /
+		title Frepi - Haz tu mercado fácil y rápido
+		/! Sets initial viewport load and disables zooming
+		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
+		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
+		/! Add semantic's CSS
+		link rel="stylesheet" type="text/css" href="../semantic/out/semantic.min.css"
+		link rel="stylesheet" type="text/css" href="../stylesheets/frepi.css"
+		link rel="stylesheet" type="text/css" href="../stylesheets/responsive-frepi.css"
+
+		script src="../javascripts/plugins/crypto-js.min.js"
+		script src="../javascripts/jquery/jquery-2.1.4.min.js"
+		script src="../semantic/out/semantic.min.js"
+		script src="../javascripts/knockout.js"
+		script src="../javascripts/plugins/ko-mapping.min.js"
+		script src="../javascripts/classes/encrypter.js"
+		script src="../javascripts/classes/config.js"
+		script src="../javascripts/classes/constans.js"
+		script src="../javascripts/classes/RESTfulService.js"
+		script src="../javascripts/viewmodels/adminPage.js"
+	body
+		header
+			nav.ui.fixed.inverted.borderless.admin.menu
+				a#landing-logo.item href="../admin/"
+					img src="../images/landing/logo.png"
+				.right.menu
+					.item
+						button.ui.orange.button data-bind="click: logout" Salir
+
+		section.ui.container.admin.content
+			.ui.grid
+				.four.wide.column
+					aside.ui.vertical.menu
+						a.item href="../admin/"
+							i.user.icon
+							|Administradores
+						a.item href="../admin/orders.html"
+							i.book.icon
+							|Ordenes
+						a.item href="../admin/products.html"
+							i.lemon.icon
+							|Productos
+						a.item href="../admin/shoppers.html"
+							i.users.icon
+							|Shoppers
+						a.item href="../admin/sucursals.html"
+							i.building.icon
+							|Sucursales						
+				.twelve.wide.column
+					.ui.active.inverted.dimmer data-bind="visible: isLoading"
+						.ui.text.loader Cargando
+					== yield
+
+		footer
+			p © 2015 Frepi, inc. Todos los derechos reservados.

@@ -1,0 +1,174 @@
+.ui.small.admin.delete.modal
+	.header Eliminar producto
+	.content
+		p
+			|Está a punto de eliminar 
+			strong data-bind="text: chosenProduct.name"
+			|, ¿Desea hacerlo?
+	.actions
+		.ui.cancel.button
+			i.remove.icon
+			|No
+		.ui.green.button data-bind="click: deleteProduct"
+			i.check.icon
+			|Si
+.ui.small.admin.create.modal
+	i.close.icon
+	.header Agregar producto
+	.image.content
+		.ui.medium.image
+			.ui.inverted.dimmer
+				.content
+					.center
+						span.ui.basic.teal.file.button
+							|Subir imagen...
+							input type='file' data-bind="event: {change: previewImage}"
+			img src="../images/landing/image.png"
+		.description
+			form.ui.form data-bind="submit: uploadProduct"
+				.field
+					label Nombre
+					input type="text" name="name" placeholder="Nombre"
+				.field
+					label Sucursal que provee
+					.ui.selection.dropdown
+						input name="sucursalID" type="hidden"
+						i.dropdown.icon
+						.default.text Selecciona una sucursal
+						.menu data-bind="foreach: availableSucursals"
+							.item data-bind="attr: {'data-value': $data.id}"
+								|<!--ko text: $data.name--><!--/ko-->
+				.two.fields
+					.field
+						label Categoría
+						.ui.fluid.selection.category.dropdown
+							input name="categoryID" type="hidden" data-bind="event: {change: fetchSubcategories}"
+							i.dropdown.icon
+							.default.text Selecciona una...
+							.menu data-bind="foreach: availableCategories"
+								.item data-bind="attr: {'data-value': $data.id}"
+									|<!--ko text: $data.name--><!--/ko-->
+					.field
+						label Subcategoría
+						.ui.fluid.selection.subcategory.dropdown
+							input name="subcategoryID" type="hidden"
+							i.dropdown.icon
+							.default.text Selecciona una...
+							.menu data-bind="foreach: availableSubcategories"
+								.item data-bind="attr: {'data-value': $data.id}"
+									|<!--ko text: $data.name--><!--/ko-->
+				.two.fields
+					.field
+						label Precio Proveedor
+						input type="text" name="storePrice" placeholder="Precio Proveedor"
+					.field
+						label Precio Frepi
+						input type="text" name="frepiPrice" placeholder="Precio Frepi"
+				.buttons-to-right
+					.ui.cancel.button Cancelar
+					button.ui.labeled.green.submit.icon.button type="submit"
+						|Crear Producto
+						i.checkmark.icon
+
+.ui.small.admin.edit.modal
+	i.close.icon
+	.header Editar producto
+	.image.content
+		.ui.medium.image
+			.ui.inverted.dimmer
+				.content
+					.center
+						span.ui.basic.teal.file.button
+							|Subir imagen...
+							input type='file' data-bind="event: {change: previewImage}"
+			img data-bind="attr: {src: chosenProduct.image}"
+		.description
+			form.ui.form data-bind="submit: updateProduct"
+				.field
+					label Nombre
+					input type="text" name="name" placeholder="Nombre"
+				.field
+					label Sucursal que provee
+					.ui.selection.dropdown
+						input name="sucursalID" type="hidden"
+						i.dropdown.icon
+						.default.text Selecciona una sucursal
+						.menu data-bind="foreach: availableSucursals"
+							.item data-bind="attr: {'data-value': $data.id}"
+								|<!--ko text: $data.name--><!--/ko-->
+				.two.fields
+					.field
+						label Categoría
+						.ui.fluid.selection.category.dropdown
+							input name="categoryID" type="hidden" data-bind="event: {change: fetchSubcategories}"
+							i.dropdown.icon
+							.default.text Selecciona una...
+							.menu data-bind="foreach: availableCategories"
+								.item data-bind="attr: {'data-value': $data.id}"
+									|<!--ko text: $data.name--><!--/ko-->
+					.field
+						label Subcategoría
+						.ui.fluid.selection.subcategory.dropdown
+							input name="subcategoryID" type="hidden"
+							i.dropdown.icon
+							.default.text Selecciona una...
+							.menu data-bind="foreach: availableSubcategories"
+								.item data-bind="attr: {'data-value': $data.id}"
+									|<!--ko text: $data.name--><!--/ko-->
+				.two.fields
+					.field
+						label Precio Proveedor
+						input type="text" name="storePrice" placeholder="Precio Proveedor"
+					.field
+						label Precio Frepi
+						input type="text" name="frepiPrice" placeholder="Precio Frepi"
+				.buttons-to-right
+					.ui.cancel.button Cancelar
+					button.ui.labeled.green.submit.icon.button type="submit"
+						|Editar Producto
+						i.checkmark.icon
+
+header
+	h2 Productos
+
+section.actions
+	button.ui.green.create.button
+		i.plus.icon
+		|Agregar producto
+
+section.content
+	table.ui.celled.table
+		thead
+			tr
+				th ID
+				th Nombre
+				th Precio Frepi
+				th Precio Tienda
+				th Sucursal
+				th Unds Vendidas
+				th Acciones
+		tbody data-bind="foreach: currentProducts"
+			tr
+				td data-bind="text: $data.id"
+				td data-bind="text: $data.name"
+				td data-bind="text: $data.frepiPrice"
+				td data-bind="text: $data.storePrice"
+				td data-bind="text: $data.sucursal.name"
+				td data-bind="text: $data.salesCount"
+				td
+					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showEdit"
+					i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDelete"
+		tfoot
+			tr
+				th colspan="7"
+					.ui.right.floated.pagination.menu
+						a.icon.item
+							i.left.chevron.icon
+						a.item 1
+						a.item 2
+						a.item 3
+						a.icon.item
+							i.right.chevron.icon
+
+script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.22.min.js"
+script src="../javascripts/viewmodels/admin/products.js"

@@ -58,6 +58,7 @@ set :images_dir, 'images'
 set :layout, false
 
 page "/store/*", :layout => "store"
+page "/admin/*", :layout => "admin"
 
 # Build-specific configuration
 configure :build do

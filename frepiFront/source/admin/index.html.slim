@@ -1,0 +1,168 @@
+.ui.small.admin.delete.modal
+	.header Eliminar Usuario
+	.content
+		p
+			|Está a punto de eliminar a 
+			strong data-bind="text: chosenUser.name"
+			|, ¿Desea hacerlo?
+	.actions
+		.ui.cancel.button
+			i.remove.icon
+			|No
+		.ui.green.button data-bind="click: deleteUser"
+			i.check.icon
+			|Si
+.ui.small.admin.create.modal
+	i.close.icon
+	.header Agregar Administrador
+	.content
+		form.ui.form data-bind="submit: createAdmin"
+			.field
+				label Nombre
+				.two.fields
+					.field
+						input type="text" name="firstName" placeholder="Nombres"
+					.field
+						input type="text" name="lastName" placeholder="Apellidos"
+			.three.fields
+				.field
+					label CC
+					input type="text" name="cc" placeholder="Cédula de ciudadanía"
+				.field
+					label Teléfono
+					input type="text" name="phoneNumber" placeholder="Teléfono"
+				.field
+					label Correo electrónico
+					input type="text" name="email" placeholder="Correo electrónico"
+			.field
+				label Contraseña
+				.two.fields
+					.field
+						input type="password" name="password" placeholder="Contraseña"
+					.field
+						input type="password" name="confirmationPassword" placeholder="Confirme contraseña"
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Crear Admin
+					i.checkmark.icon
+.ui.small.admin.edit.administrator.modal
+	i.close.icon
+	.header Editar Administrador
+	.content
+		form.ui.form data-bind="submit: updateAdmin"
+			.field
+				label Nombre
+				.two.fields
+					.field
+						input type="text" name="firstName" placeholder="Nombres"
+					.field
+						input type="text" name="lastName" placeholder="Apellidos"
+			.three.fields
+				.field
+					label CC
+					input type="text" name="cc" placeholder="Cédula de ciudadanía"
+				.field
+					label Teléfono
+					input type="text" name="phoneNumber" placeholder="Teléfono"
+				.field
+					label Correo electrónico
+					input type="text" name="email" placeholder="Correo electrónico"
+			.field
+				label Contraseña
+				.two.fields
+					.field
+						input type="password" name="password" placeholder="Contraseña"
+					.field
+						input type="password" name="confirmationPassword" placeholder="Confirme contraseña"
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Editar Admin
+					i.checkmark.icon
+
+header
+	h2 Manejo de Usuarios
+
+h3 Administradores
+
+section.actions
+	button.ui.green.create.button
+		i.plus.icon
+		|Agregar Administrador
+
+section.content
+	table.ui.celled.table
+		thead
+			tr
+				th ID
+				th CC
+				th Nombres
+				th Apellidos
+				th Teléfono
+				th E-mail
+				th Acciones
+		tbody data-bind="foreach: currentAdmins"
+			tr
+				td data-bind="text: $data.id"
+				td data-bind="text: $data.identification"
+				td data-bind="text: $data.name"
+				td data-bind="text: $data.lastName"
+				td data-bind="text: $data.phoneNumber"
+				td data-bind="text: $data.email"				
+				td
+					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
+					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
+		tfoot
+			tr
+				th colspan="7"
+					.ui.right.floated.pagination.menu
+						a.icon.item
+							i.left.chevron.icon
+						a.item 1
+						a.item 2
+						a.item 3
+						a.icon.item
+							i.right.chevron.icon
+
+	h3 Clientes
+	table.ui.celled.table
+		thead
+			tr
+				th ID
+				th CC
+				th Nombres
+				th Apellidos
+				th Teléfono
+				th E-mail
+				th Dirección
+				th # Pedidos
+				th Activo
+				th Acciones
+		tbody data-bind="foreach: currentUsers"
+			tr
+				td data-bind="text: $data.id"
+				td data-bind="text: $data.identification"
+				td data-bind="text: $data.name"
+				td data-bind="text: $data.lastName"
+				td data-bind="text: $data.phoneNumber"
+				td data-bind="text: $data.email"
+				td data-bind="text: $data.address"
+				td data-bind="text: $data.counterOrders"
+				td data-bind="text: $root.activeTranslation($data.active)"
+				td
+					i.bordered.inverted.blue.pencil.link.icon
+					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
+		tfoot
+			tr
+				th colspan="10"
+					.ui.right.floated.pagination.menu
+						a.icon.item
+							i.left.chevron.icon
+						a.item 1
+						a.item 2
+						a.item 3
+						a.icon.item
+							i.right.chevron.icon
+
+script src="../javascripts/viewmodels/admin/admin.js"

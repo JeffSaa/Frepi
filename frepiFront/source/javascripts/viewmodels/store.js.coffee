@@ -32,6 +32,7 @@ class StoreVM extends TransactionalPageVM
 			else
 				console.log success
 				@session.categories(success)
+				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
 	fetchStoreSucursals: ->
@@ -41,6 +42,7 @@ class StoreVM extends TransactionalPageVM
 			else
 				console.log success
 				@session.sucursals(success)
+				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
 	profile: ->

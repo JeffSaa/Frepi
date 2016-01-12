@@ -42,6 +42,7 @@ class DeparmentVM extends TransactionalPageVM
 						console.log success
 						@subcategories(success)
 						@fetchProducts(@subcategories()[0])
+						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				)
 		)
 
@@ -53,6 +54,7 @@ class DeparmentVM extends TransactionalPageVM
 			else
 				console.log success
 				@setProductsToShow(success)
+				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
 	fetchStoreSucursals: ->
@@ -62,6 +64,7 @@ class DeparmentVM extends TransactionalPageVM
 			else
 				console.log success
 				@session.sucursals(success)
+				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
 	fetchProducts: (subcategory, clickedButton) =>
@@ -81,6 +84,7 @@ class DeparmentVM extends TransactionalPageVM
 			else
 				console.log success
 				@products(success)
+				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
 	profile: ->

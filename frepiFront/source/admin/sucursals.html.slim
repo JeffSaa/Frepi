@@ -1,0 +1,82 @@
+.ui.small.admin.delete.modal
+	.header Eliminar producto
+	.content		
+		p
+			|Está a punto de eliminar la sucursal 
+			strong data-bind="text: chosenSucursal.name"
+			|, al hacerlo se eliminará toda la información asociada a ella, como ordenes o productos ¿Desea hacerlo?
+	.actions
+		.ui.cancel.button
+			i.remove.icon
+			|No
+		.ui.green.button data-bind="click: deleteSucursal"
+			i.check.icon
+			|Si
+.ui.small.admin.create.modal
+	i.close.icon
+	.header Agregar sucursal
+	.content
+		form.ui.form data-bind="submit: createSucursal"
+			.field
+				label Nombre
+				input type="text" name="name" placeholder="Nombre"
+			.two.fields
+				.field
+					label Dirección
+					input type="text" name="address" placeholder="Dirección"
+				.field
+					label Teléfono
+					input type="text" name="phoneNumber" placeholder="Teléfono contacto"
+			.ui.divider
+			.field
+				label Administrador
+				.two.fields
+					.field
+						input type="text" name="managerFullName" placeholder="Nombre"
+					.field
+						input type="text" name="managerPhoneNumber" placeholder="Teléfono"			
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Crear Sucursal
+					i.checkmark.icon
+
+header
+	h2 Sucursales
+
+section.actions
+	button.ui.green.create.button
+		i.plus.icon
+		|Agregar sucursal
+
+section.content
+	table.ui.celled.table
+		thead
+			tr
+				th ID
+				th Nombre
+				th Dirección
+				th Teléfono
+				th Acciones
+		tbody data-bind="foreach: currentSucursals"
+			tr
+				td data-bind="text: $data.id"
+				td data-bind="text: $data.name"
+				td data-bind="text: $data.address"
+				td data-bind="text: $data.phoneNumber"
+				td
+					i.bordered.inverted.blue.pencil.link.icon
+					i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDelete"
+		tfoot
+			tr
+				th colspan="5"
+					.ui.right.floated.pagination.menu
+						a.icon.item
+							i.left.chevron.icon
+						a.item 1
+						a.item 2
+						a.item 3
+						a.icon.item
+							i.right.chevron.icon
+
+script src="../javascripts/viewmodels/admin/sucursals.js"

@@ -1,0 +1,67 @@
+.ui.small.admin.delete.modal
+	.header Eliminar Shopper
+	.content
+		p
+			|Está a punto de eliminar la orden #
+			strong data-bind="text: chosenOrder.id"
+			|, ¿Desea hacerlo?
+	.actions
+		.ui.cancel.button
+			i.remove.icon
+			|No
+		.ui.green.button data-bind="click: deleteOrder"
+			i.check.icon
+			|Si
+.ui.small.admin.see.products.modal
+	.header Lista de Productos
+	.content
+		ul data-bind="foreach: chosenOrder.products"
+			li data-bind="text: $data.product.name+' x '+$data.quantity"
+				|<!--ko text: $data.product.name--><!--/ko-->
+				.ui.teal.right.floated.label data-bind="text: $data.quantity"
+	.actions
+		.ui.green.ok.button
+			i.check.icon
+			|Ok
+header
+	h2 Ordenes
+
+section.content
+	table.ui.celled.table
+		thead
+			tr
+				th ID
+				th Cliente
+				th Dirección
+				th In-Store Shopper
+				th Delivery Shopper
+				th Estado
+				th Fecha
+				th Hora
+				th Acciones
+		tbody data-bind="foreach: currentOrders"
+			tr data-bind="css: {overdue: $root.isOverdue($data)}"
+				td data-bind="text: $data.id"
+				td data-bind="text: $data.user.name+' '+$data.user.lastName"
+				td data-bind="text: $data.address"
+				td data-bind="text: $root.getInStoreShopper($data.shopper)"
+				td data-bind="text: $root.getDeliveryShopper($data.shopper)"
+				td data-bind="text: $data.status, css: $data.status.toLowerCase()"
+				td data-bind="text: $root.parseDate($data.scheduledDate)"
+				td data-bind="text: $root.parseTime($data.expiryTime)"
+				td
+					i.bordered.inverted.olive.eye.link.icon data-bind="click: $root.showProducts"
+		tfoot
+			tr
+				th colspan="9"
+					.ui.right.floated.pagination.menu
+						a.icon.item
+							i.left.chevron.icon
+						a.item 1
+						a.item 2
+						a.item 3
+						a.icon.item
+							i.right.chevron.icon
+
+script src="../javascripts/plugins/moment+locales.min.js" type="text/javascript"
+script src="../javascripts/viewmodels/admin/orders.js" type="text/javascript"
