@@ -11,7 +11,9 @@ class window.RESTfulService
         success: ((data, status, xhr) ->
                   headers = 
                     accessToken: xhr.getResponseHeader('access-token')
+                    # totalItems: xhr.getResponseHeader('Total-Count')
                     client: xhr.getResponseHeader('client')
+                    # link: xhr.getResponseHeader('Link')
                     uid: xhr.getResponseHeader('uid')
                   callback(null, data, headers)),
         error: ((data) ->

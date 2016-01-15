@@ -11,6 +11,9 @@ class ProductsVM extends AdminPageVM
 			image: ko.observable()
 			name : ko.observable()
 			sucursalID : ko.observable()
+			frepiPrice : ko.observable()
+			storePrice : ko.observable()
+			subcategoryID : ko.observable()
 
 		# Methods to execute on instance
 		# @setExistingSession()
@@ -61,15 +64,16 @@ class ProductsVM extends AdminPageVM
 				$('.delete.modal').modal('hide')				
 		)
 
-	showEdit: (product) =>
+	showUpdate: (product) =>
 		@chosenProduct.image(product.image)
-		$('.edit.modal form')
+		$('.update.modal form')
 			.form('set values',
-					name 				: product.name
-					frepiPrice 	: product.frepiPrice
-					storePrice 	: product.storePrice
+					name 					: product.name
+					frepiPrice 		: product.frepiPrice
+					storePrice 		: product.storePrice
+					sucursalID 		: product.sucursal.id
 				)
-		$('.edit.modal').modal('show')
+		$('.update.modal').modal('show')
 
 	showDelete: (product) =>
 		console.log product
@@ -79,7 +83,11 @@ class ProductsVM extends AdminPageVM
 		$('.delete.modal').modal('show')
 
 	fetchProducts: ->
-		RESTfulService.makeRequest('GET', "/administrator/products", '', (error, success, headers) =>
+		@isLoading(true)
+		data =
+			page : 2
+
+		RESTfulService.makeRequest('GET', "/administrator/products", data, (error, success, headers) =>
 			@isLoading(false)
 			if error
 				console.log 'An error has ocurred while fetching the products!'
@@ -87,6 +95,8 @@ class ProductsVM extends AdminPageVM
 				console.log 'After fetching products'
 				console.log success
 				@currentProducts(success)
+				# console.log 'Fetched Link Headers'
+				# console.log headers.link
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
@@ -101,10 +111,10 @@ class ProductsVM extends AdminPageVM
 		)
 
 	fetchSubcategories: ->
-		categoryID = $('.create.modal form').form('get value', 'categoryID')
-		$('.create.modal .subcategory.dropdown').addClass('loading')
+		categoryID = $('.ui.modal form').form('get value', 'categoryID')
+		$('.ui.modal .subcategory.dropdown').addClass('loading')
 		RESTfulService.makeRequest('GET', "/categories/#{categoryID}/subcategories", '', (error, success, headers) =>
-			$('.create.modal .subcategory.dropdown').removeClass('loading')
+			$('.ui.modal .subcategory.dropdown').removeClass('loading')
 			if error
 				console.log 'An error has ocurred while fetching the subcategories!'
 			else
@@ -114,7 +124,7 @@ class ProductsVM extends AdminPageVM
 		)
 
 	fetchSucursals: ->
-		RESTfulService.makeRequest('GET', "/stores/1/sucursals", '', (error, success, headers) =>
+		RESTfulService.makeRequest('GET', "/stores/1/sucursals", {page: 1}, (error, success, headers) =>
 			if error
 				console.log 'An error has ocurred while updating the user!'
 			else
@@ -154,7 +164,7 @@ class ProductsVM extends AdminPageVM
 				})
 
 	setDOMProperties: ->
-		$('.ui.create.modal')
+		$('.ui.modal')
 			.modal(
 					onShow: =>
 						@fetchSucursals()
@@ -164,12 +174,12 @@ class ProductsVM extends AdminPageVM
 			.dimmer({
 					on: 'hover'
 				})
-		$('.create.modal .dropdown')
+		$('.ui.modal .dropdown')
 			.dropdown()
 
 	previewImage: (data, event) ->
 		console.log 'previewing'
-		$('.create.modal img')[0].src = URL.createObjectURL(event.target.files[0])
+		$('.ui.modal img')[0].src = URL.createObjectURL(event.target.files[0])
 
 	uploadProduct: =>
 		AWS.config.region = 'us-east-1'

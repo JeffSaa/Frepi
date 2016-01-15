@@ -24,10 +24,14 @@
 						input type="text" name="firstName" placeholder="Nombres"
 					.field
 						input type="text" name="lastName" placeholder="Apellidos"
-			.three.fields
+			.two.fields
 				.field
 					label CC
 					input type="text" name="cc" placeholder="Cédula de ciudadanía"
+				.field
+					label Dirección
+					input type="text" name="address" placeholder="Dirección"
+			.two.fields
 				.field
 					label Teléfono
 					input type="text" name="phoneNumber" placeholder="Teléfono"
@@ -46,11 +50,11 @@
 				button.ui.labeled.green.submit.icon.button type="submit"
 					|Crear Admin
 					i.checkmark.icon
-.ui.small.admin.edit.administrator.modal
+.ui.small.admin.update.modal
 	i.close.icon
-	.header Editar Administrador
+	.header Editar Usuario
 	.content
-		form.ui.form data-bind="submit: updateAdmin"
+		form.ui.form data-bind="submit: updateUser"
 			.field
 				label Nombre
 				.two.fields
@@ -58,23 +62,20 @@
 						input type="text" name="firstName" placeholder="Nombres"
 					.field
 						input type="text" name="lastName" placeholder="Apellidos"
-			.three.fields
+			.two.fields
 				.field
 					label CC
 					input type="text" name="cc" placeholder="Cédula de ciudadanía"
+				.field
+					label Dirección
+					input type="text" name="address" placeholder="Dirección"
+			.two.fields
 				.field
 					label Teléfono
 					input type="text" name="phoneNumber" placeholder="Teléfono"
 				.field
 					label Correo electrónico
 					input type="text" name="email" placeholder="Correo electrónico"
-			.field
-				label Contraseña
-				.two.fields
-					.field
-						input type="password" name="password" placeholder="Contraseña"
-					.field
-						input type="password" name="confirmationPassword" placeholder="Confirme contraseña"
 			.buttons-to-right
 				.ui.cancel.button Cancelar
 				button.ui.labeled.green.submit.icon.button type="submit"
@@ -151,7 +152,7 @@ section.content
 				td data-bind="text: $data.counterOrders"
 				td data-bind="text: $root.activeTranslation($data.active)"
 				td
-					i.bordered.inverted.blue.pencil.link.icon
+					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
 		tfoot
 			tr

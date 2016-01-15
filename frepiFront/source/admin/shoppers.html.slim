@@ -55,6 +55,49 @@
 					|Crear Shopper
 					i.checkmark.icon
 
+.ui.small.admin.update.modal
+	i.close.icon
+	.header Editar Shopper
+	.content
+		form.ui.form data-bind="submit: updateShopper"
+			.field
+				label Nombre
+				.two.fields
+					.field
+						input type="text" name="firstName" placeholder="Nombres"
+					.field
+						input type="text" name="lastName" placeholder="Apellidos"
+			.ui.divider
+			.two.fields
+				.field
+					label CC
+					input type="text" name="cc" placeholder="Cédula de ciudadanía"
+				.field
+					label Teléfono
+					input type="text" name="phoneNumber" placeholder="Teléfono"
+			.two.fields
+				.field
+					label Correo electrónico
+					input type="text" name="email" placeholder="Correo electrónico"
+				.field
+					label Tipo Shopper
+					.ui.selection.dropdown
+						input type="hidden" name="shopperType"
+						.default.text Tipo
+						i.dropdown.icon
+						.menu
+							.item data-value="IN-STORE"
+								i.male.icon
+								|In-Store
+							.item data-value="DELIVERY"
+								i.motorcycle.icon
+								|Delivery
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Crear Shopper
+					i.checkmark.icon
+
 header
 	h2 Shoppers
 
@@ -68,6 +111,7 @@ section.content
 		thead
 			tr
 				th ID
+				th CC
 				th Nombres
 				th Apellidos
 				th Teléfono
@@ -76,6 +120,7 @@ section.content
 				th Acciones
 		tbody data-bind="foreach: currentShoppers"
 			tr
+				td data-bind="text: $data.id"
 				td data-bind="text: $data.identification"
 				td data-bind="text: $data.firstName"
 				td data-bind="text: $data.lastName"
@@ -83,11 +128,11 @@ section.content
 				td data-bind="text: $data.email"
 				td data-bind="text: $data.shopperType"
 				td
-					i.bordered.inverted.blue.pencil.link.icon
+					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
 		tfoot
 			tr
-				th colspan="7"
+				th colspan="8"
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon

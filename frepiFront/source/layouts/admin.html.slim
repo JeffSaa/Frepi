@@ -8,6 +8,7 @@ html
 		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
 		/! Add semantic's CSS
 		link rel="stylesheet" type="text/css" href="../semantic/out/semantic.min.css"
+		link rel="stylesheet" type="text/css" href="../stylesheets/vendor/daterangepicker.min.css"
 		link rel="stylesheet" type="text/css" href="../stylesheets/frepi.css"
 		link rel="stylesheet" type="text/css" href="../stylesheets/responsive-frepi.css"
 
@@ -43,12 +44,15 @@ html
 						a.item href="../admin/products.html"
 							i.lemon.icon
 							|Productos
+						a.item href="../admin/performance.html"
+							i.bar.chart.icon
+							|Rendimiento
 						a.item href="../admin/shoppers.html"
 							i.users.icon
 							|Shoppers
 						a.item href="../admin/sucursals.html"
 							i.building.icon
-							|Sucursales						
+							|Sucursales				
 				.twelve.wide.column
 					.ui.active.inverted.dimmer data-bind="visible: isLoading"
 						.ui.text.loader Cargando

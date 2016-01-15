@@ -13,12 +13,15 @@
 			i.check.icon
 			|Si
 .ui.small.admin.see.products.modal
-	.header Lista de Productos
+	.header Detalles orden
 	.content
+		h4.ui.header Lista de productos
 		ul data-bind="foreach: chosenOrder.products"
 			li data-bind="text: $data.product.name+' x '+$data.quantity"
 				|<!--ko text: $data.product.name--><!--/ko-->
 				.ui.teal.right.floated.label data-bind="text: $data.quantity"
+		p
+			strong data-bind="text: 'Precio orden: $'+chosenOrder.totalPrice()"
 	.actions
 		.ui.green.ok.button
 			i.check.icon

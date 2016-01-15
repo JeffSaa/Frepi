@@ -24,10 +24,11 @@ class AdminsVM extends AdminPageVM
 		data =
 			email: $form.form('get value', 'email')
 			name: $form.form('get value', 'firstName')
+			address: $form.form('get value', 'address')
 			identification: $form.form('get value', 'cc')
 			lastName: $form.form('get value', 'lastName')
 			password: $form.form('get value', 'password')
-			phoneNumber: $form.form('get value', 'phoneNumber')			
+			phoneNumber: $form.form('get value', 'phoneNumber')
 			passwordConfirmation: $form.form('get value', 'confirmationPassword')
 
 		console.log data
@@ -46,7 +47,29 @@ class AdminsVM extends AdminPageVM
 						$('.create.modal').modal('hide')
 				)
 
-	updateAdmin: ->
+	updateUser: ->
+		$form = $('.update.modal form')
+		data =
+			email: $form.form('get value', 'email')
+			name: $form.form('get value', 'firstName')
+			address: $form.form('get value', 'address')
+			identification: $form.form('get value', 'cc')
+			lastName: $form.form('get value', 'lastName')
+			phoneNumber: $form.form('get value', 'phoneNumber')
+
+		if $form.form('is valid')
+			$('.update.modal form .green.button').addClass('loading')
+			RESTfulService.makeRequest('PUT', "/administrator/users/#{@chosenUser.id()}", data, (error, success, headers) =>
+					$('.update.modal form .green.button').removeClass('loading')
+					if error
+						console.log 'An error has ocurred in the creation of the admin.'
+						console.log error
+					else
+						console.log success
+						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+						$('.update.modal').modal('hide')
+						@fetchUsers()
+				)
 
 	deleteUser: =>
 		$('.delete.modal .green.button').addClass('loading')
@@ -70,6 +93,18 @@ class AdminsVM extends AdminPageVM
 		)
 
 	showUpdate: (user) =>
+		@chosenUser.id(user.id)
+		$('.update.modal form')
+			.form('set values',
+					email						: user.email
+					firstName				: user.name
+					lastName				: user.lastName
+					address					:	user.address
+					cc							: user.identification
+					password 				: user.password
+					phoneNumber			: user.phoneNumber
+				)
+		$('.update.modal').modal('show')
 
 	showDelete: (user) =>
 		@chosenUser.id(user.id)
@@ -78,7 +113,10 @@ class AdminsVM extends AdminPageVM
 		$('.delete.modal').modal('show')
 
 	fetchAdmins: =>
-		RESTfulService.makeRequest('GET', "/administrator/admins", '', (error, success, headers) =>
+		data =
+			page : 1
+
+		RESTfulService.makeRequest('GET', "/administrator/admins", data, (error, success, headers) =>
 			@isLoading(false)
 			if error
 				console.log 'An error has ocurred while fetching the admins!'
@@ -89,7 +127,11 @@ class AdminsVM extends AdminPageVM
 		)
 
 	fetchUsers: ->
-		RESTfulService.makeRequest('GET', "/administrator/users", '', (error, success, headers) =>
+		@isLoading(true)
+		data =
+			page : 1
+
+		RESTfulService.makeRequest('GET', "/administrator/users", data, (error, success, headers) =>
 			if error
 				console.log 'An error has ocurred while fetching the clients!'
 			else
@@ -103,7 +145,7 @@ class AdminsVM extends AdminPageVM
 		emptyRule =
 			type: 'empty'
 			prompt: 'No puede estar vacío'
-		$('.create.modal form')
+		$('.ui.modal form')
 			.form({
 					fields:
 						cc:
@@ -114,6 +156,9 @@ class AdminsVM extends AdminPageVM
 							rules: [emptyRule]
 						lastName:
 							identifier: 'lastName'
+							rules: [emptyRule]
+						address:
+							identifier: 'address'
 							rules: [emptyRule]
 						phoneNumber:
 							identifier: 'phoneNumber'

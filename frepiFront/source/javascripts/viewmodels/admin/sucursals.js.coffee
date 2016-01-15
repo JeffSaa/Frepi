@@ -38,6 +38,29 @@ class SucursalsVM extends AdminPageVM
 						$('.create.modal').modal('hide')
 				)
 
+	updateSucursal: ->
+		$form = $('.update.modal form')
+		data =
+			name: $form.form('get value', 'name')
+			address: $form.form('get value', 'address')
+			phoneNumber: $form.form('get value', 'phoneNumber')
+			managerFullName: $form.form('get value', 'managerFullName')
+			managerPhoneNumber: $form.form('get value', 'managerPhoneNumber')
+
+		if $form.form('is valid')
+			$('.update.modal form .green.button').addClass('loading')
+			RESTfulService.makeRequest('PUT', "/stores/1/sucursals/#{@chosenSucursal.id()}", data, (error, success, headers) =>
+					$('.update.modal form .green.button').removeClass('loading')
+					if error
+						console.log 'An error has ocurred in the creation of the admin.'
+						console.log error
+					else
+						console.log success
+						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+						$('.update.modal').modal('hide')
+						@fetchSucursals()
+				)
+
 	deleteSucursal: =>
 		$('.delete.modal .green.button').addClass('loading')
 		RESTfulService.makeRequest('DELETE', "/stores/1/sucursals/#{@chosenSucursal.id()}", '', (error, success, headers) =>
@@ -53,13 +76,30 @@ class SucursalsVM extends AdminPageVM
 				$('.delete.modal').modal('hide')				
 		)
 
+	showUpdate: (sucursal) =>
+		@chosenSucursal.id(sucursal.id)
+		@chosenSucursal.name(sucursal.name)
+		$('.update.modal form')
+			.form('set values',
+					name 								: sucursal.name
+					address							: sucursal.address
+					phoneNumber 				: sucursal.phoneNumber
+					managerFullName			: sucursal.managerFullName
+					managerPhoneNumber 	: sucursal.managerPhoneNumber
+				)
+		$('.update.modal').modal('show')
+
 	showDelete: (sucursal) =>
 		@chosenSucursal.id(sucursal.id)
 		@chosenSucursal.name(sucursal.name)
 		$('.delete.modal').modal('show')
 
 	fetchSucursals: ->
-		RESTfulService.makeRequest('GET', "/stores/1/sucursals", '', (error, success, headers) =>
+		@isLoading(true)
+		data =
+			page : 1
+
+		RESTfulService.makeRequest('GET', "/stores/1/sucursals", data, (error, success, headers) =>
 			@isLoading(false)
 			if error
 				console.log 'An error has ocurred while updating the user!'
@@ -73,7 +113,7 @@ class SucursalsVM extends AdminPageVM
 		emptyRule =
 			type: 'empty'
 			prompt: 'No puede estar vacío'
-		$('.create.modal form')
+		$('.ui.modal form')
 			.form({
 					fields:
 						name:

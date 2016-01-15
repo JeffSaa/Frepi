@@ -30,7 +30,10 @@ html
 					strong Instrucciones del cliente:  
 					span data-bind="text: selectedOrder.comment()"
 				p
-					strong Asignar a:
+					strong Valor orden:  
+					span data-bind="text: '$'+selectedOrder.totalPrice()"
+				p
+					strong Asignar a:  
 				.ui.selection.dropdown
 					input type="hidden"
 					i.dropdown.icon
@@ -64,7 +67,10 @@ html
 					strong Instrucciones del cliente:  
 					span data-bind="text: selectedOrder.comment()"
 				p
-					strong Asignar a:
+					strong Valor orden:  
+					span data-bind="text: '$'+selectedOrder.totalPrice()"
+				p
+					strong Asignar a:  
 				.ui.selection.dropdown
 					input type="hidden"
 					i.dropdown.icon
@@ -97,7 +103,10 @@ html
 					strong Instrucciones del cliente:  
 					span data-bind="text: selectedOrder.comment()"
 				p
-					strong Orden llevada por:
+					strong Valor orden:  
+					span data-bind="text: '$'+selectedOrder.totalPrice()"
+				p
+					strong Orden llevada por:  
 					span data-bind="text: deliveryShopperFullName"
 				.actions
 					button.ui.black.basic.button data-bind="click: finishOrder"
@@ -117,10 +126,13 @@ html
 					strong Instrucciones del cliente:  
 					span data-bind="text: selectedOrder.comment()"
 				p
+					strong Valor orden:  
+					span data-bind="text: '$'+selectedOrder.totalPrice()"
+				p
 					strong Orden comprada por:  
 					span data-bind="text: inStoreShopperFullName"
 				p
-					strong Orden llevada por:
+					strong Orden llevada por:  
 					span data-bind="text: deliveryShopperFullName"
 		// Tables for printing
 		/ Pre order
@@ -192,7 +204,7 @@ html
 						td data-bind="text: $data.quantity()"
 						td data-bind="text: $data.product.frepiPrice()"
 					tr data-bind="visible: $data.comment() != null"
-						td colspan="2"
+						td colspan="3"
 							strong Nota: 
 							span data-bind="text: $data.comment()"
 					<!-- /ko -->

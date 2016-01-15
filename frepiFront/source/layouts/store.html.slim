@@ -84,7 +84,7 @@ html
 		nav#mobile-menu.ui.vertical.left.sidebar.borderless.menu
 			h2 Frepi Menu
 			.item
-				img src="../images/landing/logoassd.png" alt="Frepi's logo"
+				img src="../images/landing/logoassd.png" alt="Frepi"
 			a.item href="index.html"
 				h4.ui.header
 					i.home.icon
@@ -133,7 +133,10 @@ html
 				.item
 					button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
 			.sign-up-banner data-bind="visible: session.signedUp"
-				p.ui.header Oops! Tienes que estar en tu cuenta
+				p.ui.header
+					|Oops! Tienes que estar en tu cuenta, 
+					a ingresa! 
+					| Si no tiene una, puedes:
 				button.ui.fluid.large.green.button Crea una cuenta
 				.ui.horizontal.divider o
 				button#login-fb.ui.fluid.large.labeled.icon.facebook.button
@@ -144,7 +147,7 @@ html
 				#store-primary-navbar.ui.fixed.inverted.menu
 					#store-frepi-logo
 						i.sidebar.icon
-						img.ui.image data-bind="click: store" src="../images/landing/logoassd.png" alt="Frepi's logo"
+						img.ui.image data-bind="click: store" src="../images/landing/logoassd.png" alt="Frepi"
 					#target-store
 						.item
 							.content

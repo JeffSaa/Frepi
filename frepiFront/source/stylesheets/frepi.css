@@ -682,8 +682,16 @@ nav.admin.menu #landing-logo img {
   margin: 0 .65em 0 0 !important;
 }
 
+.admin .daterange.input i {
+  margin: 0;
+}
+
 .admin tbody {
   font-size: 0.857142em;
+}
+
+.admin tbody .alert.box {
+  height: 15rem;
 }
 
 .admin tbody tr.overdue td {

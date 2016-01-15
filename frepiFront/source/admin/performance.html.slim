@@ -1,0 +1,61 @@
+.ui.small.admin.see.products.modal
+	.header Detalles orden
+	.content
+		h4.ui.header Lista de productos
+		ul data-bind="foreach: chosenOrder.products"
+			li data-bind="text: $data.product.name+' x '+$data.quantity"
+				|<!--ko text: $data.product.name--><!--/ko-->
+				.ui.teal.right.floated.label data-bind="text: $data.quantity"
+		p
+			strong data-bind="text: 'Precio orden: $'+chosenOrder.totalPrice()"
+	.actions
+		.ui.green.ok.button
+			i.check.icon
+			|Ok
+header
+	h2 Rendimiento
+
+section.content
+	article.products
+		h3 Productos
+		p
+			strong Selecciona un rango:
+		.ui.labeled.daterange.products.input
+			.ui.label
+				i.calendar.icon
+			input#products-daterange type="text" placeholder="Rango..."
+
+		table.ui.celled.table
+			thead
+				tr
+					th ID
+					th Nombre
+					th Precio Frepi
+					th Precio Tienda
+					th Unds Vendidas
+			tbody data-bind="foreach: currentProducts, visible: !shouldShowAlert()"
+				tr
+					td data-bind="text: $data.id"
+					td data-bind="text: $data.name"
+					td data-bind="text: $data.frepiPrice"
+					td data-bind="text: $data.storePrice"
+					td data-bind="text: $data.salesCount"
+			tbody data-bind="visible: shouldShowAlert"
+				tr 
+					td.alert.box colspan="5"
+						h4.ui.centered.header data-bind="text: alertText"
+			tfoot
+				tr
+					th colspan="5"
+						.ui.right.floated.pagination.menu
+							a.icon.item
+								i.left.chevron.icon
+							a.item 1
+							a.item 2
+							a.item 3
+							a.icon.item
+								i.right.chevron.icon
+
+script src="../javascripts/plugins/moment+locales.min.js" type="text/javascript"
+script src="../javascripts/plugins/daterangepicker.min.js" type="text/javascript"
+script src="../javascripts/viewmodels/admin/performance.js" type="text/javascript"

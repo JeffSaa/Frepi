@@ -70,7 +70,7 @@
 						|Crear Producto
 						i.checkmark.icon
 
-.ui.small.admin.edit.modal
+.ui.small.admin.update.modal
 	i.close.icon
 	.header Editar producto
 	.image.content
@@ -79,7 +79,7 @@
 				.content
 					.center
 						span.ui.basic.teal.file.button
-							|Subir imagen...
+							|Cambiar imagen...
 							input type='file' data-bind="event: {change: previewImage}"
 			img data-bind="attr: {src: chosenProduct.image}"
 		.description
@@ -156,7 +156,7 @@ section.content
 				td data-bind="text: $data.sucursal.name"
 				td data-bind="text: $data.salesCount"
 				td
-					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showEdit"
+					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDelete"
 		tfoot
 			tr

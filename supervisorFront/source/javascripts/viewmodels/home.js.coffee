@@ -194,12 +194,14 @@ class HomeVM
 	fetchOrders: (state) =>
 		@lastFetchedState = state
 		@loading(true)
+		data =
+			page : 1
 		
-		RESTfulService.makeRequest('GET', "/orders/#{state}", '', (error, success, headers) =>			
+		RESTfulService.makeRequest('GET', "/orders/#{state}", data, (error, success, headers) =>			
 			if error
 				console.log error
 			else
-				console.log success				
+				console.log success		
 				@activeOrders(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 
@@ -236,7 +238,9 @@ class HomeVM
 
 	refresh: ->
 		@loading(true)
-		RESTfulService.makeRequest('GET', "/orders/#{@lastFetchedState}", '', (error, success, headers) =>
+		data =
+			page : 1
+		RESTfulService.makeRequest('GET', "/orders/#{@lastFetchedState}", data, (error, success, headers) =>
 			if error
 				console.log error
 			else

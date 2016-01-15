@@ -34,11 +34,39 @@
 					.field
 						input type="text" name="managerFullName" placeholder="Nombre"
 					.field
-						input type="text" name="managerPhoneNumber" placeholder="Teléfono"			
+						input type="text" name="managerPhoneNumber" placeholder="Teléfono"
 			.buttons-to-right
 				.ui.cancel.button Cancelar
 				button.ui.labeled.green.submit.icon.button type="submit"
 					|Crear Sucursal
+					i.checkmark.icon
+.ui.small.admin.update.modal
+	i.close.icon
+	.header Editar sucursal
+	.content
+		form.ui.form data-bind="submit: updateSucursal"
+			.field
+				label Nombre
+				input type="text" name="name" placeholder="Nombre"
+			.two.fields
+				.field
+					label Dirección
+					input type="text" name="address" placeholder="Dirección"
+				.field
+					label Teléfono
+					input type="text" name="phoneNumber" placeholder="Teléfono contacto"
+			.ui.divider
+			.field
+				label Administrador
+				.two.fields
+					.field
+						input type="text" name="managerFullName" placeholder="Nombre"
+					.field
+						input type="text" name="managerPhoneNumber" placeholder="Teléfono"
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Editar Sucursal
 					i.checkmark.icon
 
 header
@@ -57,6 +85,8 @@ section.content
 				th Nombre
 				th Dirección
 				th Teléfono
+				th Manager
+				th Tel Manager
 				th Acciones
 		tbody data-bind="foreach: currentSucursals"
 			tr
@@ -64,12 +94,14 @@ section.content
 				td data-bind="text: $data.name"
 				td data-bind="text: $data.address"
 				td data-bind="text: $data.phoneNumber"
+				td data-bind="text: $data.managerFullName"
+				td data-bind="text: $data.managerPhoneNumber"
 				td
-					i.bordered.inverted.blue.pencil.link.icon
+					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDelete"
 		tfoot
 			tr
-				th colspan="5"
+				th colspan="7"
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon

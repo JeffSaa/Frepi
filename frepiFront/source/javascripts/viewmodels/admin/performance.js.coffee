@@ -1,35 +1,22 @@
-class OrdersVM extends AdminPageVM
+class PerformanceVM extends AdminPageVM
 	constructor: ->
 		super()
-		@shouldShowError = ko.observable(false)
-		@currentOrders = ko.observableArray()
+		@alertText = ko.observable('Seleccione un rango de búsqueda')
+		@shouldShowAlert = ko.observable(true)
+		@currentProducts = ko.observableArray()
+		@currentShoppers = ko.observableArray()
 		@chosenOrder =
 			id : ko.observable()
 			totalPrice : ko.observable()
 			products : ko.observableArray()
 
 		# Methods to execute on instance
+		
 		# @setExistingSession()
 		# @setorderInfo()
-		@fetchOrders()
-		@setRulesValidation()
+		# @fetchOrders()
+		# @setRulesValidation()
 		@setDOMProperties()
-
-	deleteOrder: =>
-		$('.delete.modal .green.button').addClass('loading')
-		RESTfulService.makeRequest('DELETE', "/orders/#{@chosenOrder.id()}", '', (error, success, headers) =>
-			$('.delete.modal .green.button').removeClass('loading')
-			if error
-				console.log 'An error has ocurred while fetching the subcategories!'
-			else
-				console.log success
-				@currentOrders.remove( (order) =>
-							return order.id is @chosenOrder.id()
-						)
-					
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')				
-		)
 
 	showDelete: (order) =>
 		@chosenOrder.id(order.id)
@@ -40,19 +27,29 @@ class OrdersVM extends AdminPageVM
 		@chosenOrder.totalPrice(order.totalPrice)
 		$('.see.products.modal').modal('show')
 
-	fetchOrders: ->
+	fetchProductsStatistics: (startDate, endDate) ->
+		@isLoading(true)
 		data =
+			start_date : startDate
+			end_date : endDate
 			page : 1
-			
-		RESTfulService.makeRequest('GET', "/orders", data, (error, success, headers) =>
-			@isLoading(false)
-			if error
-				console.log 'An error has ocurred while fetching the orders!'
-			else
-				console.log success
-				@currentOrders(success)
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-		)
+
+		RESTfulService.makeRequest('GET', '/administrator/statistics/products', data, (error, success, headers) =>
+				@isLoading(false)
+				if error
+					console.log 'An error has ocurred while fetching products statistics'
+				else
+					console.log 'Products statistics fetching done'
+					console.log success
+					if success.length > 0
+						@currentProducts(success)
+						@shouldShowAlert(false)
+					else
+						@shouldShowAlert(true)
+						@alertText('No hubo ventas en el rango escogido')
+					
+					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+			)
 
 	getInStoreShopper: (shoppers) ->
 		if shoppers.length > 0
@@ -115,8 +112,21 @@ class OrdersVM extends AdminPageVM
 				})
 
 	setDOMProperties: ->
-		$('.create.modal .dropdown')
-			.dropdown()
+		@isLoading(false)
+		# $('.create.modal .dropdown')
+		# 	.dropdown()
+		$('#products-daterange')
+			.daterangepicker(
+					applyClass : 'positive'
+					cancelClass : 'cancel'
+				)
+			.on('cancel.daterangepicker', (ev, picker) ->
+					$('#products-daterange').val = ''
+				)
+			.on('apply.daterangepicker', (ev, picker) =>
+					@fetchProductsStatistics(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'))
+				)
 
-orders = new OrdersVM
-ko.applyBindings(orders)
+
+performance = new PerformanceVM
+ko.applyBindings(performance)

@@ -20,7 +20,7 @@ class ShoppersVM extends AdminPageVM
 			email: $form.form('get value', 'email')
 			identification: $form.form('get value', 'cc')
 			lastName: $form.form('get value', 'lastName')
-			firstName: $form.form('get value', 'firstName')			
+			firstName: $form.form('get value', 'firstName')
 			phoneNumber: $form.form('get value', 'phoneNumber')
 			shopperType: $form.form('get value', 'shopperType')
 
@@ -40,6 +40,30 @@ class ShoppersVM extends AdminPageVM
 						$('.create.modal').modal('hide')
 				)
 
+	updateShopper: ->
+		$form = $('.update.modal form')
+		data =
+			email: $form.form('get value', 'email')
+			identification: $form.form('get value', 'cc')
+			lastName: $form.form('get value', 'lastName')
+			firstName: $form.form('get value', 'firstName')
+			phoneNumber: $form.form('get value', 'phoneNumber')
+			shopperType: $form.form('get value', 'shopperType')
+
+		if $form.form('is valid')
+			$('.update.modal form .green.button').addClass('loading')
+			RESTfulService.makeRequest('PUT', "/shoppers/#{@chosenShopper.id()}", data, (error, success, headers) =>
+					$('.update.modal form .green.button').removeClass('loading')
+					if error
+						console.log 'An error has ocurred in the creation of the admin.'
+						console.log error
+					else
+						console.log success
+						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+						$('.update.modal').modal('hide')
+						@fetchShoppers()
+				)
+
 	deleteShopper: =>
 		$('.delete.modal .green.button').addClass('loading')
 		RESTfulService.makeRequest('DELETE', "/shoppers/#{@chosenShopper.id()}", '', (error, success, headers) =>
@@ -55,13 +79,30 @@ class ShoppersVM extends AdminPageVM
 				$('.delete.modal').modal('hide')				
 		)
 
+	showUpdate: (shopper) =>
+		@chosenShopper.id(shopper.id)
+		$('.update.modal form')
+			.form('set values',
+					email					: shopper.email
+					cc 				 	  : shopper.identification
+					lastName		  : shopper.lastName
+					firstName			: shopper.firstName
+					phoneNumber 	: shopper.phoneNumber
+					shopperType		: shopper.shopperType
+				)
+		$('.update.modal').modal('show')
+
 	showDelete: (shopper) =>
 		@chosenShopper.id(shopper.id)
 		@chosenShopper.name(shopper.firstName+' '+shopper.lastName)
 		$('.delete.modal').modal('show')
 
 	fetchShoppers: ->
-		RESTfulService.makeRequest('GET', "/shoppers", '', (error, success, headers) =>
+		@isLoading(true)
+		data =
+			page : 1
+
+		RESTfulService.makeRequest('GET', "/shoppers", data, (error, success, headers) =>
 			@isLoading(false)
 			if error
 				console.log 'An error has ocurred while fetching the shoppers!'
@@ -75,7 +116,7 @@ class ShoppersVM extends AdminPageVM
 		emptyRule =
 			type: 'empty'
 			prompt: 'No puede estar vacío'
-		$('.create.modal form')
+		$('.ui.modal form')
 			.form({
 					fields:
 						cc:
@@ -93,7 +134,7 @@ class ShoppersVM extends AdminPageVM
 						email:
 							identifier: 'email'
 							rules: [
-								emptyRule, {
+								{
 									type: 'email'
 									prompt: 'Ingrese un email válido'
 								}
@@ -106,7 +147,7 @@ class ShoppersVM extends AdminPageVM
 				})
 
 	setDOMProperties: ->
-		$('.create.modal .dropdown')
+		$('.ui.modal .dropdown')
 			.dropdown()
 
 	setSizeSidebar: ->
