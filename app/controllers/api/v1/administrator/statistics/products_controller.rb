@@ -6,16 +6,16 @@ class Api::V1::Administrator::Statistics::ProductsController < Api::V1::ApiContr
   def index
     if params[:start_date] || params[:end_date]
 
-      orders = Order.where("status > ? AND active = ?", 0, true ).where("shopping_at >= ? AND shopping_at <= ?", params[:start_date], params[:end_date])
+      orders = Order.where("status > ? AND active = ?", 0, true).where("shopping_at >= ? AND shopping_at <= ?", params[:start_date], params[:end_date])
       products = Hash.new(0)
-      orders.each do |order|
-        quantities = Hash.new(0)
-        order.orders_products.each { |order| quantities[order.product_id] += order.quantity }
 
-        quantities.each { |product, quantity|  products[product] += quantity }
+      orders.each do |order|
+        order.orders_products.each { |order| products[order.product] += order.quantity }
       end
 
-      render json: products, serializer: StatisticsSerializer
+      products = products.sort_by { |product, quantity| product.sales_count = quantity; quantity }.reverse.to_h.keys
+
+      render json: products, each_serializer: ProductSerializer
     else
       head(:bad_request)
     end
