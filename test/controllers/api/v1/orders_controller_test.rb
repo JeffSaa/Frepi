@@ -3,6 +3,41 @@ require 'faker'
 
 class  Api::V1::OrdersControllerTest < ActionController::TestCase
 
+  # ------------------ Core functionality ------------------ #
+
+  # NOTE: prices -> Jhonny: 13450, Jack: 20000
+  test "A costumer buy products" do
+    quantity_jhonny = Product.find(products(:johnny).id).sales_count
+    quantity_jack = Product.find(products(:jack).id).sales_count
+
+    sign_in :user, users(:user)
+    post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 3 }, { id: products(:jack).id, quantity: 2 } ], arrival_time: "14:00", expiry_time: "16:00", scheduled_date: "2016-11-06"
+    response = JSON.parse(@response.body)
+
+    assert_equal(13450 * 3 + 20000 * 2, response['totalPrice'].to_f)
+    assert_equal(true, response['active'])
+    assert_match("RECEIVED", response['status'])
+    assert_equal(quantity_jhonny + 3, Product.find(products(:johnny).id).sales_count)
+    assert_equal(quantity_jack + 2, Product.find(products(:jack).id).sales_count)
+  end
+
+  # NOTE: Review fixture for more information about this test.
+  test "A costumer cancel a order" do
+    quantity_jhonny = Product.find(products(:johnny).id).sales_count
+    quantity_jack = Product.find(products(:jack).id).sales_count
+
+    sign_in :user, users(:user)
+    delete :destroy, user_id: users(:user).id, id: orders(:two).id
+
+    response = JSON.parse(@response.body)
+
+    assert_equal(false, response['active'])
+    assert_equal(quantity_jhonny - 4, Product.find(products(:johnny).id).sales_count)
+    assert_equal(quantity_jack - 2, Product.find(products(:jack).id).sales_count)
+    assert_response :ok
+  end
+
+
   # ---------------- Index --------------------- #
   test "Shoppers and anyone should not index the orders of a costumer" do
     get :index, user_id: users(:user).id

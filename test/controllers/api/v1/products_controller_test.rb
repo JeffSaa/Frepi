@@ -113,11 +113,11 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
 
   test "only administrator should destroy a subcategory" do
     sign_in :user, users(:admin)
+    delete :destroy, id: products(:jack).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
+    response = JSON.parse(@response.body)
+    assert_equal(false, response['available'])
 
-    assert_difference('Product.count', -1) do
-      delete :destroy, id: products(:jack).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
-      assert_response :ok
-    end
+    assert_response :ok
   end
 
 

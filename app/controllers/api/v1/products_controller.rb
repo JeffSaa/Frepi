@@ -38,7 +38,7 @@ class  Api::V1::ProductsController < Api::V1::ApiController
       response.push << json
     end
 =end
-    render(json: Product.all, serializer: nil)
+    render(json: Product.where(available: true), serializer: nil)
   end
 
   def show
@@ -65,7 +65,8 @@ class  Api::V1::ProductsController < Api::V1::ApiController
   end
 
   def destroy
-    @product.destroy
+    @product.available = false
+    @product.save
     render(json: @product)
   end
 

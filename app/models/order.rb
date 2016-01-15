@@ -12,12 +12,12 @@ class Order < ActiveRecord::Base
   # Associations
   belongs_to  :user, counter_cache: :counter_orders
   has_many    :shopper, through: :shoppers_order
-  has_many    :shoppers_order,  dependent: :delete_all
   has_many    :sucursals, through: :products
   has_many    :products, through: :orders_products
   has_many    :schedules, through: :orders_schedules
-  has_many    :orders_products, dependent: :delete_all
-  has_many    :orders_schedules, dependent: :delete_all
+  has_many    :shoppers_order,  dependent: :destroy
+  has_many    :orders_products, dependent: :destroy
+  has_many    :orders_schedules, dependent: :destroy
 
   # Validations
   validates :user, :total_price, :scheduled_date, :expiry_time, :arrival_time, presence: true

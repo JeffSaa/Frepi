@@ -6,6 +6,12 @@ one:
 
 two:
   order_id: 2
+  product_id: 1
+  acquired: true
+  quantity: 4
+
+three:
+  order_id: 2
   product_id: 2
   acquired: true
-  quantity: 1
+  quantity: 2

@@ -6,7 +6,7 @@ class Sucursal < ActiveRecord::Base
   has_many   :categories,         through: :subcategories
   has_many   :subcategories,      through: :products
   has_many   :distances,          dependent: :delete_all
-  has_many   :sucursals_products, dependent: :delete_all
+  has_many   :sucursals_products, dependent: :destroy
   has_many   :orders
 
   # Validations
