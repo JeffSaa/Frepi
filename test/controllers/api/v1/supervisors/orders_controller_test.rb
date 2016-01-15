@@ -13,7 +13,6 @@ class  Api::V1::Supervisors::OrdersControllerTest < ActionController::TestCase
     post :create, shopper_id: shoppers(:shopper).id, order_id: orders(:two)
     response = JSON.parse(@response.body)
 
-    p response
     assert_equal(total, response['totalPrice'].to_f)
     assert_equal(true, response['active'])
     assert_match("SHOPPING", response['status'])

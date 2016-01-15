@@ -11,3 +11,4 @@ shopper:
   phone_number: MyString
   status: active
   shopper_type: IN-STORE
+  taken_orders_count: 1

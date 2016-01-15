@@ -123,19 +123,20 @@ ActiveRecord::Schema.define(version: 20) do
   end
 
   create_table "shoppers", force: :cascade do |t|
-    t.string   "first_name",                                              null: false
-    t.string   "last_name",                                               null: false
-    t.string   "identification",                                          null: false
-    t.string   "phone_number",                                            null: false
-    t.integer  "shopper_type",                                            null: false
-    t.string   "email",                                                   null: false
-    t.boolean  "active",                                   default: true, null: false
-    t.integer  "status",                                   default: 0
+    t.string   "first_name",                                                  null: false
+    t.string   "last_name",                                                   null: false
+    t.string   "identification",                                              null: false
+    t.string   "phone_number",                                                null: false
+    t.integer  "shopper_type",                                                null: false
+    t.string   "email",                                                       null: false
+    t.boolean  "active",                                       default: true, null: false
+    t.integer  "taken_orders_count",                           default: 0,    null: false
+    t.integer  "status",                                       default: 0
     t.string   "address"
     t.string   "company_email"
     t.string   "image"
-    t.decimal  "latitude",       precision: 15, scale: 10
-    t.decimal  "longitude",      precision: 15, scale: 10
+    t.decimal  "latitude",           precision: 15, scale: 10
+    t.decimal  "longitude",          precision: 15, scale: 10
     t.integer  "city_id"
     t.datetime "created_at"
     t.datetime "updated_at"

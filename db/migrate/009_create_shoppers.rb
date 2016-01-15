@@ -3,14 +3,15 @@ class CreateShoppers < ActiveRecord::Migration
     create_table :shoppers do |t|
 
       # User Info
-      t.string  :first_name,        null: false
-      t.string  :last_name,         null: false
-      t.string  :identification,    null: false
-      t.string  :phone_number,      null: false
-      t.integer :shopper_type,      null: false
-      t.string  :email,             null: false
-      t.boolean :active,            null: false, default: true
-      t.integer :status,            default: 0
+      t.string  :first_name,         null: false
+      t.string  :last_name,          null: false
+      t.string  :identification,     null: false
+      t.string  :phone_number,       null: false
+      t.integer :shopper_type,       null: false
+      t.string  :email,              null: false
+      t.boolean :active,             null: false, default: true
+      t.integer :taken_orders_count, default: 0, null: false
+      t.integer :status,             default: 0
       t.string  :address
       t.string  :company_email
       t.string  :image

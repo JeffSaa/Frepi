@@ -92,6 +92,7 @@ class Order < ActiveRecord::Base
     shoppers.each do |shopper|
       shopper_order = self.shoppers_order.where(shopper_id: shopper['old_shopper']).first
       if shopper_order
+        shopper_order.shopper.decrement!(:taken_orders_count)
         shopper_order.shopper_id = shopper['new_shopper']
         shopper_order.save
         self.save
@@ -105,7 +106,7 @@ class Order < ActiveRecord::Base
   def delete_order
     self.active = false
     User.decrement_counter(:counter_orders, self.user.id)
-    self.orders_products.each { |order| order.decrement_counter }
+    self.orders_products.each { |order| order.decrement_counter } if self.status == 'RECEIVED'
     self.save
   end
 

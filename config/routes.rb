@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
         namespace :statistics do
           resources :products, only: :index
+          resources :shoppers, only: :index
         end
 
       end
@@ -74,11 +75,6 @@ Rails.application.routes.draw do
 
       # Explore
       get 'subcategories/:subcategory_id/products', to: 'explore_products#index'
-
-      # namespace :orders, path: '' do
-        # resources :orders, only: :index
-      # end
-
     end
   end
 

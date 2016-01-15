@@ -1,7 +1,6 @@
 class Api::V1::Administrator::Statistics::ProductsController < Api::V1::ApiController
 
-  skip_before_action  :authenticate_supervisor!
-  skip_before_action  :authenticate_user!, :require_administrator
+  skip_before_action :authenticate_supervisor!
 
   def index
     if params[:start_date] && params[:end_date] && params[:page]

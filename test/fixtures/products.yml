@@ -6,7 +6,7 @@ johnny:
   frepi_price: 13450
   image: MyString
   available: true
-  sales_count: 3
+  sales_count: 7
   subcategory_id: 1
 
 jack:
@@ -17,5 +17,5 @@ jack:
   frepi_price: 20000
   image: MyString
   available: true
-  sales_count: 1
+  sales_count: 2
   subcategory_id: 1
