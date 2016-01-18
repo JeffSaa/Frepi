@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  # Api connection
+  # Api cross Origin
   match '/api/v1/*path' => 'application#handle_options_request', constraints: { method: 'OPTIONS'}, via: :options
 
   # Devise
@@ -40,6 +40,7 @@ Rails.application.routes.draw do
         namespace :statistics do
           resources :products, only: :index
           resources :shoppers, only: :index
+          resources :earnings, only: :index
         end
 
       end

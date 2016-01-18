@@ -14,6 +14,13 @@ class Sucursal < ActiveRecord::Base
   validates :latitude, :longitude, numericality: true, allow_nil: true
   validates :name, uniqueness: { scope: :store_partner_id }
 
+  # Virtual Attributes
+  attr_accessor :earnings, :total_sold_frepi_price, :total_sold_store_price
+  after_initialize :assign_values
+
+  def assign_values
+    self.earnings = self.total_sold_frepi_price =  self.total_sold_store_price  = 0
+  end
   # Geocode
   #reverse_geocoded_by :latitude, :longitude
 
