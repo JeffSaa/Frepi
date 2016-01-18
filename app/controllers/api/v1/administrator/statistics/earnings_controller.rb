@@ -1,6 +1,8 @@
 class Api::V1::Administrator::Statistics::EarningsController < Api::V1::ApiController
 
   skip_before_action  :authenticate_supervisor!
+  skip_before_action :authenticate_user!, :require_administrator
+
 
   def index
 
@@ -29,7 +31,7 @@ class Api::V1::Administrator::Statistics::EarningsController < Api::V1::ApiContr
       end
 
       set_pagination_headers :sucursals
-      render json: @sucursals, each_serializer: SucursalSerializer
+      render json: @sucursals, each_serializer: SucursalSerializer, serializer_params: { show: true }
 
     else
       render json: { error: "param 'page' or 'start_date' or 'end_date' has not been found" }, status: :bad_request
