@@ -1,5 +1,5 @@
 class CheckoutVM
-	constructor: ->   
+	constructor: ->
 		# Observables
 		constructor: ->
 		@session =
@@ -24,7 +24,7 @@ class CheckoutVM
 		@availableDays = ko.observableArray()
 		@availableHours = ko.observableArray()
 		@userName = ko.observable()
-		@comment = ko.observable()		
+		@comment = ko.observable()
 		@address = ko.observable(@user.address)
 		@setDOMElements()
 		@setOrderToPay()
@@ -33,19 +33,27 @@ class CheckoutVM
 		console.log @availableDateTime
 
 	seeDeliveryRight: ->
+		$('#products-icon').removeClass('active')
+		$('#delivery-icon').addClass('active')
 		$('#products').transition('fade right')
 		$('#delivery').transition('fade left')
 
 	seeDeliveryLeft: ->
+		$('#confirm-icon').removeClass('active')
+		$('#delivery-icon').addClass('active')
 		$('#confirm').transition('fade left')
 		$('#delivery').transition('fade right')
 
 	seeProducts: ->
+		$('#delivery-icon').removeClass('active')
+		$('#products-icon').addClass('active')
 		$('#products').transition('fade right')
 		$('#delivery').transition('fade left')
 
 	seeConfirm: ->
 		if !!@selectedDay() and !!@selectedHour() and !!@address()
+			$('#delivery-icon').removeClass('active')
+			$('#confirm-icon').addClass('active')
 			$('#delivery').transition('fade right')
 			$('#confirm').transition('fade left')
 
@@ -66,7 +74,7 @@ class CheckoutVM
 					id: product.id
 					quantity: product.quantity
 				})
-		
+
 		data =
 			comment 				: @comment()
 			products 				:	productsToSend
@@ -86,7 +94,7 @@ class CheckoutVM
 					), 2500)
 				console.log success
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-		)		
+		)
 
 	goToProfile: ->
 		Config.setItem('showOrders', 'false')
@@ -112,7 +120,7 @@ class CheckoutVM
 		if !!@selectedDay()
 			@availableHours(@selectedDay().availableHours)
 			@selectedDate(@selectedDay().date)
-		else	
+		else
 			@availableHours([])
 			@selectedDate('')
 
@@ -120,7 +128,7 @@ class CheckoutVM
 		if !!@selectedHour()
 			expireHour = moment(@selectedHour(), 'H:mm').add(1, 'hours')
 			@selectedExpiredHour(expireHour.format('H:mm'))
-		
+
 
 	setAvailableDeliveryDateTime: =>
 		if moment().hours() > 8 and moment().hours() < 22
@@ -130,13 +138,13 @@ class CheckoutVM
 		tomorrow = moment().add(1, 'days').hours(8).minutes(0)
 		aftertomorrow = moment().add(2, 'days').hours(8).minutes(0)
 		@availableDateTime =
-			today: 
+			today:
 				date: today.format('YYYY-MM-DD')
 				availableHours: @generateAvailableHours(today)
-			tomorrow: 
+			tomorrow:
 				date: tomorrow.format('YYYY-MM-DD')
 				availableHours: @generateAvailableHours(tomorrow)
-			aftertomorrow: 
+			aftertomorrow:
 				date: aftertomorrow.format('YYYY-MM-DD')
 				availableHours: @generateAvailableHours(aftertomorrow)
 

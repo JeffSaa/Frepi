@@ -38,7 +38,7 @@ html
 					i.sidebar.icon
 					.content Departamentos
 			.items data-bind="foreach: session.categories"
-				a.item 
+				a.item
 					.header data-bind="text: $data.name"
 		.pusher
 			header
@@ -68,10 +68,10 @@ html
 								.divider
 								.item data-bind="click: logout"
 									i.sign.out.icon
-									|Salir			
+									|Salir
 					#shopping-cart
 						i.circular.inverted.orange.shop.icon
-	
+
 			#store-secondary-navbar.ui.fixed.borderless.checkout.menu
 				.item
 					button.ui.basic.grey.button
@@ -95,17 +95,17 @@ html
 						|Orden creada!
 					.steps-wrapper
 						.ui.steps
-							.active.step
+							.active.step#products-icon
 								i.shop.icon
 								.content
 									.title Productos
 									.description Verifica los productos
-							.step
+							.step#delivery-icon
 								i.truck.icon
 								.content
 									.title Entrega
 									.description Detalles de envío
-							.step
+							.step#confirm-icon
 								i.thumbs.outline.up.icon
 								.content
 									.title Confirmar
@@ -192,14 +192,14 @@ html
 									.ui.button.right.floated data-bind="click: cancel" Cancelar
 
 			footer
-				p © 2015 Frepi, inc. Todos los derechos reservados.	
-						
+				p © 2015 Frepi, inc. Todos los derechos reservados.
+
 		script src="javascripts/knockout.js"
 		script src="javascripts/plugins/crypto-js.min.js"
 		script src="javascripts/plugins/ko-mapping.min.js"
 		script src="javascripts/plugins/moment.min.js"
 		script src="javascripts/jquery/jquery-2.1.4.min.js"
-		script src="semantic/out/semantic.min.js"		
+		script src="semantic/out/semantic.min.js"
 		script src="javascripts/classes/encrypter.js"
 		script src="javascripts/classes/config.js"
 		script src="javascripts/classes/RESTfulService.js"
