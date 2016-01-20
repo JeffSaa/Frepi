@@ -93,15 +93,19 @@
 				.ui.centered.header Estados de orden
 				#status
 					.first.row
-						.ui.yellow.label C
-						span Comprando
-						.ui.teal.label R
-						span Recibida
+						div.status-tag
+							.ui.yellow.label C
+							span Comprando
+						div.status-tag
+							.ui.green.label E
+							span Entregada
 					.second.row
-						.ui.olive.label E
-						span En camino
-						.ui.green.label E
-						span Entregada
+						div.status-tag
+							.ui.olive.label E
+							span En camino
+						div.status-tag
+							.ui.teal.label R
+							span Recibida
 			table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
 				thead
 					tr
