@@ -110,14 +110,12 @@
 				thead
 					tr
 						th.three.wide Fecha
-						th.four.wide Hora
-						th.four.wide Productos
-						th.three.wide Valor($)
+						th.nine.wide Productos
+						th.two.wide Valor($)
 						th.two.wide Estado
 				tbody data-bind="foreach: currentOrders"
 					tr
-						td data-bind="text: $data.scheduledDate"
-						td data-bind="text: $data.arrivalTime"
+						td data-bind="text: $root.DateFormatter($data.date)"
 						td data-bind="text: $data.products"
 						td data-bind="text: $data.totalPrice"
 						/ td.center.aligned
@@ -131,4 +129,6 @@
 							.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status.toLowerCase()"
 			.ui.centered.header data-bind="visible: showEmptyMessage" No hay pedidos registrados
 
+
+script src="../javascripts/plugins/moment+locales.min.js"
 script src="../javascripts/viewmodels/profile.js"
