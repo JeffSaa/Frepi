@@ -58,7 +58,7 @@ class SignUpVM
 											last_name: responseAPI.last_name
 											image: responseAPI.picture.data.url
 											uid: responseAPI.id
-										
+
 										console.log responseAPI
 										RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBcredentials, (error, success, headers) =>
 												if error
@@ -95,13 +95,13 @@ class SignUpVM
 
 	setDOMElements: ->
 		$('.ui.form').form(
-				fields: 
+				fields:
 					firstName:
 						identifier: 'firstName'
 						rules: [
 							{
 								type: 'empty'
-								prompt: 'Por favor digite un nombre'
+								prompt: 'Por favor digite su nombre'
 							}
 						]
 					lastName:
@@ -109,7 +109,7 @@ class SignUpVM
 						rules: [
 							{
 								type: 'empty'
-								prompt: 'Por favor digite un usuario'
+								prompt: 'Por favor digite su apellido'
 							}
 						]
 					email:
@@ -117,7 +117,7 @@ class SignUpVM
 						rules: [
 							{
 								type: 'empty'
-								prompt: 'Por favor digite un usuario'
+								prompt: 'Por favor digite un email'
 							}, {
 								type: 'email'
 								prompt: 'Por favor digite un e-mail válido'
