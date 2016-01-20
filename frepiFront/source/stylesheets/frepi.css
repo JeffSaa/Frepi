@@ -1,4 +1,15 @@
 
+/* Home Page Styles */
+
+.header-padding {
+  
+}
+
+#slider {
+  background-color: pink;
+  height: 80%;
+}
+
 /* Generic rules */
 html.ios, html.ios body {
   height: 100% !important;
@@ -661,6 +672,10 @@ nav.admin.menu #landing-logo img {
   min-width: 7em;
 }
 
+.admin article {
+  margin: 0 0 3em 0;
+}
+
 .admin.content {
   padding-top: 8.571428em;
   width: 90%;
@@ -680,6 +695,10 @@ nav.admin.menu #landing-logo img {
 
 .admin .vertical.menu i {
   margin: 0 .65em 0 0 !important;
+}
+
+.admin .pagination .pages.item {
+  padding: 0;
 }
 
 .admin .daterange.input i {

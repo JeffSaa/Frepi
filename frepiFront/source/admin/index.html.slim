@@ -103,7 +103,7 @@ section.content
 				th Teléfono
 				th E-mail
 				th Acciones
-		tbody data-bind="foreach: currentAdmins"
+		tbody data-bind="foreach: currentAdmins, visible: !shouldShowAdminsAlert()"
 			tr
 				td data-bind="text: $data.id"
 				td data-bind="text: $data.identification"
@@ -114,6 +114,10 @@ section.content
 				td
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
+		tbody data-bind="visible: shouldShowAdminsAlert"
+				tr 
+					td.alert.box colspan="7"
+						h4.ui.centered.header data-bind="text: adminsAlertText"
 		tfoot
 			tr
 				th colspan="7"
@@ -140,7 +144,7 @@ section.content
 				th # Pedidos
 				th Activo
 				th Acciones
-		tbody data-bind="foreach: currentUsers"
+		tbody data-bind="foreach: currentUsers, visible: !shouldShowUsersAlert()"
 			tr
 				td data-bind="text: $data.id"
 				td data-bind="text: $data.identification"
@@ -154,6 +158,10 @@ section.content
 				td
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
+		tbody data-bind="visible: shouldShowUsersAlert"
+				tr 
+					td.alert.box colspan="10"
+						h4.ui.centered.header data-bind="text: usersAlertText"
 		tfoot
 			tr
 				th colspan="10"

@@ -118,7 +118,7 @@ section.content
 				th E-mail
 				th Tipo
 				th Acciones
-		tbody data-bind="foreach: currentShoppers"
+		tbody data-bind="foreach: currentShoppers, visible: !shouldShowShoppersAlert()"
 			tr
 				td data-bind="text: $data.id"
 				td data-bind="text: $data.identification"
@@ -130,6 +130,10 @@ section.content
 				td
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
+		tbody data-bind="visible: shouldShowShoppersAlert"
+				tr 
+					td.alert.box colspan="8"
+						h4.ui.centered.header data-bind="text: shoppersAlertText"
 		tfoot
 			tr
 				th colspan="8"
