@@ -543,7 +543,7 @@ header #shopping-cart .icon {
   color: #FFF;
 }
 
-.profile .table tr td:last-of-type .received {
+.profile .table tr td:last-of-type .shopping {
   background-color: #FBBD08;
   border-color: #FBBD08;
   color: #FFF;
