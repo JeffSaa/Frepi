@@ -1,7 +1,8 @@
 class SucursalsVM extends AdminPageVM
 	constructor: ->
 		super()
-		@shouldShowError = ko.observable(false)
+		@shouldShowSucursalsAlert = ko.observable(false)
+		@sucursalsAlertText = ko.observable()
 		@currentSucursals = ko.observableArray()
 		@chosenSucursal =
 			id : ko.observable()
@@ -102,10 +103,17 @@ class SucursalsVM extends AdminPageVM
 		RESTfulService.makeRequest('GET', "/stores/1/sucursals", data, (error, success, headers) =>
 			@isLoading(false)
 			if error
-				console.log 'An error has ocurred while updating the user!'
+				console.log 'An error has ocurred while fetching the sucursals!'
+				@shouldShowSucursalsAlert(true)
+				@sucursalsAlertText('Hubo un problema buscando la información de las sucursales')
 			else
 				console.log success
-				@currentSucursals(success)
+				if success.length > 0
+					@currentSucursals(success)
+					@shouldShowSucursalsAlert(false)
+				else
+					@shouldShowSucursalsAlert(true)
+					@sucursalsAlertText('No hay sucursales')
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 

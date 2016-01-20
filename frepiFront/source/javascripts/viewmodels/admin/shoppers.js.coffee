@@ -1,7 +1,8 @@
 class ShoppersVM extends AdminPageVM
 	constructor: ->
 		super()
-		@shouldShowError = ko.observable(false)
+		@shouldShowShoppersAlert = ko.observable(true)
+		@shoppersAlertText = ko.observable()
 		@currentShoppers = ko.observableArray()
 		@chosenShopper =
 			id : ko.observable()
@@ -106,9 +107,17 @@ class ShoppersVM extends AdminPageVM
 			@isLoading(false)
 			if error
 				console.log 'An error has ocurred while fetching the shoppers!'
+				@shouldShowShoppersAlert(true)
+				@shoppersAlertText('Hubo un problema buscando la información de los shoppers')
 			else
 				console.log success
-				@currentShoppers(success)
+				if success.length > 0
+					@currentShoppers(success)
+					@shouldShowShoppersAlert(false)
+				else
+					@shouldShowShoppersAlert(true)
+					@shoppersAlertText('No hay shoppers')
+
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 

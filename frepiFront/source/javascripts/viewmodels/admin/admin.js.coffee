@@ -1,7 +1,10 @@
 class AdminsVM extends AdminPageVM
 	constructor: ->
 		super()
-		@shouldShowError = ko.observable(false)
+		@adminsAlertText = ko.observable()
+		@usersAlertText = ko.observable()
+		@shouldShowUsersAlert = ko.observable(true)
+		@shouldShowAdminsAlert = ko.observable(true)
 		@currentAdmins = ko.observableArray()
 		@currentUsers = ko.observableArray()
 		@chosenUser =
@@ -120,9 +123,17 @@ class AdminsVM extends AdminPageVM
 			@isLoading(false)
 			if error
 				console.log 'An error has ocurred while fetching the admins!'
+				@shouldShowAdminsAlert(true)
+				@adminsAlertText('Hubo un problema buscando la información de los administradores')
 			else
 				console.log success
-				@currentAdmins(success)
+				if success.length > 0
+					@currentAdmins(success)
+					@shouldShowAdminsAlert(false)
+				else
+					@shouldShowAdminsAlert(true)
+					@adminsAlertText('No hay administradores')
+				
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
@@ -133,10 +144,18 @@ class AdminsVM extends AdminPageVM
 
 		RESTfulService.makeRequest('GET', "/administrator/users", data, (error, success, headers) =>
 			if error
+				@isLoading(false)
 				console.log 'An error has ocurred while fetching the clients!'
+				@shouldShowAdminsAlert(true)
+				@adminsAlertText('Hubo un problema buscando la información de los usuarios')
 			else
 				console.log success
-				@currentUsers(success)
+				if success.length > 0
+					@currentUsers(success)
+					@shouldShowUsersAlert(false)
+				else
+					@shouldShowUsersAlert(true)
+					@usersAlertText('No hay usuarios')
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				@fetchAdmins()
 		)

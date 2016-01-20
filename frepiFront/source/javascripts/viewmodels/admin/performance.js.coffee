@@ -1,120 +1,137 @@
 class PerformanceVM extends AdminPageVM
 	constructor: ->
 		super()
-		@alertText = ko.observable('Seleccione un rango de búsqueda')
-		@shouldShowAlert = ko.observable(true)
+		@productsAlertText = ko.observable('Seleccione un rango de búsqueda')
+		@shoppersAlertText = ko.observable('Seleccione un rango de búsqueda')
+		@sucursalsAlertText = ko.observable('Seleccione un rango de búsqueda')
+		@shouldShowShoppersAlert = ko.observable(true)
+		@shouldShowProductsAlert = ko.observable(true)
+		@shouldShowSucursalsAlert = ko.observable(true)
+		@shoppersPages = ko.observableArray()
+		@productsPages = ko.observableArray()
+		@sucursalsPages = ko.observableArray()
 		@currentProducts = ko.observableArray()
 		@currentShoppers = ko.observableArray()
-		@chosenOrder =
-			id : ko.observable()
-			totalPrice : ko.observable()
-			products : ko.observableArray()
+		@currentSucursals = ko.observableArray()
 
 		# Methods to execute on instance
-		
-		# @setExistingSession()
-		# @setorderInfo()
-		# @fetchOrders()
-		# @setRulesValidation()
+
 		@setDOMProperties()
 
-	showDelete: (order) =>
-		@chosenOrder.id(order.id)
-		$('.delete.modal').modal('show')
-
-	showProducts: (order) =>
-		@chosenOrder.products(order.products)
-		@chosenOrder.totalPrice(order.totalPrice)
-		$('.see.products.modal').modal('show')
-
-	fetchProductsStatistics: (startDate, endDate) ->
+	fetchEarningsStatistics: (startDate, endDate, numPage) ->
 		@isLoading(true)
 		data =
 			start_date : startDate
 			end_date : endDate
-			page : 1
+			page : numPage
+
+		RESTfulService.makeRequest('GET', '/administrator/statistics/earnings', data, (error, success, headers) =>
+				@isLoading(false)
+				if error
+					console.log 'An error has ocurred while fetching earnings statistics'
+					@productsAlertText('Ha ocurrido un error buscando la información')
+				else
+					console.log 'Earnings statistics fetching done'
+					console.log success
+					if success.length > 0
+						@currentSucursals(success)
+						@shouldShowSucursalsAlert(false)
+
+						pages = []
+						for i in [0..headers.totalItems/10]
+							obj =
+								num: i+1
+								endDate : endDate
+								startDate : startDate
+
+							pages.push(obj)
+						@sucursalsPages(pages)
+					else
+						@shouldShowSucursalsAlert(true)
+						@sucursalsAlertText('No hubo ventas en el rango escogido')
+					
+					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+			)
+
+	fetchProductsPage: (page) =>
+		@fetchProductsStatistics(page.startDate, page.endDate, page.num)
+
+	fetchProductsStatistics: (startDate, endDate, numPage) ->
+		@isLoading(true)
+		data =
+			start_date : startDate
+			end_date : endDate
+			page : numPage
 
 		RESTfulService.makeRequest('GET', '/administrator/statistics/products', data, (error, success, headers) =>
 				@isLoading(false)
 				if error
 					console.log 'An error has ocurred while fetching products statistics'
+					@productsAlertText('Ha ocurrido un error buscando la información')
 				else
 					console.log 'Products statistics fetching done'
 					console.log success
 					if success.length > 0
 						@currentProducts(success)
-						@shouldShowAlert(false)
+						@shouldShowProductsAlert(false)
+						
+						pages = []
+						for i in [0..headers.totalItems/10]
+							obj =
+								num: i+1
+								endDate : endDate
+								startDate : startDate
+
+							pages.push(obj)							
+						@productsPages(pages)
 					else
-						@shouldShowAlert(true)
-						@alertText('No hubo ventas en el rango escogido')
+						@shouldShowProductsAlert(true)
+						@productsAlertText('No hubo ventas en el rango escogido')
 					
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 			)
 
-	getInStoreShopper: (shoppers) ->
-		if shoppers.length > 0
-			return shoppers[0].firstName + ' ' + shoppers[0].lastName
-		else
-			return '--'
+	fetchShoppersStatistics: (startDate, endDate, numPage) ->
+		@isLoading(true)
+		data =
+			start_date : startDate
+			end_date : endDate
+			page : numPage
 
-	getDeliveryShopper: (shoppers) ->
-		if shoppers.length > 1
-			return shoppers[1].firstName + ' ' + shoppers[1].lastName
-		else
-			return '--'
+		RESTfulService.makeRequest('GET', '/administrator/statistics/shoppers', data, (error, success, headers) =>
+				@isLoading(false)
+				if error
+					console.log 'An error has ocurred while fetching shoppers statistics'
+					@productsAlertText('Ha ocurrido un error buscando la información')
+				else
+					console.log 'Shoppers statistics fetching done'
+					console.log success
+					if success.length > 0
+						@currentShoppers(success)
+						@shouldShowShoppersAlert(false)
 
-	isOverdue: (data) ->
-		scheduledDate = data.scheduledDate.split('T')[0]
-		expiryTime = data.expiryTime.split('T')[1]
-		newDateTime = scheduledDate + 'T' + expiryTime
-		orderDate = moment(newDateTime, moment.ISO_8601)
-		currentDate = moment()
-		return currentDate.isAfter(orderDate) and data.status isnt 'DISPATCHED'
+						pages = []
+						for i in [0..headers.totalItems/10]
+							obj =
+								num: i+1
+								endDate : endDate
+								startDate : startDate
 
-	parseDate: (date) -> 
-		return moment(date, moment.ISO_8601).format('DD/MM/YYYY')
+							pages.push(obj)
+						@shoppersPages(pages)
+					else
+						@shouldShowShoppersAlert(true)
+						@shoppersAlertText('No hubo ventas en el rango escogido')
+					
+					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+			)
 
-	parseTime: (date) -> 
-		return moment(date, moment.ISO_8601).format('h:mm A')
-
-	setRulesValidation: ->
-		emptyRule =
-			type: 'empty'
-			prompt: 'No puede estar vacío'
-		$('.create.modal form')
-			.form({
-					fields:
-						cc:
-							identifier: 'cc'
-							rules: [emptyRule]
-						firstName:
-							identifier: 'firstName'
-							rules: [emptyRule]
-						lastName:
-							identifier: 'lastName'
-							rules: [emptyRule]
-						phoneNumber:
-							identifier: 'phoneNumber'
-							rules: [emptyRule]
-						email:
-							identifier: 'email'
-							rules: [
-								emptyRule, {
-									type: 'email'
-									prompt: 'Ingrese un email válido'
-								}
-							]
-						shopperType:
-							identifier: 'shopperType'
-							rules: [emptyRule]
-					inline: true
-					keyboardShortcuts: false
-				})
+	getProfit: (frepiPrice, storePrice) ->
+		profit = frepiPrice - storePrice
+		return Math.round(profit * 100) / 100
 
 	setDOMProperties: ->
 		@isLoading(false)
-		# $('.create.modal .dropdown')
-		# 	.dropdown()
 		$('#products-daterange')
 			.daterangepicker(
 					applyClass : 'positive'
@@ -124,7 +141,29 @@ class PerformanceVM extends AdminPageVM
 					$('#products-daterange').val = ''
 				)
 			.on('apply.daterangepicker', (ev, picker) =>
-					@fetchProductsStatistics(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'))
+					@fetchProductsStatistics(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'), 1)
+				)
+		$('#shoppers-daterange')
+			.daterangepicker(
+					applyClass : 'positive'
+					cancelClass : 'cancel'
+				)
+			.on('cancel.daterangepicker', (ev, picker) ->
+					$('#shoppers-daterange').val = ''
+				)
+			.on('apply.daterangepicker', (ev, picker) =>
+					@fetchShoppersStatistics(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'), 1)
+				)
+		$('#sucursals-daterange')
+			.daterangepicker(
+					applyClass : 'positive'
+					cancelClass : 'cancel'
+				)
+			.on('cancel.daterangepicker', (ev, picker) ->
+					$('#sucursals-daterange').val = ''
+				)
+			.on('apply.daterangepicker', (ev, picker) =>
+					@fetchEarningsStatistics(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'), 1)
 				)
 
 

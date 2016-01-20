@@ -1,7 +1,8 @@
 class ProductsVM extends AdminPageVM
 	constructor: ->
 		super()
-		@shouldShowError = ko.observable(false)
+		@productsAlertText = ko.observable()
+		@shouldShowProductsAlert = ko.observable(true)
 		@currentProducts = ko.observableArray()
 		@availableSucursals = ko.observableArray()
 		@availableCategories = ko.observableArray()
@@ -91,10 +92,20 @@ class ProductsVM extends AdminPageVM
 			@isLoading(false)
 			if error
 				console.log 'An error has ocurred while fetching the products!'
+				@shouldShowProductsAlert(true)
+				@productsAlertText('Hubo un problema buscando la información de los productos')
 			else
+				@shouldShowProductsAlert(false)
 				console.log 'After fetching products'
 				console.log success
-				@currentProducts(success)
+				if success.length > 0
+					@currentProducts(success)
+					@shouldShowProductsAlert(false)
+				else
+					@shouldShowProductsAlert(true)
+					@productsAlertText('No hay productos')
+				
+				
 				# console.log 'Fetched Link Headers'
 				# console.log headers.link
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
