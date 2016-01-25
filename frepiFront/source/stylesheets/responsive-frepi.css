@@ -9,8 +9,14 @@
     display: block;
   }
 
-  .profile #guide-status #status {
-    text-align: center;
+  .status-tag {
+    display: inline-block;
+    width: 110px;
+  }
+
+  #status {
+    margin: 0 auto;
+    width: 220px;
   }
 
   .profile #guide-status #status span {

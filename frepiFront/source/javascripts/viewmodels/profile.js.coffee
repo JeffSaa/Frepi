@@ -1,5 +1,7 @@
 class ProfileVM extends TransactionalPageVM
-	constructor: ->   
+	moment.locale('es')
+
+	constructor: ->
 		# Observables
 		super()
 		@errorLabelText = ko.observable()
@@ -34,9 +36,8 @@ class ProfileVM extends TransactionalPageVM
 				console.log success
 				if headers.accessToken
 						Config.setItem('headers', JSON.stringify(headers))
-				parsedOrders = @parseOrderDate(success)
-				
-				@currentOrders(parsedOrders)
+
+				@currentOrders(success)
 		)
 
 	profile: ->
@@ -49,14 +50,17 @@ class ProfileVM extends TransactionalPageVM
 
 	parseOrderDate: (orders) ->
 		for order in orders
-			order.date = new Date(order.date).toLocaleDateString()
+			order.date = moment(order.date, moment.ISO_8601).format('YYYY-MM-DD HH:mm:ss')
+			order.arrivalTime = moment(order.arrivalTime, moment.ISO_8601).format('HH:mm')
+			order.expiryTime = moment(order.expiryTime, moment.ISO_8601).format('HH:mm')
+			order.scheduledDate = moment(order.scheduledDate, moment.ISO_8601).format('YYYY-MM-DD')
 
 		return orders
 
 	shouldShowOrders: ->
 		if Config.getItem('showOrders') is 'true'
 			$('.secondary.menu .item').tab('change tab', 'history')
-		
+
 	setDOMElements: ->
 		$('#edit-email form').form({
 				fields:
@@ -137,7 +141,7 @@ class ProfileVM extends TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'No puede estar vacío'
-							}							
+							}
 						]
 					lastName:
 						identifier: 'last-name'
@@ -145,7 +149,7 @@ class ProfileVM extends TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'No puede estar vacío'
-							}							
+							}
 						]
 					password:
 						identifier: 'password'
@@ -153,7 +157,7 @@ class ProfileVM extends TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'No puede estar vacío'
-							}							
+							}
 						]
 				inline: true
 				keyboardShortcuts: false
@@ -178,7 +182,7 @@ class ProfileVM extends TransactionalPageVM
 					cache: false
 				}
 			)
-		$('#departments-menu').sidebar({        
+		$('#departments-menu').sidebar({
 				transition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
 		$('#shopping-cart').sidebar({
@@ -189,7 +193,7 @@ class ProfileVM extends TransactionalPageVM
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 
-	showDepartments: ->    
+	showDepartments: ->
 		$('#departments-menu').sidebar('toggle')
 
 	showEditEmail: ->
@@ -227,7 +231,7 @@ class ProfileVM extends TransactionalPageVM
 		switch attributeToUpdate
 			when 'email'
 				if $('#edit-email form').form('is valid')
-					data = 
+					data =
 						email: $('#edit-email form').form('get value', 'new-email')
 
 					$('#edit-email .submit').addClass('loading')
@@ -246,11 +250,11 @@ class ProfileVM extends TransactionalPageVM
 							Config.setItem('credentials', credentials)
 							@setUserInfo()
 							$('#edit-email').modal('hide')
-					)				
+					)
 
 			when 'password'
 				if $('#edit-password form').form('is valid')
-					data = 
+					data =
 						password: $('#edit-password form').form('get value', 'new-password')
 
 					$('#edit-password .submit').addClass('loading')
@@ -295,7 +299,7 @@ class ProfileVM extends TransactionalPageVM
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							@setUserInfo()
 							$('#edit-user-info').modal('hide')
-					)				
+					)
 
 	setSizeButtons: ->
 		if $(window).width() < 480
@@ -309,7 +313,9 @@ class ProfileVM extends TransactionalPageVM
 			else
 				$('#shopping-cart').addClass('wide')
 		)
-			
+
+	DateFormatter: (datetime)->
+		return moment(datetime, moment.ISO_8601).format('lll')
 
 profile = new ProfileVM
 ko.applyBindings(profile)

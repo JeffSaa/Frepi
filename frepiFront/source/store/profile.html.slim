@@ -4,7 +4,7 @@
 		.content
 			form.ui.form data-bind="submit: function(){updateUser('email')}"
 				.field
-					label Correo nuevo 
+					label Correo nuevo
 					input type="text" name="new-email" placeholder="Nuevo correo"
 				.field
 					label Confirmación correo nuevo
@@ -93,27 +93,29 @@
 				.ui.centered.header Estados de orden
 				#status
 					.first.row
-						.ui.yellow.label R
-						span Recibida
-						.ui.teal.label C
-						span Comprando
+						div.status-tag
+							.ui.yellow.label C
+							span Comprando
+						div.status-tag
+							.ui.green.label E
+							span Entregada
 					.second.row
-						.ui.olive.label E
-						span En camino
-						.ui.green.label E
-						span Entregada
+						div.status-tag
+							.ui.olive.label E
+							span En camino
+						div.status-tag
+							.ui.teal.label R
+							span Recibida
 			table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
 				thead
 					tr
 						th.three.wide Fecha
-						th.four.wide Hora
-						th.four.wide Productos
-						th.three.wide Valor($)
+						th.nine.wide Productos
+						th.two.wide Valor($)
 						th.two.wide Estado
 				tbody data-bind="foreach: currentOrders"
 					tr
-						td data-bind="text: $data.scheduledDate"
-						td data-bind="text: $data.arrivalTime"
+						td data-bind="text: $root.DateFormatter($data.date)"
 						td data-bind="text: $data.products"
 						td data-bind="text: $data.totalPrice"
 						/ td.center.aligned
@@ -127,4 +129,6 @@
 							.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status.toLowerCase()"
 			.ui.centered.header data-bind="visible: showEmptyMessage" No hay pedidos registrados
 
+
+script src="../javascripts/plugins/moment+locales.min.js"
 script src="../javascripts/viewmodels/profile.js"
