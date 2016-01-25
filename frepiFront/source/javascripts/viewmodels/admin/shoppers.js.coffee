@@ -4,6 +4,7 @@ class ShoppersVM extends AdminPageVM
 		@shouldShowShoppersAlert = ko.observable(true)
 		@shoppersAlertText = ko.observable()
 		@currentShoppers = ko.observableArray()
+		@shoppersPages = ko.observableArray()
 		@chosenShopper =
 			id : ko.observable()
 			name : ko.observable()
@@ -11,7 +12,7 @@ class ShoppersVM extends AdminPageVM
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
-		@fetchShoppers()
+		@fetchShoppers(1)
 		@setRulesValidation()
 		@setDOMProperties()
 
@@ -24,8 +25,6 @@ class ShoppersVM extends AdminPageVM
 			firstName: $form.form('get value', 'firstName')
 			phoneNumber: $form.form('get value', 'phoneNumber')
 			shopperType: $form.form('get value', 'shopperType')
-
-		console.log data
 
 		if $form.form('is valid')
 			$('.create.modal form .green.button').addClass('loading')
@@ -98,10 +97,15 @@ class ShoppersVM extends AdminPageVM
 		@chosenShopper.name(shopper.firstName+' '+shopper.lastName)
 		$('.delete.modal').modal('show')
 
-	fetchShoppers: ->
+	fetchShoppersPage: (page) =>
+		$('table.shoppers .pagination .pages .item').removeClass('active')
+		$("table.shoppers .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@fetchShoppers(page.num)
+
+	fetchShoppers: (numPage) ->
 		@isLoading(true)
 		data =
-			page : 1
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/shoppers", data, (error, success, headers) =>
 			@isLoading(false)
@@ -112,6 +116,13 @@ class ShoppersVM extends AdminPageVM
 			else
 				console.log success
 				if success.length > 0
+					if @shoppersPages().length is 0
+						pages = []
+						for i in [0..headers.totalItems/10]
+							pages.push({num: i+1})
+						
+						@shoppersPages(pages)
+						$("table.shoppers .pagination .pages .item:first-of-type").addClass('active')
 					@currentShoppers(success)
 					@shouldShowShoppersAlert(false)
 				else

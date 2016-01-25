@@ -7,6 +7,7 @@ class ProductsVM extends AdminPageVM
 		@availableSucursals = ko.observableArray()
 		@availableCategories = ko.observableArray()
 		@availableSubcategories = ko.observableArray()
+		@productsPages = ko.observableArray()
 		@chosenProduct =
 			id : ko.observable()
 			image: ko.observable()
@@ -20,7 +21,7 @@ class ProductsVM extends AdminPageVM
 		# @setExistingSession()
 		# @setUserInfo()
 
-		@fetchProducts()
+		@fetchProducts(1)
 		@setDOMProperties()
 		@setRulesValidation()
 
@@ -83,10 +84,15 @@ class ProductsVM extends AdminPageVM
 		@chosenProduct.sucursalID(product.sucursal.id)
 		$('.delete.modal').modal('show')
 
-	fetchProducts: ->
+	fetchProductsPage: (page) =>
+		$('table.products .pagination .pages .item').removeClass('active')
+		$("table.products .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@fetchProducts(page.num)
+	
+	fetchProducts: (numPage) ->
 		@isLoading(true)
 		data =
-			page : 2
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/administrator/products", data, (error, success, headers) =>
 			@isLoading(false)
@@ -99,15 +105,21 @@ class ProductsVM extends AdminPageVM
 				console.log 'After fetching products'
 				console.log success
 				if success.length > 0
-					@currentProducts(success)
 					@shouldShowProductsAlert(false)
+					if @productsPages().length is 0
+						pages = []
+						for i in [0..headers.totalItems/10]
+							obj =
+								num: i+1
+
+							pages.push(obj)
+						@productsPages(pages)
+						$("table.products .pagination .pages .item:first-of-type").addClass('active')
+					@currentProducts(success)
 				else
 					@shouldShowProductsAlert(true)
 					@productsAlertText('No hay productos')
 				
-				
-				# console.log 'Fetched Link Headers'
-				# console.log headers.link
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 

@@ -3,6 +3,7 @@ class OrdersVM extends AdminPageVM
 		super()
 		@shouldShowError = ko.observable(false)
 		@currentOrders = ko.observableArray()
+		@ordersPages = ko.observableArray()
 		@chosenOrder =
 			id : ko.observable()
 			totalPrice : ko.observable()
@@ -11,7 +12,7 @@ class OrdersVM extends AdminPageVM
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setorderInfo()
-		@fetchOrders()
+		@fetchOrders(1)
 		@setRulesValidation()
 		@setDOMProperties()
 
@@ -40,9 +41,15 @@ class OrdersVM extends AdminPageVM
 		@chosenOrder.totalPrice(order.totalPrice)
 		$('.see.products.modal').modal('show')
 
-	fetchOrders: ->
+	fetchOrdersPage: (page) =>
+		$('table.orders .pagination .pages .item').removeClass('active')
+		$("table.orders .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@fetchOrders(page.num)
+
+	fetchOrders: (numPage) ->
+		@isLoading(true)
 		data =
-			page : 1
+			page : numPage
 			
 		RESTfulService.makeRequest('GET', "/orders", data, (error, success, headers) =>
 			@isLoading(false)
@@ -50,6 +57,15 @@ class OrdersVM extends AdminPageVM
 				console.log 'An error has ocurred while fetching the orders!'
 			else
 				console.log success
+				if @ordersPages().length is 0
+					pages = []
+					for i in [0..headers.totalItems/10]
+						obj =
+							num: i+1
+
+						pages.push(obj)
+					@ordersPages(pages)
+					$("table.orders .pagination .pages .item:first-of-type").addClass('active')
 				@currentOrders(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)

@@ -4,6 +4,7 @@ class SucursalsVM extends AdminPageVM
 		@shouldShowSucursalsAlert = ko.observable(false)
 		@sucursalsAlertText = ko.observable()
 		@currentSucursals = ko.observableArray()
+		@sucursalsPages = ko.observableArray()
 		@chosenSucursal =
 			id : ko.observable()
 			name : ko.observable()
@@ -11,7 +12,7 @@ class SucursalsVM extends AdminPageVM
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
-		@fetchSucursals()
+		@fetchSucursals(1)
 		@setRulesValidation()
 
 	createSucursal: ->
@@ -95,10 +96,15 @@ class SucursalsVM extends AdminPageVM
 		@chosenSucursal.name(sucursal.name)
 		$('.delete.modal').modal('show')
 
-	fetchSucursals: ->
+	fetchSucursalsPage: (page) =>
+		$('table.sucursals .pagination .pages .item').removeClass('active')
+		$("table.sucursals .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@fetchSucursals(page.num)
+
+	fetchSucursals: (numPage) ->
 		@isLoading(true)
 		data =
-			page : 1
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/stores/1/sucursals", data, (error, success, headers) =>
 			@isLoading(false)
@@ -109,6 +115,13 @@ class SucursalsVM extends AdminPageVM
 			else
 				console.log success
 				if success.length > 0
+					pages = []
+					for i in [0..headers.totalItems/10]
+						pages.push({num: i+1})
+					
+					@sucursalsPages(pages)
+					$("table.sucursals .pagination .pages .item:first-of-type").addClass('active')
+
 					@currentSucursals(success)
 					@shouldShowSucursalsAlert(false)
 				else
@@ -142,19 +155,6 @@ class SucursalsVM extends AdminPageVM
 					inline: true
 					keyboardShortcuts: false
 				})
-
-	setSizeSidebar: ->
-		if $(window).width() < 480
-			$('#shopping-cart').removeClass('wide')
-		else
-			$('#shopping-cart').addClass('wide')
-
-		$(window).resize(->
-			if $(window).width() < 480
-				$('#shopping-cart').removeClass('wide')
-			else
-				$('#shopping-cart').addClass('wide')
-		)
 
 sucursals = new SucursalsVM
 ko.applyBindings(sucursals)

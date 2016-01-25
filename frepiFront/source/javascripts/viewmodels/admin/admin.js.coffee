@@ -7,6 +7,8 @@ class AdminsVM extends AdminPageVM
 		@shouldShowAdminsAlert = ko.observable(true)
 		@currentAdmins = ko.observableArray()
 		@currentUsers = ko.observableArray()
+		@adminsPages = ko.observableArray()
+		@usersPages = ko.observableArray()
 		@chosenUser =
 			id : ko.observable()
 			name : ko.observable()
@@ -15,7 +17,8 @@ class AdminsVM extends AdminPageVM
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
-		@fetchUsers()
+		@fetchUsers(1)
+		# @fetchAdmins(1)
 		@setRulesValidation()
 		@setDOMProperties()
 
@@ -71,7 +74,7 @@ class AdminsVM extends AdminPageVM
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 						$('.update.modal').modal('hide')
-						@fetchUsers()
+						@fetchUsersPage(1)
 				)
 
 	deleteUser: =>
@@ -115,9 +118,14 @@ class AdminsVM extends AdminPageVM
 		@chosenUser.isAdmin(user.administrator)
 		$('.delete.modal').modal('show')
 
-	fetchAdmins: =>
+	fetchAdminsPage: (page) =>
+		$('table.admins .pagination .pages .item').removeClass('active')
+		$("table.admins .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@fetchAdmins(page.num)
+
+	fetchAdmins: (numPage) =>
 		data =
-			page : 1
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/administrator/admins", data, (error, success, headers) =>
 			@isLoading(false)
@@ -128,6 +136,15 @@ class AdminsVM extends AdminPageVM
 			else
 				console.log success
 				if success.length > 0
+					if @adminsPages().length is 0
+						pages = []
+						for i in [0..headers.totalItems/10]
+							obj =
+								num: i+1
+
+							pages.push(obj)
+						@adminsPages(pages)
+						$("table.admins .pagination .pages .item:first-of-type").addClass('active')
 					@currentAdmins(success)
 					@shouldShowAdminsAlert(false)
 				else
@@ -137,10 +154,15 @@ class AdminsVM extends AdminPageVM
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
-	fetchUsers: ->
+	fetchUsersPage: (page) =>
+		$('table.users .pagination .pages .item').removeClass('active')
+		$("table.users .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@fetchUsers(page.num)
+
+	fetchUsers: (numPage) ->
 		@isLoading(true)
 		data =
-			page : 1
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/administrator/users", data, (error, success, headers) =>
 			if error
@@ -151,13 +173,21 @@ class AdminsVM extends AdminPageVM
 			else
 				console.log success
 				if success.length > 0
+					if @usersPages().length is 0
+						pages = []
+						for i in [0..headers.totalItems/10]
+							obj =
+								num: i+1
+
+							pages.push(obj)
+						@usersPages(pages)
+						$("table.users .pagination .pages .item:first-of-type").addClass('active')
 					@currentUsers(success)
 					@shouldShowUsersAlert(false)
 				else
 					@shouldShowUsersAlert(true)
 					@usersAlertText('No hay usuarios')
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				@fetchAdmins()
 		)
 
 	setRulesValidation: ->

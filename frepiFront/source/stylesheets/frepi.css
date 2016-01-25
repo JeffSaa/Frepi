@@ -1,15 +1,4 @@
 
-/* Home Page Styles */
-
-.header-padding {
-  
-}
-
-#slider {
-  background-color: pink;
-  height: 80%;
-}
-
 /* Generic rules */
 html.ios, html.ios body {
   height: 100% !important;
@@ -30,6 +19,11 @@ a {
   cursor: pointer;
 }
 
+figure, ul {
+  margin: 0;
+  padding: 0;
+}
+
 footer p {
   margin: 3rem 0 1rem 0 !important;
   text-align: center;
@@ -40,6 +34,87 @@ footer p {
   -ms-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Home/Index Page Styles */
+
+.header-padding {
+  height: 60px;
+}
+
+#slider h2 {
+  display: none;
+}
+
+#slider .images > li {
+  min-height: 450px;
+  position: relative;
+}
+
+#slider .images > li:first-child {
+  background: url("../images/cover.png") no-repeat;
+  background-size: cover;
+}
+
+#slider .images li h3,
+#slider .images li ul li figure {
+  position: absolute;
+}
+
+#slider .images li h3 {
+  color: #727272;
+  font-size: 2.5em;
+  left: 50%;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+#slider .images li ul li .top-img {
+  right: 40%;
+  top: 80px;
+  animation-duration: 2s;
+  animation-name: slidein-top;
+}
+
+#slider .images li ul li .left-img {
+  left: 16%;
+  top: 40%;
+  animation-duration: 2.8s;
+  animation-name: slidein-left;
+}
+
+#slider .images li ul li .right-img {
+  right: 18%;
+  top: 60%;
+  animation-duration: 1.5s;
+  animation-name: slidein-right;
+}
+
+#slider .images li ul li figure img {
+  height: 80px;
+  width: 80px;
+}
+
+/**** Slider Animations ***/
+
+/* Image coming from the slider's top */
+@keyframes slidein-top {
+  from {top: -80px;}
+  to {top: 80px;}
+}
+
+/* Image coming from the slider's left */
+@keyframes slidein-left {
+  from {left: -40px;}
+  to {left: 16%;}
+}
+
+/* Image coming from the slider's right */
+@keyframes slidein-right {
+  from {right: -80px;}
+  to {right: 18%;}
 }
 
 /* Request Error Message */

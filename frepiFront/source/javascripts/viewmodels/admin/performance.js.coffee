@@ -18,6 +18,11 @@ class PerformanceVM extends AdminPageVM
 
 		@setDOMProperties()
 
+	fetchEarningsPage: (page) =>
+		$('article.sucursals .pagination .pages .item').removeClass('active')
+		$("article.sucursals .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@fetchEarningsStatistics(page.startDate, page.endDate, page.num)
+
 	fetchEarningsStatistics: (startDate, endDate, numPage) ->
 		@isLoading(true)
 		data =
@@ -37,15 +42,17 @@ class PerformanceVM extends AdminPageVM
 						@currentSucursals(success)
 						@shouldShowSucursalsAlert(false)
 
-						pages = []
-						for i in [0..headers.totalItems/10]
-							obj =
-								num: i+1
-								endDate : endDate
-								startDate : startDate
+						if @sucursalsPages().length is 0
+							pages = []
+							for i in [0..headers.totalItems/10]
+								obj =
+									num: i+1
+									endDate : endDate
+									startDate : startDate
 
-							pages.push(obj)
-						@sucursalsPages(pages)
+								pages.push(obj)
+							@sucursalsPages(pages)
+						$("article.sucursals .pagination .pages .item:first-of-type").addClass('active')
 					else
 						@shouldShowSucursalsAlert(true)
 						@sucursalsAlertText('No hubo ventas en el rango escogido')
@@ -54,6 +61,8 @@ class PerformanceVM extends AdminPageVM
 			)
 
 	fetchProductsPage: (page) =>
+		$('article.products .pagination .pages .item').removeClass('active')
+		$("article.products .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
 		@fetchProductsStatistics(page.startDate, page.endDate, page.num)
 
 	fetchProductsStatistics: (startDate, endDate, numPage) ->
@@ -75,21 +84,28 @@ class PerformanceVM extends AdminPageVM
 						@currentProducts(success)
 						@shouldShowProductsAlert(false)
 						
-						pages = []
-						for i in [0..headers.totalItems/10]
-							obj =
-								num: i+1
-								endDate : endDate
-								startDate : startDate
+						if @productsPages().length is 0
+							pages = []
+							for i in [0..headers.totalItems/10]
+								obj =
+									num: i+1
+									endDate : endDate
+									startDate : startDate
 
-							pages.push(obj)							
-						@productsPages(pages)
+								pages.push(obj)
+							@productsPages(pages)
+							$("article.products .pagination .pages .item:first-of-type").addClass('active')
 					else
 						@shouldShowProductsAlert(true)
 						@productsAlertText('No hubo ventas en el rango escogido')
 					
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 			)
+
+	fetchShoppersPage: (page) =>
+		$('article.shoppers .pagination .pages .item').removeClass('active')
+		$("article.shoppers .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@fetchShoppersStatistics(page.startDate, page.endDate, page.num)
 
 	fetchShoppersStatistics: (startDate, endDate, numPage) ->
 		@isLoading(true)
@@ -110,15 +126,17 @@ class PerformanceVM extends AdminPageVM
 						@currentShoppers(success)
 						@shouldShowShoppersAlert(false)
 
-						pages = []
-						for i in [0..headers.totalItems/10]
-							obj =
-								num: i+1
-								endDate : endDate
-								startDate : startDate
+						if @shoppersPages().length is 0
+							pages = []
+							for i in [0..headers.totalItems/10]
+								obj =
+									num: i+1
+									endDate : endDate
+									startDate : startDate
 
-							pages.push(obj)
-						@shoppersPages(pages)
+								pages.push(obj)
+							@shoppersPages(pages)
+							$("article.shoppers .pagination .pages .item:first-of-type").addClass('active')
 					else
 						@shouldShowShoppersAlert(true)
 						@shoppersAlertText('No hubo ventas en el rango escogido')
