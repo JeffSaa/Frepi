@@ -29,8 +29,10 @@ class Sucursal < ActiveRecord::Base
   #after_destroy :destroy_relations
   #after_create  :set_distances
 
+=begin
   # Methods
   private
+
   def set_distances
     sucursals = Sucursal.all[0..-2]
     if sucursals.size > 0
@@ -53,5 +55,5 @@ class Sucursal < ActiveRecord::Base
       set_distances
     end
   end
-
+=end
 end

@@ -12,7 +12,7 @@ group :development do
 end
 
 group :production do
-  gem 'pg'
+
 end
 
 # TODO: delete line 19. just for test
@@ -41,3 +41,6 @@ gem 'clockwork'
 # Pagination
 gem 'will_paginate', '~> 3.0.6'
 gem 'api_pagination_headers'
+
+# Database
+gem 'pg'

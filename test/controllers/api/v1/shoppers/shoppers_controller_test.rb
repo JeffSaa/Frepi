@@ -45,7 +45,7 @@ class  Api::V1::Shoppers::ShoppersControllerTest < ActionController::TestCase
 
   # ---------------- Create ----------------------- #
 
-  test "only a admin can create a supervisor" do
+  test "only a admin can create a shopper" do
     sign_in :user, users(:admin)
     assert_difference('Shopper.count') do
       post :create, { first_name: 'Benito', last_name: 'Camelo',
@@ -60,7 +60,7 @@ class  Api::V1::Shoppers::ShoppersControllerTest < ActionController::TestCase
   end
 
 
-  test 'An user or an supervisor should not create an supervisor' do
+  test 'An user or an supervisor should not create an shopper' do
     assert_no_difference('Shopper.count') do
       post :create, { first_name: 'Benito', last_name: 'Camelo',
                       email: 'benito97@frepi.com', identification: '11408743554',

@@ -1,7 +1,9 @@
 barranquilla:
+  id: 1
   state_id: 1
   name: Barranquilla
 
 palermo:
+  id: 2
   state_id: 2
   name: Palermo

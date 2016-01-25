@@ -5,7 +5,7 @@ shopper:
   identification: 10382454
   email: shopper@frepi.com
   address: MyString
-  city_id: cities(:palermo).id
+  city: cities(:palermo)
   latitude: 9.99
   longitude: 9.99
   phone_number: MyString

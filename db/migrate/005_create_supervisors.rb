@@ -15,7 +15,7 @@ class CreateSupervisors < ActiveRecord::Migration
       t.string     :company_email
       t.string     :image
 
-      t.references :city,           index: true, foreign_key: true, null: false
+      t.references :city,           index: true, null: false
       #------------------------- Devise ------------------------ #
 
       # Required

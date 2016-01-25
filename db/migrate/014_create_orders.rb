@@ -14,7 +14,7 @@ class CreateOrders < ActiveRecord::Migration
       t.date        :shopping_at
 
       # Associations
-      t.references  :user,          null: false, index: true, foreign_key: true
+      t.references  :user,          null: false, index: true
 
       t.timestamps
     end

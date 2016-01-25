@@ -11,7 +11,7 @@ class CreateSucursals < ActiveRecord::Migration
       t.decimal :longitude,             precision: 15, scale: 10
 
       # Associations
-      t.references :store_partner, null: false, index: true, foreign_key: true
+      t.references :store_partner, null: false, index: true
 
       t.timestamps null: false
     end

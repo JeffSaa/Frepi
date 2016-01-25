@@ -21,7 +21,7 @@ class CreateShoppers < ActiveRecord::Migration
       t.decimal :longitude,         precision: 15, scale: 10
 
       # Associations
-      t.references :city,           index: true, foreign_key: true
+      t.references :city,           index: true
 
       t.timestamps
     end

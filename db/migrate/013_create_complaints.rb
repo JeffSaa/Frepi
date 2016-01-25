@@ -5,7 +5,7 @@ class CreateComplaints < ActiveRecord::Migration
       t.string  :subject,     null: false
 
       # Association
-      t.references  :user,    null: false, index: true
+      t.references  :user, null: false, index: true
 
       t.timestamps null: false
     end

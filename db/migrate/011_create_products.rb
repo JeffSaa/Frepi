@@ -10,7 +10,7 @@ class CreateProducts < ActiveRecord::Migration
       t.integer :sales_count,   default: 0
 
       # Association
-      t.references :subcategory, index: true, foreign_key: true
+      t.references :subcategory, index: true
 
       t.timestamps null: false
     end
