@@ -30,5 +30,5 @@ production:
   <<: *default
   #database: db/production.sqlite3
   username: frepidatabase
-  password: frepi123
+  password: frepidatabase
   database: db/production
