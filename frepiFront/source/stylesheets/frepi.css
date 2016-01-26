@@ -48,11 +48,17 @@ footer p {
 
 #slider .images > li {
   min-height: 450px;
-  position: relative;
+  position: absolute;
+  width: 100%;
 }
 
 #slider .images > li:first-child {
-  background: url("../images/cover.png") no-repeat;
+  background: url("../images/cover01.png") no-repeat;
+  background-size: cover;
+}
+
+#slider .images > li:last-child {
+  background: url("../images/cover02.png") no-repeat;
   background-size: cover;
 }
 
@@ -72,24 +78,21 @@ footer p {
 }
 
 #slider .images li ul li .top-img {
+  animation: slidein-top 2s ease-in-out;
   right: 40%;
   top: 80px;
-  animation-duration: 2s;
-  animation-name: slidein-top;
 }
 
 #slider .images li ul li .left-img {
+  animation: slidein-left 2.8s ease-in-out;
   left: 16%;
   top: 40%;
-  animation-duration: 2.8s;
-  animation-name: slidein-left;
 }
 
 #slider .images li ul li .right-img {
+  animation: slidein-right 1.5s ease-in-out;
   right: 18%;
   top: 60%;
-  animation-duration: 1.5s;
-  animation-name: slidein-right;
 }
 
 #slider .images li ul li figure img {
@@ -101,19 +104,19 @@ footer p {
 
 /* Image coming from the slider's top */
 @keyframes slidein-top {
-  from {top: -80px;}
+  from {top: -100px;}
   to {top: 80px;}
 }
 
 /* Image coming from the slider's left */
 @keyframes slidein-left {
-  from {left: -40px;}
+  from {left: -100px;}
   to {left: 16%;}
 }
 
 /* Image coming from the slider's right */
 @keyframes slidein-right {
-  from {right: -80px;}
+  from {right: -100px;}
   to {right: 18%;}
 }
 
