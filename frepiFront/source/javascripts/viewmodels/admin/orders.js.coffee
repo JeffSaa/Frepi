@@ -12,7 +12,7 @@ class OrdersVM extends AdminPageVM
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setorderInfo()
-		@fetchOrders(1)
+		@fetchOrders()
 		@setRulesValidation()
 		@setDOMProperties()
 
@@ -46,7 +46,7 @@ class OrdersVM extends AdminPageVM
 		$("table.orders .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
 		@fetchOrders(page.num)
 
-	fetchOrders: (numPage) ->
+	fetchOrders: (numPage = 1) ->
 		@isLoading(true)
 		data =
 			page : numPage

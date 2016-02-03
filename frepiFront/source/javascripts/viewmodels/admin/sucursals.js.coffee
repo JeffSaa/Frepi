@@ -12,7 +12,7 @@ class SucursalsVM extends AdminPageVM
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
-		@fetchSucursals(1)
+		@fetchSucursals()
 		@setRulesValidation()
 
 	createSucursal: ->
@@ -101,7 +101,7 @@ class SucursalsVM extends AdminPageVM
 		$("table.sucursals .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
 		@fetchSucursals(page.num)
 
-	fetchSucursals: (numPage) ->
+	fetchSucursals: (numPage = 1) ->
 		@isLoading(true)
 		data =
 			page : numPage

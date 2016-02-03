@@ -24,6 +24,8 @@
 							|Subir imagen...
 							input type='file' data-bind="event: {change: previewImage}"
 			img src="../images/landing/image.png"
+			.ui.bottom.attached.progress
+				.bar
 		.description
 			form.ui.form data-bind="submit: uploadProduct"
 				.field
@@ -137,7 +139,7 @@ section.actions
 		|Agregar producto
 
 section.content
-	table.products.ui.celled.table
+	table.products.ui.celled.fixed.table
 		thead
 			tr
 				th ID
@@ -168,7 +170,7 @@ section.content
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon
-						.pages.item data-bind="foreach: productsPages"
+						.pages.item data-bind="foreach: productsPages.showablePages"
 							a.item data-bind="text: $data.num, click: $root.fetchProductsPage"
 						a.icon.item
 							i.right.chevron.icon

@@ -5,8 +5,17 @@ class ProfileVM extends TransactionalPageVM
 		# Observables
 		super()
 		@errorLabelText = ko.observable()
-		@currentOrders = ko.observableArray([])
+		@currentOrders = ko.observableArray()
 		@showEmptyMessage = ko.observable()
+		@checkOrders = ko.computed( =>
+				@showEmptyMessage(@currentOrders().length is 0)
+			)
+
+		# Models
+		@chosenOrder = 
+			address: ko.observable()
+			totalPrice: ko.observable()
+			products: ko.observableArray()
 
 		# Methods to execute on instance
 		@setUserInfo()
@@ -15,9 +24,7 @@ class ProfileVM extends TransactionalPageVM
 		@setDOMElements()
 		@shouldShowOrders()
 		@setSizeButtons()
-		@checkOrders = ko.computed( =>
-				@showEmptyMessage(@currentOrders().length is 0)
-			)
+		
 
 	closeEditEmail: ->
 		$('#edit-email').modal('hide')
@@ -314,8 +321,22 @@ class ProfileVM extends TransactionalPageVM
 				$('#shopping-cart').addClass('wide')
 		)
 
-	DateFormatter: (datetime)->
+	dateFormatter: (datetime)->
 		return moment(datetime, moment.ISO_8601).format('lll')
+
+	productsText: (products) ->
+		numberProducts = products.length
+		if numberProducts is 1
+			return "#{numberProducts} producto"
+		else
+			return "#{numberProducts} productos"
+
+	showOrderDetails: (order) =>
+		console.log order
+		@chosenOrder.address(order.address)
+		@chosenOrder.products(order.products)
+		@chosenOrder.totalPrice(order.totalPrice)
+		$('#order-details').modal('show')
 
 profile = new ProfileVM
 ko.applyBindings(profile)

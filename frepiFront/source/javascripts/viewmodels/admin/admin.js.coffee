@@ -17,7 +17,7 @@ class AdminsVM extends AdminPageVM
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
-		@fetchUsers(1)
+		@fetchUsers()
 		# @fetchAdmins(1)
 		@setRulesValidation()
 		@setDOMProperties()
@@ -123,7 +123,7 @@ class AdminsVM extends AdminPageVM
 		$("table.admins .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
 		@fetchAdmins(page.num)
 
-	fetchAdmins: (numPage) =>
+	fetchAdmins: (numPage = 1) =>
 		data =
 			page : numPage
 
@@ -139,10 +139,8 @@ class AdminsVM extends AdminPageVM
 					if @adminsPages().length is 0
 						pages = []
 						for i in [0..headers.totalItems/10]
-							obj =
-								num: i+1
-
-							pages.push(obj)
+							pages.push({num: i+1})
+							
 						@adminsPages(pages)
 						$("table.admins .pagination .pages .item:first-of-type").addClass('active')
 					@currentAdmins(success)
@@ -159,14 +157,14 @@ class AdminsVM extends AdminPageVM
 		$("table.users .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
 		@fetchUsers(page.num)
 
-	fetchUsers: (numPage) ->
+	fetchUsers: (numPage = 1) ->
 		@isLoading(true)
 		data =
 			page : numPage
 
 		RESTfulService.makeRequest('GET', "/administrator/users", data, (error, success, headers) =>
-			if error
-				@isLoading(false)
+			@isLoading(false)
+			if error				
 				console.log 'An error has ocurred while fetching the clients!'
 				@shouldShowAdminsAlert(true)
 				@adminsAlertText('Hubo un problema buscando la información de los usuarios')

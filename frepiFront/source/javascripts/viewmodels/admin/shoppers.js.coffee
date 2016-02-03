@@ -12,7 +12,7 @@ class ShoppersVM extends AdminPageVM
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
-		@fetchShoppers(1)
+		@fetchShoppers()
 		@setRulesValidation()
 		@setDOMProperties()
 
@@ -102,7 +102,7 @@ class ShoppersVM extends AdminPageVM
 		$("table.shoppers .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
 		@fetchShoppers(page.num)
 
-	fetchShoppers: (numPage) ->
+	fetchShoppers: (numPage = 1) ->
 		@isLoading(true)
 		data =
 			page : numPage

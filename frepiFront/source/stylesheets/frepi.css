@@ -19,11 +19,6 @@ a {
   cursor: pointer;
 }
 
-figure, ul {
-  margin: 0;
-  padding: 0;
-}
-
 footer p {
   margin: 3rem 0 1rem 0 !important;
   text-align: center;
@@ -50,6 +45,11 @@ footer p {
   min-height: 450px;
   position: absolute;
   width: 100%;
+}
+
+#slider figure, #slider ul {
+  margin: 0;
+  padding: 0;
 }
 
 #slider .images > li:first-child {
@@ -379,8 +379,8 @@ header #shopping-cart .icon {
   color: #fff;
 }
 
-#about-icon {
-  float: right;
+.card .extra.content br {
+  display: none;
 }
 
 #frepi-categories section {
@@ -764,7 +764,7 @@ nav.admin.menu #landing-logo img {
 }
 
 .admin.content .twelve.wide.column .dimmer .loader {
-  top: 19rem !important;
+  position: fixed;
 }
 
 .admin.content section {

@@ -16,7 +16,6 @@ setNextImg = ->
 setPrevImg = ->
 
 restartAnimation = ->
-	console.log 'restarting'
 	$elemsToAnimate = $('#slider .inner-images > li')
 	$.each($elemsToAnimate, (i, elem) ->
 			$elem = $(elem)

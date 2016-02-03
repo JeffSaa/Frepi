@@ -1,13 +1,14 @@
 class ProductsVM extends AdminPageVM
 	constructor: ->
 		super()
+		@AWSBucket = null
+		@fileHasBeenUploaded = false
 		@productsAlertText = ko.observable()
 		@shouldShowProductsAlert = ko.observable(true)
 		@currentProducts = ko.observableArray()
 		@availableSucursals = ko.observableArray()
 		@availableCategories = ko.observableArray()
 		@availableSubcategories = ko.observableArray()
-		@productsPages = ko.observableArray()
 		@chosenProduct =
 			id : ko.observable()
 			image: ko.observable()
@@ -17,12 +18,18 @@ class ProductsVM extends AdminPageVM
 			storePrice : ko.observable()
 			subcategoryID : ko.observable()
 
+		@productsPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
-
-		@fetchProducts(1)
+		@fetchProducts()
 		@setDOMProperties()
+		@setAWSCredentials()
 		@setRulesValidation()
 
 	createProduct: ->
@@ -36,6 +43,7 @@ class ProductsVM extends AdminPageVM
 
 		console.log data
 
+		$('.create.modal form .green.button').addClass('loading')
 		if $form.form('is valid')
 			RESTfulService.makeRequest('POST', "/stores/1/sucursals/#{$form.form('get value', 'sucursalID')}/products", data, (error, success, headers) =>
 					$('.create.modal form .green.button').removeClass('loading')
@@ -63,7 +71,7 @@ class ProductsVM extends AdminPageVM
 						return product.id is @chosenProduct.id()
 					)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')				
+				$('.delete.modal').modal('hide')
 		)
 
 	showUpdate: (product) =>
@@ -85,11 +93,44 @@ class ProductsVM extends AdminPageVM
 		$('.delete.modal').modal('show')
 
 	fetchProductsPage: (page) =>
+		numShownPages = @productsPages.showablePages().length
+
+		# Select which item should be set as active in the pagination list
+		module = page.num % 10
+		moduleFive = module % 5
+
+		if module is 0 or moduleFive is 0
+			activePage = 5
+		else
+			if moduleFive is 1 and page.num isnt 1
+				activePage = 6
+			else
+				activePage = moduleFive
+
+		midPoint = parseInt((@productsPages.lowerLimit + @productsPages.upperLimit)/2)
+
+		unless numShownPages < 10
+			if page.num > midPoint
+				@productsPages.lowerLimit = midPoint
+				possibleUpperLimit = @productsPages.lowerLimit + 10
+				if possibleUpperLimit < @productsPages.allPages.length
+					@productsPages.upperLimit = possibleUpperLimit
+				else
+					@productsPages.upperLimit = @productsPages.allPages.length - 1
+
+		if (page.num - 1) is @productsPages.lowerLimit and (page.num - 1) isnt 0
+			@productsPages.upperLimit = if numShownPages < 10 then @productsPages.showablePages()[4].num else midPoint
+			@productsPages.lowerLimit = @productsPages.upperLimit - 10
+
+		# Set new available pages in the pagination list
+		@productsPages.showablePages(@productsPages.allPages.slice(@productsPages.lowerLimit, @productsPages.upperLimit))
+		# Set new active page
 		$('table.products .pagination .pages .item').removeClass('active')
-		$("table.products .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		$("table.products .pagination .pages .item:nth-of-type(#{activePage})").addClass('active')
+		# Fetch products according number's page
 		@fetchProducts(page.num)
-	
-	fetchProducts: (numPage) ->
+
+	fetchProducts: (numPage = 1) ->
 		@isLoading(true)
 		data =
 			page : numPage
@@ -106,20 +147,21 @@ class ProductsVM extends AdminPageVM
 				console.log success
 				if success.length > 0
 					@shouldShowProductsAlert(false)
-					if @productsPages().length is 0
-						pages = []
-						for i in [0..headers.totalItems/10]
-							obj =
-								num: i+1
+					if @productsPages.allPages.length is 0
+						totalPages = headers.totalItems/10
+						for i in [0..totalPages]
+							@productsPages.allPages.push({num: i+1})
 
-							pages.push(obj)
-						@productsPages(pages)
+						@productsPages.lowerLimit = 0
+						@productsPages.upperLimit = if totalPages < 10 then totalPages else 10
+						@productsPages.showablePages(@productsPages.allPages.slice(@productsPages.lowerLimit, @productsPages.upperLimit))
+
 						$("table.products .pagination .pages .item:first-of-type").addClass('active')
 					@currentProducts(success)
 				else
 					@shouldShowProductsAlert(true)
 					@productsAlertText('No hay productos')
-				
+
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
@@ -134,7 +176,8 @@ class ProductsVM extends AdminPageVM
 		)
 
 	fetchSubcategories: ->
-		categoryID = $('.ui.modal form').form('get value', 'categoryID')
+		$currentForm = if $('.create.modal').modal('is active') then $('.create.modal form') else $('.update.modal form')
+		categoryID = $currentForm.form('get value', 'categoryID')
 		$('.ui.modal .subcategory.dropdown').addClass('loading')
 		RESTfulService.makeRequest('GET', "/categories/#{categoryID}/subcategories", '', (error, success, headers) =>
 			$('.ui.modal .subcategory.dropdown').removeClass('loading')
@@ -147,7 +190,7 @@ class ProductsVM extends AdminPageVM
 		)
 
 	fetchSucursals: ->
-		RESTfulService.makeRequest('GET', "/stores/1/sucursals", {page: 1}, (error, success, headers) =>
+		RESTfulService.makeRequest('GET', "/stores/1/sucursals", {page: 1, perPage: 25}, (error, success, headers) =>
 			if error
 				console.log 'An error has ocurred while updating the user!'
 			else
@@ -199,64 +242,79 @@ class ProductsVM extends AdminPageVM
 				})
 		$('.ui.modal .dropdown')
 			.dropdown()
+		$('.ui.progress')
+			.progress({
+					percent: 0
+				})
 
 	previewImage: (data, event) ->
 		console.log 'previewing'
 		$('.ui.modal img')[0].src = URL.createObjectURL(event.target.files[0])
 
-	uploadProduct: =>
+	setAWSCredentials: =>
 		AWS.config.region = 'us-east-1'
 		AWS.config.update({accessKeyId: 'AKIAJPKUUYXNQVWSKLHA', secretAccessKey: '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'})
 
-		AWS.config.credentials.get((err) ->
-				alert(err) if err
-				console.log(AWS.config.credentials)
-		)
-
-		bucketName = 'frepi'
-		bucket = new AWS.S3({
+		@AWSBucket = new AWS.S3({
 				params: {
-					Bucket: bucketName
+					Bucket: 'frepi'
 				}
 		})
-		
-		$fileChooser = $('.create.modal .dimmer input')[0]
-		fileToUpload = $fileChooser.files[0]
 
-		$form = $('.create.modal form')
-
-		if fileToUpload and $form.form('is valid')
-			objKey = 'products/' + $form.form('get value', 'name')
+	uploadImage: (file, name) =>
+		if file
+			objKey = 'products/' + name
 			params =
 				Key: objKey
-				ContentType: fileToUpload.type
-				Body: fileToUpload
+				ContentType: file.type
+				Body: file
 				ACL: 'public-read'
 
-			$('.create.modal form .green.button').addClass('loading')
-			bucket.putObject(params, (err, data) => 
-					if err
-						console.log 'Error while uploading image to S3'
-					else
-						console.log(data)
-						console.log 'Image uploaded'
-						@createProduct()
-			)
-		else
-			console.log 'Nothing to upload'
+			# $('.create.modal form .green.button').addClass('loading')
+			@fileHasBeenUploaded = false
+			$currentProgressBar = if $('.create.modal').modal('is active') then $('.create.modal .progress') else $('.update.modal .progress')
 
-	setSizeSidebar: ->
-		if $(window).width() < 480
-			$('#shopping-cart').removeClass('wide')
+			@AWSBucket.upload(params).on('httpUploadProgress', (evt) ->
+					AWSprogress = parseInt((evt.loaded * 100) / evt.total)
+					console.log "Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%'
+					$currentProgressBar.progress({percent: AWSprogress})
+				).send((err, data) =>
+						@fileHasBeenUploaded = true unless err
+						alert("File uploaded successfully.")
+					)
 		else
-			$('#shopping-cart').addClass('wide')
+			alert 'Nothing to upload'
+			# $('.create.modal form')
 
-		$(window).resize(->
-			if $(window).width() < 480
-				$('#shopping-cart').removeClass('wide')
-			else
-				$('#shopping-cart').addClass('wide')
-		)
+
+	uploadProduct: =>
+		$fileChooser = $('.create.modal .dimmer input')[0]
+		$form = $('.create.modal form')
+		fileToUpload = $fileChooser.files[0]
+
+		@uploadImage(fileToUpload, $form.form('get value', 'name')) unless @fileHasBeenUploaded
+
+		@createProduct() if @fileHasBeenUploaded and $form.form('is valid')
+
+		# if fileToUpload and $form.form('is valid')
+		# 	objKey = 'products/' + $form.form('get value', 'name')
+		# 	params =
+		# 		Key: objKey
+		# 		ContentType: fileToUpload.type
+		# 		Body: fileToUpload
+		# 		ACL: 'public-read'
+
+		# 	$('.create.modal form .green.button').addClass('loading')
+		# 	@AWSBucket.putObject(params, (err, data) =>
+		# 			if err
+		# 				console.log 'Error while uploading image to S3'
+		# 			else
+		# 				console.log(data)
+		# 				console.log 'Image uploaded'
+		# 				@createProduct()
+		# 	)
+		# else
+		# 	console.log 'Nothing to upload'
 
 products = new ProductsVM
 ko.applyBindings(products)
