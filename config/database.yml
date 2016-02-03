@@ -10,8 +10,8 @@ default: &default
 development:
   <<: *default
   #database: db/development.sqlite3
-  username: albertocamargo
-  password: 950106
+  username: frepidatabase
+  password: frepidatabase
   database: db/development
 
 # Warning: The database defined as "test" will be erased and
