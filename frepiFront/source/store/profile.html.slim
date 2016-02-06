@@ -116,7 +116,7 @@
 				tbody data-bind="foreach: currentOrders"
 					tr
 						td data-bind="text: $root.DateFormatter($data.date)"
-						td data-bind="text: $data.products"
+						td data-bind="text: $root.ProductsFormatter($data.products)"
 						td data-bind="text: $data.totalPrice"
 						/ td.center.aligned
 						/   a.ui.teal.label

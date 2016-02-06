@@ -32,10 +32,12 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.7)
     execjs (2.6.0)
+    ffi (1.9.10)
     ffi (1.9.10-x86-mingw32)
     haml (4.0.6)
       tilt
     hike (1.2.3)
+    hitimes (1.2.2)
     hitimes (1.2.2-x86-mingw32)
     hooks (0.4.0)
       uber (~> 0.0.4)
@@ -127,6 +129,7 @@ GEM
     wdm (0.1.1)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
@@ -135,3 +138,6 @@ DEPENDENCIES
   slim
   tzinfo-data
   wdm (~> 0.1.0)
+
+BUNDLED WITH
+   1.10.5

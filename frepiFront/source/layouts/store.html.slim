@@ -119,7 +119,7 @@ html
 			.checkout data-bind="visible: !session.signedUp()"
 				.ui.items data-bind="foreach: session.currentOrder.products"
 					.item
-						.ui.tiny.image 
+						.ui.tiny.image
 							img data-bind="attr: {src: $data.image}"
 						.content
 							.header data-bind="text: $data.name"
@@ -134,15 +134,15 @@ html
 					button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
 			.sign-up-banner data-bind="visible: session.signedUp"
 				p.ui.header
-					|Oops! Tienes que estar en tu cuenta, 
-					a ingresa! 
+					|Oops! Tienes que estar en tu cuenta,
+					a ingresa!
 					| Si no tiene una, puedes:
 				button.ui.fluid.large.green.button Crea una cuenta
 				.ui.horizontal.divider o
 				button#login-fb.ui.fluid.large.labeled.icon.facebook.button
 					i.facebook.icon
 					|Inicia con Facebook
-		.pusher					
+		.pusher
 			header
 				#store-primary-navbar.ui.fixed.inverted.menu
 					#store-frepi-logo
@@ -155,7 +155,7 @@ html
 								|Paseo Bolívar
 					#product-searcher.item
 						.ui.icon.input
-							input type="text" placeholder="Buscar en Olímpica..."
+							input type="text" placeholder="Buscar productos..."
 							i.circular.search.link.icon
 					#user-account.ui.simple.dropdown.item
 							.text data-bind="text: 'Hola, '+user.firstName()"
@@ -170,7 +170,7 @@ html
 								.divider
 								.item data-bind="click: logout"
 									i.sign.out.icon
-									|Salir			
+									|Salir
 					#shopping-cart
 						i.circular.inverted.orange.shop.icon
 

@@ -317,5 +317,14 @@ class ProfileVM extends TransactionalPageVM
 	DateFormatter: (datetime)->
 		return moment(datetime, moment.ISO_8601).format('lll')
 
+	ProductsFormatter: (products) ->
+		information = ''
+		for product in products
+			information += "#{product.product.name} x #{product.quantity}"
+			if products.indexOf(product) isnt products.length - 1
+				information += ", "
+
+		return information
+
 profile = new ProfileVM
 ko.applyBindings(profile)
