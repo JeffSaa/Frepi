@@ -43,7 +43,7 @@ class ProductsVM extends AdminPageVM
 
 		console.log data
 
-		$('.create.modal form .green.button').addClass('loading')
+		# $('.create.modal form .green.button').addClass('loading')
 		if $form.form('is valid')
 			RESTfulService.makeRequest('POST', "/stores/1/sucursals/#{$form.form('get value', 'sucursalID')}/products", data, (error, success, headers) =>
 					$('.create.modal form .green.button').removeClass('loading')
@@ -93,41 +93,7 @@ class ProductsVM extends AdminPageVM
 		$('.delete.modal').modal('show')
 
 	fetchProductsPage: (page) =>
-		numShownPages = @productsPages.showablePages().length
-
-		# Select which item should be set as active in the pagination list
-		module = page.num % 10
-		moduleFive = module % 5
-
-		if module is 0 or moduleFive is 0
-			activePage = 5
-		else
-			if moduleFive is 1 and page.num isnt 1
-				activePage = 6
-			else
-				activePage = moduleFive
-
-		midPoint = parseInt((@productsPages.lowerLimit + @productsPages.upperLimit)/2)
-
-		unless numShownPages < 10
-			if page.num > midPoint
-				@productsPages.lowerLimit = midPoint
-				possibleUpperLimit = @productsPages.lowerLimit + 10
-				if possibleUpperLimit < @productsPages.allPages.length
-					@productsPages.upperLimit = possibleUpperLimit
-				else
-					@productsPages.upperLimit = @productsPages.allPages.length - 1
-
-		if (page.num - 1) is @productsPages.lowerLimit and (page.num - 1) isnt 0
-			@productsPages.upperLimit = if numShownPages < 10 then @productsPages.showablePages()[4].num else midPoint
-			@productsPages.lowerLimit = @productsPages.upperLimit - 10
-
-		# Set new available pages in the pagination list
-		@productsPages.showablePages(@productsPages.allPages.slice(@productsPages.lowerLimit, @productsPages.upperLimit))
-		# Set new active page
-		$('table.products .pagination .pages .item').removeClass('active')
-		$("table.products .pagination .pages .item:nth-of-type(#{activePage})").addClass('active')
-		# Fetch products according number's page
+		@setPaginationItemsToShow(page.num, @productsPages, 'table.products')
 		@fetchProducts(page.num)
 
 	fetchProducts: (numPage = 1) ->
@@ -148,7 +114,7 @@ class ProductsVM extends AdminPageVM
 				if success.length > 0
 					@shouldShowProductsAlert(false)
 					if @productsPages.allPages.length is 0
-						totalPages = headers.totalItems/10
+						totalPages = Math.ceil(headers.totalItems/10)
 						for i in [0..totalPages]
 							@productsPages.allPages.push({num: i+1})
 
@@ -232,16 +198,21 @@ class ProductsVM extends AdminPageVM
 	setDOMProperties: ->
 		$('.ui.modal')
 			.modal(
-					onShow: =>
-						@fetchSucursals()
-				)
-			.modal('attach events', '.create.button', 'show')
+				onHidden: ->
+					console.log 'closing'
+					$('.ui.modal img')[0].src = '../../images/landing/image.png'
+					$('.ui.modal .progress').progress({percent: 0})
+					$('.ui.modal form').form('clear') # Clears form when the modal is hidding
+				onShow: =>
+					console.log 'opening'
+					@fetchSucursals()
+			)
+			.modal('attach events', '.ui.modal .cancel.button', 'hide')
 		$('.modal .ui.image')
 			.dimmer({
 					on: 'hover'
 				})
-		$('.ui.modal .dropdown')
-			.dropdown()
+
 		$('.ui.progress')
 			.progress({
 					percent: 0
@@ -272,14 +243,23 @@ class ProductsVM extends AdminPageVM
 
 			# $('.create.modal form .green.button').addClass('loading')
 			@fileHasBeenUploaded = false
-			$currentProgressBar = if $('.create.modal').modal('is active') then $('.create.modal .progress') else $('.update.modal .progress')
+			isCreationModalActive = $('.create.modal').modal('is active')
+			$currentProgressBar = if isCreationModalActive then $('.create.modal .progress') else $('.update.modal .progress')
+
+			$('.ui.modal form .green.button').addClass('loading')
 
 			@AWSBucket.upload(params).on('httpUploadProgress', (evt) ->
 					AWSprogress = parseInt((evt.loaded * 100) / evt.total)
 					console.log "Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%'
 					$currentProgressBar.progress({percent: AWSprogress})
 				).send((err, data) =>
-						@fileHasBeenUploaded = true unless err
+						unless err
+							@fileHasBeenUploaded = true
+							if isCreationModalActive
+								@createProduct()
+						else
+							$('.ui.modal form .green.button').removeClass('loading')
+
 						alert("File uploaded successfully.")
 					)
 		else
@@ -293,28 +273,6 @@ class ProductsVM extends AdminPageVM
 		fileToUpload = $fileChooser.files[0]
 
 		@uploadImage(fileToUpload, $form.form('get value', 'name')) unless @fileHasBeenUploaded
-
-		@createProduct() if @fileHasBeenUploaded and $form.form('is valid')
-
-		# if fileToUpload and $form.form('is valid')
-		# 	objKey = 'products/' + $form.form('get value', 'name')
-		# 	params =
-		# 		Key: objKey
-		# 		ContentType: fileToUpload.type
-		# 		Body: fileToUpload
-		# 		ACL: 'public-read'
-
-		# 	$('.create.modal form .green.button').addClass('loading')
-		# 	@AWSBucket.putObject(params, (err, data) =>
-		# 			if err
-		# 				console.log 'Error while uploading image to S3'
-		# 			else
-		# 				console.log(data)
-		# 				console.log 'Image uploaded'
-		# 				@createProduct()
-		# 	)
-		# else
-		# 	console.log 'Nothing to upload'
 
 products = new ProductsVM
 ko.applyBindings(products)

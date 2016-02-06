@@ -8,6 +8,7 @@ class window.AdminPageVM
 		# @setExistingSession()
 		# @setUserInfo()
 		@setDOMElements()
+		@setDOMEventsHandlers()
 
 	logout: ->
 		# RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (error, success, headers) =>
@@ -26,7 +27,7 @@ class window.AdminPageVM
 		console.log tempUser
 		console.log @user
 
-	setPaginationItemToShow: (activeNumPage, objPage, table) ->
+	setPaginationItemsToShow: (activeNumPage, objPage, DOMParent) ->
 		numShownPages = objPage.showablePages().length
 
 		# Select which item should be set as active in the pagination list
@@ -39,8 +40,9 @@ class window.AdminPageVM
 			if moduleFive is 1 and activeNumPage isnt 1
 				activePage = 6
 			else
-				activePage = moduleFive
+				activePage = if numShownPages < 10 then module else moduleFive
 
+		# Set a mid point based on the current shown pagination items limits
 		midPoint = parseInt((objPage.lowerLimit + objPage.upperLimit)/2)
 
 		unless numShownPages < 10
@@ -60,9 +62,16 @@ class window.AdminPageVM
 		objPage.showablePages(objPage.allPages.slice(objPage.lowerLimit, objPage.upperLimit))
 
 		# Set new active page
-		$("#{table} .pagination .pages .item").removeClass('active')
-		$("#{table} .pagination .pages .item:nth-of-type(#{activePage})").addClass('active')
+		$("#{DOMParent} .pagination .pages .item").removeClass('active')
+		$("#{DOMParent} .pagination .pages .item:nth-of-type(#{activePage})").addClass('active')
+
+	setDOMEventsHandlers: ->
+		$('.ui.create.button').on('click', ->
+				$('.ui.create.modal').modal('show')
+			)
+		$('.ui.modal .cancel.button').on('click', ->
+				$('.ui.modal').modal('hide')
+			)
 
 	setDOMElements: ->
-		$('.ui.create.modal')
-			.modal('attach events', '.create.button', 'show')
+		$('.ui.modal .dropdown').dropdown()

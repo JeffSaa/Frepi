@@ -1,8 +1,8 @@
 .ui.small.admin.delete.modal
 	.header Eliminar producto
-	.content		
+	.content
 		p
-			|Está a punto de eliminar la sucursal 
+			|Está a punto de eliminar la sucursal
 			strong data-bind="text: chosenSucursal.name"
 			|, al hacerlo se eliminará toda la información asociada a ella, como ordenes o productos ¿Desea hacerlo?
 	.actions
@@ -100,7 +100,7 @@ section.content
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDelete"
 		tbody data-bind="visible: shouldShowSucursalsAlert"
-				tr 
+				tr
 					td.alert.box colspan="7"
 						h4.ui.centered.header data-bind="text: sucursalsAlertText"
 		tfoot
@@ -109,7 +109,7 @@ section.content
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon
-						.pages.item data-bind="foreach: sucursalsPages"
+						.pages.item data-bind="foreach: sucursalsPages.showablePages"
 							a.item data-bind="text: $data.num, click: $root.fetchSucursalsPage"
 						a.icon.item
 							i.right.chevron.icon

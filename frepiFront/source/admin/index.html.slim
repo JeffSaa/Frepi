@@ -2,7 +2,7 @@
 	.header Eliminar Usuario
 	.content
 		p
-			|Está a punto de eliminar a 
+			|Está a punto de eliminar a
 			strong data-bind="text: chosenUser.name"
 			|, ¿Desea hacerlo?
 	.actions
@@ -110,12 +110,12 @@ section.content
 				td data-bind="text: $data.name"
 				td data-bind="text: $data.lastName"
 				td data-bind="text: $data.phoneNumber"
-				td data-bind="text: $data.email"				
+				td data-bind="text: $data.email"
 				td
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
 		tbody data-bind="visible: shouldShowAdminsAlert"
-				tr 
+				tr
 					td.alert.box colspan="7"
 						h4.ui.centered.header data-bind="text: adminsAlertText"
 		tfoot
@@ -124,7 +124,7 @@ section.content
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon
-						.pages.item data-bind="foreach: adminsPages"
+						.pages.item data-bind="foreach: adminsPages.showablePages"
 								a.item data-bind="text: $data.num, click: $root.fetchAdminsPage"
 						a.icon.item
 							i.right.chevron.icon
@@ -160,7 +160,7 @@ section.content
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
 		tbody data-bind="visible: shouldShowUsersAlert"
-				tr 
+				tr
 					td.alert.box colspan="11"
 						h4.ui.centered.header data-bind="text: usersAlertText"
 		tfoot
@@ -169,7 +169,7 @@ section.content
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon
-						.pages.item data-bind="foreach: usersPages"
+						.pages.item data-bind="foreach: usersPages.showablePages"
 								a.item data-bind="text: $data.num, click: $root.fetchUsersPage"
 						a.icon.item
 							i.right.chevron.icon

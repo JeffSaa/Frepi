@@ -4,15 +4,21 @@ class SucursalsVM extends AdminPageVM
 		@shouldShowSucursalsAlert = ko.observable(false)
 		@sucursalsAlertText = ko.observable()
 		@currentSucursals = ko.observableArray()
-		@sucursalsPages = ko.observableArray()
 		@chosenSucursal =
 			id : ko.observable()
 			name : ko.observable()
+
+		@sucursalsPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
 
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
 		@fetchSucursals()
+		@setDOMProperties()
 		@setRulesValidation()
 
 	createSucursal: ->
@@ -75,7 +81,7 @@ class SucursalsVM extends AdminPageVM
 						return sucursal.id is @chosenSucursal.id()
 					)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')				
+				$('.delete.modal').modal('hide')
 		)
 
 	showUpdate: (sucursal) =>
@@ -97,8 +103,7 @@ class SucursalsVM extends AdminPageVM
 		$('.delete.modal').modal('show')
 
 	fetchSucursalsPage: (page) =>
-		$('table.sucursals .pagination .pages .item').removeClass('active')
-		$("table.sucursals .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@setPaginationItemsToShow(page.num, @sucursalsPages, 'table.sucursals')
 		@fetchSucursals(page.num)
 
 	fetchSucursals: (numPage = 1) ->
@@ -114,12 +119,15 @@ class SucursalsVM extends AdminPageVM
 				@sucursalsAlertText('Hubo un problema buscando la información de las sucursales')
 			else
 				console.log success
-				if success.length > 0
-					pages = []
-					for i in [0..headers.totalItems/10]
-						pages.push({num: i+1})
-					
-					@sucursalsPages(pages)
+				if @sucursalsPages.allPages.length is 0
+					totalPages = Math.ceil(headers.totalItems/10)
+					for i in [0..totalPages]
+						@sucursalsPages.allPages.push({num: i+1})
+
+					@sucursalsPages.lowerLimit = 0
+					@sucursalsPages.upperLimit = if totalPages < 10 then totalPages else 10
+					@sucursalsPages.showablePages(@sucursalsPages.allPages.slice(@sucursalsPages.lowerLimit, @sucursalsPages.upperLimit))
+
 					$("table.sucursals .pagination .pages .item:first-of-type").addClass('active')
 
 					@currentSucursals(success)
@@ -155,6 +163,13 @@ class SucursalsVM extends AdminPageVM
 					inline: true
 					keyboardShortcuts: false
 				})
+
+	setDOMProperties: ->
+		$('.ui.modal')
+			.modal(
+					onHidden: ->
+						$('.ui.modal form').form('clear') # Clears form when the modal is hidding
+				)
 
 sucursals = new SucursalsVM
 ko.applyBindings(sucursals)

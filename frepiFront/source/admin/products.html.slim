@@ -2,7 +2,7 @@
 	.header Eliminar producto
 	.content
 		p
-			|Está a punto de eliminar 
+			|Está a punto de eliminar
 			strong data-bind="text: chosenProduct.name"
 			|, ¿Desea hacerlo?
 	.actions
@@ -161,7 +161,7 @@ section.content
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDelete"
 		tbody data-bind="visible: shouldShowProductsAlert"
-				tr 
+				tr
 					td.alert.box colspan="7"
 						h4.ui.centered.header data-bind="text: productsAlertText"
 		tfoot

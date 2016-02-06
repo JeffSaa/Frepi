@@ -7,20 +7,32 @@ class PerformanceVM extends AdminPageVM
 		@shouldShowShoppersAlert = ko.observable(true)
 		@shouldShowProductsAlert = ko.observable(true)
 		@shouldShowSucursalsAlert = ko.observable(true)
-		@shoppersPages = ko.observableArray()
-		@productsPages = ko.observableArray()
-		@sucursalsPages = ko.observableArray()
 		@currentProducts = ko.observableArray()
 		@currentShoppers = ko.observableArray()
 		@currentSucursals = ko.observableArray()
+
+		@shoppersPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+		@productsPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+		@sucursalsPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
 
 		# Methods to execute on instance
 
 		@setDOMProperties()
 
 	fetchEarningsPage: (page) =>
-		$('article.sucursals .pagination .pages .item').removeClass('active')
-		$("article.sucursals .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@setPaginationItemsToShow(page.num, @sucursalsPages, 'article.sucursals')
 		@fetchEarningsStatistics(page.startDate, page.endDate, page.num)
 
 	fetchEarningsStatistics: (startDate, endDate, numPage) ->
@@ -39,30 +51,32 @@ class PerformanceVM extends AdminPageVM
 					console.log 'Earnings statistics fetching done'
 					console.log success
 					if success.length > 0
-						@currentSucursals(success)
 						@shouldShowSucursalsAlert(false)
+						@currentSucursals(success)
 
-						if @sucursalsPages().length is 0
-							pages = []
-							for i in [0..headers.totalItems/10]
+						if @sucursalsPages.allPages.length is 0
+							totalPages = Math.ceil(headers.totalItems/10)
+							for i in [0..totalPages]
 								obj =
 									num: i+1
 									endDate : endDate
 									startDate : startDate
+								@sucursalsPages.allPages.push(obj)
 
-								pages.push(obj)
-							@sucursalsPages(pages)
-						$("article.sucursals .pagination .pages .item:first-of-type").addClass('active')
+							@sucursalsPages.lowerLimit = 0
+							@sucursalsPages.upperLimit = if totalPages < 10 then totalPages else 10
+							@sucursalsPages.showablePages(@sucursalsPages.allPages.slice(@sucursalsPages.lowerLimit, @sucursalsPages.upperLimit))
+
+							$("article.sucursals .pagination .pages .item:first-of-type").addClass('active')
 					else
 						@shouldShowSucursalsAlert(true)
 						@sucursalsAlertText('No hubo ventas en el rango escogido')
-					
+
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 			)
 
 	fetchProductsPage: (page) =>
-		$('article.products .pagination .pages .item').removeClass('active')
-		$("article.products .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@setPaginationItemsToShow(page.num, @productsPages, 'article.products')
 		@fetchProductsStatistics(page.startDate, page.endDate, page.num)
 
 	fetchProductsStatistics: (startDate, endDate, numPage) ->
@@ -83,28 +97,30 @@ class PerformanceVM extends AdminPageVM
 					if success.length > 0
 						@currentProducts(success)
 						@shouldShowProductsAlert(false)
-						
-						if @productsPages().length is 0
-							pages = []
-							for i in [0..headers.totalItems/10]
+
+						if @productsPages.allPages.length is 0
+							totalPages = Math.ceil(headers.totalItems/10)
+							for i in [0..totalPages]
 								obj =
 									num: i+1
 									endDate : endDate
 									startDate : startDate
+								@productsPages.allPages.push(obj)
 
-								pages.push(obj)
-							@productsPages(pages)
+							@productsPages.lowerLimit = 0
+							@productsPages.upperLimit = if totalPages < 10 then totalPages else 10
+							@productsPages.showablePages(@productsPages.allPages.slice(@productsPages.lowerLimit, @productsPages.upperLimit))
+
 							$("article.products .pagination .pages .item:first-of-type").addClass('active')
 					else
 						@shouldShowProductsAlert(true)
 						@productsAlertText('No hubo ventas en el rango escogido')
-					
+
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 			)
 
 	fetchShoppersPage: (page) =>
-		$('article.shoppers .pagination .pages .item').removeClass('active')
-		$("article.shoppers .pagination .pages .item:nth-of-type(#{page.num})").addClass('active')
+		@setPaginationItemsToShow(page.num, @shoppersPages, 'article.shoppers')
 		@fetchShoppersStatistics(page.startDate, page.endDate, page.num)
 
 	fetchShoppersStatistics: (startDate, endDate, numPage) ->
@@ -126,21 +142,24 @@ class PerformanceVM extends AdminPageVM
 						@currentShoppers(success)
 						@shouldShowShoppersAlert(false)
 
-						if @shoppersPages().length is 0
-							pages = []
-							for i in [0..headers.totalItems/10]
+						if @shoppersPages.allPages.length is 0
+							totalPages = Math.ceil(headers.totalItems/10)
+							for i in [0..totalPages]
 								obj =
 									num: i+1
 									endDate : endDate
 									startDate : startDate
+								@shoppersPages.allPages.push(obj)
 
-								pages.push(obj)
-							@shoppersPages(pages)
+							@shoppersPages.lowerLimit = 0
+							@shoppersPages.upperLimit = if totalPages < 10 then totalPages else 10
+							@shoppersPages.showablePages(@shoppersPages.allPages.slice(@shoppersPages.lowerLimit, @shoppersPages.upperLimit))
+
 							$("article.shoppers .pagination .pages .item:first-of-type").addClass('active')
 					else
 						@shouldShowShoppersAlert(true)
 						@shoppersAlertText('No hubo ventas en el rango escogido')
-					
+
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 			)
 
