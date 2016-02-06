@@ -30,7 +30,7 @@ header
 	h2 Ordenes
 
 section.content
-	table.ui.celled.table
+	table.ui.celled.orders.table
 		thead
 			tr
 				th ID
@@ -60,9 +60,8 @@ section.content
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon
-						a.item 1
-						a.item 2
-						a.item 3
+						.pages.item data-bind="foreach: ordersPages.showablePages"
+							a.item data-bind="text: $data.num, click: $root.fetchOrdersPage"
 						a.icon.item
 							i.right.chevron.icon
 

@@ -12,10 +12,22 @@ class AdminsVM extends AdminPageVM
 			name : ko.observable()
 			isAdmin : ko.observable()
 
+		@adminsPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+		@usersPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
 		@fetchUsers()
+		# @fetchAdmins(1)
 		@setRulesValidation()
 		@setDOMProperties()
 
@@ -71,7 +83,7 @@ class AdminsVM extends AdminPageVM
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 						$('.update.modal').modal('hide')
-						@fetchUsers()
+						@fetchUsersPage(1)
 				)
 
 	deleteUser: =>
@@ -90,9 +102,9 @@ class AdminsVM extends AdminPageVM
 					@currentUsers.remove( (user) =>
 							return user.id is @chosenUser.id()
 						)
-					
+
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')				
+				$('.delete.modal').modal('hide')
 		)
 
 	showUpdate: (user) =>
@@ -115,9 +127,13 @@ class AdminsVM extends AdminPageVM
 		@chosenUser.isAdmin(user.administrator)
 		$('.delete.modal').modal('show')
 
-	fetchAdmins: =>
+	fetchAdminsPage: (page) =>
+		@setPaginationItemsToShow(page.num, @adminsPages, 'table.admins')
+		@fetchAdmins(page.num)
+
+	fetchAdmins: (numPage = 1) =>
 		data =
-			page : 1
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/administrator/admins", data, (error, success, headers) =>
 			@isLoading(false)
@@ -128,29 +144,53 @@ class AdminsVM extends AdminPageVM
 			else
 				console.log success
 				if success.length > 0
+					if @adminsPages.allPages.length is 0
+						totalPages = Math.ceil(headers.totalItems/10)
+						for i in [0..totalPages]
+							@adminsPages.allPages.push({num: i+1})
+
+						@adminsPages.lowerLimit = 0
+						@adminsPages.upperLimit = if totalPages < 10 then totalPages else 10
+						@adminsPages.showablePages(@adminsPages.allPages.slice(@adminsPages.lowerLimit, @adminsPages.upperLimit))
+
+						$("table.admins .pagination .pages .item:first-of-type").addClass('active')
 					@currentAdmins(success)
 					@shouldShowAdminsAlert(false)
 				else
 					@shouldShowAdminsAlert(true)
 					@adminsAlertText('No hay administradores')
-				
+
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
-	fetchUsers: ->
+	fetchUsersPage: (page) =>
+		@setPaginationItemsToShow(page.num, @usersPages, 'table.users')
+		@fetchUsers(page.num)
+
+	fetchUsers: (numPage = 1) ->
 		@isLoading(true)
 		data =
-			page : 1
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/administrator/users", data, (error, success, headers) =>
+			@isLoading(false)
 			if error
-				@isLoading(false)
 				console.log 'An error has ocurred while fetching the clients!'
 				@shouldShowAdminsAlert(true)
-				@adminsAlertText('Hubo un problema buscando la información de los usuarios')
+				@usersAlertText('Hubo un problema buscando la información de los usuarios')
 			else
 				console.log success
 				if success.length > 0
+					if @usersPages.allPages.length is 0
+						totalPages = Math.ceil(headers.totalItems/10)
+						for i in [0..totalPages]
+							@usersPages.allPages.push({num: i+1})
+
+						@usersPages.lowerLimit = 0
+						@usersPages.upperLimit = if totalPages < 10 then totalPages else 10
+						@usersPages.showablePages(@usersPages.allPages.slice(@usersPages.lowerLimit, @usersPages.upperLimit))
+
+						$("table.users .pagination .pages .item:first-of-type").addClass('active')
 					@currentUsers(success)
 					@shouldShowUsersAlert(false)
 				else
@@ -211,6 +251,11 @@ class AdminsVM extends AdminPageVM
 				})
 
 	setDOMProperties: ->
+		$('.ui.modal')
+			.modal(
+					onHidden: ->
+						$('.ui.modal form').form('clear') # Clears form when the modal is hidding
+				)
 
 admins = new AdminsVM
 ko.applyBindings(admins)

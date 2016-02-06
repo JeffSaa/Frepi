@@ -27,7 +27,7 @@ section.content
 					td data-bind="text: $data.storePrice"
 					td data-bind="text: $data.salesCount"
 			tbody data-bind="visible: shouldShowProductsAlert"
-				tr 
+				tr
 					td.alert.box colspan="5"
 						h4.ui.centered.header data-bind="text: productsAlertText"
 			tfoot
@@ -36,7 +36,7 @@ section.content
 						.ui.right.floated.pagination.menu
 							a.icon.item
 								i.left.chevron.icon
-							.pages.item data-bind="foreach: productsPages"
+							.pages.item data-bind="foreach: productsPages.showablePages"
 								a.item data-bind="text: $data.num, click: $root.fetchProductsPage"
 							a.icon.item
 								i.right.chevron.icon
@@ -71,7 +71,7 @@ section.content
 					td data-bind="text: $data.takenOrdersCount"
 					td data-bind="text: $data.shopperType"
 			tbody data-bind="visible: shouldShowShoppersAlert"
-				tr 
+				tr
 					td.alert.box colspan="8"
 						h4.ui.centered.header data-bind="text: shoppersAlertText"
 			tfoot
@@ -80,7 +80,7 @@ section.content
 						.ui.right.floated.pagination.menu
 							a.icon.item
 								i.left.chevron.icon
-							.pages.item data-bind="foreach: shoppersPages"
+							.pages.item data-bind="foreach: shoppersPages.showablePages"
 								a.item data-bind="text: $data.num"
 							a.icon.item
 								i.right.chevron.icon
@@ -118,7 +118,7 @@ section.content
 					td data-bind="text: $data.totalSoldStorePrice"
 					td data-bind="text: $root.getProfit($data.totalSoldFrepiPrice, $data.totalSoldStorePrice)"
 			tbody data-bind="visible: shouldShowSucursalsAlert"
-				tr 
+				tr
 					td.alert.box colspan="9"
 						h4.ui.centered.header data-bind="text: sucursalsAlertText"
 			tfoot
@@ -127,7 +127,7 @@ section.content
 						.ui.right.floated.pagination.menu
 							a.icon.item
 								i.left.chevron.icon
-							.pages.item data-bind="foreach: sucursalsPages"
+							.pages.item data-bind="foreach: sucursalsPages.showablePages"
 								a.item data-bind="text: $data.num"
 							a.icon.item
 								i.right.chevron.icon

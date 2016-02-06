@@ -8,6 +8,12 @@ class ShoppersVM extends AdminPageVM
 			id : ko.observable()
 			name : ko.observable()
 
+		@shoppersPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
@@ -24,8 +30,6 @@ class ShoppersVM extends AdminPageVM
 			firstName: $form.form('get value', 'firstName')
 			phoneNumber: $form.form('get value', 'phoneNumber')
 			shopperType: $form.form('get value', 'shopperType')
-
-		console.log data
 
 		if $form.form('is valid')
 			$('.create.modal form .green.button').addClass('loading')
@@ -77,7 +81,7 @@ class ShoppersVM extends AdminPageVM
 						return shopper.id is @chosenShopper.id()
 					)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')				
+				$('.delete.modal').modal('hide')
 		)
 
 	showUpdate: (shopper) =>
@@ -98,10 +102,14 @@ class ShoppersVM extends AdminPageVM
 		@chosenShopper.name(shopper.firstName+' '+shopper.lastName)
 		$('.delete.modal').modal('show')
 
-	fetchShoppers: ->
+	fetchShoppersPage: (page) =>
+		@setPaginationItemsToShow(page.num, @shoppersPages, 'table.shoppers')
+		@fetchShoppers(page.num)
+
+	fetchShoppers: (numPage = 1) ->
 		@isLoading(true)
 		data =
-			page : 1
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/shoppers", data, (error, success, headers) =>
 			@isLoading(false)
@@ -112,6 +120,16 @@ class ShoppersVM extends AdminPageVM
 			else
 				console.log success
 				if success.length > 0
+					if @shoppersPages.allPages.length is 0
+						totalPages = Math.ceil(headers.totalItems/10)
+						for i in [0..totalPages]
+							@shoppersPages.allPages.push({num: i+1})
+
+						@shoppersPages.lowerLimit = 0
+						@shoppersPages.upperLimit = if totalPages < 10 then totalPages else 10
+						@shoppersPages.showablePages(@shoppersPages.allPages.slice(@shoppersPages.lowerLimit, @shoppersPages.upperLimit))
+
+						$("table.shoppers .pagination .pages .item:first-of-type").addClass('active')
 					@currentShoppers(success)
 					@shouldShowShoppersAlert(false)
 				else
@@ -156,21 +174,14 @@ class ShoppersVM extends AdminPageVM
 				})
 
 	setDOMProperties: ->
+		$('.ui.modal')
+			.modal(
+					onHidden: ->
+						$('.ui.modal form').form('clear') # Clears form when the modal is hidding
+				)
+
 		$('.ui.modal .dropdown')
 			.dropdown()
-
-	setSizeSidebar: ->
-		if $(window).width() < 480
-			$('#shopping-cart').removeClass('wide')
-		else
-			$('#shopping-cart').addClass('wide')
-
-		$(window).resize(->
-			if $(window).width() < 480
-				$('#shopping-cart').removeClass('wide')
-			else
-				$('#shopping-cart').addClass('wide')
-		)
 
 shoppers = new ShoppersVM
 ko.applyBindings(shoppers)

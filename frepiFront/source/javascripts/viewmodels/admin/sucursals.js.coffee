@@ -8,10 +8,17 @@ class SucursalsVM extends AdminPageVM
 			id : ko.observable()
 			name : ko.observable()
 
+		@sucursalsPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
 		@fetchSucursals()
+		@setDOMProperties()
 		@setRulesValidation()
 
 	createSucursal: ->
@@ -74,7 +81,7 @@ class SucursalsVM extends AdminPageVM
 						return sucursal.id is @chosenSucursal.id()
 					)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')				
+				$('.delete.modal').modal('hide')
 		)
 
 	showUpdate: (sucursal) =>
@@ -95,10 +102,14 @@ class SucursalsVM extends AdminPageVM
 		@chosenSucursal.name(sucursal.name)
 		$('.delete.modal').modal('show')
 
-	fetchSucursals: ->
+	fetchSucursalsPage: (page) =>
+		@setPaginationItemsToShow(page.num, @sucursalsPages, 'table.sucursals')
+		@fetchSucursals(page.num)
+
+	fetchSucursals: (numPage = 1) ->
 		@isLoading(true)
 		data =
-			page : 1
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/stores/1/sucursals", data, (error, success, headers) =>
 			@isLoading(false)
@@ -108,7 +119,17 @@ class SucursalsVM extends AdminPageVM
 				@sucursalsAlertText('Hubo un problema buscando la información de las sucursales')
 			else
 				console.log success
-				if success.length > 0
+				if @sucursalsPages.allPages.length is 0
+					totalPages = Math.ceil(headers.totalItems/10)
+					for i in [0..totalPages]
+						@sucursalsPages.allPages.push({num: i+1})
+
+					@sucursalsPages.lowerLimit = 0
+					@sucursalsPages.upperLimit = if totalPages < 10 then totalPages else 10
+					@sucursalsPages.showablePages(@sucursalsPages.allPages.slice(@sucursalsPages.lowerLimit, @sucursalsPages.upperLimit))
+
+					$("table.sucursals .pagination .pages .item:first-of-type").addClass('active')
+
 					@currentSucursals(success)
 					@shouldShowSucursalsAlert(false)
 				else
@@ -143,18 +164,12 @@ class SucursalsVM extends AdminPageVM
 					keyboardShortcuts: false
 				})
 
-	setSizeSidebar: ->
-		if $(window).width() < 480
-			$('#shopping-cart').removeClass('wide')
-		else
-			$('#shopping-cart').addClass('wide')
-
-		$(window).resize(->
-			if $(window).width() < 480
-				$('#shopping-cart').removeClass('wide')
-			else
-				$('#shopping-cart').addClass('wide')
-		)
+	setDOMProperties: ->
+		$('.ui.modal')
+			.modal(
+					onHidden: ->
+						$('.ui.modal form').form('clear') # Clears form when the modal is hidding
+				)
 
 sucursals = new SucursalsVM
 ko.applyBindings(sucursals)

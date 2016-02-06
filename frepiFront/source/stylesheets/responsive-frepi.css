@@ -59,6 +59,10 @@
     text-align: center;
   }
 
+  .card .extra.content br {
+    display: block;
+  }
+
   .card .extra.content .button {
     float: none;
   }

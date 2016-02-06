@@ -55,6 +55,22 @@
 					.ui.labeled.green.submit.icon.button
 						|Guardar cambios
 						i.checkmark.icon
+	#order-details.ui.small.modal
+		.header Detalles de la orden
+		.content
+			h4.ui.header Lista de productos
+			ul data-bind="foreach: chosenOrder.products"
+				li data-bind="text: $data.product.name+' x '+$data.quantity"
+			p
+				strong Dirección entrega: 
+				|<!--ko text: ' $'+chosenOrder.address()--><!--/ko-->
+			p
+				strong Precio orden: 
+				|<!--ko text: ' $'+chosenOrder.totalPrice()--><!--/ko-->
+		.actions
+			.ui.green.ok.button
+				i.check.icon
+				|Ok
 	.ui.container
 		img#profile-picture.ui.centered.medium.circular.image data-bind="attr: {src: user.profilePicture}"
 		h1.ui.centered.header data-bind="text: user.fullName"
@@ -110,13 +126,13 @@
 				thead
 					tr
 						th.three.wide Fecha
-						th.nine.wide Productos
+						th.three.wide Productos
 						th.two.wide Valor($)
 						th.two.wide Estado
 				tbody data-bind="foreach: currentOrders"
-					tr
-						td data-bind="text: $root.DateFormatter($data.date)"
-						td data-bind="text: $root.ProductsFormatter($data.products)"
+					tr data-bind="click: $root.showOrderDetails"
+						td data-bind="text: $root.dateFormatter($data.date)"
+						td data-bind="text: $root.productsText($data.products)"
 						td data-bind="text: $data.totalPrice"
 						/ td.center.aligned
 						/   a.ui.teal.label

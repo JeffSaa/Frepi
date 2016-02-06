@@ -2,7 +2,7 @@
 	.header Eliminar Usuario
 	.content
 		p
-			|Está a punto de eliminar a 
+			|Está a punto de eliminar a
 			strong data-bind="text: chosenUser.name"
 			|, ¿Desea hacerlo?
 	.actions
@@ -93,7 +93,7 @@ section.actions
 		|Agregar Administrador
 
 section.content
-	table.ui.celled.table
+	table.admins.ui.celled.table
 		thead
 			tr
 				th ID
@@ -110,12 +110,12 @@ section.content
 				td data-bind="text: $data.name"
 				td data-bind="text: $data.lastName"
 				td data-bind="text: $data.phoneNumber"
-				td data-bind="text: $data.email"				
+				td data-bind="text: $data.email"
 				td
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
 		tbody data-bind="visible: shouldShowAdminsAlert"
-				tr 
+				tr
 					td.alert.box colspan="7"
 						h4.ui.centered.header data-bind="text: adminsAlertText"
 		tfoot
@@ -124,14 +124,13 @@ section.content
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon
-						a.item 1
-						a.item 2
-						a.item 3
+						.pages.item data-bind="foreach: adminsPages.showablePages"
+								a.item data-bind="text: $data.num, click: $root.fetchAdminsPage"
 						a.icon.item
 							i.right.chevron.icon
 
 	h3 Clientes
-	table.ui.celled.table
+	table.users.ui.celled.table
 		thead
 			tr
 				th ID
@@ -142,6 +141,7 @@ section.content
 				th E-mail
 				th Dirección
 				th # Pedidos
+				th Fiel
 				th Activo
 				th Acciones
 		tbody data-bind="foreach: currentUsers, visible: !shouldShowUsersAlert()"
@@ -154,23 +154,23 @@ section.content
 				td data-bind="text: $data.email"
 				td data-bind="text: $data.address"
 				td data-bind="text: $data.counterOrders"
+				td data-bind="text: $root.activeTranslation($data.loyalCostumer)"
 				td data-bind="text: $root.activeTranslation($data.active)"
 				td
 					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
 					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
 		tbody data-bind="visible: shouldShowUsersAlert"
-				tr 
-					td.alert.box colspan="10"
+				tr
+					td.alert.box colspan="11"
 						h4.ui.centered.header data-bind="text: usersAlertText"
 		tfoot
 			tr
-				th colspan="10"
+				th colspan="11"
 					.ui.right.floated.pagination.menu
 						a.icon.item
 							i.left.chevron.icon
-						a.item 1
-						a.item 2
-						a.item 3
+						.pages.item data-bind="foreach: usersPages.showablePages"
+								a.item data-bind="text: $data.num, click: $root.fetchUsersPage"
 						a.icon.item
 							i.right.chevron.icon
 

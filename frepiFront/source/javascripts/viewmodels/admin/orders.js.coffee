@@ -8,6 +8,12 @@ class OrdersVM extends AdminPageVM
 			totalPrice : ko.observable()
 			products : ko.observableArray()
 
+		@ordersPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setorderInfo()
@@ -26,9 +32,9 @@ class OrdersVM extends AdminPageVM
 				@currentOrders.remove( (order) =>
 							return order.id is @chosenOrder.id()
 						)
-					
+
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')				
+				$('.delete.modal').modal('hide')
 		)
 
 	showDelete: (order) =>
@@ -40,16 +46,31 @@ class OrdersVM extends AdminPageVM
 		@chosenOrder.totalPrice(order.totalPrice)
 		$('.see.products.modal').modal('show')
 
-	fetchOrders: ->
+	fetchOrdersPage: (page) =>
+		@setPaginationItemsToShow(page.num, @ordersPages, 'table.orders')
+		@fetchOrders(page.num)
+
+	fetchOrders: (numPage = 1) ->
+		@isLoading(true)
 		data =
-			page : 1
-			
+			page : numPage
+
 		RESTfulService.makeRequest('GET', "/orders", data, (error, success, headers) =>
 			@isLoading(false)
 			if error
 				console.log 'An error has ocurred while fetching the orders!'
 			else
 				console.log success
+				if @ordersPages.allPages.length is 0
+					totalPages = Math.ceil(headers.totalItems/10)
+					for i in [0..totalPages]
+						@ordersPages.allPages.push({num: i+1})
+
+					@ordersPages.lowerLimit = 0
+					@ordersPages.upperLimit = if totalPages < 10 then totalPages else 10
+					@ordersPages.showablePages(@ordersPages.allPages.slice(@ordersPages.lowerLimit, @ordersPages.upperLimit))
+
+					$("table.orders .pagination .pages .item:first-of-type").addClass('active')
 				@currentOrders(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
@@ -74,10 +95,10 @@ class OrdersVM extends AdminPageVM
 		currentDate = moment()
 		return currentDate.isAfter(orderDate) and data.status isnt 'DISPATCHED'
 
-	parseDate: (date) -> 
+	parseDate: (date) ->
 		return moment(date, moment.ISO_8601).format('DD/MM/YYYY')
 
-	parseTime: (date) -> 
+	parseTime: (date) ->
 		return moment(date, moment.ISO_8601).format('h:mm A')
 
 	setRulesValidation: ->

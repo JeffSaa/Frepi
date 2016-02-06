@@ -1,15 +1,4 @@
 
-/* Home Page Styles */
-
-.header-padding {
-  
-}
-
-#slider {
-  background-color: pink;
-  height: 80%;
-}
-
 /* Generic rules */
 html.ios, html.ios body {
   height: 100% !important;
@@ -40,6 +29,95 @@ footer p {
   -ms-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Home/Index Page Styles */
+
+.header-padding {
+  height: 60px;
+}
+
+#slider h2 {
+  display: none;
+}
+
+#slider .images > li {
+  min-height: 450px;
+  position: absolute;
+  width: 100%;
+}
+
+#slider figure, #slider ul {
+  margin: 0;
+  padding: 0;
+}
+
+#slider .images > li:first-child {
+  background: url("../images/cover01.png") no-repeat;
+  background-size: cover;
+}
+
+#slider .images > li:last-child {
+  background: url("../images/cover02.png") no-repeat;
+  background-size: cover;
+}
+
+#slider .images li h3,
+#slider .images li ul li figure {
+  position: absolute;
+}
+
+#slider .images li h3 {
+  color: #727272;
+  font-size: 2.5em;
+  left: 50%;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+#slider .images li ul li .top-img {
+  animation: slidein-top 2s ease-in-out;
+  right: 40%;
+  top: 80px;
+}
+
+#slider .images li ul li .left-img {
+  animation: slidein-left 2.8s ease-in-out;
+  left: 16%;
+  top: 40%;
+}
+
+#slider .images li ul li .right-img {
+  animation: slidein-right 1.5s ease-in-out;
+  right: 18%;
+  top: 60%;
+}
+
+#slider .images li ul li figure img {
+  height: 80px;
+  width: 80px;
+}
+
+/**** Slider Animations ***/
+
+/* Image coming from the slider's top */
+@keyframes slidein-top {
+  from {top: -100px;}
+  to {top: 80px;}
+}
+
+/* Image coming from the slider's left */
+@keyframes slidein-left {
+  from {left: -100px;}
+  to {left: 16%;}
+}
+
+/* Image coming from the slider's right */
+@keyframes slidein-right {
+  from {right: -100px;}
+  to {right: 18%;}
 }
 
 /* Request Error Message */
@@ -301,8 +379,8 @@ header #shopping-cart .icon {
   color: #fff;
 }
 
-#about-icon {
-  float: right;
+.card .extra.content br {
+  display: none;
 }
 
 #frepi-categories section {
@@ -686,7 +764,7 @@ nav.admin.menu #landing-logo img {
 }
 
 .admin.content .twelve.wide.column .dimmer .loader {
-  top: 19rem !important;
+  position: fixed;
 }
 
 .admin.content section {

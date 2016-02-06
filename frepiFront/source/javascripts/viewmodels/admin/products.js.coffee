@@ -1,6 +1,8 @@
 class ProductsVM extends AdminPageVM
 	constructor: ->
 		super()
+		@AWSBucket = null
+		@fileHasBeenUploaded = false
 		@productsAlertText = ko.observable()
 		@shouldShowProductsAlert = ko.observable(true)
 		@currentProducts = ko.observableArray()
@@ -16,12 +18,18 @@ class ProductsVM extends AdminPageVM
 			storePrice : ko.observable()
 			subcategoryID : ko.observable()
 
+		@productsPages =
+			allPages: []
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
+
 		# Methods to execute on instance
 		# @setExistingSession()
 		# @setUserInfo()
-
 		@fetchProducts()
 		@setDOMProperties()
+		@setAWSCredentials()
 		@setRulesValidation()
 
 	createProduct: ->
@@ -35,6 +43,7 @@ class ProductsVM extends AdminPageVM
 
 		console.log data
 
+		# $('.create.modal form .green.button').addClass('loading')
 		if $form.form('is valid')
 			RESTfulService.makeRequest('POST', "/stores/1/sucursals/#{$form.form('get value', 'sucursalID')}/products", data, (error, success, headers) =>
 					$('.create.modal form .green.button').removeClass('loading')
@@ -62,7 +71,7 @@ class ProductsVM extends AdminPageVM
 						return product.id is @chosenProduct.id()
 					)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')				
+				$('.delete.modal').modal('hide')
 		)
 
 	showUpdate: (product) =>
@@ -83,10 +92,14 @@ class ProductsVM extends AdminPageVM
 		@chosenProduct.sucursalID(product.sucursal.id)
 		$('.delete.modal').modal('show')
 
-	fetchProducts: ->
+	fetchProductsPage: (page) =>
+		@setPaginationItemsToShow(page.num, @productsPages, 'table.products')
+		@fetchProducts(page.num)
+
+	fetchProducts: (numPage = 1) ->
 		@isLoading(true)
 		data =
-			page : 2
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/administrator/products", data, (error, success, headers) =>
 			@isLoading(false)
@@ -99,15 +112,22 @@ class ProductsVM extends AdminPageVM
 				console.log 'After fetching products'
 				console.log success
 				if success.length > 0
-					@currentProducts(success)
 					@shouldShowProductsAlert(false)
+					if @productsPages.allPages.length is 0
+						totalPages = Math.ceil(headers.totalItems/10)
+						for i in [0..totalPages]
+							@productsPages.allPages.push({num: i+1})
+
+						@productsPages.lowerLimit = 0
+						@productsPages.upperLimit = if totalPages < 10 then totalPages else 10
+						@productsPages.showablePages(@productsPages.allPages.slice(@productsPages.lowerLimit, @productsPages.upperLimit))
+
+						$("table.products .pagination .pages .item:first-of-type").addClass('active')
+					@currentProducts(success)
 				else
 					@shouldShowProductsAlert(true)
 					@productsAlertText('No hay productos')
-				
-				
-				# console.log 'Fetched Link Headers'
-				# console.log headers.link
+
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
@@ -122,7 +142,8 @@ class ProductsVM extends AdminPageVM
 		)
 
 	fetchSubcategories: ->
-		categoryID = $('.ui.modal form').form('get value', 'categoryID')
+		$currentForm = if $('.create.modal').modal('is active') then $('.create.modal form') else $('.update.modal form')
+		categoryID = $currentForm.form('get value', 'categoryID')
 		$('.ui.modal .subcategory.dropdown').addClass('loading')
 		RESTfulService.makeRequest('GET', "/categories/#{categoryID}/subcategories", '', (error, success, headers) =>
 			$('.ui.modal .subcategory.dropdown').removeClass('loading')
@@ -135,7 +156,7 @@ class ProductsVM extends AdminPageVM
 		)
 
 	fetchSucursals: ->
-		RESTfulService.makeRequest('GET', "/stores/1/sucursals", {page: 1}, (error, success, headers) =>
+		RESTfulService.makeRequest('GET', "/stores/1/sucursals", {page: 1, perPage: 25}, (error, success, headers) =>
 			if error
 				console.log 'An error has ocurred while updating the user!'
 			else
@@ -177,74 +198,81 @@ class ProductsVM extends AdminPageVM
 	setDOMProperties: ->
 		$('.ui.modal')
 			.modal(
-					onShow: =>
-						@fetchSucursals()
-				)
-			.modal('attach events', '.create.button', 'show')
+				onHidden: ->
+					console.log 'closing'
+					$('.ui.modal img')[0].src = '../../images/landing/image.png'
+					$('.ui.modal .progress').progress({percent: 0})
+					$('.ui.modal form').form('clear') # Clears form when the modal is hidding
+				onShow: =>
+					console.log 'opening'
+					@fetchSucursals()
+			)
+			.modal('attach events', '.ui.modal .cancel.button', 'hide')
 		$('.modal .ui.image')
 			.dimmer({
 					on: 'hover'
 				})
-		$('.ui.modal .dropdown')
-			.dropdown()
+
+		$('.ui.progress')
+			.progress({
+					percent: 0
+				})
 
 	previewImage: (data, event) ->
 		console.log 'previewing'
 		$('.ui.modal img')[0].src = URL.createObjectURL(event.target.files[0])
 
-	uploadProduct: =>
+	setAWSCredentials: =>
 		AWS.config.region = 'us-east-1'
 		AWS.config.update({accessKeyId: 'AKIAJPKUUYXNQVWSKLHA', secretAccessKey: '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'})
 
-		AWS.config.credentials.get((err) ->
-				alert(err) if err
-				console.log(AWS.config.credentials)
-		)
-
-		bucketName = 'frepi'
-		bucket = new AWS.S3({
+		@AWSBucket = new AWS.S3({
 				params: {
-					Bucket: bucketName
+					Bucket: 'frepi'
 				}
 		})
-		
-		$fileChooser = $('.create.modal .dimmer input')[0]
-		fileToUpload = $fileChooser.files[0]
 
-		$form = $('.create.modal form')
-
-		if fileToUpload and $form.form('is valid')
-			objKey = 'products/' + $form.form('get value', 'name')
+	uploadImage: (file, name) =>
+		if file
+			objKey = 'products/' + name
 			params =
 				Key: objKey
-				ContentType: fileToUpload.type
-				Body: fileToUpload
+				ContentType: file.type
+				Body: file
 				ACL: 'public-read'
 
-			$('.create.modal form .green.button').addClass('loading')
-			bucket.putObject(params, (err, data) => 
-					if err
-						console.log 'Error while uploading image to S3'
-					else
-						console.log(data)
-						console.log 'Image uploaded'
-						@createProduct()
-			)
-		else
-			console.log 'Nothing to upload'
+			# $('.create.modal form .green.button').addClass('loading')
+			@fileHasBeenUploaded = false
+			isCreationModalActive = $('.create.modal').modal('is active')
+			$currentProgressBar = if isCreationModalActive then $('.create.modal .progress') else $('.update.modal .progress')
 
-	setSizeSidebar: ->
-		if $(window).width() < 480
-			$('#shopping-cart').removeClass('wide')
-		else
-			$('#shopping-cart').addClass('wide')
+			$('.ui.modal form .green.button').addClass('loading')
 
-		$(window).resize(->
-			if $(window).width() < 480
-				$('#shopping-cart').removeClass('wide')
-			else
-				$('#shopping-cart').addClass('wide')
-		)
+			@AWSBucket.upload(params).on('httpUploadProgress', (evt) ->
+					AWSprogress = parseInt((evt.loaded * 100) / evt.total)
+					console.log "Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%'
+					$currentProgressBar.progress({percent: AWSprogress})
+				).send((err, data) =>
+						unless err
+							@fileHasBeenUploaded = true
+							if isCreationModalActive
+								@createProduct()
+						else
+							$('.ui.modal form .green.button').removeClass('loading')
+
+						alert("File uploaded successfully.")
+					)
+		else
+			alert 'Nothing to upload'
+			# $('.create.modal form')
+
+
+	uploadProduct: =>
+		$fileChooser = $('.create.modal .dimmer input')[0]
+		$form = $('.create.modal form')
+		fileToUpload = $fileChooser.files[0]
+
+		@uploadImage(fileToUpload, $form.form('get value', 'name')) unless @fileHasBeenUploaded
 
 products = new ProductsVM
 ko.applyBindings(products)
