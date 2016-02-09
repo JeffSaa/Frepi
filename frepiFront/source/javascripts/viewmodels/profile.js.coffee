@@ -12,7 +12,7 @@ class ProfileVM extends TransactionalPageVM
 			)
 
 		# Models
-		@chosenOrder = 
+		@chosenOrder =
 			address: ko.observable()
 			totalPrice: ko.observable()
 			products: ko.observableArray()
@@ -21,10 +21,11 @@ class ProfileVM extends TransactionalPageVM
 		@setUserInfo()
 		@setExistingSession()
 		@fetchOrders()
+		@setRulesValidation()
 		@setDOMElements()
 		@shouldShowOrders()
 		@setSizeButtons()
-		
+
 
 	closeEditEmail: ->
 		$('#edit-email').modal('hide')
@@ -68,6 +69,11 @@ class ProfileVM extends TransactionalPageVM
 		if Config.getItem('showOrders') is 'true'
 			$('.secondary.menu .item').tab('change tab', 'history')
 
+	setRulesValidation: ->
+		credentials = JSON.parse(Config.getItem('credentials'))
+		$.fn.form.settings.rules.isValidPassword = (value) ->
+			value is credentials.password
+
 	setDOMElements: ->
 		$('#edit-email form').form({
 				fields:
@@ -79,7 +85,7 @@ class ProfileVM extends TransactionalPageVM
 								prompt: 'No puede estar vacío'
 							}, {
 								type: 'email'
-								prompt: 'Por favor digite una dirección de correo válida'
+								prompt: 'Digite una dirección de correo válida'
 							}
 						]
 					match:
@@ -87,13 +93,13 @@ class ProfileVM extends TransactionalPageVM
 						rules: [
 							{
 								type: 'match[new-email]'
-								prompt: 'Por favor ponga el mismo correo'
+								prompt: 'Las direcciones de correo deben ser iguales'
 							}, {
 								type: 'empty'
 								prompt: 'No puede estar vacío'
 							}, {
 								type: 'email'
-								prompt: 'Por favor digite una dirección de correo válida'
+								prompt: 'Digite una dirección de correo válida'
 							}
 						]
 
@@ -103,6 +109,9 @@ class ProfileVM extends TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'No puede estar vacía'
+							}, {
+								type: "isValidPassword[password]"
+								prompt: 'Contraseña incorrecta'
 							}
 						]
 				inline: true
@@ -123,7 +132,7 @@ class ProfileVM extends TransactionalPageVM
 						rules: [
 							{
 								type: 'match[new-password]'
-								prompt: 'Por favor ponga la misma contraseña'
+								prompt: 'Las contraseñas no coinciden'
 							}, {
 								type: 'empty'
 								prompt: 'No puede estar vacía'
@@ -135,6 +144,9 @@ class ProfileVM extends TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'No puede estar vacía'
+							}, {
+								type: 'isValidPassword[current-password]'
+								prompt: 'Contraseña incorrecta'
 							}
 						]
 				inline: true
@@ -143,7 +155,7 @@ class ProfileVM extends TransactionalPageVM
 		$('#edit-user-info form').form({
 				fields:
 					firstName:
-						identifier: 'first-name'
+						identifier: 'firstName'
 						rules: [
 							{
 								type: 'empty'
@@ -151,7 +163,7 @@ class ProfileVM extends TransactionalPageVM
 							}
 						]
 					lastName:
-						identifier: 'last-name'
+						identifier: 'lastName'
 						rules: [
 							{
 								type: 'empty'
@@ -238,8 +250,9 @@ class ProfileVM extends TransactionalPageVM
 		switch attributeToUpdate
 			when 'email'
 				if $('#edit-email form').form('is valid')
+					newEmail = $('#edit-email form').form('get value', 'new-email')
 					data =
-						email: $('#edit-email form').form('get value', 'new-email')
+						email: newEmail
 
 					$('#edit-email .submit').addClass('loading')
 					RESTfulService.makeRequest('PUT', "/users/#{@user.id}", data, (error, success, headers) =>
@@ -249,20 +262,20 @@ class ProfileVM extends TransactionalPageVM
 						else
 							console.log 'User has been updated'
 							console.log success
-							if headers.accessToken
-								Config.setItem('headers', JSON.stringify(headers))
+							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
 							credentials = JSON.parse(Config.getItem('credentials'))
 							credentials.user = newEmail
-							Config.setItem('credentials', credentials)
+							Config.setItem('credentials', JSON.stringify(credentials))
 							@setUserInfo()
 							$('#edit-email').modal('hide')
 					)
 
 			when 'password'
 				if $('#edit-password form').form('is valid')
+					newPassword = $('#edit-password form').form('get value', 'new-password')
 					data =
-						password: $('#edit-password form').form('get value', 'new-password')
+						password: newPassword
 
 					$('#edit-password .submit').addClass('loading')
 					RESTfulService.makeRequest('PUT', "/users/#{@user.id}", data, (error, success, headers) =>
@@ -275,8 +288,8 @@ class ProfileVM extends TransactionalPageVM
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
 							credentials = JSON.parse(Config.getItem('credentials'))
-							credentials.pass = newPassword
-							Config.setItem('credentials', credentials)
+							credentials.password = newPassword
+							Config.setItem('credentials', JSON.stringify(credentials))
 							@setUserInfo()
 
 							$('#edit-password').modal('hide')
@@ -285,8 +298,8 @@ class ProfileVM extends TransactionalPageVM
 			when 'user'
 				if $('#edit-user-info form').form('is valid')
 					console.log 'Editing user info'
-					newFirstName = $('#edit-user-info form').form('get value', 'first-name')
-					newLastName = $('#edit-user-info form').form('get value', 'last-name')
+					newFirstName = $('#edit-user-info form').form('get value', 'firstName')
+					newLastName = $('#edit-user-info form').form('get value', 'lastName')
 					newPhone = $('#edit-user-info form').form('get value', 'phone')
 
 					data =

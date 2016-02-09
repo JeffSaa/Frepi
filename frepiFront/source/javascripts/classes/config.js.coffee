@@ -1,6 +1,6 @@
 class window.Config
   @TAG = 'FrepiStorage'
-  
+
   @setItem : (key, value) ->
     configObject = window.localStorage.getItem(@TAG)
     if configObject is null
@@ -23,7 +23,7 @@ class window.Config
       return JSON.parse(configObject)[key]
 
   @removeItem : (key) ->
-    encryptedConfigObject = window.localStorage.getItem(@TAG)    
+    encryptedConfigObject = window.localStorage.getItem(@TAG)
     if encryptedConfigObject isnt null
       decryptedConfigObject = Encrypter.decrypt(encryptedConfigObject, 'frepiKey')
       configObject = JSON.parse(decryptedConfigObject)

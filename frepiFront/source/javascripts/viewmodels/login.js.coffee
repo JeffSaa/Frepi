@@ -1,5 +1,5 @@
 class LoginVM
-	constructor: ->		
+	constructor: ->
 		@errorTextResponse = ko.observable()
 		@initFB()
 		@setDOMElements()
@@ -39,7 +39,7 @@ class LoginVM
 						if success.data.administrator
 							window.location.href = '../../admin/'
 						else
-							window.location.href = '../../store/index.html'
+							window.location.href = '../../store'
 				)
 
 	loginFB: ->
@@ -64,7 +64,7 @@ class LoginVM
 											last_name: responseAPI.last_name
 											image: responseAPI.picture.data.url
 											uid: responseAPI.id
-										
+
 										console.log responseAPI
 										RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBcredentials, (error, success, headers) =>
 												if error
@@ -76,7 +76,7 @@ class LoginVM
 													if success.user.administrator
 														window.location.href = '../../admin/'
 													else
-														window.location.href = '../../store/index.html'
+														window.location.href = '../../store'
 										)
 								)
 							else
@@ -89,7 +89,7 @@ class LoginVM
 								if success.user.administrator
 									window.location.href = '../../admin/'
 								else
-									window.location.href = '../../store/index.html'
+									window.location.href = '../../store'
 					)
 				else if response.status is 'not_authorized'
 					console.log 'Doesnt logged into FrepiTest!'
@@ -101,7 +101,7 @@ class LoginVM
 
 	setDOMElements: ->
 		$('.ui.form').form(
-				fields: 
+				fields:
 					username:
 						identifier: 'username'
 						rules: [
@@ -111,7 +111,7 @@ class LoginVM
 							}, {
 								type: 'email'
 								prompt: 'Por favor digite un e-mail válido'
-							}								
+							}
 						]
 					password:
 						identifier: 'password'
@@ -122,7 +122,7 @@ class LoginVM
 							}, {
 								type: 'length[6]'
 								prompt: 'La contraseña debe tener por lo menos 6 caracteres'
-							}								
+							}
 						]
 				inline: true
 				keyboardShortcuts: false

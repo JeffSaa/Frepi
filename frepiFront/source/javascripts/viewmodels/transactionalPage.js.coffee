@@ -12,7 +12,7 @@ class window.TransactionalPageVM
 				products 				: ko.observableArray()
 				price 					: ko.observable()
 				sucursalId			: null
-		@user = 
+		@user =
 			id 							: null
 			email 					: ko.observable()
 			name 						: ko.observable()
@@ -21,8 +21,8 @@ class window.TransactionalPageVM
 			phone 					: ko.observable()
 			profilePicture 	: ko.observable()
 			fullName 				: ko.observable()
-		@setDOMElems()
 
+		@setDOMElems()
 		# Modal variables
 		@selectedProduct = null
 		@selectedProductCategory = ko.observable()
@@ -86,13 +86,13 @@ class window.TransactionalPageVM
 					totalPrice: parseFloat((oldProduct.frepiPrice*(oldProduct.quantity+quantitySelected)).toFixed(2))
 
 				@session.currentOrder.products.replace(oldProduct, newProduct)
-			
+
 			@session.currentOrder.price(parseFloat((@session.currentOrder.price() + productToAdd.frepiPrice*quantitySelected).toFixed(2)))
 			console.log @session.currentOrder.price()
 			$('#modal-dropdown').dropdown('set text', 'Cantidad')
 			$('#modal-dropdown').dropdown('set value', '')
 			$('#product-desc').modal('hide')
-			
+
 			if @session.currentOrder.products().length isnt 1
 				@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
 			else
@@ -101,7 +101,7 @@ class window.TransactionalPageVM
 			@saveOrder()
 
 	logout: ->
-		RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (error, success, headers) =>			
+		RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (error, success, headers) =>
 			if error
 				console.log 'An error has ocurred'
 			else
@@ -239,7 +239,7 @@ class window.TransactionalPageVM
 		$('#sign-up')
 			.modal('attach events', '.sign-up-banner .green.button', 'show')
 		$('#sign-up .form').form(
-				fields: 
+				fields:
 					firstName:
 						identifier: 'firstName'
 						rules: [

@@ -62,10 +62,10 @@
 			ul data-bind="foreach: chosenOrder.products"
 				li data-bind="text: $data.product.name+' x '+$data.quantity"
 			p
-				strong Dirección entrega: 
+				strong Dirección entrega:
 				|<!--ko text: ' $'+chosenOrder.address()--><!--/ko-->
 			p
-				strong Precio orden: 
+				strong Precio orden:
 				|<!--ko text: ' $'+chosenOrder.totalPrice()--><!--/ko-->
 		.actions
 			.ui.green.ok.button
