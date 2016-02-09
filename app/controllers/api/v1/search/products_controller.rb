@@ -3,7 +3,7 @@ class Api::V1::Search::ProductsController < ApplicationController
 
   def index
     if params[:search]
-      products = Product.where('escaped_name LIKE ?', "%#{params[:search].downcase}%")
+      products = Product.where('escaped_name ILIKE ?', "%#{params[:search].downcase}%")
       render json: products, serializer: nil
     end
   end
