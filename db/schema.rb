@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20) do
   create_table "products", force: :cascade do |t|
     t.string   "reference_code"
     t.string   "name",                                                  null: false
+    t.string   "escaped_name",                                          null: false
     t.decimal  "store_price",    precision: 8, scale: 2,                null: false
     t.decimal  "frepi_price",    precision: 8, scale: 2,                null: false
     t.string   "image",                                                 null: false

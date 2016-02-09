@@ -44,3 +44,6 @@ gem 'api_pagination_headers'
 
 # Database
 gem 'pg'
+
+# Search
+gem 'searchkick'

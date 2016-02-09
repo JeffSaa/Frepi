@@ -42,7 +42,6 @@ Rails.application.routes.draw do
           resources :shoppers, only: :index
           resources :earnings, only: :index
         end
-
       end
 
       namespace :supervisors, path: '' do
@@ -72,6 +71,10 @@ Rails.application.routes.draw do
         resources :states, except: [:new, :edit] do
           resources :cities, except: [:new, :edit]
         end
+      end
+
+      namespace :search do
+        resources :products, only: :index
       end
 
       # Explore

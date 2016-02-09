@@ -1,5 +1,8 @@
 class Product < ActiveRecord::Base
 
+  # External resources definitions
+  include ActiveRecordHelper
+
   # Associations
   belongs_to :subcategory
   has_many   :orders, through: :orders_products, dependent: :delete_all
@@ -18,10 +21,15 @@ class Product < ActiveRecord::Base
 
   # Callbacks
   before_validation :round_price
+  before_save :format_attributes
 
   private
   def round_price
     self.store_price = self.store_price.round(2).to_f
     self.frepi_price = self.frepi_price.round(2).to_f
+  end
+
+  def format_attributes
+    self.escaped_name = attr_to_alpha(self.name)
   end
 end

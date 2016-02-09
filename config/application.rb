@@ -22,6 +22,9 @@ module FrepiApi
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+    
+    # Autoload custom libs
+    config.autoload_paths += Dir[Rails.root.join('lib')]
 
     # oauth facebook
     config.middleware.use config.session_store, config.session_options
