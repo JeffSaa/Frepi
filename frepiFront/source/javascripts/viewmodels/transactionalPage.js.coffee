@@ -236,6 +236,8 @@ class window.TransactionalPageVM
 		# $('#choose-store')
 		# 	.modal('setting', 'closable', false)
 		# 	.modal('attach events', '#store-primary-navbar #target-store', 'show')
+		$('.ui.accordion')
+			.accordion()
 		$('#sign-up')
 			.modal('attach events', '.sign-up-banner .green.button', 'show')
 		$('#sign-up .form').form(

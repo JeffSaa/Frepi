@@ -170,14 +170,6 @@ class ProfileVM extends TransactionalPageVM
 								prompt: 'No puede estar vacío'
 							}
 						]
-					password:
-						identifier: 'password'
-						rules: [
-							{
-								type: 'empty'
-								prompt: 'No puede estar vacío'
-							}
-						]
 				inline: true
 				keyboardShortcuts: false
 			})
@@ -193,7 +185,7 @@ class ProfileVM extends TransactionalPageVM
 
 		$('#edit-user-info').modal(
 				onHidden: ->
-					console.log 'Im closing user'
+					$('#edit-user-info form').form('clear')
 			).modal('attach events', '#edit-user-info .cancel.button', 'hide')
 
 		$('.secondary.menu .item').tab(

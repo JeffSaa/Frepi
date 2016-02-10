@@ -86,19 +86,27 @@ html
 			.item
 				img src="../images/landing/logoassd.png" alt="Frepi"
 			a.item href="index.html"
-				h4.ui.header
+				h4.ui.header.title
 					i.home.icon
 					|Tienda
+			a.ui.accordion.item
+				.title
+					i.dropdown.icon
+					|Departamentos
+				.content
+				 	ul.deparments data-bind="foreach: session.categories"
+						li.item data-bind="click: $root.chooseDeparment"
+							.header data-bind="text: $data.name"
 			a.item data-bind="click: profile"
-				h4.ui.header
+				h4.ui.header.title
 					i.user.icon
 					|Cuenta
 			a.item data-bind="click: orders"
-				h4.ui.header
+				h4.ui.header.title
 					i.book.icon
 					|Pedidos
 			a.item data-bind="click: logout"
-				h4.ui.header
+				h4.ui.header.title
 					i.sign.out.icon
 					|Salir
 		#departments-menu.ui.vertical.left.sidebar.menu

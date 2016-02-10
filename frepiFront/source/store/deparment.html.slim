@@ -17,10 +17,11 @@
 						span.centering
 							i.dollar.icon
 						span.centering data-bind="text: $data.frepiPrice"
+						br
 						.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
 							.hidden.content Agregar
 							.visible.content
-								i.shop.icon		
+								i.shop.icon
 	/ section#error-container data-bind="visible: shouldShowError"
 	/ 	h2.ui.request-error.header
 	/ 		i.frown.icon
@@ -45,7 +46,7 @@
 	/ 						.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
 	/ 							.hidden.content Agregar
 	/ 							.visible.content
-	/ 								i.shop.icon		
+	/ 								i.shop.icon
 	/ 	.ui.divider
-		
+
 script src="../javascripts/viewmodels/deparment.js" type="text/javascript"
