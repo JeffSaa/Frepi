@@ -56,8 +56,6 @@ html
 						option value="9" 9
 						option value="10" 10+
 					button.ui.fluid.large.green.button data-bind="click: function(){$root.addToCart($root.selectedProduct, null)}" Agregar a carrito
-			.actions
-				p Here it goes the warning about the products information.
 		#sign-up.ui.modal
 			i.close.icon
 			.header Crea una cuenta
@@ -143,7 +141,7 @@ html
 			.sign-up-banner data-bind="visible: session.signedUp"
 				p.ui.header
 					|Oops! Tienes que estar en tu cuenta,
-					a ingresa!
+					a href="../login.html" ingresa!
 					| Si no tiene una, puedes:
 				button.ui.fluid.large.green.button Crea una cuenta
 				.ui.horizontal.divider o

@@ -239,7 +239,13 @@ class window.TransactionalPageVM
 		$('.ui.accordion')
 			.accordion()
 		$('#sign-up')
+			.modal(
+				onHide: ->
+					$('#sign-up.modal form').form('clear')
+			)
 			.modal('attach events', '.sign-up-banner .green.button', 'show')
+			.modal('attach events', '#sign-up.modal .cancel.button', 'hide')
+			
 		$('#sign-up .form').form(
 				fields:
 					firstName:
