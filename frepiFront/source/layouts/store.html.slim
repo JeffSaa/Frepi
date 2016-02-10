@@ -95,18 +95,22 @@ html
 				 	ul.deparments data-bind="foreach: session.categories"
 						li.item data-bind="click: $root.chooseDeparment"
 							.header data-bind="text: $data.name"
-			a.item data-bind="click: profile"
+			a.item data-bind="click: profile, visible: isLogged"
 				h4.ui.header.title
 					i.user.icon
 					|Cuenta
-			a.item data-bind="click: orders"
+			a.item data-bind="click: orders, visible: isLogged"
 				h4.ui.header.title
 					i.book.icon
 					|Pedidos
-			a.item data-bind="click: logout"
+			a.item data-bind="click: logout, visible: isLogged"
 				h4.ui.header.title
 					i.sign.out.icon
 					|Salir
+			a.item href="../login.html" data-bind="visible: !isLogged()"
+				h4.ui.header.title
+					i.sign.in.icon
+					|Entrar
 		#departments-menu.ui.vertical.left.sidebar.menu
 			.item
 				h3.ui.header
@@ -166,7 +170,7 @@ html
 					#user-account.ui.simple.dropdown.item
 							.text data-bind="text: 'Hola, '+user.firstName()"
 							i.chevron.down.icon
-							.menu
+							.menu data-bind="visible: isLogged"
 								.item data-bind="click: profile"
 									i.user.icon
 									|Ver perfil
@@ -177,6 +181,10 @@ html
 								.item data-bind="click: logout"
 									i.sign.out.icon
 									|Salir
+							.menu data-bind="visible: !isLogged()"
+								a.item href="../login.html"
+									i.sign.in.icon
+									|Entrar
 					#shopping-cart
 						i.circular.inverted.orange.shop.icon
 

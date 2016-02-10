@@ -22,13 +22,16 @@ class window.TransactionalPageVM
 			profilePicture 	: ko.observable()
 			fullName 				: ko.observable()
 
-		@setDOMElems()
 		# Modal variables
 		@selectedProduct = null
 		@selectedProductCategory = ko.observable()
 		@selectedProductImage = ko.observable()
 		@selectedProductName = ko.observable()
 		@selectedProductPrice = ko.observable()
+
+		@isLogged = ko.observable(false)
+
+		@setDOMElems()
 
 	checkout: =>
 		if @user.id isnt null
@@ -201,8 +204,10 @@ class window.TransactionalPageVM
 			@user.fullName(@user.firstName()+' '+@user.lastName())
 			@user.phone(tempUser.phoneNumber or tempUser.phone_number)
 			@user.profilePicture(tempUser.image)
+			@isLogged(true)
 		else
 			@user.firstName('amigo')
+			@isLogged(false)
 
 	signUp: =>
 		$form = $('#sign-up .ui.form')
@@ -245,7 +250,7 @@ class window.TransactionalPageVM
 			)
 			.modal('attach events', '.sign-up-banner .green.button', 'show')
 			.modal('attach events', '#sign-up.modal .cancel.button', 'hide')
-			
+
 		$('#sign-up .form').form(
 				fields:
 					firstName:
