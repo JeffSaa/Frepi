@@ -27,8 +27,13 @@ test:
   #database: db/test
 
 production:
-  <<: *default
-  #database: db/production.sqlite3
-  username: frepidatabase
-  password: frepidatabase
-  database: db/production
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+  port: 5432
+  host: frepidatabase.cvti86tib82j.us-west-2.rds.amazonaws.com
+  username: frepicolombia
+  password: frepi123
+  database: frepidatabase
+  
