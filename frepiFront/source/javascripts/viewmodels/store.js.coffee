@@ -18,6 +18,7 @@ class StoreVM extends TransactionalPageVM
 		@setDOMElements()
 		# @setSucursal()
 		@setSizeSidebar()
+		console.log 'Is signed Up? ' + @session.signedUp()
 
 	chooseStore: (store) =>
 		ko.mapping.fromJS(store, @session.currentSucursal)
@@ -32,16 +33,6 @@ class StoreVM extends TransactionalPageVM
 			else
 				console.log success
 				@session.categories(success)
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-		)
-
-	fetchStoreSucursals: ->
-		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/sucursals", '', (error, success, headers) =>
-			if error
-				console.log 'An error has ocurred while fetching the sucursals!'
-			else
-				console.log success
-				@session.sucursals(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 

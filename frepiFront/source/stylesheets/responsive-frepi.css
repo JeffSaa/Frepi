@@ -37,18 +37,30 @@
     display: none;
   }
 
+  .profile .segment .line {
+    position: relative;
+  }
+
   .profile .segment .line .title {
     font-weight: bold;
-    width: 30%;
+    width: 100%;
   }
 
   .profile .segment .line .value {
-    width: 70%;
+    width: 100%;
+  }
+
+  .profile .segment .line .pencil {
+    position: absolute;
+    right: 0;
+    top: 0.142857em;
   }
 
   .modal .buttons-to-right {
     padding: 0.1rem;
   }
+
+  /* Card rules on mobile */
 
   .card .header {
     font-size: 1em !important;
@@ -129,13 +141,25 @@
     top: 0.454545em;
   }
 
-  /*#store-frepi-logo img {
-    margin: 5px 0.25%;
-  }*/
-
   #target-store,
   #user-account,
   #store-secondary-navbar {
     display: none;
   }
+
+  /* Checkout steps rules */
+  .checkout .ui.steps {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    width: 100%;
+  }
+
+  .checkout .ui.steps .step {
+    font-size: 0.857142em;
+    width: 33.3333% !important;
+  }
+
 }

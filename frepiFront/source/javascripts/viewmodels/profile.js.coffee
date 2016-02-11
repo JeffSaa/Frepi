@@ -42,8 +42,7 @@ class ProfileVM extends TransactionalPageVM
 				console.log 'An error has ocurred while fetching the orders!'
 			else
 				console.log success
-				if headers.accessToken
-						Config.setItem('headers', JSON.stringify(headers))
+				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 
 				@currentOrders(success)
 		)

@@ -209,7 +209,7 @@ class window.TransactionalPageVM
 			@user.firstName('amigo')
 			@isLogged(false)
 
-	signUp: =>
+	signUp: ->
 		$form = $('#sign-up .ui.form')
 		$form.removeClass('error')
 		if $form.form('is valid')
@@ -234,6 +234,7 @@ class window.TransactionalPageVM
 						Config.setItem('userObject', JSON.stringify(success))
 						@setUserInfo()
 						@session.signedUp(true)
+						# @setExistingSession()
 						$('#sign-up').modal('hide')
 				)
 

@@ -46,35 +46,12 @@ class DeparmentVM extends TransactionalPageVM
 				)
 		)
 
-	fetchCategories: ->
-		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/sucursals/#{@session.currentSucursal.id()}/products", '', (error, success, headers) =>
-			if error
-				# console.log 'An error has ocurred while fetching the categories!'
-				@shouldShowError(true)
-			else
-				console.log success
-				@setProductsToShow(success)
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-		)
-
-	fetchStoreSucursals: ->
-		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/sucursals", '', (error, success, headers) =>
-			if error
-				console.log 'An error has ocurred while fetching the sucursals!'
-			else
-				console.log success
-				@session.sucursals(success)
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-		)
-
 	fetchProducts: (subcategory, clickedButton) =>
-		console.log 'Btn'
 		if !!@currentSubcatBtn
 			@currentSubcatBtn.addClass('basic')
 			@currentSubcatBtn = $(clickedButton.toElement)
 		else
 			@currentSubcatBtn = $('.list .item:first-of-type .button')
-		console.log @currentSubcatBtn
 		@currentSubcatBtn.removeClass('basic')
 		# currentButton = clickedButton.toElement if !!clickedButton
 		RESTfulService.makeRequest('GET', "/subcategories/#{subcategory.id}/products", '', (error, success, headers) =>
@@ -83,8 +60,8 @@ class DeparmentVM extends TransactionalPageVM
 				console.log error
 			else
 				console.log success
-				@products(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				@products(success)
 		)
 
 	profile: ->
