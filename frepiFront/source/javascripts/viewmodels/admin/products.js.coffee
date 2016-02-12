@@ -2,7 +2,10 @@ class ProductsVM extends AdminPageVM
 	constructor: ->
 		super()
 		@AWSBucket = null
+		@currentProduct = null
+		@currentUniqueID = null
 		@fileHasBeenUploaded = false
+		@previewingImageHasChanged = false
 		@productsAlertText = ko.observable()
 		@shouldShowProductsAlert = ko.observable(true)
 		@currentProducts = ko.observableArray()
@@ -39,7 +42,7 @@ class ProductsVM extends AdminPageVM
 			frepiPrice: $form.form('get value', 'frepiPrice')
 			storePrice: $form.form('get value', 'storePrice')
 			subcategoryId : $form.form('get value', 'subcategoryID')
-			image: 'http://s3-sa-east-1.amazonaws.com/frepi/products/' + $form.form('get value', 'name')
+			image: 'http://s3-sa-east-1.amazonaws.com/frepi/products/' + @currentUniqueID
 
 		console.log data
 
@@ -58,6 +61,29 @@ class ProductsVM extends AdminPageVM
 				)
 
 	updateProduct: =>
+		$form = $('.update.modal form')
+		data =
+			name: $form.form('get value', 'name')
+			frepiPrice: $form.form('get value', 'frepiPrice')
+			storePrice: $form.form('get value', 'storePrice')
+			subcategoryId : $form.form('get value', 'subcategoryID')
+
+		data.image = 'http://s3-sa-east-1.amazonaws.com/frepi/products/' + @generateUniqueID() if @previewingImageHasChanged
+
+		console.log data
+
+		$('.update.modal form .green.button').addClass('loading')
+		if $form.form('is valid')
+			RESTfulService.makeRequest('PUT', "/stores/1/sucursals/#{$form.form('get value', 'sucursalID')}/products", data, (error, success, headers) =>
+					$('.update.modal form .green.button').removeClass('loading')
+					if error
+						console.log 'An error has ocurred in the authentication.'
+						console.log error
+					else
+						console.log success
+						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+						$('.update.modal').modal('hide')
+				)
 
 	deleteProduct: =>
 		$('.delete.modal .green.button').addClass('loading')
@@ -74,16 +100,30 @@ class ProductsVM extends AdminPageVM
 				$('.delete.modal').modal('hide')
 		)
 
+	generateUniqueID: ->
+		idstr = String.fromCharCode(Math.floor((Math.random()*25)+65))
+		loop
+			asciiCode = Math.floor((Math.random()*42)+48) # ASCII code between numbers and letters
+			idstr += String.fromCharCode(asciiCode) if asciiCode < 58 or asciiCode > 64
+			break unless idstr.length < 32
+
+		return idstr
+
+
 	showUpdate: (product) =>
-		@chosenProduct.image(product.image)
+		$('.update.modal').modal('show')
+		@currentProduct = product
+
+	setProductInfo: ->
+		@chosenProduct.image(@currentProduct.image)
 		$('.update.modal form')
 			.form('set values',
-					name 					: product.name
-					frepiPrice 		: product.frepiPrice
-					storePrice 		: product.storePrice
-					sucursalID 		: product.sucursal.id
+					name 					: @currentProduct.name
+					frepiPrice 		: @currentProduct.frepiPrice
+					storePrice 		: @currentProduct.storePrice
+					categoryID 		: @currentProduct.subcategory.categoryId
+					sucursalID 		: @currentProduct.sucursal.id
 				)
-		$('.update.modal').modal('show')
 
 	showDelete: (product) =>
 		console.log product
@@ -139,6 +179,10 @@ class ProductsVM extends AdminPageVM
 				console.log success
 				@availableCategories(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				if $('.update.modal').modal('is active')
+					setTimeout(( =>
+						@setProductInfo()
+					), 100)
 		)
 
 	fetchSubcategories: ->
@@ -218,9 +262,11 @@ class ProductsVM extends AdminPageVM
 					percent: 0
 				})
 
-	previewImage: (data, event) ->
+	previewImage: (data, event) =>
 		console.log 'previewing'
+		@chosenProduct.image(URL.createObjectURL(event.target.files[0]))
 		$('.ui.modal img')[0].src = URL.createObjectURL(event.target.files[0])
+		@previewingImageHasChanged = true
 
 	setAWSCredentials: =>
 		AWS.config.region = 'us-east-1'
@@ -232,9 +278,10 @@ class ProductsVM extends AdminPageVM
 				}
 		})
 
-	uploadImage: (file, name) =>
+	uploadImage: (file) =>
+		@currentUniqueID = @generateUniqueID()
 		if file
-			objKey = 'products/' + name
+			objKey = 'products/' + @currentUniqueID
 			params =
 				Key: objKey
 				ContentType: file.type
@@ -257,14 +304,24 @@ class ProductsVM extends AdminPageVM
 							@fileHasBeenUploaded = true
 							if isCreationModalActive
 								@createProduct()
+							else
+								@updateProduct()
 						else
 							$('.ui.modal form .green.button').removeClass('loading')
-
-						alert("File uploaded successfully.")
 					)
 		else
 			alert 'Nothing to upload'
 			# $('.create.modal form')
+
+	editProduct: =>
+		$fileChooser = $('.update.modal .dimmer input')[0]
+		$form = $('.update.modal form')
+		fileToUpload = $fileChooser.files[0]
+
+		if @previewingImageHasChanged
+			@uploadImage(fileToUpload)
+		else
+			@updateProduct()
 
 
 	uploadProduct: =>
@@ -272,7 +329,7 @@ class ProductsVM extends AdminPageVM
 		$form = $('.create.modal form')
 		fileToUpload = $fileChooser.files[0]
 
-		@uploadImage(fileToUpload, $form.form('get value', 'name')) unless @fileHasBeenUploaded
+		@uploadImage(fileToUpload)
 
 products = new ProductsVM
 ko.applyBindings(products)

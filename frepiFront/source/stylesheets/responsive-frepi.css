@@ -60,6 +60,16 @@
     padding: 0.1rem;
   }
 
+  /* Shopping cart rules */
+
+  /*#shopping-cart .item .minus {
+    bottom: 0.15em !important;
+  }
+
+  #shopping-cart .item .plus {
+    bottom: 2.5em !important;
+  }*/
+
   /* Card rules on mobile */
 
   .card .header {
@@ -160,6 +170,30 @@
   .checkout .ui.steps .step {
     font-size: 0.857142em;
     width: 33.3333% !important;
+  }
+
+  /* Shopping cart rules */
+
+  .ui.items>.item>.image+.content {
+    padding: 1.2em 1em 0 1.5em;
+  }
+
+  #shopping-cart .item .close,
+  #shopping-cart .item .minus,
+  #shopping-cart .item .plus {
+    display: block;
+  }
+
+  #shopping-cart .item .minus {
+    bottom: -0.85em;
+    right: 1em;
+    top: auto;
+  }
+
+  #shopping-cart .item .plus {
+    bottom: 1.5em;
+    right: 1em;
+    top: auto;
   }
 
 }

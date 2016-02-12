@@ -76,6 +76,7 @@ class CheckoutVM
 				})
 
 		data =
+			address					: @address()
 			comment 				: @comment()
 			products 				:	productsToSend
 			arrivalTime			: @selectedHour()

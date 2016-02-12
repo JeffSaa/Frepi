@@ -366,7 +366,11 @@ header #shopping-cart .icon {
 }
 
 #product-searcher {
-  width: 59%;
+  width: calc(100% - 360px);
+}
+
+#user-account {
+  width: 160px;
 }
 
 #user-account i {
