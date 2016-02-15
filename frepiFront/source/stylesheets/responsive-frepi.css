@@ -72,6 +72,11 @@
   /**
    ** Login rules
    **/
+   
+   .login-main {
+     background: url(../images/landing/login-bg-min.jpg) no-repeat fixed center bottom;
+     background-size: 100%;
+   }
 
   .ui.stackable.grid>.column:not(.row) {
     padding: 1rem 2rem !important;
