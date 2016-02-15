@@ -138,11 +138,11 @@ section.content
 			tr
 				th colspan="8"
 					.ui.right.floated.pagination.menu
-						a.icon.item
+						a.icon.item data-bind="click: setPrevShopperPage"
 							i.left.chevron.icon
 						.pages.item data-bind="foreach: shoppersPages.showablePages"
 							a.item data-bind="text: $data.num, click: $root.fetchShoppersPage"
-						a.icon.item
+						a.icon.item data-bind="click: setNextShopperPage"
 							i.right.chevron.icon
 
 script src="../javascripts/viewmodels/admin/shoppers.js"

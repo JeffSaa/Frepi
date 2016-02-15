@@ -58,11 +58,11 @@ section.content
 			tr
 				th colspan="9"
 					.ui.right.floated.pagination.menu
-						a.icon.item
+						a.icon.item data-bind="click: setPrevOrderPage"
 							i.left.chevron.icon
 						.pages.item data-bind="foreach: ordersPages.showablePages"
 							a.item data-bind="text: $data.num, click: $root.fetchOrdersPage"
-						a.icon.item
+						a.icon.item data-bind="click: setNextOrderPage"
 							i.right.chevron.icon
 
 script src="../javascripts/plugins/moment+locales.min.js" type="text/javascript"

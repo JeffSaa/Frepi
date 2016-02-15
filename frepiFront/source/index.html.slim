@@ -17,9 +17,11 @@ html
 	body
 		header
 			nav.ui.fixed.inverted.borderless.admin.menu
-				a#landing-logo.item href="../admin/"
-					img src="../images/landing/logo.png"
+				a#landing-logo.item href="/"
+					img src="images/landing/full_logo.png" alt="Frepi logo"
 				.right.menu
+					.item
+						a.ui.orange.basic.button href="/login.html" Sign In
 					.item
 						a.ui.orange.button href="/store" TIENDA
 			.header-padding
@@ -28,33 +30,45 @@ html
 			h2 Slider
 			ul.images
 				li
-					h3 Test Slider First Image
+					h3
+						|Los mejores productos a los&nbsp;
+						strong mejores precios
 					ul.inner-images
 						li
 							figure.top-img
-								img src="images/evernote.png" alt="Evernote"
+								img src="images/landing/SLIDER_01.png" alt="SLIDER_01"
 						li
 							figure.left-img
-								img src="images/chrome.png" alt="Chrome"
+								img src="images/landing/SLIDER_02.png" alt="SLIDER_02"
 						li
 							figure.right-img
-								img src="images/github.png" alt="Github"
+								img src="images/landing/SLIDER_03.png" alt="SLIDER_03"
 				li
-					h3 Test Slider Second Image
+					h3
+						|Productos frescos directo de tu&nbsp;
+						strong mercado local
 					ul.inner-images
 						li
 							figure.top-img
-								img src="images/facebook.png" alt="Evernote"
+								img src="images/landing/SLIDER_04.png" alt="SLIDER_04"
 						li
 							figure.left-img
-								img src="images/vimeo.png" alt="Chrome"
+								img src="images/landing/SLIDER_05.png" alt="SLIDER_05"
 						li
 							figure.right-img
-								img src="images/tumblr.png" alt="Github"
+								img src="images/landing/SLIDER_06.png" alt="SLIDER_06"
 
 		section#deparments
 		section#how-we-work
-		footer
+			h2.ui.centered.header¿Cómo funciona Frepi?
+		footer#footer
+			h2 footer
+			p
+				|Hecho con&nbsp;
+				span
+					i.heart.red.icon
+				|en Colombia
+			p © 2015 Frepi, inc. Todos los derechos reservados.
 
 		script src="javascripts/plugins/crypto-js.min.js"
 		script src="javascripts/jquery/jquery-2.1.4.min.js"

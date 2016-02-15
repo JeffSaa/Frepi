@@ -24,7 +24,7 @@ class ProfileVM extends TransactionalPageVM
 		@setRulesValidation()
 		@setDOMElements()
 		@shouldShowOrders()
-		@setSizeButtons()
+		# @setSizeButtons()
 
 
 	closeEditEmail: ->
@@ -42,7 +42,7 @@ class ProfileVM extends TransactionalPageVM
 				console.log 'An error has ocurred while fetching the orders!'
 			else
 				console.log success
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				# Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 
 				@currentOrders(success)
 		)
@@ -65,8 +65,10 @@ class ProfileVM extends TransactionalPageVM
 		return orders
 
 	shouldShowOrders: ->
+		console.log 'Showing orders'
 		if Config.getItem('showOrders') is 'true'
 			$('.secondary.menu .item').tab('change tab', 'history')
+		console.log 'Orders shown'
 
 	setRulesValidation: ->
 		credentials = JSON.parse(Config.getItem('credentials'))

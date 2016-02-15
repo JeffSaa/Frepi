@@ -10,6 +10,7 @@ class OrdersVM extends AdminPageVM
 
 		@ordersPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
@@ -46,8 +47,25 @@ class OrdersVM extends AdminPageVM
 		@chosenOrder.totalPrice(order.totalPrice)
 		$('.see.products.modal').modal('show')
 
+	setPrevOrderPage: ->
+		if @ordersPages.activePage is 1
+			nextPage = @ordersPages.allPages.length - 1
+		else
+			nextPage = @ordersPages.activePage - 1
+
+		@fetchOrdersPage({num: nextPage})
+
+	setNextOrderPage: ->
+		if @ordersPages.activePage is @ordersPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @ordersPages.activePage + 1
+
+		@fetchOrdersPage({num: nextPage})
+
 	fetchOrdersPage: (page) =>
-		@setPaginationItemsToShow(page.num, @ordersPages, 'table.orders')
+		@ordersPages.activePage = page.num
+		@setPaginationItemsToShow(@ordersPages, 'table.orders')
 		@fetchOrders(page.num)
 
 	fetchOrders: (numPage = 1) ->
@@ -66,6 +84,7 @@ class OrdersVM extends AdminPageVM
 					for i in [0..totalPages]
 						@ordersPages.allPages.push({num: i+1})
 
+					@ordersPages.activePage = 1
 					@ordersPages.lowerLimit = 0
 					@ordersPages.upperLimit = if totalPages < 10 then totalPages else 10
 					@ordersPages.showablePages(@ordersPages.allPages.slice(@ordersPages.lowerLimit, @ordersPages.upperLimit))

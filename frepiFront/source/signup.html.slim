@@ -15,11 +15,11 @@ html
 			header
 				.ui.fixed.inverted.menu
 					.ui.container
-						a#landing-logo.ui.image href="#"
-							img src="images/landing/logo.png"
+						a#landing-logo.ui.image href="/"
+							img src="images/landing/full_logo.png"
 			section.ui.three.column.centered.stackable.grid
 				.column
-					h1.ui.center.aligned.header 
+					h1.ui.center.aligned.header
 						|Crea tu cuenta!
 						.sub.header Y ten los mejores productos a la mano
 					form.ui.form data-bind="submit: signUp"
@@ -35,7 +35,7 @@ html
 						.field
 							label Contraseña
 							input type="password" name="password" placeholder="Contraseña"
-						
+
 						/ .field
 						/ 	.ui.left.icon.input
 						/ 		i.user.icon
@@ -51,8 +51,8 @@ html
 						button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: signWithFB"
 							i.facebook.icon
 							|Inicia con Facebook
-					
-						
+
+
 		script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"
 		script src="javascripts/plugins/crypto-js.min.js" type="text/javascript"
 		script src="javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"

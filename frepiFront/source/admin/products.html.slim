@@ -91,7 +91,7 @@
 					input type="text" name="name" placeholder="Nombre"
 				.field
 					label Sucursal que provee
-					.ui.selection.dropdown
+					.ui.disabled.selection.dropdown
 						input name="sucursalID" type="hidden"
 						i.dropdown.icon
 						.default.text Selecciona una sucursal
@@ -168,11 +168,11 @@ section.content
 			tr
 				th colspan="7"
 					.ui.right.floated.pagination.menu
-						a.icon.item
+						a.icon.item data-bind="click: setPrevProductPage"
 							i.left.chevron.icon
 						.pages.item data-bind="foreach: productsPages.showablePages"
 							a.item data-bind="text: $data.num, click: $root.fetchProductsPage"
-						a.icon.item
+						a.icon.item data-bind="click: setNextProductPage"
 							i.right.chevron.icon
 
 script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.22.min.js"

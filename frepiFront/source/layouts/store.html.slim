@@ -22,18 +22,6 @@ html
 		script src="../javascripts/classes/RESTfulService.js"
 		script src="../javascripts/viewmodels/transactionalPage.js"
 	body.store-layout
-		#choose-store.ui.modal
-			.centered.header Escoge una tienda
-			.content
-				.ui.four.column.doubling.grid data-bind="foreach: session.sucursals"
-					.column
-						.ui.fluid.link.card data-bind="click: $root.chooseStore"
-							.image
-								img src="../images/landing/stores/olimpica2.png" alt="Store's logo"
-							.content
-								.centered.header data-bind="text: $data.name"
-			.actions
-				p Frepi 2015
 		#product-desc.ui.modal
 			i.close.icon
 			.image.content
@@ -82,7 +70,7 @@ html
 		nav#mobile-menu.ui.vertical.left.sidebar.borderless.menu
 			h2 Frepi Menu
 			.item
-				img src="../images/landing/logoassd.png" alt="Frepi"
+				img src="../images/landing/full_logo.png" alt="Frepi"
 			a.item href="index.html"
 				h4.ui.header.title
 					i.home.icon
@@ -157,7 +145,7 @@ html
 				#store-primary-navbar.ui.fixed.inverted.menu
 					#store-frepi-logo
 						i.sidebar.icon
-						img.ui.image data-bind="click: store" src="../images/landing/logoassd.png" alt="Frepi"
+						img.ui.image data-bind="click: store" src="../images/landing/full_logo.png" alt="Frepi"
 					// #target-store
 					//	.item
 					//		.content

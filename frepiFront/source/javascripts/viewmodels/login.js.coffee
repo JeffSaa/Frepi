@@ -37,7 +37,7 @@ class LoginVM
 						Config.setItem('userObject', JSON.stringify(success.data))
 
 						if success.data.administrator
-							window.location.href = '../../admin/'
+							window.location.href = '../../admin/products.html'
 						else
 							window.location.href = '../../store'
 				)
@@ -74,7 +74,7 @@ class LoginVM
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
 													if success.user.administrator
-														window.location.href = '../../admin/'
+														window.location.href = '../../admin/products.html'
 													else
 														window.location.href = '../../store'
 										)
@@ -87,7 +87,7 @@ class LoginVM
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
 								if success.user.administrator
-									window.location.href = '../../admin/'
+									window.location.href = '../../admin/products.html'
 								else
 									window.location.href = '../../store'
 					)

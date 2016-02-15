@@ -4,6 +4,7 @@ class ProductsVM extends AdminPageVM
 		@AWSBucket = null
 		@currentProduct = null
 		@currentUniqueID = null
+		@shouldSetProductInfo = true
 		@fileHasBeenUploaded = false
 		@previewingImageHasChanged = false
 		@productsAlertText = ko.observable()
@@ -23,6 +24,7 @@ class ProductsVM extends AdminPageVM
 
 		@productsPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
@@ -68,20 +70,20 @@ class ProductsVM extends AdminPageVM
 			storePrice: $form.form('get value', 'storePrice')
 			subcategoryId : $form.form('get value', 'subcategoryID')
 
-		data.image = 'http://s3-sa-east-1.amazonaws.com/frepi/products/' + @generateUniqueID() if @previewingImageHasChanged
+		data.image = 'http://s3-sa-east-1.amazonaws.com/frepi/products/' + @currentUniqueID if @previewingImageHasChanged
 
 		console.log data
 
-		$('.update.modal form .green.button').addClass('loading')
 		if $form.form('is valid')
-			RESTfulService.makeRequest('PUT', "/stores/1/sucursals/#{$form.form('get value', 'sucursalID')}/products", data, (error, success, headers) =>
+			$('.update.modal form .green.button').addClass('loading')
+			RESTfulService.makeRequest('PUT', "/stores/1/sucursals/#{@chosenProduct.sucursalID()}/products/#{@chosenProduct.id()}", data, (error, success, headers) =>
 					$('.update.modal form .green.button').removeClass('loading')
 					if error
-						console.log 'An error has ocurred in the authentication.'
+						console.log 'An error has ocurred in the product update.'
 						console.log error
 					else
 						console.log success
-						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+						@shouldSetProductInfo = true
 						$('.update.modal').modal('hide')
 				)
 
@@ -111,18 +113,24 @@ class ProductsVM extends AdminPageVM
 
 
 	showUpdate: (product) =>
-		$('.update.modal').modal('show')
+		@chosenProduct.id(product.id)
+		@chosenProduct.name(product.name)
+		@chosenProduct.sucursalID(product.sucursal.id)
 		@currentProduct = product
+		$('.update.modal').modal('show')
 
 	setProductInfo: ->
+		console.log 'Setting info'
 		@chosenProduct.image(@currentProduct.image)
+		console.log @currentProduct
 		$('.update.modal form')
 			.form('set values',
 					name 					: @currentProduct.name
 					frepiPrice 		: @currentProduct.frepiPrice
 					storePrice 		: @currentProduct.storePrice
-					categoryID 		: @currentProduct.subcategory.categoryId
 					sucursalID 		: @currentProduct.sucursal.id
+					subcategoryID : @currentProduct.subcategory.id
+					categoryID 		: @currentProduct.subcategory.categoryId
 				)
 
 	showDelete: (product) =>
@@ -132,8 +140,25 @@ class ProductsVM extends AdminPageVM
 		@chosenProduct.sucursalID(product.sucursal.id)
 		$('.delete.modal').modal('show')
 
+	setPrevProductPage: ->
+		if @productsPages.activePage is 1
+			nextPage = @productsPages.allPages.length - 1
+		else
+			nextPage = @productsPages.activePage - 1
+
+		@fetchProductsPage({num: nextPage})
+
+	setNextProductPage: ->
+		if @productsPages.activePage is @productsPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @productsPages.activePage + 1
+
+		@fetchProductsPage({num: nextPage})
+
 	fetchProductsPage: (page) =>
-		@setPaginationItemsToShow(page.num, @productsPages, 'table.products')
+		@productsPages.activePage = page.num
+		@setPaginationItemsToShow(@productsPages, 'table.products')
 		@fetchProducts(page.num)
 
 	fetchProducts: (numPage = 1) ->
@@ -158,6 +183,7 @@ class ProductsVM extends AdminPageVM
 						for i in [0..totalPages]
 							@productsPages.allPages.push({num: i+1})
 
+						@productsPages.activePage = 1
 						@productsPages.lowerLimit = 0
 						@productsPages.upperLimit = if totalPages < 10 then totalPages else 10
 						@productsPages.showablePages(@productsPages.allPages.slice(@productsPages.lowerLimit, @productsPages.upperLimit))
@@ -179,15 +205,12 @@ class ProductsVM extends AdminPageVM
 				console.log success
 				@availableCategories(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				if $('.update.modal').modal('is active')
-					setTimeout(( =>
-						@setProductInfo()
-					), 100)
+				@fetchSubcategories()
 		)
 
-	fetchSubcategories: ->
+	fetchSubcategories: =>
 		$currentForm = if $('.create.modal').modal('is active') then $('.create.modal form') else $('.update.modal form')
-		categoryID = $currentForm.form('get value', 'categoryID')
+		categoryID = $currentForm.form('get value', 'categoryID') or @currentProduct.subcategory.categoryId
 		$('.ui.modal .subcategory.dropdown').addClass('loading')
 		RESTfulService.makeRequest('GET', "/categories/#{categoryID}/subcategories", '', (error, success, headers) =>
 			$('.ui.modal .subcategory.dropdown').removeClass('loading')
@@ -196,7 +219,12 @@ class ProductsVM extends AdminPageVM
 			else
 				console.log success
 				@availableSubcategories(success)
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				if @shouldSetProductInfo and $('.update.modal').modal('is active')
+					console.log "It's here setting the info"
+					setTimeout(( =>
+						@setProductInfo()
+					), 100)
+					@shouldSetProductInfo = false
 		)
 
 	fetchSucursals: ->
@@ -214,7 +242,7 @@ class ProductsVM extends AdminPageVM
 		emptyRule =
 			type: 'empty'
 			prompt: 'No puede estar vacío'
-		$('.create.modal form')
+		$('.create.modal form, .update.modal form')
 			.form({
 					fields:
 						name:
@@ -242,11 +270,12 @@ class ProductsVM extends AdminPageVM
 	setDOMProperties: ->
 		$('.ui.modal')
 			.modal(
-				onHidden: ->
+				onHidden: =>
 					console.log 'closing'
 					$('.ui.modal img')[0].src = '../../images/landing/image.png'
 					$('.ui.modal .progress').progress({percent: 0})
 					$('.ui.modal form').form('clear') # Clears form when the modal is hidding
+					@shouldSetProductInfo = true
 				onShow: =>
 					console.log 'opening'
 					@fetchSucursals()
@@ -314,12 +343,11 @@ class ProductsVM extends AdminPageVM
 			# $('.create.modal form')
 
 	editProduct: =>
-		$fileChooser = $('.update.modal .dimmer input')[0]
-		$form = $('.update.modal form')
-		fileToUpload = $fileChooser.files[0]
-
 		if @previewingImageHasChanged
-			@uploadImage(fileToUpload)
+			$fileChooser = $('.update.modal .dimmer input')[0]
+			$form = $('.update.modal form')
+			fileToUpload = $fileChooser.files[0]
+			@uploadImage(fileToUpload) if $('.update.modal form').form('is valid')
 		else
 			@updateProduct()
 
@@ -329,7 +357,7 @@ class ProductsVM extends AdminPageVM
 		$form = $('.create.modal form')
 		fileToUpload = $fileChooser.files[0]
 
-		@uploadImage(fileToUpload)
+		@uploadImage(fileToUpload) if $('.create.modal form').form('is valid')
 
 products = new ProductsVM
 ko.applyBindings(products)

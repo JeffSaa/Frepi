@@ -14,11 +14,13 @@ class AdminsVM extends AdminPageVM
 
 		@adminsPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
 		@usersPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
@@ -83,7 +85,7 @@ class AdminsVM extends AdminPageVM
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 						$('.update.modal').modal('hide')
-						@fetchUsersPage(1)
+						@fetchUsersPage({num: 1})
 				)
 
 	deleteUser: =>
@@ -127,8 +129,25 @@ class AdminsVM extends AdminPageVM
 		@chosenUser.isAdmin(user.administrator)
 		$('.delete.modal').modal('show')
 
+	setPrevAdminPage: ->
+		if @adminsPages.activePage is 1
+			nextPage = @adminsPages.allPages.length - 1
+		else
+			nextPage = @adminsPages.activePage - 1
+
+		@fetchAdminsPage({num: nextPage})
+
+	setNextAdminPage: ->
+		if @adminsPages.activePage is @adminsPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @adminsPages.activePage + 1
+
+		@fetchAdminsPage({num: nextPage})
+
 	fetchAdminsPage: (page) =>
-		@setPaginationItemsToShow(page.num, @adminsPages, 'table.admins')
+		@adminsPages.activePage = page.num
+		@setPaginationItemsToShow(@adminsPages, 'table.admins')
 		@fetchAdmins(page.num)
 
 	fetchAdmins: (numPage = 1) =>
@@ -149,6 +168,7 @@ class AdminsVM extends AdminPageVM
 						for i in [0..totalPages]
 							@adminsPages.allPages.push({num: i+1})
 
+						@adminsPages.activePage = 1
 						@adminsPages.lowerLimit = 0
 						@adminsPages.upperLimit = if totalPages < 10 then totalPages else 10
 						@adminsPages.showablePages(@adminsPages.allPages.slice(@adminsPages.lowerLimit, @adminsPages.upperLimit))
@@ -163,8 +183,25 @@ class AdminsVM extends AdminPageVM
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
+	setPrevUserPage: ->
+		if @usersPages.activePage is 1
+			nextPage = @usersPages.allPages.length - 1
+		else
+			nextPage = @usersPages.activePage - 1
+
+		@fetchUsersPage({num: nextPage})
+
+	setNextUserPage: ->
+		if @usersPages.activePage is @usersPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @usersPages.activePage + 1
+
+		@fetchUsersPage({num: nextPage})
+
 	fetchUsersPage: (page) =>
-		@setPaginationItemsToShow(page.num, @usersPages, 'table.users')
+		@usersPages.activePage = page.num
+		@setPaginationItemsToShow(@usersPages, 'table.users')
 		@fetchUsers(page.num)
 
 	fetchUsers: (numPage = 1) ->
@@ -186,9 +223,13 @@ class AdminsVM extends AdminPageVM
 						for i in [0..totalPages]
 							@usersPages.allPages.push({num: i+1})
 
+						@usersPages.activePage = 1
 						@usersPages.lowerLimit = 0
 						@usersPages.upperLimit = if totalPages < 10 then totalPages else 10
 						@usersPages.showablePages(@usersPages.allPages.slice(@usersPages.lowerLimit, @usersPages.upperLimit))
+
+						console.log 'user pages'
+						console.log @usersPages
 
 						$("table.users .pagination .pages .item:first-of-type").addClass('active')
 					@currentUsers(success)

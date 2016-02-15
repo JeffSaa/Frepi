@@ -107,11 +107,11 @@ section.content
 			tr
 				th colspan="7"
 					.ui.right.floated.pagination.menu
-						a.icon.item
+						a.icon.item data-bind="click: setPrevSucursalPage"
 							i.left.chevron.icon
 						.pages.item data-bind="foreach: sucursalsPages.showablePages"
 							a.item data-bind="text: $data.num, click: $root.fetchSucursalsPage"
-						a.icon.item
+						a.icon.item data-bind="click: setNextSucursalPage"
 							i.right.chevron.icon
 
 script src="../javascripts/viewmodels/admin/sucursals.js"

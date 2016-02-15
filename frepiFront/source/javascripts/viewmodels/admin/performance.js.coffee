@@ -13,16 +13,19 @@ class PerformanceVM extends AdminPageVM
 
 		@shoppersPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
 		@productsPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
 		@sucursalsPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
@@ -31,8 +34,25 @@ class PerformanceVM extends AdminPageVM
 
 		@setDOMProperties()
 
+	setPrevSucursalPage: ->
+		if @sucursalsPages.activePage is 1
+			nextPage = @sucursalsPages.allPages.length - 1
+		else
+			nextPage = @sucursalsPages.activePage - 1
+
+		@fetchEarningsPage(@sucursalsPages.allPages[nextPage - 1])
+
+	setNextSucursalPage: ->
+		if @sucursalsPages.activePage is @sucursalsPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @sucursalsPages.activePage + 1
+
+		@fetchEarningsPage(@sucursalsPages.allPages[nextPage - 1])
+
 	fetchEarningsPage: (page) =>
-		@setPaginationItemsToShow(page.num, @sucursalsPages, 'article.sucursals')
+		@sucursalsPages.activePage = page.num
+		@setPaginationItemsToShow(@sucursalsPages, 'article.sucursals')
 		@fetchEarningsStatistics(page.startDate, page.endDate, page.num)
 
 	fetchEarningsStatistics: (startDate, endDate, numPage) ->
@@ -63,6 +83,7 @@ class PerformanceVM extends AdminPageVM
 									startDate : startDate
 								@sucursalsPages.allPages.push(obj)
 
+							@sucursalsPages.activePage = 1
 							@sucursalsPages.lowerLimit = 0
 							@sucursalsPages.upperLimit = if totalPages < 10 then totalPages else 10
 							@sucursalsPages.showablePages(@sucursalsPages.allPages.slice(@sucursalsPages.lowerLimit, @sucursalsPages.upperLimit))
@@ -75,8 +96,25 @@ class PerformanceVM extends AdminPageVM
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 			)
 
+	setPrevProductPage: ->
+		if @productsPages.activePage is 1
+			nextPage = @productsPages.allPages.length - 1
+		else
+			nextPage = @productsPages.activePage - 1
+
+		@fetchProductsPage(@productsPages.allPages[nextPage - 1])
+
+	setNextProductPage: ->
+		if @productsPages.activePage is @productsPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @productsPages.activePage + 1
+
+		@fetchProductsPage(@productsPages.allPages[nextPage - 1])
+
 	fetchProductsPage: (page) =>
-		@setPaginationItemsToShow(page.num, @productsPages, 'article.products')
+		@productsPages.activePage = page.num
+		@setPaginationItemsToShow(@productsPages, 'article.products')
 		@fetchProductsStatistics(page.startDate, page.endDate, page.num)
 
 	fetchProductsStatistics: (startDate, endDate, numPage) ->
@@ -107,6 +145,7 @@ class PerformanceVM extends AdminPageVM
 									startDate : startDate
 								@productsPages.allPages.push(obj)
 
+							@productsPages.activePage = 1
 							@productsPages.lowerLimit = 0
 							@productsPages.upperLimit = if totalPages < 10 then totalPages else 10
 							@productsPages.showablePages(@productsPages.allPages.slice(@productsPages.lowerLimit, @productsPages.upperLimit))
@@ -119,8 +158,25 @@ class PerformanceVM extends AdminPageVM
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 			)
 
+	setPrevShopperPage: ->
+		if @shoppersPages.activePage is 1
+			nextPage = @shoppersPages.allPages.length - 1
+		else
+			nextPage = @shoppersPages.activePage - 1
+
+		@fetchShoppersPage(@shoppersPages.allPages[nextPage - 1])
+
+	setNextShopperPage: ->
+		if @shoppersPages.activePage is @shoppersPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @shoppersPages.activePage + 1
+
+		@fetchShoppersPage(@shoppersPages.allPages[nextPage - 1])
+
 	fetchShoppersPage: (page) =>
-		@setPaginationItemsToShow(page.num, @shoppersPages, 'article.shoppers')
+		@shoppersPages.activePage = page.num
+		@setPaginationItemsToShow(@shoppersPages, 'article.shoppers')
 		@fetchShoppersStatistics(page.startDate, page.endDate, page.num)
 
 	fetchShoppersStatistics: (startDate, endDate, numPage) ->
@@ -151,6 +207,7 @@ class PerformanceVM extends AdminPageVM
 									startDate : startDate
 								@shoppersPages.allPages.push(obj)
 
+							@shoppersPages.activePage = 1
 							@shoppersPages.lowerLimit = 0
 							@shoppersPages.upperLimit = if totalPages < 10 then totalPages else 10
 							@shoppersPages.showablePages(@shoppersPages.allPages.slice(@shoppersPages.lowerLimit, @shoppersPages.upperLimit))

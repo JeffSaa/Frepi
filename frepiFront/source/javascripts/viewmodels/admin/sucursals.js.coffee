@@ -10,6 +10,7 @@ class SucursalsVM extends AdminPageVM
 
 		@sucursalsPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
@@ -102,8 +103,25 @@ class SucursalsVM extends AdminPageVM
 		@chosenSucursal.name(sucursal.name)
 		$('.delete.modal').modal('show')
 
+	setPrevSucursalPage: ->
+		if @sucursalsPages.activePage is 1
+			nextPage = @sucursalsPages.allPages.length - 1
+		else
+			nextPage = @sucursalsPages.activePage - 1
+
+		@fetchSucursalsPage({num: nextPage})
+
+	setNextSucursalPage: ->
+		if @sucursalsPages.activePage is @sucursalsPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @sucursalsPages.activePage + 1
+
+		@fetchSucursalsPage({num: nextPage})
+
 	fetchSucursalsPage: (page) =>
-		@setPaginationItemsToShow(page.num, @sucursalsPages, 'table.sucursals')
+		@sucursalsPages.activePage = page.num
+		@setPaginationItemsToShow(@sucursalsPages, 'table.sucursals')
 		@fetchSucursals(page.num)
 
 	fetchSucursals: (numPage = 1) ->
@@ -119,16 +137,18 @@ class SucursalsVM extends AdminPageVM
 				@sucursalsAlertText('Hubo un problema buscando la información de las sucursales')
 			else
 				console.log success
-				if @sucursalsPages.allPages.length is 0
-					totalPages = Math.ceil(headers.totalItems/10)
-					for i in [0..totalPages]
-						@sucursalsPages.allPages.push({num: i+1})
+				if success.length > 0
+					if @sucursalsPages.allPages.length is 0
+						totalPages = Math.ceil(headers.totalItems/10)
+						for i in [0..totalPages]
+							@sucursalsPages.allPages.push({num: i+1})
 
-					@sucursalsPages.lowerLimit = 0
-					@sucursalsPages.upperLimit = if totalPages < 10 then totalPages else 10
-					@sucursalsPages.showablePages(@sucursalsPages.allPages.slice(@sucursalsPages.lowerLimit, @sucursalsPages.upperLimit))
+						@sucursalsPages.activePage = 1
+						@sucursalsPages.lowerLimit = 0
+						@sucursalsPages.upperLimit = if totalPages < 10 then totalPages else 10
+						@sucursalsPages.showablePages(@sucursalsPages.allPages.slice(@sucursalsPages.lowerLimit, @sucursalsPages.upperLimit))
 
-					$("table.sucursals .pagination .pages .item:first-of-type").addClass('active')
+						$("table.sucursals .pagination .pages .item:first-of-type").addClass('active')
 
 					@currentSucursals(success)
 					@shouldShowSucursalsAlert(false)

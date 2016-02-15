@@ -79,7 +79,7 @@
 			.buttons-to-right
 				.ui.cancel.button Cancelar
 				button.ui.labeled.green.submit.icon.button type="submit"
-					|Editar Admin
+					|Editar
 					i.checkmark.icon
 
 header
@@ -122,11 +122,11 @@ section.content
 			tr
 				th colspan="7"
 					.ui.right.floated.pagination.menu
-						a.icon.item
+						a.icon.item data-bind="click: setPrevAdminPage"
 							i.left.chevron.icon
 						.pages.item data-bind="foreach: adminsPages.showablePages"
 								a.item data-bind="text: $data.num, click: $root.fetchAdminsPage"
-						a.icon.item
+						a.icon.item data-bind="click: setNextAdminPage"
 							i.right.chevron.icon
 
 	h3 Clientes
@@ -167,11 +167,11 @@ section.content
 			tr
 				th colspan="11"
 					.ui.right.floated.pagination.menu
-						a.icon.item
+						a.icon.item data-bind="click: setPrevUserPage"
 							i.left.chevron.icon
 						.pages.item data-bind="foreach: usersPages.showablePages"
 								a.item data-bind="text: $data.num, click: $root.fetchUsersPage"
-						a.icon.item
+						a.icon.item data-bind="click: setNextUserPage"
 							i.right.chevron.icon
 
 script src="../javascripts/viewmodels/admin/admin.js"

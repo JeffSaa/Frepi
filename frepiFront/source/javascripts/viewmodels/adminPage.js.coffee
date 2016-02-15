@@ -25,19 +25,19 @@ class window.AdminPageVM
 		tempUser = JSON.parse(Config.getItem('userObject'))
 		# @user = ko.mapping.fromJS(tempUser)
 		console.log tempUser
-		console.log @user
+		console.log @user	
 
-	setPaginationItemsToShow: (activeNumPage, objPage, DOMParent) ->
+	setPaginationItemsToShow: (objPage, DOMParent) ->
 		numShownPages = objPage.showablePages().length
 
 		# Select which item should be set as active in the pagination list
-		module = activeNumPage % 10
+		module = objPage.activePage % 10
 		moduleFive = module % 5
 
 		if module is 0 or moduleFive is 0
 			activePage = 5
 		else
-			if moduleFive is 1 and activeNumPage isnt 1
+			if moduleFive is 1 and objPage.activePage isnt 1
 				activePage = 6
 			else
 				activePage = if numShownPages < 10 then module else moduleFive
@@ -46,7 +46,7 @@ class window.AdminPageVM
 		midPoint = parseInt((objPage.lowerLimit + objPage.upperLimit)/2)
 
 		unless numShownPages < 10
-			if activeNumPage > midPoint
+			if objPage.activePage > midPoint
 				objPage.lowerLimit = midPoint
 				possibleUpperLimit = objPage.lowerLimit + 10
 				if possibleUpperLimit < objPage.allPages.length
@@ -54,7 +54,7 @@ class window.AdminPageVM
 				else
 					objPage.upperLimit = objPage.allPages.length - 1
 
-		if (activeNumPage - 1) is objPage.lowerLimit and (activeNumPage - 1) isnt 0
+		if (objPage.activePage - 1) is objPage.lowerLimit and (objPage.activePage - 1) isnt 0
 			objPage.upperLimit = if numShownPages < 10 then objPage.showablePages()[4].num else midPoint
 			objPage.lowerLimit = objPage.upperLimit - 10
 

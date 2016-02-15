@@ -10,6 +10,7 @@ class ShoppersVM extends AdminPageVM
 
 		@shoppersPages =
 			allPages: []
+			activePage: 0
 			lowerLimit: 0
 			upperLimit: 0
 			showablePages: ko.observableArray()
@@ -102,8 +103,25 @@ class ShoppersVM extends AdminPageVM
 		@chosenShopper.name(shopper.firstName+' '+shopper.lastName)
 		$('.delete.modal').modal('show')
 
+	setPrevShopperPage: ->
+		if @shoppersPages.activePage is 1
+			nextPage = @shoppersPages.allPages.length - 1
+		else
+			nextPage = @shoppersPages.activePage - 1
+
+		@fetchShoppersPage({num: nextPage})
+
+	setNextShopperPage: ->
+		if @shoppersPages.activePage is @shoppersPages.allPages.length - 1
+			nextPage = 1
+		else
+			nextPage = @shoppersPages.activePage + 1
+
+		@fetchShoppersPage({num: nextPage})
+
 	fetchShoppersPage: (page) =>
-		@setPaginationItemsToShow(page.num, @shoppersPages, 'table.shoppers')
+		@shoppersPages.activePage = page.num
+		@setPaginationItemsToShow(@shoppersPages, 'table.shoppers')
 		@fetchShoppers(page.num)
 
 	fetchShoppers: (numPage = 1) ->
@@ -125,6 +143,7 @@ class ShoppersVM extends AdminPageVM
 						for i in [0..totalPages]
 							@shoppersPages.allPages.push({num: i+1})
 
+						@shoppersPages.activePage = 1
 						@shoppersPages.lowerLimit = 0
 						@shoppersPages.upperLimit = if totalPages < 10 then totalPages else 10
 						@shoppersPages.showablePages(@shoppersPages.allPages.slice(@shoppersPages.lowerLimit, @shoppersPages.upperLimit))

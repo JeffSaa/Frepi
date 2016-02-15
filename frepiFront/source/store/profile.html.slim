@@ -63,7 +63,7 @@
 				li data-bind="text: $data.product.name+' x '+$data.quantity"
 			p
 				strong Dirección entrega:
-				|<!--ko text: ' $'+chosenOrder.address()--><!--/ko-->
+				|<!--ko text: ' '+chosenOrder.address()--><!--/ko-->
 			p
 				strong Precio orden:
 				|<!--ko text: ' $'+chosenOrder.totalPrice()--><!--/ko-->
