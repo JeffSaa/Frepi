@@ -3,6 +3,29 @@ country = Country.create!(name: 'colombia')
 state = country.states.create!(name: 'atlantico')
 city = state.cities.create!(name: 'barranquilla')
 
+# TODO: Create Admin
+
+# User.create!( name: 'Ernesto', last_name: 'De la Espriella',
+#               email: 'admin@frepi.com', identification: 'todo',
+#               address: 'calle 52 # 75', phone_number: 'todo',
+#               image: '', city_id: city.id, administrator: true,
+#               password: 'todo', password_confirmation: 'todo')
+
+# Categories
+#   Subcategories
+# --- frutas y verdura ----
+# => Verduras frescas
+# => Hierbas frescas
+# => Verduras y vegetales empacados
+
+#category_frutas_verduras = Category.create!(name: 'Frutas y verduras', store_partner_id: 'todo')
+#category_frutas_verduras.subcategories.new(name: 'Verduras frescas')
+#category_frutas_verduras.subcategories.new(name: 'Hierbas frescas')
+#category_frutas_verduras.subcategories.new(name: 'Verduras y vegetales empacados')
+
+
+
+
 # email: admin@frepi.com | client@frepi.com | supervisor@frepi.com
 # Password: frepi123
 
