@@ -31,6 +31,7 @@ class window.TransactionalPageVM
 
 		@isLogged = ko.observable(false)
 
+		@setUserInfo()
 		@setDOMElems()
 
 	checkout: =>
@@ -63,28 +64,66 @@ class window.TransactionalPageVM
 		@saveOrder()
 		window.location.href = '../../store/deparment.html'
 
+	showTextArea: (data, event) ->
+		$noteLabel = $(event.currentTarget)
+		$textArea = $(event.currentTarget).parent().children('textarea')
+		$saveComment = $(event.currentTarget).parent().children('.save.comment')
+
+		$noteLabel.css('display', 'none')
+		$textArea.css('display', 'block')
+		$saveComment.css('display', 'inline-block')
+
+	addComment: (product, event) ->
+		$noteLabel = $(event.currentTarget).parent().children('.note.label')
+		$textArea = $(event.currentTarget).parent().children('textarea')
+		$saveComment = $(event.currentTarget)
+		textareaValue = $textArea.val()
+
+		oldProduct = product
+		newProduct =
+			comment: textareaValue
+			frepiPrice: product.frepiPrice
+			id: product.id
+			image: product.image
+			name: product.name
+			quantity: product.quantity
+			subcategoryId: product.subcategoryId
+			totalPrice: parseFloat(product.frepiPrice)
+
+		@session.currentOrder.products.replace(oldProduct, newProduct)
+		@saveOrder()
+
+		$noteLabel.css('display', 'inline-block')
+		$textArea.css('display', 'none')
+		$saveComment.css('display', 'none')
+
 	addToCart: (productToAdd, quantitySelected) =>
 		quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0]) if quantitySelected is null
 		product = @getProductByName(productToAdd.name)
 
 		if not isNaN(quantitySelected)
 			if !product
-				productToAdd.quantity = quantitySelected
-				productToAdd.totalPrice = parseFloat(productToAdd.frepiPrice)
-				@session.currentOrder.products.push(productToAdd)
+				# productToAdd.quantity = quantitySelected
+				# productToAdd.totalPrice = parseFloat(productToAdd.frepiPrice)
+				@session.currentOrder.products.push(
+					comment: ""
+					frepiPrice: productToAdd.frepiPrice
+					id: productToAdd.id
+					image: productToAdd.image
+					name: productToAdd.name
+					quantity: quantitySelected
+					subcategoryId: productToAdd.subcategoryId
+					totalPrice: parseFloat(productToAdd.frepiPrice)
+				)
 			else
 				oldProduct = product
 				newProduct =
-					available: oldProduct.available
+					comment: oldProduct.comment
 					frepiPrice: oldProduct.frepiPrice
 					id: oldProduct.id
 					image: oldProduct.image
 					name: oldProduct.name
 					quantity: oldProduct.quantity + quantitySelected
-					referenceCode: oldProduct.referenceCode
-					salesCount: oldProduct.salesCount
-					storePrice: oldProduct.storePrice
-					subcategoryName: oldProduct.subcategoryName
 					subcategoryId: oldProduct.subcategoryId
 					totalPrice: parseFloat((oldProduct.frepiPrice*(oldProduct.quantity+quantitySelected)).toFixed(2))
 
@@ -138,16 +177,12 @@ class window.TransactionalPageVM
 		else
 			oldProduct = product
 			newProduct =
-				available: oldProduct.available
+				comment: oldProduct.comment
 				frepiPrice: oldProduct.frepiPrice
 				id: oldProduct.id
 				image: oldProduct.image
 				name: oldProduct.name
 				quantity: oldProduct.quantity - 1
-				referenceCode: oldProduct.referenceCode
-				salesCount: oldProduct.salesCount
-				storePrice: oldProduct.storePrice
-				subcategoryName: oldProduct.subcategoryName
 				subcategoryId: oldProduct.subcategoryId
 				totalPrice: parseFloat((oldProduct.frepiPrice*(oldProduct.quantity-1)).toFixed(2))
 
@@ -242,6 +277,25 @@ class window.TransactionalPageVM
 		# $('#choose-store')
 		# 	.modal('setting', 'closable', false)
 		# 	.modal('attach events', '#store-primary-navbar #target-store', 'show')
+		$('.ui.search')
+			.search({
+					minCharacters: 3
+					apiSettings:
+						url: '//ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1/search/products?search={query}'
+						onResponse: (APIResponse) ->
+							response = results: []
+
+							$.each(APIResponse, ((index, item) ->
+									maxResults = 6
+									return false if index > maxResults
+
+									response.results.push(
+										title: item.name
+										description: "$#{item.frepi_price}"
+									)
+								))
+							return response
+				})
 		$('.ui.accordion')
 			.accordion()
 		$('#sign-up')

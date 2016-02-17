@@ -1,6 +1,6 @@
 class window.RESTfulService
   # @URL = 'http://10.20.20.69'
-  @URL = 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:3000/api/v1'
+  @URL = 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1'
   @makeRequest: (method, url, data, callback) ->
     $.ajax({
         method: method,
@@ -9,7 +9,7 @@ class window.RESTfulService
         data: if method is 'GET' then $.param(data) else JSON.stringify(data),
         url: @URL + url,
         success: ((data, status, xhr) ->
-                  headers = 
+                  headers =
                     accessToken: xhr.getResponseHeader('access-token')
                     totalItems: xhr.getResponseHeader('Total-Count')
                     client: xhr.getResponseHeader('client')

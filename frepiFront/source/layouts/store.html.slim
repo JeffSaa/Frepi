@@ -125,9 +125,25 @@ html
 								span.price data-bind="text: '$'+$data.frepiPrice"
 								span x
 								span.quantity data-bind="text: $data.quantity"
+							.meta.comment data-bind="text: $data.comment"
+							textarea data-bind="value: $data.comment" rows="3"
+							a.ui.small.green.save.comment.label data-bind="click: function(data, event){$root.addComment(data, event)}"
+								i.check.icon
+								|Ok
+							a.ui.small.blue.note.label data-bind="click: function(data, event){$root.showTextArea(data, event)}"
+								i.pencil.icon
+								|Nota
 						i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
-						i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data, 1)}"
-						i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
+						// i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data, 1)}"
+						// i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
+						.ui.basic.mini.vertical.icon.buttons
+							.ui.button data-bind="click: function(data){$root.addToCart(data, 1)}"
+								i.up.chevron.icon
+							.ui.counter.button data-bind="text: $data.quantity"
+							.ui.button data-bind="click: function(data){$root.removeFromCart(data)}"
+								i.down.chevron.icon
+
+
 				.item
 					button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
 			.sign-up-banner data-bind="visible: session.signedUp"
@@ -152,27 +168,31 @@ html
 					//			.ui.truncated.sub.header Centro
 					//			|Paseo Bolívar
 					#product-searcher.item
-						.ui.icon.input
-							input type="text" placeholder="Buscar..."
-							i.circular.search.link.icon
+						.ui.search
+							.ui.icon.input
+								input.prompt type="text" placeholder="Buscar..."
+								i.circular.search.link.icon
 					#user-account.ui.simple.dropdown.item
-							.text data-bind="text: 'Hola, '+user.firstName()"
-							i.chevron.down.icon
-							.menu data-bind="visible: isLogged"
-								.item data-bind="click: profile"
-									i.user.icon
-									|Ver perfil
-								.item data-bind="click: orders"
-									i.book.icon
-									|Mis pedidos
-								.divider
-								.item data-bind="click: logout"
-									i.sign.out.icon
-									|Salir
-							.menu data-bind="visible: !isLogged()"
-								a.item href="../login.html"
-									i.sign.in.icon
-									|Entrar
+						|<!--ko text: 'Hola, '+user.firstName()--><!--/ko-->
+						i.chevron.down.icon
+
+						// .text data-bind="text: 'Hola, '+user.firstName()"
+						// i.chevron.down.icon
+						.menu data-bind="visible: isLogged"
+							.item data-bind="click: profile"
+								i.user.icon
+								|Ver perfil
+							.item data-bind="click: orders"
+								i.book.icon
+								|Mis pedidos
+							.divider
+							.item data-bind="click: logout"
+								i.sign.out.icon
+								|Salir
+						.menu data-bind="visible: !isLogged()"
+							a.item href="../login.html"
+								i.sign.in.icon
+								|Entrar
 					#shopping-cart
 						i.circular.inverted.orange.shop.icon
 

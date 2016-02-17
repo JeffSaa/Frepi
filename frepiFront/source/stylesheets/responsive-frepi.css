@@ -72,7 +72,7 @@
   /**
    ** Login rules
    **/
-   
+
    .login-main {
      background: url(../images/landing/login-bg-min.jpg) no-repeat fixed center bottom;
      background-size: 100%;
@@ -109,6 +109,11 @@
 
   #product-searcher {
     width: calc(100% - 8.928571em);
+  }
+
+  #product-searcher .ui.search,
+  #product-searcher .ui.search .ui.input {
+    width: 100%;
   }
 
   header #shopping-cart .icon {

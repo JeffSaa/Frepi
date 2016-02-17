@@ -79,24 +79,28 @@ footer p {
   max-width: 28.571428em;
   text-align: center;
   top: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   z-index: 1;
 }
 
 #slider .images li ul li .top-img {
-  animation: slidein-top 2s ease-in-out;
+  -webkit-animation: slidein-top 2s ease-in-out;
+          animation: slidein-top 2s ease-in-out;
   right: 40%;
   top: 60px;
 }
 
 #slider .images li ul li .left-img {
-  animation: slidein-left 2.8s ease-in-out;
+  -webkit-animation: slidein-left 2.8s ease-in-out;
+          animation: slidein-left 2.8s ease-in-out;
   left: 12%;
   top: 55%;
 }
 
 #slider .images li ul li .right-img {
-  animation: slidein-right 1.5s ease-in-out;
+  -webkit-animation: slidein-right 1.5s ease-in-out;
+          animation: slidein-right 1.5s ease-in-out;
   right: 18%;
   top: 60%;
 }
@@ -109,18 +113,30 @@ footer p {
 /**** Slider Animations ***/
 
 /* Image coming from the slider's top */
+@-webkit-keyframes slidein-top {
+  from {top: -100px;}
+  to {top: 60px;}
+}
 @keyframes slidein-top {
   from {top: -100px;}
   to {top: 60px;}
 }
 
 /* Image coming from the slider's left */
+@-webkit-keyframes slidein-left {
+  from {left: -100px;}
+  to {left: 12%;}
+}
 @keyframes slidein-left {
   from {left: -100px;}
   to {left: 12%;}
 }
 
 /* Image coming from the slider's right */
+@-webkit-keyframes slidein-right {
+  from {right: -100px;}
+  to {right: 18%;}
+}
 @keyframes slidein-right {
   from {right: -100px;}
   to {right: 18%;}
@@ -167,7 +183,8 @@ footer p {
   left: 50%;
   position: absolute;
   top: 55%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   width: 40%;
 }
 
@@ -196,7 +213,6 @@ footer p {
   position: absolute;
   top: 35%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
 }
 
@@ -224,7 +240,8 @@ footer p {
   left: 50%;
   position: absolute;
   top: 60%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 /* Login */
@@ -340,8 +357,7 @@ footer p {
 
 #store-secondary-navbar {
   background-color: #fcf8e3 !important;
-  height: 40px;
-  padding: 2.5px 10px;
+  padding: 0 10px;
   top: 60px;
   z-index: 100;
 }
@@ -374,7 +390,7 @@ footer p {
 
 #store-frepi-logo img {
   height: 50px;
-  margin: 5px 37px;
+  margin: 8px 46px;
 }
 
 #store-frepi-logo .icon {
@@ -408,7 +424,25 @@ header #shopping-cart .icon {
   width: calc(100% - 360px);
 }
 
+#product-searcher .ui.search {
+  margin: 0 auto;
+  width: 90%;
+}
+
+#product-searcher .ui.search .ui.input {
+  width: 100%;
+}
+
+#product-searcher .ui.search .prompt {
+  border-radius: .28571429rem;
+}
+
 #user-account {
+  font-weight: bold;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 160px;
 }
 
@@ -458,6 +492,9 @@ header #shopping-cart .icon {
  **/
 
  #shopping-cart .item {
+   display: -webkit-box;
+   display: -webkit-flex;
+   display: -ms-flexbox;
    display: flex;
    color: rgba(0,0,0,.67);
  }
@@ -494,7 +531,7 @@ header #shopping-cart .icon {
 }
 
 #shopping-cart .ui.items .item {
-  padding: .5em .4em;
+  padding: .5625em 0 .5625em 3em;;
   margin: 0 !important;
 }
 
@@ -503,41 +540,64 @@ header #shopping-cart .icon {
 }
 
 #shopping-cart .item .header {
-  width: 85%;
+  font-size: 1.071428em;
+  width: 90%;
 }
 
-#shopping-cart .item .close,
-#shopping-cart .item .minus,
-#shopping-cart .item .plus {
+#shopping-cart .item .comment:not(.save) {
+  font-style: italic;
+  width: 90%;
+}
+
+#shopping-cart .item .note,
+#shopping-cart .item .save.comment {
   display: none;
+}
+
+#shopping-cart .item textarea {
+  display: none;
+  font-size: .857142em;
+  margin: .5em 0;
+}
+
+#shopping-cart .item .mini.buttons {
+  left: .625rem;
   position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+#shopping-cart .item .mini.buttons .counter {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: .3125em .4375em;
+}
+
+#shopping-cart .item .mini.buttons .button:not(.counter) {
+  display: none;
+  font-size: .685714rem;
+  padding: .5em .375em;
 }
 
 #shopping-cart .item .close {
+  display: none;
+  position: absolute;
   right: 1em;
   top: 1em;
 }
 
-#shopping-cart .item .minus {
-  right: 3.5em;
-  top: 2.85714em;
-}
-
-#shopping-cart .item .plus {
-  right: 6em;
-  top: 2.85714em;
-}
-
-#shopping-cart .item .close:hover,
-#shopping-cart .item .minus:hover,
-#shopping-cart .item .plus:hover {
+#shopping-cart .item .close:hover {
   color: rgba(0,0,0,.87);
 }
 
-#shopping-cart .item:hover .close,
-#shopping-cart .item:hover .minus,
-#shopping-cart .item:hover .plus {
+#shopping-cart .item:hover .mini.buttons .button:not(.counter),
+#shopping-cart .item:hover .close {
   display: block;
+}
+
+#shopping-cart .item:hover .note {
+  display: inline-block;
 }
 
 /**

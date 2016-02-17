@@ -20,16 +20,13 @@ class StoreVM extends TransactionalPageVM
 		@setSizeSidebar()
 		console.log 'Is signed Up? ' + @session.signedUp()
 
-	chooseStore: (store) =>
-		ko.mapping.fromJS(store, @session.currentSucursal)
-		$('#choose-store').modal('hide')
-		@fetchCategories()
-
 	fetchCategories: ->
 		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/categories", '', (error, success, headers) =>
 			if error
 				# console.log 'An error has ocurred while fetching the categories!'
-				@shouldShowError(true)
+				# @shouldShowError(true)
+				console.log "COLEEEEEEEEEE CULEEEE ERRROR"
+				console.log error
 			else
 				console.log success
 				@session.categories(success)
