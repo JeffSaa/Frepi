@@ -531,8 +531,12 @@ header #shopping-cart .icon {
 }
 
 #shopping-cart .ui.items .item {
-  padding: .5625em 0 .5625em 3em;;
+  padding: .5625em 1.5625em .5625em 3em;
   margin: 0 !important;
+}
+
+.ui.items>.item>.image {
+  align-self: center;
 }
 
 .ui.items>.item>.image+.content {
@@ -558,9 +562,10 @@ header #shopping-cart .icon {
   display: none;
   font-size: .857142em;
   margin: .5em 0;
+  width: 80%;
 }
 
-#shopping-cart .item .mini.buttons {
+#shopping-cart .item .buttons {
   left: .625rem;
   position: absolute;
   top: 50%;
@@ -568,13 +573,13 @@ header #shopping-cart .icon {
           transform: translateY(-50%);
 }
 
-#shopping-cart .item .mini.buttons .counter {
+#shopping-cart .item .buttons .counter {
   font-size: 1rem;
   font-weight: bold;
   padding: .3125em .4375em;
 }
 
-#shopping-cart .item .mini.buttons .button:not(.counter) {
+#shopping-cart .item .buttons .button:not(.counter) {
   display: none;
   font-size: .685714rem;
   padding: .5em .375em;
@@ -591,7 +596,7 @@ header #shopping-cart .icon {
   color: rgba(0,0,0,.87);
 }
 
-#shopping-cart .item:hover .mini.buttons .button:not(.counter),
+#shopping-cart .item:hover .buttons .button:not(.counter),
 #shopping-cart .item:hover .close {
   display: block;
 }

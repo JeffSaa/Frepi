@@ -295,6 +295,11 @@ class window.TransactionalPageVM
 									)
 								))
 							return response
+						onSelect: (result, response) ->
+							console.log 'RESULT'
+							console.log result
+							console.log 'response'
+							console.log response
 				})
 		$('.ui.accordion')
 			.accordion()

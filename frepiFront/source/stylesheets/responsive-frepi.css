@@ -150,29 +150,28 @@
   /* Shopping cart rules */
   #shopping-cart .ui.items>.item>.image,
   #shopping-cart .ui.items>.item>.image>img {
-    max-height: 150px !important;
+    max-height: 125px !important;
   }
 
   .ui.items>.item>.image+.content {
     padding: 1.2em 1em 0 1.5em;
   }
 
-  #shopping-cart .item .close,
-  #shopping-cart .item .minus,
-  #shopping-cart .item .plus {
+  #shopping-cart .item .buttons .counter {
+    padding: .78571429em;
+  }
+
+  #shopping-cart .item .buttons .button:not(.counter) {
+    padding: 1em .375em;
+  }
+
+  #shopping-cart .item .buttons .button:not(.counter),
+  #shopping-cart .item .close {
     display: block;
   }
 
-  #shopping-cart .item .minus {
-    bottom: -0.85em;
-    right: 1em;
-    top: auto;
-  }
-
-  #shopping-cart .item .plus {
-    bottom: 1.5em;
-    right: 1em;
-    top: auto;
+  #shopping-cart .item .note {
+    display: inline-block;
   }
 }
 

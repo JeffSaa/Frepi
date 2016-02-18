@@ -71,6 +71,7 @@ class CheckoutVM
 
 		for product in @session.currentOrder.products()
 			productsToSend.push({
+					comment: product.comment
 					id: product.id
 					quantity: product.quantity
 				})
@@ -82,6 +83,9 @@ class CheckoutVM
 			arrivalTime			: @selectedHour()
 			scheduledDate		: @selectedDate()
 			expiryTime			: @selectedExpiredHour()
+
+		console.log 'DATA TO SEND'
+		console.log data
 
 		RESTfulService.makeRequest('POST', "/users/#{@user.id}/orders", data, (error, success, headers) =>
 			if error

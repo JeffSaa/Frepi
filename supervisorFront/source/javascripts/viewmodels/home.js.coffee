@@ -8,7 +8,7 @@ class HomeVM
 		@inStoreShoppers = ko.observableArray()
 		@deliveringShoppers = ko.observableArray()
 		@selectedOrder = ko.mapping.fromJS(DefaultModels.ORDER)
-		
+
 		@deliveryShopperFullName = ko.computed( =>
 				length = @selectedOrder.shopper().length
 				if length > 0
@@ -49,12 +49,12 @@ class HomeVM
 						, 100)
 					@refresh()
 			)
-	
-	parseDate: (date) -> 
+
+	parseDate: (date) ->
 		return moment(date, moment.ISO_8601).format('dddd, DD MMMM YYYY')
 
-	parseTime: (date) -> 
-		return moment(date, moment.ISO_8601).format('h:mm A')			
+	parseTime: (date) ->
+		return moment(date, moment.ISO_8601).utcOffset("00:00").format('h:mm A')
 
 	pickOrder: (order) =>
 		console.log order
@@ -75,13 +75,13 @@ class HomeVM
 			modal = '#shopping-order'
 		else
 			modal = '#assign-shopper'
-		
+
 		$("#{modal} .actions .button:last-child").addClass('loading')
 		$("#{modal} .dropdown").removeClass('error')
 		shopperID = parseInt($("#{modal} .dropdown").dropdown('get value')[0])
 		orderID = @selectedOrder.id()
 		if !!shopperID
-			data = 
+			data =
 				shopperId : shopperID
 				orderId 	: orderID
 
@@ -92,7 +92,7 @@ class HomeVM
 					console.log success
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 					$("#{modal} .actions .button:last-child").removeClass('loading')
-					setTimeout( ->								
+					setTimeout( ->
 								$("#{modal}").modal('hide')
 						, 100)
 					@refresh()
@@ -108,7 +108,7 @@ class HomeVM
 		for product in @selectedOrder.products()
 			unacquiredProducts.push({id: product.product.id(), acquired: product.acquired()})
 
-		data = 
+		data =
 			products 	: unacquiredProducts
 
 		orderID = @selectedOrder.id()
@@ -195,13 +195,13 @@ class HomeVM
 		@lastFetchedState = state
 		@loading(true)
 		data =
-			page : 1
-		
-		RESTfulService.makeRequest('GET', "/orders/#{state}", data, (error, success, headers) =>			
+			page : 2
+
+		RESTfulService.makeRequest('GET', "/orders/#{state}", data, (error, success, headers) =>
 			if error
 				console.log error
 			else
-				console.log success		
+				console.log success
 				@activeOrders(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 
@@ -222,7 +222,7 @@ class HomeVM
 		)
 
 	logout: ->
-		# RESTfulService.makeRequest('DELETE', "/auth_supervisor/sign_out", '', (error, success, headers) =>			
+		# RESTfulService.makeRequest('DELETE', "/auth_supervisor/sign_out", '', (error, success, headers) =>
 		# 	if error
 		# 		console.log 'An error has ocurred'
 		# 	else
