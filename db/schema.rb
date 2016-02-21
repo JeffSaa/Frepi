@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "categories", force: :cascade do |t|
     t.string   "name",             null: false
     t.integer  "store_partner_id", null: false
@@ -28,7 +31,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "cities", ["state_id"], name: "index_cities_on_state_id"
+  add_index "cities", ["state_id"], name: "index_cities_on_state_id", using: :btree
 
   create_table "complaints", force: :cascade do |t|
     t.string   "message",    null: false
@@ -38,7 +41,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "complaints", ["user_id"], name: "index_complaints_on_user_id"
+  add_index "complaints", ["user_id"], name: "index_complaints_on_user_id", using: :btree
 
   create_table "countries", force: :cascade do |t|
     t.string   "name",       null: false
@@ -63,7 +66,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at"
   end
 
-  add_index "orders", ["user_id"], name: "index_orders_on_user_id"
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "orders_products", force: :cascade do |t|
     t.integer  "order_id"
@@ -75,8 +78,8 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",                null: false
   end
 
-  add_index "orders_products", ["order_id"], name: "index_orders_products_on_order_id"
-  add_index "orders_products", ["product_id"], name: "index_orders_products_on_product_id"
+  add_index "orders_products", ["order_id"], name: "index_orders_products_on_order_id", using: :btree
+  add_index "orders_products", ["product_id"], name: "index_orders_products_on_product_id", using: :btree
 
   create_table "orders_schedules", force: :cascade do |t|
     t.integer  "order_id",    null: false
@@ -85,8 +88,8 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "orders_schedules", ["order_id"], name: "index_orders_schedules_on_order_id"
-  add_index "orders_schedules", ["schedule_id"], name: "index_orders_schedules_on_schedule_id"
+  add_index "orders_schedules", ["order_id"], name: "index_orders_schedules_on_order_id", using: :btree
+  add_index "orders_schedules", ["schedule_id"], name: "index_orders_schedules_on_schedule_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.string   "reference_code"
@@ -102,7 +105,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id"
+  add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id", using: :btree
 
   create_table "schedules", force: :cascade do |t|
     t.integer  "day",        null: false
@@ -132,8 +135,8 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at"
   end
 
-  add_index "shoppers", ["city_id"], name: "index_shoppers_on_city_id"
-  add_index "shoppers", ["email"], name: "index_shoppers_on_email"
+  add_index "shoppers", ["city_id"], name: "index_shoppers_on_city_id", using: :btree
+  add_index "shoppers", ["email"], name: "index_shoppers_on_email", using: :btree
 
   create_table "shoppers_orders", force: :cascade do |t|
     t.integer  "shopper_id"
@@ -143,8 +146,8 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",    null: false
   end
 
-  add_index "shoppers_orders", ["order_id"], name: "index_shoppers_orders_on_order_id"
-  add_index "shoppers_orders", ["shopper_id"], name: "index_shoppers_orders_on_shopper_id"
+  add_index "shoppers_orders", ["order_id"], name: "index_shoppers_orders_on_order_id", using: :btree
+  add_index "shoppers_orders", ["shopper_id"], name: "index_shoppers_orders_on_shopper_id", using: :btree
 
   create_table "shoppers_schedules", force: :cascade do |t|
     t.integer  "shopper_id",  null: false
@@ -153,8 +156,8 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "shoppers_schedules", ["schedule_id"], name: "index_shoppers_schedules_on_schedule_id"
-  add_index "shoppers_schedules", ["shopper_id"], name: "index_shoppers_schedules_on_shopper_id"
+  add_index "shoppers_schedules", ["schedule_id"], name: "index_shoppers_schedules_on_schedule_id", using: :btree
+  add_index "shoppers_schedules", ["shopper_id"], name: "index_shoppers_schedules_on_shopper_id", using: :btree
 
   create_table "states", force: :cascade do |t|
     t.integer  "country_id"
@@ -163,7 +166,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "states", ["country_id"], name: "index_states_on_country_id"
+  add_index "states", ["country_id"], name: "index_states_on_country_id", using: :btree
 
   create_table "store_partners", force: :cascade do |t|
     t.string   "nit",         null: false
@@ -181,7 +184,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "subcategories", ["category_id"], name: "index_subcategories_on_category_id"
+  add_index "subcategories", ["category_id"], name: "index_subcategories_on_category_id", using: :btree
 
   create_table "sucursals", force: :cascade do |t|
     t.string   "name",                                           null: false
@@ -197,7 +200,7 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",                                     null: false
   end
 
-  add_index "sucursals", ["store_partner_id"], name: "index_sucursals_on_store_partner_id"
+  add_index "sucursals", ["store_partner_id"], name: "index_sucursals_on_store_partner_id", using: :btree
 
   create_table "sucursals_products", force: :cascade do |t|
     t.integer  "sucursal_id", null: false
@@ -206,8 +209,8 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "sucursals_products", ["product_id"], name: "index_sucursals_products_on_product_id"
-  add_index "sucursals_products", ["sucursal_id"], name: "index_sucursals_products_on_sucursal_id"
+  add_index "sucursals_products", ["product_id"], name: "index_sucursals_products_on_product_id", using: :btree
+  add_index "sucursals_products", ["sucursal_id"], name: "index_sucursals_products_on_sucursal_id", using: :btree
 
   create_table "supervisors", force: :cascade do |t|
     t.string   "identification",                           null: false
@@ -241,10 +244,10 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",                               null: false
   end
 
-  add_index "supervisors", ["city_id"], name: "index_supervisors_on_city_id"
-  add_index "supervisors", ["email"], name: "index_supervisors_on_email"
-  add_index "supervisors", ["reset_password_token"], name: "index_supervisors_on_reset_password_token", unique: true
-  add_index "supervisors", ["uid", "provider"], name: "index_supervisors_on_uid_and_provider", unique: true
+  add_index "supervisors", ["city_id"], name: "index_supervisors_on_city_id", using: :btree
+  add_index "supervisors", ["email"], name: "index_supervisors_on_email", using: :btree
+  add_index "supervisors", ["reset_password_token"], name: "index_supervisors_on_reset_password_token", unique: true, using: :btree
+  add_index "supervisors", ["uid", "provider"], name: "index_supervisors_on_uid_and_provider", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                                                               null: false
@@ -282,9 +285,11 @@ ActiveRecord::Schema.define(version: 20) do
     t.datetime "updated_at",                                                         null: false
   end
 
-  add_index "users", ["city_id"], name: "index_users_on_city_id"
-  add_index "users", ["email"], name: "index_users_on_email"
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  add_index "users", ["city_id"], name: "index_users_on_city_id", using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "subcategories", "categories"
+  add_foreign_key "users", "cities"
 end

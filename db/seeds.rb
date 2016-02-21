@@ -142,9 +142,9 @@ city = state.cities.create!(name: 'barranquilla')
     subcategory = Subcategory.find(Faker::Number.between(1, 10))
     valid = false
     until valid
-      price = Faker::Commerce.price
+      price = Faker::Number.number(Faker::Number.between(4, 6))
       product = sucursal.products.create(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,
-                                         store_price: price, frepi_price: price + Faker::Commerce.price,
+                                         store_price: price, frepi_price: price + 2000,
                                          image: Faker::Avatar.image(nil, "960x800"),
                                          subcategory_id: subcategory.id, available: true)
       valid = product.valid?
