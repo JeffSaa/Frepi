@@ -4,6 +4,11 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
   test "anyone should index products" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :index, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+    
     get :index, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     assert_response :ok
 
@@ -11,11 +16,6 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
     get :index, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     assert_response :ok
     sign_out users(:user)
-
-    sign_in :supervisor, supervisors(:supervisor)
-    get :index, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :index, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
@@ -24,6 +24,11 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
 
   # ---------------- Show ----------------------- #
   test "anyone should show a product" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :show, id: products(:johnny).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+
     get :show, id: products(:johnny).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     assert_response :ok
 
@@ -31,11 +36,6 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
     get :show, id: products(:johnny).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     assert_response :ok
     sign_out users(:user)
-
-    sign_in :supervisor, supervisors(:supervisor)
-    get :show, id: products(:johnny).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: products(:johnny).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id

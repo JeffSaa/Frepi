@@ -4,6 +4,11 @@ class  Api::V1::SubcategoriesControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
   test "anyone should index subcategories" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :index, category_id: categories(:alcohol).id
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+
     get :index, category_id: categories(:alcohol).id
     assert_response :ok
 
@@ -11,11 +16,6 @@ class  Api::V1::SubcategoriesControllerTest < ActionController::TestCase
     get :index, category_id: categories(:alcohol).id
     assert_response :ok
     sign_out users(:user)
-
-    sign_in :supervisor, supervisors(:supervisor)
-    get :index, category_id: categories(:alcohol).id
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :index, category_id: categories(:alcohol).id
@@ -24,6 +24,11 @@ class  Api::V1::SubcategoriesControllerTest < ActionController::TestCase
 
   # ---------------- Show ----------------------- #
   test "anyone should show a subcategory" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :show, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+    
     get :show, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id
     assert_response :ok
 
@@ -31,11 +36,6 @@ class  Api::V1::SubcategoriesControllerTest < ActionController::TestCase
     get :show, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id
     assert_response :ok
     sign_out users(:user)
-
-    sign_in :supervisor, supervisors(:supervisor)
-    get :show, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: subcategories(:whiskies).id, category_id: categories(:alcohol).id

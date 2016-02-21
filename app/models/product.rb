@@ -20,16 +20,16 @@ class Product < ActiveRecord::Base
   validates :subcategory, presence: true
 
   # Callbacks
-  before_validation :round_price
+  # before_validation :round_price
   before_save :format_attributes
 
   private
-  def round_price
-    self.store_price = self.store_price.round(2).to_f
-    self.frepi_price = self.frepi_price.round(2).to_f
-  end
+    def round_price
+      self.store_price = self.store_price.round(2).to_f
+      self.frepi_price = self.frepi_price.round(2).to_f
+    end
 
-  def format_attributes
-    self.escaped_name = attr_to_alpha(self.name)
-  end
+    def format_attributes
+      self.escaped_name = attr_to_alpha(self.name)
+    end
 end

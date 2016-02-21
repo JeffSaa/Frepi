@@ -4,28 +4,31 @@ class  Api::V1::CategoriesControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
   test "anyone should index categories" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :index
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+    
     get :index
     assert_response :ok
 
     sign_in :user, users(:user)
     get :index
     assert_response :ok
-
     sign_out users(:user)
-    sign_in :supervisor, supervisors(:supervisor)
-
-    get :index
-    assert_response :ok
-
-    sign_out supervisors(:supervisor)
+    
     sign_in :user, users(:admin)
-
     get :index
     assert_response :ok
   end
 
   # ---------------- Show ----------------------- #
   test "anyone should show a category" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :show, id: categories(:alcohol).id
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+    
     get :show, id: categories(:alcohol).id
     assert_response :ok
 
@@ -33,11 +36,6 @@ class  Api::V1::CategoriesControllerTest < ActionController::TestCase
     get :show, id: categories(:alcohol).id
     assert_response :ok
     sign_out users(:user)
-
-    sign_in :supervisor, supervisors(:supervisor)
-    get :show, id: categories(:alcohol).id
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: categories(:alcohol).id

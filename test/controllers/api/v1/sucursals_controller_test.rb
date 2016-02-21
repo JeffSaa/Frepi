@@ -4,6 +4,11 @@ class  Api::V1::SucursalsControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
   test "anyone should index subcategories" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :index, store_partner_id: store_partners(:olimpica).id, page: 1
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+    
     get :index, store_partner_id: store_partners(:olimpica).id, page: 1
     assert_response :ok
 
@@ -11,11 +16,6 @@ class  Api::V1::SucursalsControllerTest < ActionController::TestCase
     get :index, store_partner_id: store_partners(:olimpica).id, page: 1
     assert_response :ok
     sign_out users(:user)
-
-    sign_in :supervisor, supervisors(:supervisor)
-    get :index, store_partner_id: store_partners(:olimpica).id, page: 1
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :index, store_partner_id: store_partners(:olimpica).id, page: 1
@@ -25,6 +25,11 @@ class  Api::V1::SucursalsControllerTest < ActionController::TestCase
   # ---------------- Show ----------------------- #
 
   test "anyone should show a store parner" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+    
     get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
     assert_response :ok
 
@@ -32,11 +37,6 @@ class  Api::V1::SucursalsControllerTest < ActionController::TestCase
     get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
     assert_response :ok
     sign_out users(:user)
-
-    sign_in :supervisor, supervisors(:supervisor)
-    get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: sucursals(:olimpica).id, store_partner_id: store_partners(:olimpica).id

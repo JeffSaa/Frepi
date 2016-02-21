@@ -9,6 +9,7 @@ group :development do
   #gem 'faker'
   gem 'sqlite3'
   gem "letter_opener"
+  gem 'byebug'
 end
 
 group :production do

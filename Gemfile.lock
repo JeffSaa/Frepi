@@ -45,6 +45,7 @@ GEM
     bcrypt (3.1.10)
     bcrypt (3.1.10-x86-mingw32)
     builder (3.2.2)
+    byebug (8.2.2)
     clockwork (1.2.0)
       activesupport
       tzinfo
@@ -188,6 +189,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   api_pagination_headers
+  byebug
   clockwork
   daemons
   devise

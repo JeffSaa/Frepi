@@ -4,7 +4,13 @@ class  Api::V1::SupervisorsController < Api::V1::ApiController
   skip_before_action :authenticate_supervisor!
 
   def index
-    render json: Supervisor.all
+    page = params[:page] || 1
+    per_page = params[:per_page] || 10
+
+    @supervisor = Supervisor.all.paginate(per_page: per_page, page: page)
+    set_pagination_headers :supervisor
+    render json: @supervisor
+   
   end
 
   def show

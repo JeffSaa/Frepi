@@ -29,11 +29,12 @@ class Order < ActiveRecord::Base
 
   # Callbacks
   before_create :set_date
-  before_save   :round_price, :set_shopping_at, :set_scheduled_date
+  before_save   :set_shopping_at, :set_scheduled_date
 
   # Methods
   def buy(user, products)
     return false if not Order.products_valid?(products)
+    self.total_price = 0
     products.each do |product|
       self.add_products(product)
     end

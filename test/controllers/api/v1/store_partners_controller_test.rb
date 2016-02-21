@@ -1,9 +1,15 @@
 require 'test_helper'
+require 'minitest/byebug' if ENV['DEBUG']
 
 class  Api::V1::StorePartnersControllerTest < ActionController::TestCase
 
   # ---------------- Index --------------------- #
-  test "anyone should index subcategories" do
+  test "anyone should index store partner" do
+    sign_in :supervisor, supervisors(:supervisor)
+    get :index
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+    
     get :index
     assert_response :ok
 
@@ -12,19 +18,21 @@ class  Api::V1::StorePartnersControllerTest < ActionController::TestCase
     assert_response :ok
     sign_out users(:user)
 
-    sign_in :supervisor, supervisors(:supervisor)
-    get :index
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
-    get :index, category_id: categories(:alcohol).id
+    get :index
     assert_response :ok
   end
 
   # ---------------- Show ----------------------- #
 
   test "anyone should show a store parner" do
+    
+    sign_in :supervisor, supervisors(:supervisor)
+    get :show, id: store_partners(:olimpica).id
+    assert_response :ok
+    sign_out supervisors(:supervisor)
+    
     get :show, id: store_partners(:olimpica).id
     assert_response :ok
 
@@ -32,11 +40,6 @@ class  Api::V1::StorePartnersControllerTest < ActionController::TestCase
     get :show, id: store_partners(:olimpica).id
     assert_response :ok
     sign_out users(:user)
-
-    sign_in :supervisor, supervisors(:supervisor)
-    get :show, id: store_partners(:olimpica).id
-    assert_response :ok
-    sign_out supervisors(:supervisor)
 
     sign_in :user, users(:admin)
     get :show, id: store_partners(:olimpica).id

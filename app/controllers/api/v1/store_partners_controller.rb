@@ -1,15 +1,15 @@
 class  Api::V1::StorePartnersController < Api::V1::ApiController
 
+  skip_before_action :authenticate_supervisor!
   before_action :find_store_partner, except: [:index, :create]
   skip_before_action :authenticate_user!, :require_administrator, only: [:index, :show]
-  skip_before_action :authenticate_supervisor!
 
   def index
-    render(json: StorePartner.all, status: :ok)
+    render json: StorePartner.all
   end
 
   def show
-    @store_partner ? render(json: @store_partner, status: :ok) : head(:not_found)
+    @store_partner ? render(json: @store_partner) : head(:not_found)
   end
 
   def create

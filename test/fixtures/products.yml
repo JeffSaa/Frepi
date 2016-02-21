@@ -2,7 +2,8 @@ johnny:
   id: 1
   reference_code: 431234234
   name: rice
-  store_price: 9.99
+  escaped_name: rice
+  store_price: 93
   frepi_price: 13450
   image: MyString
   available: true
@@ -12,8 +13,9 @@ johnny:
 jack:
   id: 2
   reference_code: 1244353
-  name: rice
-  store_price: 9.99
+  name: ritce
+  escaped_name: trice
+  store_price: 93
   frepi_price: 20000
   image: MyString
   available: true
