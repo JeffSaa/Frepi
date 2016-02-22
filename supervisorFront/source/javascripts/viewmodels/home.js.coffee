@@ -1,6 +1,7 @@
 class HomeVM
 	constructor: ->
 		@loading = ko.observable(true)
+		@receivedOrdersCount = ko.observable()
 		@currentDate = ko.observable()
 		@currentState = ko.observable('ordenes recibidas')
 		@activeOrders = ko.observableArray()
@@ -8,6 +9,12 @@ class HomeVM
 		@inStoreShoppers = ko.observableArray()
 		@deliveringShoppers = ko.observableArray()
 		@selectedOrder = ko.mapping.fromJS(DefaultModels.ORDER)
+		@pagination =
+			allPages: []
+			activePage: 0
+			lowerLimit: 0
+			upperLimit: 0
+			showablePages: ko.observableArray()
 
 		@deliveryShopperFullName = ko.computed( =>
 				length = @selectedOrder.shopper().length
@@ -27,7 +34,7 @@ class HomeVM
 		@lastFetchedState = null
 
 		moment.locale('es')
-		@fetchOrders('received')
+		@fetchOrders('received', 1)
 		@setSectionVisiblity()
 		@setDOMElements()
 
@@ -191,11 +198,34 @@ class HomeVM
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
-	fetchOrders: (state) =>
+	fetchPrevPage: ->
+		if @pagination.activePage is 1
+			nextPage = @pagination.allPages.length
+		else
+			nextPage = @pagination.activePage - 1
+
+		@fetchPage(nextPage)
+
+	fetchNextPage: ->
+		if @pagination.activePage is @pagination.allPages.length
+			nextPage = 1
+		else
+			nextPage = @pagination.activePage + 1
+
+		@fetchPage(nextPage)
+
+	fetchPage: (page) =>
+		@pagination.activePage = page
+		@fetchOrders(@lastFetchedState, @pagination.activePage)
+		$('.pagination .pages .item').removeClass('active')
+		$(".pagination .pages .item:nth-of-type(#{@pagination.activePage})").addClass('active')
+
+	fetchOrders: (state, numPage, event) =>
+		changed = not(state is @lastFetchedState)
 		@lastFetchedState = state
 		@loading(true)
 		data =
-			page : 2
+			page : numPage
 
 		RESTfulService.makeRequest('GET', "/orders/#{state}", data, (error, success, headers) =>
 			if error
@@ -205,10 +235,21 @@ class HomeVM
 				@activeOrders(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 
+				totalPages = Math.ceil(headers.totalItems/10)
+
+				if changed
+					@pagination.activePage = 1
+					@pagination.lowerLimit = 0
+					@pagination.upperLimit = if totalPages < 10 then totalPages else 10
+					@pagination.allPages.push(i) for i in [1..totalPages]
+					@pagination.showablePages(@pagination.allPages.slice(@pagination.lowerLimit, @pagination.upperLimit))
+
+					$(".pagination .pages .item:first-of-type").addClass('active')
+
 				switch state
 					when 'received'
 						@currentState('ordenes recibidas')
-						@receivedOrders(success)
+						@receivedOrdersCount(headers.totalItems)
 						@fetchInStoreShoppers()
 					when 'shopping'
 						@currentState('ordenes siendo compradas')
@@ -220,18 +261,21 @@ class HomeVM
 
 			@loading(false)
 		)
+		if event
+			$('nav .container .item').removeClass('actived')
+			$(event.currentTarget).addClass('actived')
 
 	logout: ->
-		# RESTfulService.makeRequest('DELETE', "/auth_supervisor/sign_out", '', (error, success, headers) =>
-		# 	if error
-		# 		console.log 'An error has ocurred'
-		# 	else
-		# 		Config.destroyLocalStorage()
-		# 		window.location.href = '../../'
-		# )
+		RESTfulService.makeRequest('DELETE', "/auth_supervisor/sign_out", '', (error, success, headers) =>
+			if error
+				console.log 'An error has ocurred'
+			else
+				Config.destroyLocalStorage()
+				window.location.href = '../../'
+		)
 		# IMPORTANT: Review this, the request isn't logging me out or destroying the session
-		Config.destroyLocalStorage()
-		window.location.href = '../../'
+		# Config.destroyLocalStorage()
+		# window.location.href = '../../'
 
 	markAsAcquired: (product) =>
 		product.acquired(!product.acquired())

@@ -19,21 +19,21 @@ html
 				.header data-bind="text: selectedOrder.address"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p
-					strong Nombre cliente:
+					strong Nombre cliente:&nbsp;
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
-					strong Teléfono cliente:
+					strong Teléfono cliente:&nbsp;
 					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
 				p
-					strong Instrucciones del cliente:
+					strong Instrucciones del cliente:&nbsp;
 					span data-bind="text: selectedOrder.comment()"
 				p
-					strong Valor orden:
-					span data-bind="text: '$'+selectedOrder.totalPrice()"
+					strong Valor orden:&nbsp;
+					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
 				p
-					strong Asignar a:
+					strong Asignar a:&nbsp;
 				.ui.selection.dropdown
 					input type="hidden"
 					i.dropdown.icon
@@ -53,10 +53,10 @@ html
 				.header data-bind="text: selectedOrder.address"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p
-					strong Nombre cliente:
+					strong Nombre cliente:&nbsp;
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
-					strong Teléfono cliente:
+					strong Teléfono cliente:&nbsp;
 					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.checking.items data-bind="foreach: selectedOrder.products"
 					li data-bind="click: $root.markAsAcquired, text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
@@ -64,13 +64,13 @@ html
 						i.refresh.icon
 						|Actualizar lista
 				p
-					strong Instrucciones del cliente:
+					strong Instrucciones del cliente:&nbsp;
 					span data-bind="text: selectedOrder.comment()"
 				p
-					strong Valor orden:
-					span data-bind="text: '$'+selectedOrder.totalPrice()"
+					strong Valor orden:&nbsp;
+					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
 				p
-					strong Asignar a:
+					strong Asignar a:&nbsp;
 				.ui.selection.dropdown
 					input type="hidden"
 					i.dropdown.icon
@@ -92,21 +92,21 @@ html
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.
 				arrivalTime())"
 				p
-					strong Nombre cliente:
+					strong Nombre cliente:&nbsp;
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
-					strong Teléfono cliente:
+					strong Teléfono cliente:&nbsp;
 					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
 				p
-					strong Instrucciones del cliente:
+					strong Instrucciones del cliente:&nbsp;
 					span data-bind="text: selectedOrder.comment()"
 				p
-					strong Valor orden:
-					span data-bind="text: '$'+selectedOrder.totalPrice()"
+					strong Valor orden:&nbsp;
+					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
 				p
-					strong Orden llevada por:
+					strong Orden llevada por:&nbsp;
 					span data-bind="text: deliveryShopperFullName"
 				.actions
 					button.ui.black.basic.button data-bind="click: finishOrder"
@@ -118,21 +118,21 @@ html
 				.header data-bind="text: selectedOrder.address"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p
-					strong Nombre cliente:
+					strong Nombre cliente:&nbsp;
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
 				p
-					strong Instrucciones del cliente:
+					strong Instrucciones del cliente:&nbsp;
 					span data-bind="text: selectedOrder.comment()"
 				p
-					strong Valor orden:
-					span data-bind="text: '$'+selectedOrder.totalPrice()"
+					strong Valor orden:&nbsp;
+					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
 				p
-					strong Orden comprada por:
+					strong Orden comprada por:&nbsp;
 					span data-bind="text: inStoreShopperFullName"
 				p
-					strong Orden llevada por:
+					strong Orden llevada por:&nbsp;
 					span data-bind="text: deliveryShopperFullName"
 		// Tables for printing
 		/ Pre order
@@ -160,12 +160,12 @@ html
 					tr
 						td data-bind="text: $data.product.name()"
 						td data-bind="text: $data.quantity()"
-					tr data-bind="visible: $data.comment() != null"
+					tr data-bind="visible: $data.comment() != '' && $data.comment() != null"
 						td colspan="2"
-							strong Nota:
+							strong Nota:&nbsp;
 							span data-bind="text: $data.comment()"
 			p data-bind="visible: selectedOrder.comment() != null"
-				strong Instrucciones del cliente:
+				strong Instrucciones del cliente:&nbsp;
 			span data-bind="text: selectedOrder.comment()"
 
 		#pos-order
@@ -202,7 +202,7 @@ html
 					tr
 						td data-bind="text: $data.product.name()"
 						td data-bind="text: $data.quantity()"
-						td data-bind="text: $data.product.frepiPrice()"
+						td data-bind="text: ($data.product.frepiPrice()).toLocaleString()"
 					tr data-bind="visible: $data.comment() != null"
 						td colspan="3"
 							strong Nota:
@@ -213,32 +213,33 @@ html
 					tr
 						td
 							strong Precio Total
-						td data-bind="text: '$'+selectedOrder.totalPrice()"
+						td data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
 			p
-				strong Instrucciones del cliente:
+				strong Instrucciones del cliente:&nbsp;
 			span data-bind="text: selectedOrder.comment()"
 
 		.ui.home
 			header
 				nav.ui.fixed.inverted.borderless.main.menu
-						a#landing-logo.item href="#"
-							img src="images/landing/logo.png"
+					.ui.container
+						a#landing-logo.item href="/home"
+							img src="images/landing/full_logo.png"
 						.right.menu
 							.item
 								button.ui.orange.button data-bind="click: logout" Salir
 				nav.ui.fixed.inverted.borderless.orders.menu
 					.ui.container
-						a.item data-bind="click: function(data, event){ fetchOrders('received') }"
+						a.actived.item data-bind="click: function(data, event){ fetchOrders('received', 1, event) }"
 							i.inbox.icon
 							span.state Recibidas
-							.floating.ui.red.circular.label data-bind="text: receivedOrders().length, visible: receivedOrders().length > 0"
-						a.item data-bind="click: function(data, event){ fetchOrders('shopping') }"
+							.floating.ui.red.circular.label data-bind="text: receivedOrdersCount, visible: receivedOrdersCount() != '0'"
+						a.item data-bind="click: function(data, event){ fetchOrders('shopping', 1, event) }"
 							i.add.to.cart.icon
 							span.state Comprando
-						a.item data-bind="click: function(data, event){ fetchOrders('delivering') }"
+						a.item data-bind="click: function(data, event){ fetchOrders('delivering', 1, event) }"
 							i.truck.icon
 							span.state En camino
-						a.item data-bind="click: function(data, event){ fetchOrders('dispatched') }"
+						a.item data-bind="click: function(data, event){ fetchOrders('dispatched', 1, event) }"
 							i.check.icon
 							span.state Despachadas
 						.right.menu
@@ -250,8 +251,15 @@ html
 					.ui.loader
 				.ui.container
 					h2
-						|Estas viendo,
+						|Estas viendo,&nbsp;
 						span data-bind="text: currentState"
+					.ui.pagination.menu
+						a.icon.item data-bind="click: fetchPrevPage"
+							i.left.chevron.icon
+						.pages.item data-bind="foreach: pagination.showablePages"
+							a.item data-bind="text: $data, click: $root.fetchPage"
+						a.icon.item data-bind="click: fetchNextPage"
+							i.right.chevron.icon
 					.ui.five.column.doubling.grid data-bind="foreach: activeOrders"
 						.column
 							.ui.frepi-card data-bind="click: $root.pickOrder"
@@ -263,7 +271,7 @@ html
 										li data-bind="text: $data.product.name+' x '+$data.quantity"
 
 									p.comment
-										strong Comentario:
+										strong Comentario:&nbsp;
 										span data-bind="text: $data.comment"
 
 			footer

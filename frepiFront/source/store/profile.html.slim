@@ -72,7 +72,15 @@
 				i.check.icon
 				|Ok
 	.ui.container
-		img#profile-picture.ui.centered.medium.circular.image data-bind="attr: {src: user.profilePicture}"
+		#profile-picture.ui.centered.medium.circular.image
+			// .ui.inverted.dimmer
+			//	.content
+			//		.center
+			//			span.ui.basic.teal.file.button
+			//				i.camera.retro.icon
+			//				|Cambiar imagen
+			//				input type='file' data-bind="event: {change: previewImage}"
+			img data-bind="attr: {src: user.profilePicture}"
 		h1.ui.centered.header data-bind="text: user.fullName"
 		.ui.fluid.two.item.secondary.pointing.menu
 			a.active.item data-tab="account" Cuenta

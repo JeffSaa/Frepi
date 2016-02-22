@@ -1,10 +1,9 @@
 .home {
   .main.menu {
     background-color: rgb(34, 182, 118) !important;
-
+    .container {width: 95%;}
     #landing-logo {
       padding: 0;
-
       img {
         min-height: 2.857142em;
         min-width: 7em;
@@ -24,10 +23,11 @@
 
     .container > .item{
       font-weight: 700;
-
-      .state {
-        display: none;
+      &.actived {
+        color: white;
+        span {text-decoration: underline;}
       }
+      .state {display: none;}
     }
   }
 
@@ -35,8 +35,19 @@
     margin-top: 9em;
     min-height: 35em;
 
+    .container {
+      position: relative;
+      .pagination.menu {
+        font-size: .85714285rem;
+        position: absolute;
+        right: 0;
+        top: 0;
+        .pages {padding: 0;}
+      }
+    }
+
     h2 {
-      margin-bottom: 1em;
+      margin-bottom: 1.5em;
     }
 
     .dimmer {

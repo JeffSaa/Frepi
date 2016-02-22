@@ -40,6 +40,23 @@ html
 			.items data-bind="foreach: session.categories"
 				a.item
 					.header data-bind="text: $data.name"
+		.successful.ui.small.modal
+			.image.content
+				.ui.medium.rounded.image
+					img src="images/landing/confirmation.png"
+				.description
+					h2.ui.header Solicitud exitosa!
+					p
+					|Hemos recibido satisfactoriamente tu orden, estamos trabajando para entregarla lo más pronto posible.
+					p
+					|Recuerda que todos nuestros empleados portan carné. Además, te puedes contactar con nosotros para corroborar su identidad.
+					p
+						br
+						strong Ten buen día!
+			.actions
+				.ui.positive.right.labeled.icon.button
+					|Ok
+					i.checkmark.icon
 		.pusher
 			header
 				#store-primary-navbar.ui.fixed.inverted.menu
@@ -89,10 +106,7 @@ html
 
 			.main-content.checkout
 				.ui.container
-					h1.ui.centered.header data-bind="text: headerMessage, visible: !orderGenerated()"
-					h1.ui.centered.green.header data-bind="visible: orderGenerated"
-						i.smile.icon
-						|Orden creada!
+					h1.ui.centered.header data-bind="text: headerMessage"
 					.steps-wrapper
 						.ui.steps
 							.active.step#products-icon
@@ -116,7 +130,7 @@ html
 							.ui.clearfix.segment
 								.ui.top.attached.label
 									|Total Cuenta:&nbsp;$
-									span data-bind="text: session.currentOrder.price"
+									span data-bind="text: (session.currentOrder.price()).toLocaleString()"
 								.order-content data-bind="visible: !orderGenerated()"
 									/ h3.ui.header
 									#products
@@ -131,8 +145,8 @@ html
 												tr
 													td data-bind="text: $data.name"
 													td data-bind="text: $data.quantity"
-													td data-bind="text: $data.frepiPrice"
-													td data-bind="text: $data.totalPrice"
+													td data-bind="text: ($data.frepiPrice).toLocaleString()"
+													td data-bind="text: ($data.totalPrice).toLocaleString()"
 										.ui.buttons.left.floated
 											.ui.button data-bind="click: cancel" Cancelar
 										.ui.right.labeled.icon.teal.button data-bind="click: seeDeliveryRight"
@@ -151,13 +165,13 @@ html
 												label ¿Cuándo lo llevamos?
 												.two.fields
 													.field
-														select.ui.fluid.dropdown data-bind="options: availableDays,
+														select.ui.fluid.days.dropdown data-bind="options: availableDays,
 																																optionsText: 'date',
 																																value: selectedDay,
 																																event: {change: setHours},
 																																optionsCaption: 'Fecha'"
-													.field
-														select.ui.fluid.dropdown data-bind="options: availableHours,
+													.hours.field data-variation="small" data-content="Las entregas son de 09:00 AM a 07:00 PM"
+														select.ui.fluid.hours.dropdown data-bind="options: availableHours,
 																																value: selectedHour,
 																																event: {change: setExpireHour},
 																																optionsCaption: 'Hora'"
@@ -172,7 +186,7 @@ html
 									.details-content
 										.clearfix.line
 											span.title Valor compra
-											span.value data-bind="text: '$'+session.currentOrder.price()"
+											span.value data-bind="text: '$'+(session.currentOrder.price()).toLocaleString()"
 										.clearfix.line
 											span.title Dirección
 											span.value data-bind="text: address"

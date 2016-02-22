@@ -27,7 +27,7 @@ class CheckoutVM
 		@comment = ko.observable()
 		@address = ko.observable(@user.address)
 		@setDOMElements()
-		@setOrderToPay()
+		@setExistingSession()
 		@setSizeButtons()
 		@setAvailableDeliveryDateTime()
 		console.log @availableDateTime
@@ -92,12 +92,14 @@ class CheckoutVM
 				console.log 'An error has ocurred while updating the user!'
 				@headerMessage('Ha ocurrido un error generando la orden. Intenta más tarde.')
 			else
-				@orderGenerated(true)
+				# @orderGenerated(true)
+				# Config.removeItem('orderToPay')
+				@session.currentOrder.numberProducts('0 items')
+				@session.currentOrder.products([])
+				@session.currentOrder.price(0.0)
+				@saveSession()
+				$('.successful.modal').modal('show')
 				console.log 'Order has been created'
-				setTimeout(( ->
-						window.location.href = '../../store'
-					), 2500)
-				console.log success
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
@@ -118,13 +120,22 @@ class CheckoutVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
-		# $('.dropdown').dropdown()
+		$('.hours.field')
+			.popup(
+				inline: true
+			)
+		$('.successful.modal')
+			.modal(
+				onHidden: ->
+					window.location.href = '../../store'
+			)
 
 	setHours: =>
 		console.log 'It should set the new hours'
 		if !!@selectedDay()
 			@availableHours(@selectedDay().availableHours)
 			@selectedDate(@selectedDay().date)
+			if @availableHours().length is 0 then $('.hours.dropdown').addClass('disabled') else $('.hours.dropdown').removeClass('disabled')
 		else
 			@availableHours([])
 			@selectedDate('')
@@ -170,17 +181,50 @@ class CheckoutVM
 
 		return hours
 
+	saveSession: ->
+		session =
+			categories: @session.categories()
+			currentStore: ko.mapping.toJS(@session.currentStore)
+			currentSucursal: ko.mapping.toJS(@session.currentSucursal)
+			currentDeparmentID: @session.currentDeparmentID
+			signedUp: @session.signedUp()
+			sucursals: @session.sucursals()
+			currentOrder:
+				numberProducts: @session.currentOrder.numberProducts()
+				products: @session.currentOrder.products()
+				price: @session.currentOrder.price()
+				sucursalId: @session.currentOrder.sucursalId
 
-	setOrderToPay: ->
-		console.log @user
-		@userName(@user.name.split(' ')[0])
-		order = JSON.parse(Config.getItem('orderToPay'))
-		console.log order
-		session = JSON.parse(Config.getItem('currentSession'))
-		@session.currentOrder.numberProducts(order.numberProducts)
-		@session.currentOrder.products(order.products)
-		@session.currentOrder.price(order.price)
-		@session.currentSucursal = ko.mapping.toJS(session.currentSucursal)
+		Config.setItem('currentSession', JSON.stringify(session))
+
+	setExistingSession: ->
+		session = Config.getItem('currentSession')
+
+		if session
+			@userName(@user.name.split(' ')[0])
+			order = JSON.parse(Config.getItem('orderToPay'))
+			session = JSON.parse(Config.getItem('currentSession'))
+			@session.currentStore = ko.mapping.fromJS(session.currentStore)
+			@session.currentSucursal = ko.mapping.fromJS(session.currentSucursal)
+			@session.currentDeparmentID = session.currentDeparmentID
+			@session.categories(session.categories)
+			@session.sucursals(session.sucursals)
+			@session.signedUp(session.signedUp)
+			@session.currentOrder.numberProducts(order.numberProducts)
+			@session.currentOrder.products(order.products)
+			@session.currentOrder.price(order.price)
+			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
+
+	# setExistingSession: ->
+	# 	console.log @user
+	# 	@userName(@user.name.split(' ')[0])
+	# 	order = JSON.parse(Config.getItem('orderToPay'))
+	# 	console.log order
+	# 	session = JSON.parse(Config.getItem('currentSession'))
+	# 	@session.currentOrder.numberProducts(order.numberProducts)
+	# 	@session.currentOrder.products(order.products)
+	# 	@session.currentOrder.price(order.price)
+	# 	@session.currentSucursal = ko.mapping.toJS(session.currentSucursal)
 
 	setSizeButtons: ->
 		if $(window).width() < 480

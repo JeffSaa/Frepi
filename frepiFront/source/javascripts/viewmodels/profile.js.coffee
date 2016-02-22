@@ -4,6 +4,7 @@ class ProfileVM extends TransactionalPageVM
 	constructor: ->
 		# Observables
 		super()
+		@AWSBucket = null
 		@errorLabelText = ko.observable()
 		@currentOrders = ko.observableArray()
 		@showEmptyMessage = ko.observable()
@@ -21,6 +22,7 @@ class ProfileVM extends TransactionalPageVM
 		@setUserInfo()
 		@setExistingSession()
 		@fetchOrders()
+		# @setAWSCredentials()
 		@setRulesValidation()
 		@setDOMElements()
 		@shouldShowOrders()
@@ -190,9 +192,7 @@ class ProfileVM extends TransactionalPageVM
 			).modal('attach events', '#edit-user-info .cancel.button', 'hide')
 
 		$('.secondary.menu .item').tab(
-				{
-					cache: false
-				}
+				{cache: false}
 			)
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
@@ -204,6 +204,10 @@ class ProfileVM extends TransactionalPageVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
+		$('.circular.image .ui.dimmer')
+			.dimmer(
+				on: 'hover'
+			)
 
 	showDepartments: ->
 		$('#departments-menu').sidebar('toggle')
@@ -326,6 +330,62 @@ class ProfileVM extends TransactionalPageVM
 			else
 				$('#shopping-cart').addClass('wide')
 		)
+
+	generateUniqueID: ->
+		idstr = String.fromCharCode(Math.floor((Math.random()*25)+65))
+		loop
+			asciiCode = Math.floor((Math.random()*42)+48) # ASCII code between numbers and letters
+			idstr += String.fromCharCode(asciiCode) if asciiCode < 58 or asciiCode > 64
+			break unless idstr.length < 32
+
+		return idstr
+
+	previewImage: (data, event) =>
+		@user.profilePicture(URL.createObjectURL(event.target.files[0]))
+		$('.circular.image img')[0].src = URL.createObjectURL(event.target.files[0])
+
+	setAWSCredentials: =>
+		AWS.config.region = 'us-east-1'
+		AWS.config.update({accessKeyId: 'AKIAJPKUUYXNQVWSKLHA', secretAccessKey: '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'})
+
+		@AWSBucket = new AWS.S3({
+				params: {
+					Bucket: 'frepi'
+				}
+		})
+
+	uploadImage: =>
+		$fileChooser = $('.circular.image .dimmer input')[0]
+		fileToUpload = $fileChooser.files[0]
+
+		@currentUniqueID = @generateUniqueID()
+		if fileToUpload
+			objKey = 'profile/' + @currentUniqueID
+			params =
+				Key: objKey
+				ContentType: fileToUpload.type
+				Body: fileToUpload
+				ACL: 'public-read'
+
+			$('.circular.image .dimmer .button').addClass('loading')
+
+			@AWSBucket.upload(params).on('httpUploadProgress', (evt) ->
+					AWSprogress = parseInt((evt.loaded * 100) / evt.total)
+					console.log "Uploaded :: " + parseInt((evt.loaded * 100) / evt.total)+'%'
+					$currentProgressBar.progress({percent: AWSprogress})
+				).send((err, data) =>
+						unless err
+							@fileHasBeenUploaded = true
+							if isCreationModalActive
+								@createProduct()
+							else
+								@updateProduct()
+						else
+							$('.circular.image .dimmer .button').removeClass('loading')
+					)
+		else
+			alert 'Nothing to upload'
+			# $('.create.modal form')
 
 	dateFormatter: (datetime)->
 		return moment(datetime, moment.ISO_8601).format('lll')

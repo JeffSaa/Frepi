@@ -16,7 +16,7 @@
 					.extra.content
 						span.centering
 							i.dollar.icon
-						span.centering data-bind="text: $data.frepiPrice"
+						span.centering data-bind="text: ($data.frepiPrice).toLocaleString()"
 						br
 						.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
 							.hidden.content Agregar

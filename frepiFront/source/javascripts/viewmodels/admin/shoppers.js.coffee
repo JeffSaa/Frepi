@@ -140,9 +140,7 @@ class ShoppersVM extends AdminPageVM
 				if success.length > 0
 					if @shoppersPages.allPages.length is 0
 						totalPages = Math.ceil(headers.totalItems/10)
-						for i in [0..totalPages]
-							@shoppersPages.allPages.push({num: i+1})
-
+						@shoppersPages.allPages.push({num: i+1}) for i in [0..totalPages]
 						@shoppersPages.activePage = 1
 						@shoppersPages.lowerLimit = 0
 						@shoppersPages.upperLimit = if totalPages < 10 then totalPages else 10

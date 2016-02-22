@@ -113,7 +113,7 @@ html
 				h3.ui.header
 					i.shop.icon
 					.content CARRITO
-				.ui.label data-bind="text: '$ '+session.currentOrder.price()"
+				.ui.label data-bind="text: '$ '+(session.currentOrder.price()).toLocaleString()"
 			.checkout data-bind="visible: !session.signedUp()"
 				.ui.items data-bind="foreach: session.currentOrder.products"
 					.item
@@ -122,7 +122,7 @@ html
 						.content
 							.header data-bind="text: $data.name"
 							.meta
-								span.price data-bind="text: '$'+$data.frepiPrice"
+								span.price data-bind="text: '$'+($data.frepiPrice).toLocaleString()"
 								span x
 								span.quantity data-bind="text: $data.quantity"
 							.meta.comment data-bind="text: $data.comment"

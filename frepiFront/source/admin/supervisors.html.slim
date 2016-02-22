@@ -1,0 +1,119 @@
+.ui.small.admin.delete.modal
+	.header Eliminar Supervisor
+	.content
+		p
+			|Está a punto de eliminar a&nbsp;
+			strong data-bind="text: chosenSupervisor.name"
+			|, ¿Desea hacerlo?
+	.actions
+		.ui.cancel.button
+			i.remove.icon
+			|No
+		.ui.green.button data-bind="click: deleteSupervisor"
+			i.check.icon
+			|Si
+.ui.small.admin.create.modal
+	i.close.icon
+	.header Agregar Supervisor
+	.content
+		form.ui.form data-bind="submit: createSupervisor"
+			.field
+				label Nombre
+				.two.fields
+					.field
+						input type="text" name="firstName" placeholder="Nombres"
+					.field
+						input type="text" name="lastName" placeholder="Apellidos"
+			.two.fields
+				.field
+					label Teléfono
+					input type="text" name="phoneNumber" placeholder="Teléfono"
+				.field
+					label Identificación
+					input type="text" name="cc" placeholder="CC"
+			.field
+				label Correo electrónico
+				input type="email" name="email" placeholder="Correo electrónico"
+			.field
+				label Contraseña
+				.two.fields
+					.field
+						input type="password" name="password" placeholder="Contraseña"
+					.field
+						input type="password" name="confirmationPassword" placeholder="Confirme contraseña"
+			.buttons-to-right
+					.ui.cancel.button Cancelar
+					button.ui.labeled.green.submit.icon.button type="submit"
+						|Crear
+						i.checkmark.icon
+
+
+.ui.small.admin.update.modal
+	i.close.icon
+	.header Editar Supervisor
+	.content
+		form.ui.form data-bind="submit: updateSupervisor"
+			.field
+				label Nombre
+				.two.fields
+					.field
+						input type="text" name="firstName" placeholder="Nombres"
+					.field
+						input type="text" name="lastName" placeholder="Apellidos"
+			.two.fields
+				.field
+					label Teléfono
+					input type="text" name="phoneNumber" placeholder="Teléfono"
+				.field
+					label Correo electrónico
+					input type="email" name="email" placeholder="Correo electrónico"
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Editar
+					i.checkmark.icon
+
+header
+	h2 Supervisors
+
+section.actions
+	button.ui.green.create.button
+		i.plus.icon
+		|Agregar Supervisor
+
+section.content
+	table.ui.celled.supervisors.table
+		thead
+			tr
+				th ID
+				th Nombres
+				th Apellidos
+				th Teléfono
+				th E-mail
+				th Acciones
+		tbody data-bind="foreach: currentSupervisors, visible: !shouldShowSupervisorsAlert()"
+			tr
+				td data-bind="text: $data.id"
+				td data-bind="text: $data.firstName"
+				td data-bind="text: $data.lastName"
+				td data-bind="text: $data.phoneNumber"
+				td data-bind="text: $data.email"
+				td
+					i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
+					i.bordered.inverted.red.remove.user.link.icon data-bind="click: $root.showDelete"
+		tbody data-bind="visible: shouldShowSupervisorsAlert"
+				tr
+					td.alert.box colspan="6"
+						h4.ui.centered.header data-bind="text: supervisorsAlertText"
+		tfoot
+			tr
+				th colspan="6"
+					.ui.right.floated.pagination.menu
+						a.icon.item data-bind="click: setPrevSupervisorPage"
+							i.left.chevron.icon
+						.pages.item data-bind="foreach: supervisorsPages.showablePages"
+							a.item data-bind="text: $data.num, click: $root.fetchSupervisorsPage"
+						a.icon.item data-bind="click: setNextSupervisorPage"
+							i.right.chevron.icon
+
+script src="../javascripts/viewmodels/admin/supervisors.js"

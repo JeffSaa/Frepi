@@ -32,6 +32,7 @@ class LoginVM
 							@errorTextResponse('No se pudo establecer conexión')
 					else
 						console.log success
+						Config.destroyLocalStorage()
 						Config.setItem('headers', JSON.stringify(headers))
 						Config.setItem('credentials', JSON.stringify(data))
 						Config.setItem('userObject', JSON.stringify(success.data))
@@ -71,6 +72,7 @@ class LoginVM
 													console.log 'The user couldnt be created'
 												else
 													console.log success
+													Config.destroyLocalStorage()
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
 													if success.user.administrator
@@ -81,9 +83,8 @@ class LoginVM
 								)
 							else
 								console.log success
-								Config.setItem('accessToken', headers.accessToken)
-								Config.setItem('client', headers.client)
-								Config.setItem('uid', headers.uid)
+								Config.destroyLocalStorage()
+								Config.setItem('headers', JSON.stringify(headers))
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
 								if success.user.administrator

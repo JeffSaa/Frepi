@@ -238,7 +238,7 @@ class window.TransactionalPageVM
 			@user.lastName(tempUser.lastName or tempUser.last_name)
 			@user.fullName(@user.firstName()+' '+@user.lastName())
 			@user.phone(tempUser.phoneNumber or tempUser.phone_number)
-			@user.profilePicture(tempUser.image)
+			@user.profilePicture(tempUser.image or '../images/male_avatar.png')
 			@isLogged(true)
 		else
 			@user.firstName('amigo')
