@@ -193,7 +193,7 @@ if Rails.env.development?
 else
 
   User.create!( name: 'Ernesto', last_name: 'De la Espriella',
-               email: 'Frepicolombia@gmail.com', city_id: city.id, 
+               email: 'frepicolombia@gmail.com', city_id: city.id, 
                administrator: true, password: PASSWORD, 
                password_confirmation: PASSWORD)
 
