@@ -17,8 +17,10 @@ class SignUpVM
 		if $form.form('is valid')
 			data =
 				name: $form.form('get value', 'firstName')
+				address: $form.form('get value', 'address')
 				last_name: $form.form('get value', 'lastName')
 				email: $form.form('get value', 'email')
+				phone_number: $form.form('get value', 'phoneNumber')
 				password: $form.form('get value', 'password')
 				password_confirmation: $form.form('get value', 'password')
 
@@ -110,6 +112,22 @@ class SignUpVM
 							{
 								type: 'empty'
 								prompt: 'Por favor digite su apellido'
+							}
+						]
+					address:
+						identifier: 'address'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Por favor digite su dirección'
+							}
+						]
+					phoneNumber:
+						identifier: 'phoneNumber'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Por favor digite su teléfono'
 							}
 						]
 					email:

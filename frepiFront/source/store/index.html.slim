@@ -1,15 +1,4 @@
 .store
-	/ #store-banner
-	/ 	a#about-icon href="#"
-	/ 		i.big.help.circle.link.icon data-bind="click: showStoreInfo"
-	/ 	img.ui.centered.image src="../images/landing/stores/olimpica2.png" alt="Store's logo"
-	/ 	.ui.dimmer
-	/ 		.content
-	/ 			.center
-	/ 				h1.ui.inverted.header
-	/ 					|<!--ko text: session.currentStore.name--><!--/ko-->
-	/ 					.sub.header data-bind="text: session.currentStore.description"
-
 	#error-container data-bind="visible: shouldShowError"
 		h2.ui.request-error.header
 			i.frown.icon
@@ -17,7 +6,11 @@
 				|Ha ocurrido un error mientras se cargaba la página
 	#frepi-categories.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
 		section
-			h2.ui.header data-bind="text: $data.name"
+			h2.ui.header
+				|<!--ko text: $data.name--><!--/ko-->
+				a.ui.tiny.teal.see.more.label data-bind="click: $root.chooseDeparment"
+					i.plus.icon
+					|Ver más
 			#products-x-categories.ui.five.column.doubling.grid data-bind="foreach: $data.products"
 				.column
 					.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"

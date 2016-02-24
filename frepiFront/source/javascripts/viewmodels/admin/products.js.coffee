@@ -84,6 +84,7 @@ class ProductsVM extends AdminPageVM
 					else
 						console.log success
 						@shouldSetProductInfo = true
+						@fetchProducts()
 						$('.update.modal').modal('hide')
 				)
 
@@ -110,7 +111,6 @@ class ProductsVM extends AdminPageVM
 			break unless idstr.length < 32
 
 		return idstr
-
 
 	showUpdate: (product) =>
 		@chosenProduct.id(product.id)
@@ -320,9 +320,12 @@ class ProductsVM extends AdminPageVM
 			# $('.create.modal form .green.button').addClass('loading')
 			@fileHasBeenUploaded = false
 			isCreationModalActive = $('.create.modal').modal('is active')
-			$currentProgressBar = if isCreationModalActive then $('.create.modal .progress') else $('.update.modal .progress')
-
-			$('.ui.modal form .green.button').addClass('loading')
+			if isCreationModalActive
+				$currentProgressBar = $('.create.modal .progress')
+				$('.create.modal form .green.button').addClass('loading')
+			else
+				$currentProgressBar = $('.update.modal .progress')
+				$('.update.modal form .green.button').addClass('loading')
 
 			@AWSBucket.upload(params).on('httpUploadProgress', (evt) ->
 					AWSprogress = parseInt((evt.loaded * 100) / evt.total)

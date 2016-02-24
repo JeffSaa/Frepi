@@ -30,7 +30,7 @@ html
 				.product.description
 					h1.ui.header data-bind="text: selectedProductName"
 					.meta data-bind="text: selectedProductCategory"
-					h2.header data-bind="text: selectedProductPrice().toLocaleString()"
+					h2.header data-bind="text: selectedProductPrice"
 					select#modal-dropdown.ui.fluid.dropdown
 						option value="" Cantidad
 						option value="1" 1
@@ -56,6 +56,13 @@ html
 								input type="text" name="firstName" placeholder="Nombres"
 							.field
 								input type="text" name="lastName" placeholder="Apellidos"
+					.two.fields
+						.field
+							label Dirección
+							input type="text" name="address" placeholder="Dirección"
+						.field
+							label Teléfono
+							input type="text" name="phoneNumber" placeholder="Teléfono"
 					.field
 						label Correo electrónico
 						input type="email" name="email" placeholder="Correo electrónico"

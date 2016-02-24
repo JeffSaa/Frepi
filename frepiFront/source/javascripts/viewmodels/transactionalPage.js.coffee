@@ -252,10 +252,12 @@ class window.TransactionalPageVM
 		if $form.form('is valid')
 			data =
 				name: $form.form('get value', 'firstName')
+				address: $form.form('get value', 'address')
 				last_name: $form.form('get value', 'lastName')
 				email: $form.form('get value', 'email')
+				phone_number: $form.form('get value', 'phoneNumber')
 				password: $form.form('get value', 'password')
-				password_confirmation: $form.form('get value', 'password')
+				password_confirmation: $form.form('get value', 'password')				
 
 			$('#sign-up .form .green.button').addClass('loading')
 			RESTfulService.makeRequest('POST', '/users', data, (error, success, headers) =>
@@ -338,6 +340,22 @@ class window.TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'Olvidaste poner tus apellidos'
+							}
+						]
+					address:
+						identifier: 'address'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Olvidaste poner tu dirección'
+							}
+						]
+					phoneNumber:
+						identifier: 'phoneNumber'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Olvidaste poner tu teléfono'
 							}
 						]
 					email:

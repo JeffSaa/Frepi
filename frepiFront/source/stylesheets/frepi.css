@@ -479,6 +479,10 @@ header #shopping-cart .icon {
   margin: 50px 0;
 }
 
+#frepi-categories section .see.more {
+  margin-left: 1rem;
+}
+
 .sidebar.menu {
   background-color: #fcf8e3 !important;
 }
