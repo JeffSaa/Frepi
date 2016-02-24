@@ -131,8 +131,8 @@ html
 								.ui.top.attached.label
 									|Total Cuenta:&nbsp;$
 									span data-bind="text: (session.currentOrder.price()).toLocaleString()"
+									strong &nbsp;- El pago de la orden es contraentrega
 								.order-content data-bind="visible: !orderGenerated()"
-									/ h3.ui.header
 									#products
 										table.ui.celled.unstackable.table
 											thead
@@ -155,22 +155,22 @@ html
 
 									#delivery
 										form.ui.form
-											.field
+											.address.field
 												label Dirección
 												input name="address" type="text" data-bind="textInput: address" placeholder="Ej: Cra 45 # 65 - 56"
-											.field
+											.instructions.field
 												label Instrucciones
 												textarea name="instructions" rows="3" data-bind="textInput: comment" placeholder="Ej: Dejar en portería o llámame cuando llegue"
 											.field
 												label ¿Cuándo lo llevamos?
 												.two.fields
-													.field
+													.date.field
 														select.ui.fluid.days.dropdown data-bind="options: availableDays,
 																																optionsText: 'date',
 																																value: selectedDay,
 																																event: {change: setHours},
 																																optionsCaption: 'Fecha'"
-													.hours.field data-variation="small" data-content="Las entregas son de 09:00 AM a 07:00 PM"
+													.time.field data-variation="small" data-content="Las entregas son de 09:00 AM a 07:00 PM"
 														select.ui.fluid.hours.dropdown data-bind="options: availableHours,
 																																value: selectedHour,
 																																event: {change: setExpireHour},
@@ -200,7 +200,7 @@ html
 											.ui.labeled.icon.teal.button data-bind="click: seeDeliveryLeft"
 												|Entrega
 												i.left.arrow.icon
-									.ui.right.labeled.icon.green.button data-bind="click: generate"
+									.ui.right.labeled.icon.green.generate.button data-bind="click: generate"
 										|Listo
 										i.check.icon
 									.ui.button.right.floated data-bind="click: cancel" Cancelar

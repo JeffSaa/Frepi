@@ -69,33 +69,6 @@ class StoreVM extends TransactionalPageVM
 		@selectedProductPrice("$#{product.frepiPrice}")
 		$('#product-desc').modal('show')
 
-	showStoreInfo: ->
-		$('#store-banner').dimmer('show')
-
-	# Set the products that are going to be showed on the Store's view
-	setProductsToShow: (categories) ->
-		for category in categories
-			productsToShow = []
-			allProductsCategory = []
-			for subCategory in category.subcategories
-				for product in subCategory.products
-					product.subcategoryName = subCategory.name
-					product.totalPrice = 0.0
-				allProductsCategory = allProductsCategory.concat(subCategory.products)
-
-			# console.log 'Products per category'
-			# console.log allProductsCategory
-
-			while productsToShow.length < 4 and productsToShow.length < allProductsCategory.length
-				# productsToShow.push(allProductsCategory[productsToShow.length])
-				random = Math.floor(Math.random()*(allProductsCategory.length))
-				if productsToShow.indexOf(allProductsCategory[random]) is -1
-				  productsToShow.push(allProductsCategory[random])
-
-			category.productsToShow = productsToShow
-
-		@session.categories(categories)
-
 	setSizeSidebar: ->
 		if $(window).width() < 480
 			$('#shopping-cart').removeClass('wide')

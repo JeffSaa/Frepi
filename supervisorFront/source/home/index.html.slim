@@ -19,10 +19,12 @@ html
 				.header data-bind="text: selectedOrder.address"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p
-					strong Nombre cliente:&nbsp;
+					strong Información cliente
+				p
+					strong Nombre:&nbsp;
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
-					strong Teléfono cliente:&nbsp;
+					strong Teléfono:&nbsp;
 					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
@@ -53,10 +55,12 @@ html
 				.header data-bind="text: selectedOrder.address"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p
-					strong Nombre cliente:&nbsp;
+					strong Información cliente
+				p
+					strong Nombre:&nbsp;
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
-					strong Teléfono cliente:&nbsp;
+					strong Teléfono:&nbsp;
 					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.checking.items data-bind="foreach: selectedOrder.products"
 					li data-bind="click: $root.markAsAcquired, text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
@@ -92,10 +96,12 @@ html
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.
 				arrivalTime())"
 				p
-					strong Nombre cliente:&nbsp;
+					strong Información cliente
+				p
+					strong Nombre:&nbsp;
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
-					strong Teléfono cliente:&nbsp;
+					strong Teléfono:&nbsp;
 					span data-bind="text: selectedOrder.user.phoneNumber()"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"

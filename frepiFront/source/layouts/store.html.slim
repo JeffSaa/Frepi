@@ -30,7 +30,7 @@ html
 				.product.description
 					h1.ui.header data-bind="text: selectedProductName"
 					.meta data-bind="text: selectedProductCategory"
-					h2.header data-bind="text: selectedProductPrice"
+					h2.header data-bind="text: selectedProductPrice().toLocaleString()"
 					select#modal-dropdown.ui.fluid.dropdown
 						option value="" Cantidad
 						option value="1" 1
@@ -114,7 +114,7 @@ html
 					i.shop.icon
 					.content CARRITO
 				.ui.label data-bind="text: '$ '+(session.currentOrder.price()).toLocaleString()"
-			.checkout data-bind="visible: !session.signedUp()"
+			.checkout
 				.ui.items data-bind="foreach: session.currentOrder.products"
 					.item
 						.ui.tiny.image
@@ -134,23 +134,19 @@ html
 								i.pencil.icon
 								|Nota
 						i.close.link.icon data-bind="click: function(data){ $parent.removeItem(data)}"
-						// i.plus.circular.link.icon data-bind="click: function(data){$root.addToCart(data, 1)}"
-						// i.minus.circular.link.icon data-bind="click: function(data){$root.removeFromCart(data)}"
 						.ui.basic.mini.vertical.icon.buttons
 							.ui.button data-bind="click: function(data){$root.addToCart(data, 1)}"
 								i.up.chevron.icon
 							.ui.counter.button data-bind="text: $data.quantity"
 							.ui.button data-bind="click: function(data){$root.removeFromCart(data)}"
 								i.down.chevron.icon
-
-
 				.item
 					button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
-			.sign-up-banner data-bind="visible: session.signedUp"
+			.sign-up-banner
 				p.ui.header
-					|Oops! Tienes que estar en tu cuenta,
+					|Oops! Tienes que estar en tu cuenta,&nbsp;
 					a href="../login.html" ingresa!
-					| Si no tiene una, puedes:
+					|&nbsp;Si no tiene una, puedes:
 				button.ui.fluid.large.green.button Crea una cuenta
 				.ui.horizontal.divider o
 				button#login-fb.ui.fluid.large.labeled.icon.facebook.button

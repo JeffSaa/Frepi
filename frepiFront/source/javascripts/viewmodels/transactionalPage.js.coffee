@@ -48,6 +48,8 @@ class window.TransactionalPageVM
 				console.log 'There is nothing in the cart...'
 		else
 			@session.signedUp(true)
+			$('#shopping-cart .checkout').addClass('hide')
+			$('#shopping-cart .sign-up-banner').addClass('show')
 
 	# Returns null or a product if is currently in the cart
 	getProductByName: (name) ->
@@ -244,7 +246,7 @@ class window.TransactionalPageVM
 			@user.firstName('amigo')
 			@isLogged(false)
 
-	signUp: ->
+	signUp: =>
 		$form = $('#sign-up .ui.form')
 		$form.removeClass('error')
 		if $form.form('is valid')
@@ -269,6 +271,8 @@ class window.TransactionalPageVM
 						Config.setItem('userObject', JSON.stringify(success))
 						@setUserInfo()
 						@session.signedUp(true)
+						$('#shopping-cart .checkout').removeClass('hide')
+						$('#shopping-cart .sign-up-banner').removeClass('show')
 						# @setExistingSession()
 						$('#sign-up').modal('hide')
 				)
@@ -280,26 +284,33 @@ class window.TransactionalPageVM
 		$('.ui.search')
 			.search({
 					minCharacters: 3
+					error:
+						noResults: 'No hay resultados para la búsqueda'
 					apiSettings:
 						url: '//ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1/search/products?search={query}'
 						onResponse: (APIResponse) ->
 							response = results: []
 
 							$.each(APIResponse, ((index, item) ->
-									maxResults = 6
+									maxResults = 5
 									return false if index > maxResults
 
 									response.results.push(
+										id: item.id
+										name: item.name
 										title: item.name
-										description: "$#{item.frepi_price}"
+										description: "$#{(item.frepi_price).toLocaleString()}"
+										image: item.image
+										frepiPrice: item.frepi_price
 									)
 								))
 							return response
-						onSelect: (result, response) ->
-							console.log 'RESULT'
-							console.log result
-							console.log 'response'
-							console.log response
+				onSelect: (result, response) ->
+					console.log 'RESULT'
+					console.log result
+					console.log 'response'
+					console.log response
+					# return false
 				})
 		$('.ui.accordion')
 			.accordion()

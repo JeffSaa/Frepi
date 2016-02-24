@@ -390,7 +390,7 @@ footer p {
 
 #store-frepi-logo img {
   height: 50px;
-  margin: 8px 46px;
+  margin: 8px 30px;
 }
 
 #store-frepi-logo .icon {
@@ -516,9 +516,15 @@ header #shopping-cart .icon {
   line-height: 2;
 }
 
+#shopping-cart .checkout { display: block; }
+#shopping-cart .checkout.hide { display: none; }
+
 #shopping-cart .sign-up-banner {
+  display: none;
   padding: 2.75em 1em 0;
 }
+
+#shopping-cart .sign-up-banner.show { display: block; }
 
 #shopping-cart .sign-up-banner .header {
   font-style: italic;

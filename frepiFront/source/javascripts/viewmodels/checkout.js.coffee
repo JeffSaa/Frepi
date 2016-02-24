@@ -33,6 +33,7 @@ class CheckoutVM
 		console.log @availableDateTime
 
 	seeDeliveryRight: ->
+		$('.form .field').removeClass('error')
 		$('#products-icon').removeClass('active')
 		$('#delivery-icon').addClass('active')
 		$('#products').transition('fade right')
@@ -56,6 +57,10 @@ class CheckoutVM
 			$('#confirm-icon').addClass('active')
 			$('#delivery').transition('fade right')
 			$('#confirm').transition('fade left')
+		else
+			$('.address.field').addClass('error') if !@address()
+			$('.date.field').addClass('error') if !@selectedDay()
+			$('.time.field').addClass('error') if !@selectedHour()
 
 	logout: ->
 		Config.destroyLocalStorage()
@@ -87,7 +92,9 @@ class CheckoutVM
 		console.log 'DATA TO SEND'
 		console.log data
 
+		$('.generate.button').addClass('loading')
 		RESTfulService.makeRequest('POST', "/users/#{@user.id}/orders", data, (error, success, headers) =>
+			$('.generate.button').removeClass('loading')
 			if error
 				console.log 'An error has ocurred while updating the user!'
 				@headerMessage('Ha ocurrido un error generando la orden. Intenta más tarde.')
@@ -120,7 +127,7 @@ class CheckoutVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
-		$('.hours.field')
+		$('.time.field')
 			.popup(
 				inline: true
 			)
@@ -135,7 +142,7 @@ class CheckoutVM
 		if !!@selectedDay()
 			@availableHours(@selectedDay().availableHours)
 			@selectedDate(@selectedDay().date)
-			if @availableHours().length is 0 then $('.hours.dropdown').addClass('disabled') else $('.hours.dropdown').removeClass('disabled')
+			if @availableHours().length is 0 then $('.time.dropdown').addClass('disabled') else $('.time.dropdown').removeClass('disabled')
 		else
 			@availableHours([])
 			@selectedDate('')
