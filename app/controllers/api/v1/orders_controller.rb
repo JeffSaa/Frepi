@@ -56,7 +56,7 @@ class  Api::V1::OrdersController < Api::V1::ApiController
   end
 
   def params_order
-    params.permit(:expiry_time, :arrival_time, :scheduled_date, :comment, :address)
+    params.permit(:expiry_time, :arrival_time, :scheduled_date, :comment, :address, :telephone)
   end
 
 end
