@@ -25,7 +25,6 @@ class StoreVM extends TransactionalPageVM
 			if error
 				# console.log 'An error has ocurred while fetching the categories!'
 				# @shouldShowError(true)
-				console.log "COLEEEEEEEEEE CULEEEE ERRROR"
 				console.log error
 			else
 				console.log success

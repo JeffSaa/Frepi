@@ -99,8 +99,6 @@ class CheckoutVM
 				console.log 'An error has ocurred while updating the user!'
 				@headerMessage('Ha ocurrido un error generando la orden. Intenta más tarde.')
 			else
-				# @orderGenerated(true)
-				# Config.removeItem('orderToPay')
 				@session.currentOrder.numberProducts('0 items')
 				@session.currentOrder.products([])
 				@session.currentOrder.price(0.0)
@@ -112,12 +110,10 @@ class CheckoutVM
 
 	goToProfile: ->
 		Config.setItem('showOrders', 'false')
-		#Config.setItem('currentSession', JSON.stringify(session))
 		window.location.href = '../../store/profile.html'
 
 	goToOrders: ->
 		Config.setItem('showOrders', 'true')
-		#Config.setItem('currentSession', JSON.stringify(session))
 		window.location.href = '../../store/profile.html'
 
 	setDOMElements: ->
@@ -128,26 +124,31 @@ class CheckoutVM
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 		$('.time.field')
-			.popup(
-				inline: true
-			)
+			.popup({inline: true})
 		$('.successful.modal')
 			.modal(
 				onHidden: ->
 					window.location.href = '../../store'
 			)
 
+	addressGotFocus: ->
+		console.log 'LOL the address got the focus'
+		$('.address.field').removeClass('error')
+
 	setHours: =>
 		console.log 'It should set the new hours'
+		$('.date.field').removeClass('error')
 		if !!@selectedDay()
 			@availableHours(@selectedDay().availableHours)
 			@selectedDate(@selectedDay().date)
-			if @availableHours().length is 0 then $('.time.dropdown').addClass('disabled') else $('.time.dropdown').removeClass('disabled')
+			console.log "availableHours #{@selectedDay().availableHours}, length #{@selectedDay().availableHours.length}"
+			if @selectedDay().availableHours.length is 0 then $('.hours.dropdown').addClass('disabled') else $('.hours.dropdown').removeClass('disabled')
 		else
 			@availableHours([])
 			@selectedDate('')
 
 	setExpireHour: =>
+		$('.time.field').removeClass('error')
 		if !!@selectedHour()
 			expireHour = moment(@selectedHour(), 'H:mm').add(1, 'hours')
 			@selectedExpiredHour(expireHour.format('H:mm'))
@@ -221,17 +222,6 @@ class CheckoutVM
 			@session.currentOrder.products(order.products)
 			@session.currentOrder.price(order.price)
 			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
-
-	# setExistingSession: ->
-	# 	console.log @user
-	# 	@userName(@user.name.split(' ')[0])
-	# 	order = JSON.parse(Config.getItem('orderToPay'))
-	# 	console.log order
-	# 	session = JSON.parse(Config.getItem('currentSession'))
-	# 	@session.currentOrder.numberProducts(order.numberProducts)
-	# 	@session.currentOrder.products(order.products)
-	# 	@session.currentOrder.price(order.price)
-	# 	@session.currentSucursal = ko.mapping.toJS(session.currentSucursal)
 
 	setSizeButtons: ->
 		if $(window).width() < 480

@@ -63,16 +63,8 @@ html
 					a#store-frepi-logo href="#"
 						i.sidebar.icon
 						img.ui.image src="images/landing/full_logo.png" alt="Frepi's logo"
-					a#target-store href="#"
-						.item
-							.content
-								.ui.sub.header Olímpica Tanganazo
-								|Calle 72 # 60 - 12
-					#product-searcher.item
-						.ui.icon.input
-							input type="text" placeholder="Buscar productos..."
-							i.circular.search.link.icon
-					#user-account.ui.simple.dropdown.item
+
+					#user-account.ui.simple.right.floated.dropdown.item
 							.text data-bind="text: 'Hola, '+userName()"
 							i.chevron.down.icon
 							.menu
@@ -157,7 +149,7 @@ html
 										form.ui.form
 											.address.field
 												label Dirección
-												input name="address" type="text" data-bind="textInput: address" placeholder="Ej: Cra 45 # 65 - 56"
+												input name="address" type="text" data-bind="textInput: address, event: {focus: addressGotFocus}" placeholder="Ej: Cra 45 # 65 - 56"
 											.instructions.field
 												label Instrucciones
 												textarea name="instructions" rows="3" data-bind="textInput: comment" placeholder="Ej: Dejar en portería o llámame cuando llegue"
