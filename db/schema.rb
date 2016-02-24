@@ -169,10 +169,10 @@ ActiveRecord::Schema.define(version: 20) do
   add_index "states", ["country_id"], name: "index_states_on_country_id", using: :btree
 
   create_table "store_partners", force: :cascade do |t|
-    t.string   "nit",         null: false
     t.string   "name",        null: false
-    t.string   "logo",        null: false
-    t.text     "description", null: false
+    t.string   "nit"
+    t.string   "logo"
+    t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

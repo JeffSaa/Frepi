@@ -1,41 +1,15 @@
 # Obligatory Data
-country = Country.create!(name: 'colombia')
-state = country.states.create!(name: 'atlantico')
-city = state.cities.create!(name: 'barranquilla')
-
-# TODO: Create Admin
-
-# User.create!( name: 'Ernesto', last_name: 'De la Espriella',
-#               email: 'admin@frepi.com', identification: 'todo',
-#               address: 'calle 52 # 75', phone_number: 'todo',
-#               image: '', city_id: city.id, administrator: true,
-#               password: 'todo', password_confirmation: 'todo')
-
-# Categories
-#   Subcategories
-# --- frutas y verdura ----
-# => Verduras frescas
-# => Hierbas frescas
-# => Verduras y vegetales empacados
-
-#category_frutas_verduras = Category.create!(name: 'Frutas y verduras', store_partner_id: 'todo')
-#category_frutas_verduras.subcategories.new(name: 'Verduras frescas')
-#category_frutas_verduras.subcategories.new(name: 'Hierbas frescas')
-#category_frutas_verduras.subcategories.new(name: 'Verduras y vegetales empacados')
+country = Country.create!(name: 'Colombia')
+state = country.states.create!(name: 'Atlantico')
+city = state.cities.create!(name: 'Barranquilla')
+StorePartner.create!(name: 'Mercado')
 
 
+PASSWORD =  'frepi123'
+EMAILS = %w(admin@frepi.com client@frepi.com supervisor@frepi.com in-store-shopper@gmail.com delivery-shopper@gmail.com)
 
-
-# email: admin@frepi.com | client@frepi.com | supervisor@frepi.com
-# Password: frepi123
-
-#if Rails.env.development?
-  PASSWORD =  'frepi123'
-  EMAILS = %w(admin@frepi.com client@frepi.com supervisor@frepi.com in-store-shopper@gmail.com delivery-shopper@gmail.com)
-
-  # Store Partners
-  StorePartner.create!(nit: Faker::Company.duns_number, name: Faker::Company.name, logo: Faker::Company.logo, description: Faker::Lorem.sentence)
-
+if Rails.env.development?
+  
   # ---------------------------------- ROLES ----------------------------------- #
 
   # --- Default Frepi Admin --- #
@@ -215,4 +189,27 @@ city = state.cities.create!(name: 'barranquilla')
     shopper = Shopper.find(shopper_id + 1)
     shopper.schedules.create!( day: Schedule::DAY.sample, start_hour: Time.now, end_hour: Time.now + 2.hour)
   end
-#end
+
+else
+
+  User.create!( name: 'Ernesto', last_name: 'De la Espriella',
+               email: 'Frepicolombia@gmail.com', city_id: city.id, 
+               administrator: true, password: PASSWORD, 
+               password_confirmation: PASSWORD)
+
+  # Categories
+  #   Subcategories
+  # --- frutas y verdura ----
+  # => Verduras frescas
+  # => Hierbas frescas
+  # => Verduras y vegetales empacados
+
+  
+  category_frutas_verduras = Category.create!(name: 'Frutas y verduras', store_partner_id: StorePartner.first.id)
+  
+  category_frutas_verduras.subcategories.new(name: 'Verduras frescas')
+  category_frutas_verduras.subcategories.new(name: 'Hierbas frescas')
+  category_frutas_verduras.subcategories.new(name: 'Verduras y vegetales empacados')
+
+
+end

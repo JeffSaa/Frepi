@@ -7,5 +7,5 @@ class StorePartner < ActiveRecord::Base
   has_many :products, through: :sucursals
 
   # Validations
-  validates :name, :description, :logo, :nit, presence: true
+  validates :name, presence: true
 end
