@@ -207,9 +207,9 @@ else
   
   category_frutas_verduras = Category.create!(name: 'Frutas y verduras', store_partner_id: StorePartner.first.id)
   
-  category_frutas_verduras.subcategories.new(name: 'Verduras frescas')
-  category_frutas_verduras.subcategories.new(name: 'Hierbas frescas')
-  category_frutas_verduras.subcategories.new(name: 'Verduras y vegetales empacados')
+  category_frutas_verduras.subcategories.create!(name: 'Verduras frescas')
+  category_frutas_verduras.subcategories.create!(name: 'Hierbas frescas')
+  category_frutas_verduras.subcategories.create!(name: 'Verduras y vegetales empacados')
 
 
 end
