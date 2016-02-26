@@ -1,5 +1,8 @@
 class Shopper < ActiveRecord::Base
 
+  # scopes
+  scope :active, -> { where(active: true) }
+  
   # radius for find orders in KM
   DISTANCE = 40000
 

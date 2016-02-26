@@ -1,0 +1,491 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'crosswalk-app-tools' ]
+2 info using npm@1.3.10
+3 info using node@v0.10.25
+4 verbose cache add [ 'crosswalk-app-tools', null ]
+5 verbose cache add name=undefined spec="crosswalk-app-tools" args=["crosswalk-app-tools",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'crosswalk-app-tools',
+6 verbose parsed url   path: 'crosswalk-app-tools',
+6 verbose parsed url   href: 'crosswalk-app-tools' }
+7 silly lockFile e6c6a6c2-crosswalk-app-tools crosswalk-app-tools
+8 verbose lock crosswalk-app-tools /home/vagrant/.npm/e6c6a6c2-crosswalk-app-tools.lock
+9 silly lockFile e6c6a6c2-crosswalk-app-tools crosswalk-app-tools
+10 silly lockFile e6c6a6c2-crosswalk-app-tools crosswalk-app-tools
+11 verbose addNamed [ 'crosswalk-app-tools', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 96686795-crosswalk-app-tools crosswalk-app-tools@
+14 verbose lock crosswalk-app-tools@ /home/vagrant/.npm/96686795-crosswalk-app-tools.lock
+15 silly addNameRange { name: 'crosswalk-app-tools', range: '*', hasData: false }
+16 verbose url raw crosswalk-app-tools
+17 verbose url resolving [ 'https://registry.npmjs.org/', './crosswalk-app-tools' ]
+18 verbose url resolved https://registry.npmjs.org/crosswalk-app-tools
+19 info trying registry request attempt 1 at 06:17:24
+20 http GET https://registry.npmjs.org/crosswalk-app-tools
+21 http 200 https://registry.npmjs.org/crosswalk-app-tools
+22 silly registry.get cb [ 200,
+22 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+22 silly registry.get     etag: '"9OKUMYMLUYASK04EO1WW6PK34"',
+22 silly registry.get     'content-type': 'application/json',
+22 silly registry.get     'cache-control': 'max-age=300',
+22 silly registry.get     'content-length': '39083',
+22 silly registry.get     'accept-ranges': 'bytes',
+22 silly registry.get     date: 'Wed, 24 Feb 2016 06:17:29 GMT',
+22 silly registry.get     via: '1.1 varnish',
+22 silly registry.get     age: '0',
+22 silly registry.get     connection: 'keep-alive',
+22 silly registry.get     'x-served-by': 'cache-iad2138-IAD',
+22 silly registry.get     'x-cache': 'MISS',
+22 silly registry.get     'x-cache-hits': '0',
+22 silly registry.get     'x-timer': 'S1456294649.909346,VS0,VE66',
+22 silly registry.get     vary: 'Accept' } ]
+23 silly addNameRange number 2 { name: 'crosswalk-app-tools', range: '*', hasData: true }
+24 silly addNameRange versions [ 'crosswalk-app-tools',
+24 silly addNameRange   [ '0.4.0',
+24 silly addNameRange     '0.4.1',
+24 silly addNameRange     '0.4.2',
+24 silly addNameRange     '0.4.3',
+24 silly addNameRange     '0.4.4',
+24 silly addNameRange     '0.4.5',
+24 silly addNameRange     '0.4.6',
+24 silly addNameRange     '0.4.7',
+24 silly addNameRange     '0.5.0',
+24 silly addNameRange     '0.6.0',
+24 silly addNameRange     '0.6.1',
+24 silly addNameRange     '0.7.0',
+24 silly addNameRange     '0.7.1',
+24 silly addNameRange     '0.7.2',
+24 silly addNameRange     '0.8.0',
+24 silly addNameRange     '0.8.1',
+24 silly addNameRange     '0.9.0',
+24 silly addNameRange     '0.9.1' ] ]
+25 verbose addNamed [ 'crosswalk-app-tools', '0.9.1' ]
+26 verbose addNamed [ '0.9.1', '0.9.1' ]
+27 silly lockFile b6e261a4-crosswalk-app-tools-0-9-1 crosswalk-app-tools@0.9.1
+28 verbose lock crosswalk-app-tools@0.9.1 /home/vagrant/.npm/b6e261a4-crosswalk-app-tools-0-9-1.lock
+29 silly lockFile c7ae600c-ls-crosswalk-app-tools-0-9-1-tgz https://registry.npmjs.org/crosswalk-app-tools/-/crosswalk-app-tools-0.9.1.tgz
+30 verbose lock https://registry.npmjs.org/crosswalk-app-tools/-/crosswalk-app-tools-0.9.1.tgz /home/vagrant/.npm/c7ae600c-ls-crosswalk-app-tools-0-9-1-tgz.lock
+31 verbose addRemoteTarball [ 'https://registry.npmjs.org/crosswalk-app-tools/-/crosswalk-app-tools-0.9.1.tgz',
+31 verbose addRemoteTarball   '8ff3531fd58066b8acab9f1d35f894afe3a90c4d' ]
+32 info retry fetch attempt 1 at 06:17:25
+33 verbose fetch to= /home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/tmp.tgz
+34 http GET https://registry.npmjs.org/crosswalk-app-tools/-/crosswalk-app-tools-0.9.1.tgz
+35 http 200 https://registry.npmjs.org/crosswalk-app-tools/-/crosswalk-app-tools-0.9.1.tgz
+36 verbose tar unpack /home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/tmp.tgz
+37 silly lockFile e293744b-45008-0-3213115662802011-package tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package
+38 verbose lock tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package /home/vagrant/.npm/e293744b-45008-0-3213115662802011-package.lock
+39 silly lockFile 308edcf8-45008-0-3213115662802011-tmp-tgz tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/tmp.tgz
+40 verbose lock tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/tmp.tgz /home/vagrant/.npm/308edcf8-45008-0-3213115662802011-tmp-tgz.lock
+41 silly gunzTarPerm modes [ '755', '644' ]
+42 silly gunzTarPerm extractEntry package.json
+43 silly gunzTarPerm modified mode [ 'package.json', 436, 420 ]
+44 silly gunzTarPerm extractEntry README.md
+45 silly gunzTarPerm modified mode [ 'README.md', 436, 420 ]
+46 silly gunzTarPerm extractEntry index.js
+47 silly gunzTarPerm modified mode [ 'index.js', 436, 420 ]
+48 silly gunzTarPerm extractEntry Gruntfile.js
+49 silly gunzTarPerm modified mode [ 'Gruntfile.js', 436, 420 ]
+50 silly gunzTarPerm extractEntry android/index.js
+51 silly gunzTarPerm modified mode [ 'android/index.js', 436, 420 ]
+52 silly gunzTarPerm extractEntry android/data/AndroidManifest.xml.tpl
+53 silly gunzTarPerm modified mode [ 'android/data/AndroidManifest.xml.tpl', 436, 420 ]
+54 silly gunzTarPerm extractEntry android/data/build.xml.tpl
+55 silly gunzTarPerm modified mode [ 'android/data/build.xml.tpl', 436, 420 ]
+56 silly gunzTarPerm extractEntry android/data/project.properties.tpl
+57 silly gunzTarPerm modified mode [ 'android/data/project.properties.tpl', 436, 420 ]
+58 silly gunzTarPerm extractEntry android/lib/AndroidManifest.js
+59 silly gunzTarPerm modified mode [ 'android/lib/AndroidManifest.js', 436, 420 ]
+60 silly gunzTarPerm extractEntry android/lib/AndroidPlatform.js
+61 silly gunzTarPerm modified mode [ 'android/lib/AndroidPlatform.js', 436, 420 ]
+62 silly gunzTarPerm extractEntry android/lib/AndroidSDK.js
+63 silly gunzTarPerm modified mode [ 'android/lib/AndroidSDK.js', 436, 420 ]
+64 silly gunzTarPerm extractEntry android/lib/AndroidTargets.js
+65 silly gunzTarPerm modified mode [ 'android/lib/AndroidTargets.js', 436, 420 ]
+66 silly gunzTarPerm extractEntry android/lib/JavaActivity.js
+67 silly gunzTarPerm modified mode [ 'android/lib/JavaActivity.js', 436, 420 ]
+68 silly gunzTarPerm extractEntry android/lib/ProjectProperties.js
+69 silly gunzTarPerm modified mode [ 'android/lib/ProjectProperties.js', 436, 420 ]
+70 silly gunzTarPerm extractEntry android/lib/XmlTheme.js
+71 silly gunzTarPerm modified mode [ 'android/lib/XmlTheme.js', 436, 420 ]
+72 silly gunzTarPerm extractEntry android/test/android-manifest.js
+73 silly gunzTarPerm modified mode [ 'android/test/android-manifest.js', 436, 420 ]
+74 silly gunzTarPerm extractEntry android/test/android-platform.js
+75 silly gunzTarPerm modified mode [ 'android/test/android-platform.js', 436, 420 ]
+76 silly gunzTarPerm extractEntry android/test/android-sdk.js
+77 silly gunzTarPerm modified mode [ 'android/test/android-sdk.js', 436, 420 ]
+78 silly gunzTarPerm extractEntry android/test/android-targets.js
+79 silly gunzTarPerm modified mode [ 'android/test/android-targets.js', 436, 420 ]
+80 silly gunzTarPerm extractEntry android/test/java-activity.js
+81 silly gunzTarPerm modified mode [ 'android/test/java-activity.js', 436, 420 ]
+82 silly gunzTarPerm extractEntry android/test/main.js
+83 silly gunzTarPerm modified mode [ 'android/test/main.js', 436, 420 ]
+84 silly gunzTarPerm extractEntry android/test/project-properties.js
+85 silly gunzTarPerm modified mode [ 'android/test/project-properties.js', 436, 420 ]
+86 silly gunzTarPerm extractEntry android/test/xml-theme.js
+87 silly gunzTarPerm modified mode [ 'android/test/xml-theme.js', 436, 420 ]
+88 silly gunzTarPerm extractEntry app-template/crosswalk.ico
+89 silly gunzTarPerm modified mode [ 'app-template/crosswalk.ico', 436, 420 ]
+90 silly gunzTarPerm extractEntry app-template/icon.png
+91 silly gunzTarPerm modified mode [ 'app-template/icon.png', 436, 420 ]
+92 silly gunzTarPerm extractEntry app-template/index.html
+93 silly gunzTarPerm modified mode [ 'app-template/index.html', 436, 420 ]
+94 silly gunzTarPerm extractEntry examples/crosswalk-app-tools-backend-demo/package.json
+95 silly gunzTarPerm modified mode [ 'examples/crosswalk-app-tools-backend-demo/package.json',
+95 silly gunzTarPerm   436,
+95 silly gunzTarPerm   420 ]
+96 silly gunzTarPerm extractEntry examples/crosswalk-app-tools-backend-demo/index.js
+97 silly gunzTarPerm modified mode [ 'examples/crosswalk-app-tools-backend-demo/index.js',
+97 silly gunzTarPerm   436,
+97 silly gunzTarPerm   420 ]
+98 silly gunzTarPerm extractEntry examples/crosswalk-app-tools-backend-demo/LICENSE-APACHE-V2
+99 silly gunzTarPerm modified mode [ 'examples/crosswalk-app-tools-backend-demo/LICENSE-APACHE-V2',
+99 silly gunzTarPerm   436,
+99 silly gunzTarPerm   420 ]
+100 silly gunzTarPerm extractEntry examples/crosswalk-app-tools-backend-demo/lib/DemoPlatform.js
+101 silly gunzTarPerm modified mode [ 'examples/crosswalk-app-tools-backend-demo/lib/DemoPlatform.js',
+101 silly gunzTarPerm   436,
+101 silly gunzTarPerm   420 ]
+102 silly gunzTarPerm extractEntry manifest.md
+103 silly gunzTarPerm modified mode [ 'manifest.md', 436, 420 ]
+104 silly gunzTarPerm extractEntry test-util/TestPlatform.js
+105 silly gunzTarPerm modified mode [ 'test-util/TestPlatform.js', 436, 420 ]
+106 silly gunzTarPerm extractEntry test-util/Util.js
+107 silly gunzTarPerm modified mode [ 'test-util/Util.js', 436, 420 ]
+108 silly gunzTarPerm extractEntry test-util/nodeunit-standalone.js
+109 silly gunzTarPerm modified mode [ 'test-util/nodeunit-standalone.js', 509, 493 ]
+110 silly gunzTarPerm extractEntry LICENSE-APACHE-V2
+111 silly gunzTarPerm modified mode [ 'LICENSE-APACHE-V2', 436, 420 ]
+112 silly gunzTarPerm extractEntry src/Application.js
+113 silly gunzTarPerm modified mode [ 'src/Application.js', 436, 420 ]
+114 silly gunzTarPerm extractEntry src/InfiniteProgress.js
+115 silly gunzTarPerm modified mode [ 'src/InfiniteProgress.js', 436, 420 ]
+116 silly gunzTarPerm extractEntry src/LogfileOutput.js
+117 silly gunzTarPerm modified mode [ 'src/LogfileOutput.js', 436, 420 ]
+118 silly gunzTarPerm extractEntry src/Main.js
+119 silly gunzTarPerm modified mode [ 'src/Main.js', 436, 420 ]
+120 silly gunzTarPerm extractEntry src/FiniteProgress.js
+121 silly gunzTarPerm modified mode [ 'src/FiniteProgress.js', 436, 420 ]
+122 silly gunzTarPerm extractEntry src/CommandParser.js
+123 silly gunzTarPerm modified mode [ 'src/CommandParser.js', 436, 420 ]
+124 silly gunzTarPerm extractEntry src/OutputTee.js
+125 silly gunzTarPerm modified mode [ 'src/OutputTee.js', 436, 420 ]
+126 silly gunzTarPerm extractEntry src/PlatformBase.js
+127 silly gunzTarPerm modified mode [ 'src/PlatformBase.js', 436, 420 ]
+128 silly gunzTarPerm extractEntry src/PlatformInfo.js
+129 silly gunzTarPerm modified mode [ 'src/PlatformInfo.js', 436, 420 ]
+130 silly gunzTarPerm extractEntry src/PlatformsManager.js
+131 silly gunzTarPerm modified mode [ 'src/PlatformsManager.js', 436, 420 ]
+132 silly gunzTarPerm extractEntry src/Config.js
+133 silly gunzTarPerm modified mode [ 'src/Config.js', 436, 420 ]
+134 silly gunzTarPerm extractEntry src/TerminalOutput.js
+135 silly gunzTarPerm modified mode [ 'src/TerminalOutput.js', 436, 420 ]
+136 silly gunzTarPerm extractEntry src/Manifest.js
+137 silly gunzTarPerm modified mode [ 'src/Manifest.js', 436, 420 ]
+138 silly gunzTarPerm extractEntry src/OutputIface.js
+139 silly gunzTarPerm modified mode [ 'src/OutputIface.js', 436, 420 ]
+140 silly gunzTarPerm extractEntry src/crosswalk-app
+141 silly gunzTarPerm modified mode [ 'src/crosswalk-app', 509, 493 ]
+142 silly gunzTarPerm extractEntry src/crosswalk-pkg
+143 silly gunzTarPerm modified mode [ 'src/crosswalk-pkg', 509, 493 ]
+144 silly gunzTarPerm extractEntry src/util/CrosswalkDir.js
+145 silly gunzTarPerm modified mode [ 'src/util/CrosswalkDir.js', 436, 420 ]
+146 silly gunzTarPerm extractEntry src/util/Download01Org.js
+147 silly gunzTarPerm modified mode [ 'src/util/Download01Org.js', 436, 420 ]
+148 silly gunzTarPerm extractEntry src/util/DownloadHandler.js
+149 silly gunzTarPerm modified mode [ 'src/util/DownloadHandler.js', 436, 420 ]
+150 silly gunzTarPerm extractEntry src/util/Downloader.js
+151 silly gunzTarPerm modified mode [ 'src/util/Downloader.js', 436, 420 ]
+152 silly gunzTarPerm extractEntry src/util/CrosswalkZip.js
+153 silly gunzTarPerm modified mode [ 'src/util/CrosswalkZip.js', 436, 420 ]
+154 silly gunzTarPerm extractEntry src/util/Targets.js
+155 silly gunzTarPerm modified mode [ 'src/util/Targets.js', 436, 420 ]
+156 silly gunzTarPerm extractEntry src/util/TemplateFile.js
+157 silly gunzTarPerm modified mode [ 'src/util/TemplateFile.js', 436, 420 ]
+158 silly gunzTarPerm extractEntry src/util/Version.js
+159 silly gunzTarPerm modified mode [ 'src/util/Version.js', 436, 420 ]
+160 silly gunzTarPerm extractEntry src/util/exceptions.js
+161 silly gunzTarPerm modified mode [ 'src/util/exceptions.js', 436, 420 ]
+162 silly gunzTarPerm extractEntry src/util/index.js
+163 silly gunzTarPerm modified mode [ 'src/util/index.js', 436, 420 ]
+164 silly gunzTarPerm extractEntry src/util/IndexParser.js
+165 silly gunzTarPerm modified mode [ 'src/util/IndexParser.js', 436, 420 ]
+166 silly gunzTarPerm extractEntry test/application.js
+167 silly gunzTarPerm modified mode [ 'test/application.js', 436, 420 ]
+168 silly gunzTarPerm extractEntry test/downloader.js
+169 silly gunzTarPerm modified mode [ 'test/downloader.js', 436, 420 ]
+170 silly gunzTarPerm extractEntry test/finite-progress.js
+171 silly gunzTarPerm modified mode [ 'test/finite-progress.js', 436, 420 ]
+172 silly gunzTarPerm extractEntry test/index-parser.js
+173 silly gunzTarPerm modified mode [ 'test/index-parser.js', 436, 420 ]
+174 silly gunzTarPerm extractEntry test/infinite-progress.js
+175 silly gunzTarPerm modified mode [ 'test/infinite-progress.js', 436, 420 ]
+176 silly gunzTarPerm extractEntry test/download-handler.js
+177 silly gunzTarPerm modified mode [ 'test/download-handler.js', 436, 420 ]
+178 silly gunzTarPerm extractEntry test/main.js
+179 silly gunzTarPerm modified mode [ 'test/main.js', 436, 420 ]
+180 silly gunzTarPerm extractEntry test/manifest.js
+181 silly gunzTarPerm modified mode [ 'test/manifest.js', 436, 420 ]
+182 silly gunzTarPerm extractEntry test/output-tee.js
+183 silly gunzTarPerm modified mode [ 'test/output-tee.js', 436, 420 ]
+184 silly gunzTarPerm extractEntry test/platform-base.js
+185 silly gunzTarPerm modified mode [ 'test/platform-base.js', 436, 420 ]
+186 silly gunzTarPerm extractEntry test/platform-info.js
+187 silly gunzTarPerm modified mode [ 'test/platform-info.js', 436, 420 ]
+188 silly gunzTarPerm extractEntry test/download-01-org.js
+189 silly gunzTarPerm modified mode [ 'test/download-01-org.js', 436, 420 ]
+190 silly gunzTarPerm extractEntry test/platforms-manager.js
+191 silly gunzTarPerm modified mode [ 'test/platforms-manager.js', 436, 420 ]
+192 silly gunzTarPerm extractEntry test/template-file.js
+193 silly gunzTarPerm modified mode [ 'test/template-file.js', 436, 420 ]
+194 silly gunzTarPerm extractEntry test/targets.js
+195 silly gunzTarPerm modified mode [ 'test/targets.js', 436, 420 ]
+196 silly gunzTarPerm extractEntry test/command-parser.js
+197 silly gunzTarPerm modified mode [ 'test/command-parser.js', 436, 420 ]
+198 silly gunzTarPerm extractEntry test/test-util.js
+199 silly gunzTarPerm modified mode [ 'test/test-util.js', 436, 420 ]
+200 silly gunzTarPerm extractEntry test/logfile-output.js
+201 silly gunzTarPerm modified mode [ 'test/logfile-output.js', 436, 420 ]
+202 silly gunzTarPerm extractEntry test/data/template-file.in
+203 silly gunzTarPerm modified mode [ 'test/data/template-file.in', 436, 420 ]
+204 silly gunzTarPerm extractEntry windows/index.js
+205 silly gunzTarPerm modified mode [ 'windows/index.js', 436, 420 ]
+206 silly gunzTarPerm extractEntry windows/lib/WinPlatform.js
+207 silly gunzTarPerm modified mode [ 'windows/lib/WinPlatform.js', 436, 420 ]
+208 silly gunzTarPerm extractEntry windows/lib/WixSDK.js
+209 silly gunzTarPerm modified mode [ 'windows/lib/WixSDK.js', 436, 420 ]
+210 silly gunzTarPerm extractEntry windows/test/main.js
+211 silly gunzTarPerm modified mode [ 'windows/test/main.js', 436, 420 ]
+212 silly lockFile e293744b-45008-0-3213115662802011-package tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package
+213 silly lockFile e293744b-45008-0-3213115662802011-package tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package
+214 silly lockFile 308edcf8-45008-0-3213115662802011-tmp-tgz tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/tmp.tgz
+215 silly lockFile 308edcf8-45008-0-3213115662802011-tmp-tgz tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/tmp.tgz
+216 verbose tar pack [ '/home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz',
+216 verbose tar pack   '/home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package' ]
+217 verbose tarball /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+218 verbose folder /home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package
+219 silly lockFile e293744b-45008-0-3213115662802011-package tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package
+220 verbose lock tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package /home/vagrant/.npm/e293744b-45008-0-3213115662802011-package.lock
+221 silly lockFile 9cc64f43-walk-app-tools-0-9-1-package-tgz tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+222 verbose lock tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz /home/vagrant/.npm/9cc64f43-walk-app-tools-0-9-1-package-tgz.lock
+223 silly lockFile e293744b-45008-0-3213115662802011-package tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package
+224 silly lockFile e293744b-45008-0-3213115662802011-package tar:///home/vagrant/tmp/npm-3282-wssrq7Ur/1456294645008-0.3213115662802011/package
+225 silly lockFile 9cc64f43-walk-app-tools-0-9-1-package-tgz tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+226 silly lockFile 9cc64f43-walk-app-tools-0-9-1-package-tgz tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+227 silly lockFile 7d76e766-rosswalk-app-tools-0-9-1-package /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package
+228 verbose lock /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package /home/vagrant/.npm/7d76e766-rosswalk-app-tools-0-9-1-package.lock
+229 silly lockFile 7d76e766-rosswalk-app-tools-0-9-1-package /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package
+230 silly lockFile 7d76e766-rosswalk-app-tools-0-9-1-package /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package
+231 verbose tar unpack /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+232 silly lockFile 42aa0bfa-rosswalk-app-tools-0-9-1-package tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package
+233 verbose lock tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package /home/vagrant/.npm/42aa0bfa-rosswalk-app-tools-0-9-1-package.lock
+234 silly lockFile 9cc64f43-walk-app-tools-0-9-1-package-tgz tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+235 verbose lock tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz /home/vagrant/.npm/9cc64f43-walk-app-tools-0-9-1-package-tgz.lock
+236 silly gunzTarPerm modes [ '755', '644' ]
+237 silly gunzTarPerm extractEntry package.json
+238 silly gunzTarPerm extractEntry README.md
+239 silly gunzTarPerm extractEntry Gruntfile.js
+240 silly gunzTarPerm extractEntry index.js
+241 silly gunzTarPerm extractEntry app-template/crosswalk.ico
+242 silly gunzTarPerm extractEntry app-template/icon.png
+243 silly gunzTarPerm extractEntry app-template/index.html
+244 silly gunzTarPerm extractEntry examples/crosswalk-app-tools-backend-demo/package.json
+245 silly gunzTarPerm extractEntry examples/crosswalk-app-tools-backend-demo/index.js
+246 silly gunzTarPerm extractEntry examples/crosswalk-app-tools-backend-demo/LICENSE-APACHE-V2
+247 silly gunzTarPerm extractEntry examples/crosswalk-app-tools-backend-demo/lib/DemoPlatform.js
+248 silly gunzTarPerm extractEntry LICENSE-APACHE-V2
+249 silly gunzTarPerm extractEntry manifest.md
+250 silly gunzTarPerm extractEntry android/index.js
+251 silly gunzTarPerm extractEntry android/data/AndroidManifest.xml.tpl
+252 silly gunzTarPerm extractEntry android/data/build.xml.tpl
+253 silly gunzTarPerm extractEntry android/data/project.properties.tpl
+254 silly gunzTarPerm extractEntry android/lib/AndroidManifest.js
+255 silly gunzTarPerm extractEntry android/lib/AndroidPlatform.js
+256 silly gunzTarPerm extractEntry android/lib/AndroidSDK.js
+257 silly gunzTarPerm extractEntry android/lib/AndroidTargets.js
+258 silly gunzTarPerm extractEntry android/lib/JavaActivity.js
+259 silly gunzTarPerm extractEntry android/lib/ProjectProperties.js
+260 silly gunzTarPerm extractEntry android/lib/XmlTheme.js
+261 silly gunzTarPerm extractEntry android/test/android-manifest.js
+262 silly gunzTarPerm extractEntry android/test/android-platform.js
+263 silly gunzTarPerm extractEntry android/test/android-sdk.js
+264 silly gunzTarPerm extractEntry android/test/android-targets.js
+265 silly gunzTarPerm extractEntry android/test/java-activity.js
+266 silly gunzTarPerm extractEntry android/test/main.js
+267 silly gunzTarPerm extractEntry android/test/project-properties.js
+268 silly gunzTarPerm extractEntry android/test/xml-theme.js
+269 silly gunzTarPerm extractEntry src/Application.js
+270 silly gunzTarPerm extractEntry src/InfiniteProgress.js
+271 silly gunzTarPerm extractEntry src/LogfileOutput.js
+272 silly gunzTarPerm extractEntry src/Main.js
+273 silly gunzTarPerm extractEntry src/FiniteProgress.js
+274 silly gunzTarPerm extractEntry src/CommandParser.js
+275 silly gunzTarPerm extractEntry src/OutputTee.js
+276 silly gunzTarPerm extractEntry src/PlatformBase.js
+277 silly gunzTarPerm extractEntry src/PlatformInfo.js
+278 silly gunzTarPerm extractEntry src/PlatformsManager.js
+279 silly gunzTarPerm extractEntry src/Config.js
+280 silly gunzTarPerm extractEntry src/TerminalOutput.js
+281 silly gunzTarPerm extractEntry src/Manifest.js
+282 silly gunzTarPerm extractEntry src/OutputIface.js
+283 silly gunzTarPerm extractEntry src/crosswalk-app
+284 silly gunzTarPerm extractEntry src/crosswalk-pkg
+285 silly gunzTarPerm extractEntry src/util/CrosswalkDir.js
+286 silly gunzTarPerm extractEntry src/util/Download01Org.js
+287 silly gunzTarPerm extractEntry src/util/DownloadHandler.js
+288 silly gunzTarPerm extractEntry src/util/Downloader.js
+289 silly gunzTarPerm extractEntry src/util/CrosswalkZip.js
+290 silly gunzTarPerm extractEntry src/util/Targets.js
+291 silly gunzTarPerm extractEntry src/util/TemplateFile.js
+292 silly gunzTarPerm extractEntry src/util/Version.js
+293 silly gunzTarPerm extractEntry src/util/exceptions.js
+294 silly gunzTarPerm extractEntry src/util/index.js
+295 silly gunzTarPerm extractEntry src/util/IndexParser.js
+296 silly gunzTarPerm extractEntry test/application.js
+297 silly gunzTarPerm extractEntry test/downloader.js
+298 silly gunzTarPerm extractEntry test/finite-progress.js
+299 silly gunzTarPerm extractEntry test/index-parser.js
+300 silly gunzTarPerm extractEntry test/infinite-progress.js
+301 silly gunzTarPerm extractEntry test/download-handler.js
+302 silly gunzTarPerm extractEntry test/main.js
+303 silly gunzTarPerm extractEntry test/manifest.js
+304 silly gunzTarPerm extractEntry test/output-tee.js
+305 silly gunzTarPerm extractEntry test/platform-base.js
+306 silly gunzTarPerm extractEntry test/platform-info.js
+307 silly gunzTarPerm extractEntry test/download-01-org.js
+308 silly gunzTarPerm extractEntry test/platforms-manager.js
+309 silly gunzTarPerm extractEntry test/template-file.js
+310 silly gunzTarPerm extractEntry test/targets.js
+311 silly gunzTarPerm extractEntry test/command-parser.js
+312 silly gunzTarPerm extractEntry test/test-util.js
+313 silly gunzTarPerm extractEntry test/logfile-output.js
+314 silly gunzTarPerm extractEntry test/data/template-file.in
+315 silly gunzTarPerm extractEntry test-util/TestPlatform.js
+316 silly gunzTarPerm extractEntry test-util/Util.js
+317 silly gunzTarPerm extractEntry test-util/nodeunit-standalone.js
+318 silly gunzTarPerm extractEntry windows/index.js
+319 silly gunzTarPerm extractEntry windows/lib/WinPlatform.js
+320 silly gunzTarPerm extractEntry windows/lib/WixSDK.js
+321 silly gunzTarPerm extractEntry windows/test/main.js
+322 silly lockFile 42aa0bfa-rosswalk-app-tools-0-9-1-package tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package
+323 silly lockFile 42aa0bfa-rosswalk-app-tools-0-9-1-package tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package
+324 silly lockFile 9cc64f43-walk-app-tools-0-9-1-package-tgz tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+325 silly lockFile 9cc64f43-walk-app-tools-0-9-1-package-tgz tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+326 verbose chmod /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz 644
+327 verbose chown /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz [ 1000, 1000 ]
+328 silly lockFile c7ae600c-ls-crosswalk-app-tools-0-9-1-tgz https://registry.npmjs.org/crosswalk-app-tools/-/crosswalk-app-tools-0.9.1.tgz
+329 silly lockFile c7ae600c-ls-crosswalk-app-tools-0-9-1-tgz https://registry.npmjs.org/crosswalk-app-tools/-/crosswalk-app-tools-0.9.1.tgz
+330 silly lockFile b6e261a4-crosswalk-app-tools-0-9-1 crosswalk-app-tools@0.9.1
+331 silly lockFile b6e261a4-crosswalk-app-tools-0-9-1 crosswalk-app-tools@0.9.1
+332 silly lockFile 96686795-crosswalk-app-tools crosswalk-app-tools@
+333 silly lockFile 96686795-crosswalk-app-tools crosswalk-app-tools@
+334 silly resolved [ { name: 'crosswalk-app-tools',
+334 silly resolved     version: '0.9.1',
+334 silly resolved     description: 'An APK packager for the Crosswalk Project -- http://crosswalk-project.org',
+334 silly resolved     author:
+334 silly resolved      { name: 'Robert Staudinger',
+334 silly resolved        email: 'robert.staudinger@intel.com' },
+334 silly resolved     license: 'Apache-2.0',
+334 silly resolved     engines: { node: '>=0.12' },
+334 silly resolved     bin:
+334 silly resolved      { 'crosswalk-app': './src/crosswalk-app',
+334 silly resolved        'crosswalk-pkg': './src/crosswalk-pkg' },
+334 silly resolved     scripts: { test: 'grunt test' },
+334 silly resolved     repository:
+334 silly resolved      { type: 'git',
+334 silly resolved        url: 'https://github.com/crosswalk-project/crosswalk-app-tools.git' },
+334 silly resolved     dependencies:
+334 silly resolved      { 'adm-zip': '~0.4.4',
+334 silly resolved        'format-json': '~1.0.3',
+334 silly resolved        'https-proxy-agent': '~0.3.5',
+334 silly resolved        memorystream: '~0.3.0',
+334 silly resolved        minimist: '~1.1.0',
+334 silly resolved        mktemp: '~0.3.5',
+334 silly resolved        mustache: '~0.8.2',
+334 silly resolved        'node-uuid': '~1.4.3',
+334 silly resolved        'parse-color': '~1.0.0',
+334 silly resolved        readdir: '~0.0.13',
+334 silly resolved        shelljs: '~0.3.0',
+334 silly resolved        xmlbuilder: '~2.6.4',
+334 silly resolved        xmldom: '~0.1.19' },
+334 silly resolved     devDependencies:
+334 silly resolved      { grunt: '~0.4.5',
+334 silly resolved        'grunt-cli': '^0.1.13',
+334 silly resolved        'grunt-contrib-jshint': '~0.10.0',
+334 silly resolved        'grunt-contrib-nodeunit': '~0.4.1',
+334 silly resolved        'grunt-jsdoc': '~0.6.7',
+334 silly resolved        'grunt-release': '~0.9.0',
+334 silly resolved        jsdoc: '~3.3.2',
+334 silly resolved        nodeunit: '~0.9.0' },
+334 silly resolved     keywords: [ 'crosswalk', 'apk', 'packaging', 'android' ],
+334 silly resolved     bugs: { url: 'https://crosswalk-project.org/jira/' },
+334 silly resolved     files:
+334 silly resolved      [ 'android',
+334 silly resolved        'app-template',
+334 silly resolved        'examples',
+334 silly resolved        'Gruntfile.js',
+334 silly resolved        'index.js',
+334 silly resolved        'LICENSE-APACHE-V2',
+334 silly resolved        'package.json',
+334 silly resolved        'manifest.md',
+334 silly resolved        'README.md',
+334 silly resolved        'src',
+334 silly resolved        'test',
+334 silly resolved        'test-util',
+334 silly resolved        'windows' ],
+334 silly resolved     readme: 'Crosswalk-app-tools\n===================\n\nCrosswalk-app-tools is our forthcoming packaging tool for creating Crosswalk applications. We are inviting early adopters to build their web applications using crosswalk-app-tools, and provide feedback for future improvements.\n\n\n### Installation\n\nThe tools are cross-platform by virtue of being based on Node.js. We are supporting Microsoft Windows, Apple OS X and Linux as host operating systems.\n\nThe following components are required\n  * Node.js and NPM\n  * Android development (APK packages): Android SDK with 5.0 (target-21) or later installed, plus Java JDK and Apache Ant. Supported host systems are Apple OS X, Linux, and Windows.\n  * Windows development (MSI packages): [WiX Toolset](http://wixtoolset.org). MSI installers can only be created on Windows systems.\n\nIn order to get the tools available from the command-line easily, global npm installation is recommended.\n\nMicrosoft Windows: `npm install -g crosswalk-app-tools`\n\nApple OS X and Linux: `sudo npm install -g crosswalk-app-tools`\n\nThe best way to check if a machine has all the required dependencies is to create and build a plain empty Android app \non the system. If this does not work, then building Crosswalk apps will not succeed either. App-tools provides a command for doing this:\n\nCheck Android target setup:\n```\ncrosswalk-app check android\n```\nCheck Windows target setup:\n```\ncrosswalk-app check windows\n```\n\nTwo executables are provided, `crosswalk-app` implements low level helper commands, `crosswalk-pkg` is the main tool for creating packages.\n\n### Usage (crosswalk-pkg --help)\n\n```\n  Crosswalk Project Packaging Tool -- https://crosswalk-project.org\n  Usage: crosswalk-pkg <options> <path>\n\n  <options>\n    -a --android=<android-conf>      Extra configurations for Android\n    -c --crosswalk=<version-spec>    Specify Crosswalk version or path\n    -h --help                        Print usage information\n    -k --keep                        Keep build tree for debugging\n    -m --manifest=<package-id>       Fill manifest.json with default values\n    -p --platforms=<target-systems>  Specify target platform\n    -r --release                     Build release packages\n    -t --targets=<target-archs>      Target CPU architectures\n    -v --version                     Print tool version\n\n  <path>\n    Path to directory that contains a web app\n\n  <android-conf>\n    Quoted string with extra config, e.g. "shared"\n    * "shared" Build APK that depends on crosswalk in the Google Play Store\n    * "lite"   Use crosswalk-lite, see Crosswalk Wiki\n\n  <package-id>\n    Canonical application name, e.g. com.example.foo, needs to\n    * Comprise of 3 or more period-separated parts\n    * Begin with lowecase letters\n\n  <target-archs>\n    List of CPU architectures for which to create packages.\n    Currently supported ABIs are: armeabi-v7a, arm64-v8a, x86, x86_64\n    * Prefixes will be matched, so "a","ar", or "arm" yield both ARM APKs\n    * Same for "x" and "x8", but "x86" is an exact match, only x86-32 conforms\n    * Short-hands "32" and "64" build ARM and x86 for the requested word size\n    * Default behavior is equivalent to "32", creation of 32-bit installers\n    Example: --targets="arm x86" builds both ARM plus 32-bit x86 packages\n\n  <target-systems>\n    List of operating systems for which to create packages.\n    Default is android-only, which is supported on Apple OSX, Linux and Windows\n    Creating Windows MSIs is supported on Microsoft Windows only.\n    Example: --platforms="android windows"\n\n  <version-spec>\n    * Channel name, i.e. stable/beta/canary\n    * Version number, e.g. 14.43.343.25\n    * Path to release, e.g. $HOME/Downloads/crosswalk-14.43.343.25.zip\n    * Path to build, e.g. crosswalk/src/out/Release/xwalk_app_template\n    When passing a local file or directory, only the contained ABIs can be built.\n    See <target-archs> for details.\n\n  Environment variables\n    CROSSWALK_APP_TOOLS_CACHE_DIR=<path>: Keep downloaded files in this dir\n```\n### Example: Creating and packaging an application\n\nTo get started, all you need is a web manifest, and an html file. The web manifest holds name and settings for your application. A minimal manifest.json looks like this:\n```\n{\n  "name": "My first Crosswalk application",\n  "start_url": "index.html",\n  "xwalk_package_id": "com.example.foo"\n}\n```\n\nThen add an index.html in the same directory:\n```\n<html>\n  <head>\n    <title>My first Crosswalk application</title>\n  </head>\n  <body>This is my first Crosswalk application</body>\n</html>\n```\n\nFinally, time to create the APK package:\n```\ncrosswalk-pkg <path>\n```\nCreation of an MSI package on Windows:\n```\ncrosswalk-pkg -p windows <path>\n```\nThis sets up a skeleton project, downloads and imports Crosswalk, and creates a package using the files above.\n\n\n### Next steps and limitations\n* Android release packages will have to be signed manually before they are published on Google\'s Play Store, as that functionality is not yet integrated. See https://developer.android.com/tools/publishing/app-signing.html#signing-manually for details.\n* We encourage everyone to use this app-tools and appreciate feedback, as we are looking to improve user friendliness and integration with Crosswalk in the coming releases.\n\n### Additional target platforms\nThere is forthcoming support for additional target platforms. For iOS packaging, see \nhttps://github.com/crosswalk-project/crosswalk-app-tools-ios.\n\n### Run development versions from git\n\n1. Download: `npm install https://github.com/crosswalk-project/crosswalk-app-tools.git`\n4. The main script is `crosswalk-app-tools/src/crosswalk-pkg`. Set environment PATH or invoke with directory.\n\n\n### License\n\nThe license for this project is the Apache License Version 2.0, please refer to the LICENSE-APACHE-V2 included with the package for details.\n',
+334 silly resolved     readmeFilename: 'README.md',
+334 silly resolved     _id: 'crosswalk-app-tools@0.9.1',
+334 silly resolved     dist: { shasum: '2f4dd8f46aa127afdecdbe27f9d426197f35d655' },
+334 silly resolved     _from: 'crosswalk-app-tools@',
+334 silly resolved     _resolved: 'https://registry.npmjs.org/crosswalk-app-tools/-/crosswalk-app-tools-0.9.1.tgz' } ]
+335 info install crosswalk-app-tools@0.9.1 into /usr/local/lib
+336 info installOne crosswalk-app-tools@0.9.1
+337 warn engine crosswalk-app-tools@0.9.1: wanted: {"node":">=0.12"} (current: {"node":"v0.10.25","npm":"1.3.10"})
+338 info /usr/local/lib/node_modules/crosswalk-app-tools unbuild
+339 verbose tar unpack /home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+340 silly lockFile 31a55da1-node-modules-crosswalk-app-tools tar:///usr/local/lib/node_modules/crosswalk-app-tools
+341 verbose lock tar:///usr/local/lib/node_modules/crosswalk-app-tools /home/vagrant/.npm/31a55da1-node-modules-crosswalk-app-tools.lock
+342 silly lockFile 9cc64f43-walk-app-tools-0-9-1-package-tgz tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz
+343 verbose lock tar:///home/vagrant/.npm/crosswalk-app-tools/0.9.1/package.tgz /home/vagrant/.npm/9cc64f43-walk-app-tools-0-9-1-package-tgz.lock
+344 silly gunzTarPerm modes [ '755', '644' ]
+345 error Error: EACCES, mkdir '/usr/local/lib/node_modules'
+345 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules']
+345 error   errno: 3,
+345 error   code: 'EACCES',
+345 error   path: '/usr/local/lib/node_modules',
+345 error   fstream_type: 'Directory',
+345 error   fstream_path: '/usr/local/lib/node_modules/crosswalk-app-tools',
+345 error   fstream_class: 'DirWriter',
+345 error   fstream_stack:
+345 error    [ '/usr/lib/nodejs/fstream/lib/writer.js:171:23',
+345 error      '/usr/lib/nodejs/mkdirp/index.js:37:53',
+345 error      'Object.oncomplete (fs.js:107:15)' ] }
+346 error Please try running this command again as root/Administrator.
+347 error System Linux 3.13.0-74-generic
+348 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "-g" "crosswalk-app-tools"
+349 error cwd /vagrant/contracts/frepi/code/FrepiApi
+350 error node -v v0.10.25
+351 error npm -v 1.3.10
+352 error path /usr/local/lib/node_modules
+353 error fstream_path /usr/local/lib/node_modules/crosswalk-app-tools
+354 error fstream_type Directory
+355 error fstream_class DirWriter
+356 error code EACCES
+357 error errno 3
+358 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules'
+359 error fstream_stack /usr/lib/nodejs/fstream/lib/writer.js:171:23
+359 error fstream_stack /usr/lib/nodejs/mkdirp/index.js:37:53
+359 error fstream_stack Object.oncomplete (fs.js:107:15)
+360 verbose exit [ 3, true ]

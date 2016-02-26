@@ -4,6 +4,6 @@ class ExplorerCategorySerializer < ActiveModel::Serializer
   has_many   :products
 
   def products
-    object.products.last(5)
+    object.products.active.last(5)
   end
 end

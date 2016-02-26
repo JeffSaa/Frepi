@@ -7,7 +7,7 @@ class  Api::V1::Shoppers::ShoppersController < Api::V1::ApiController
 
   def index
     if params[:page]
-      @shopper = Shopper.paginate(per_page: params[:per_page], page: params[:page])
+      @shopper = Shopper.active.paginate(per_page: params[:per_page], page: params[:page])
       set_pagination_headers(:shopper)
       render json: @shopper
     else

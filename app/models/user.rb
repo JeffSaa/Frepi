@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
 
   include DeviseTokenAuth::Concerns::User
 
+  # scope
+  scope :active, -> { where(active: true) }
+
   # Associations
   has_many   :complaints
   has_many   :orders

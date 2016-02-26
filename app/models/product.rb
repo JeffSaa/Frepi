@@ -3,6 +3,9 @@ class Product < ActiveRecord::Base
   # External resources definitions
   include ActiveRecordHelper
 
+  # scopes
+  scope :active, -> { where(active: true) }
+
   # Associations
   belongs_to :subcategory
   has_many   :orders, through: :orders_products, dependent: :delete_all
