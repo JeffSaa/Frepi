@@ -5,10 +5,10 @@ class StoreVM extends TransactionalPageVM
 
 		# Modal variables
 		# @selectedProduct = null
-		@selectedProductCategory = ko.observable()
-		@selectedProductImage = ko.observable()
-		@selectedProductName = ko.observable()
-		@selectedProductPrice = ko.observable()
+		# @selectedProductCategory = ko.observable()
+		# @selectedProductImage = ko.observable()
+		# @selectedProductName = ko.observable()
+		# @selectedProductPrice = ko.observable()
 
 		# Methods to execute on instance
 		@setExistingSession()
@@ -60,13 +60,13 @@ class StoreVM extends TransactionalPageVM
 				.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
 
-	showProduct: (product) ->
-		@selectedProduct = product
-		@selectedProductCategory(product.subcategoryName)
-		@selectedProductImage(product.image)
-		@selectedProductName(product.name)
-		@selectedProductPrice("$#{product.frepiPrice}")
-		$('#product-desc').modal('show')
+	# showProduct: (product) ->
+	# 	@selectedProduct = product
+	# 	@selectedProductCategory(product.subcategoryName)
+	# 	@selectedProductImage(product.image)
+	# 	@selectedProductName(product.name)
+	# 	@selectedProductPrice("$#{product.frepiPrice}")
+	# 	$('#product-desc').modal('show')
 
 	setSizeSidebar: ->
 		if $(window).width() < 480

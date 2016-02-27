@@ -165,22 +165,15 @@ html
 					#store-frepi-logo
 						i.sidebar.icon
 						img.ui.image data-bind="click: store" src="../images/landing/full_logo.png" alt="Frepi"
-					// #target-store
-					//	.item
-					//		.content
-					//			.ui.truncated.sub.header Centro
-					//			|Paseo Bolívar
-					#product-searcher.item
-						.ui.search
+					form#product-searcher.ui.form.item data-bind="submit: searchInput"
+						.ui.search.field
 							.ui.icon.input
-								input.prompt type="text" placeholder="Buscar..."
+								input.prompt name="value" type="text" placeholder="Buscar..."
 								i.circular.search.link.icon
+						button style="display: none;" type="submit"
 					#user-account.ui.simple.dropdown.item
 						|<!--ko text: 'Hola, '+user.firstName()--><!--/ko-->
 						i.chevron.down.icon
-
-						// .text data-bind="text: 'Hola, '+user.firstName()"
-						// i.chevron.down.icon
 						.menu data-bind="visible: isLogged"
 							.item data-bind="click: profile"
 								i.user.icon

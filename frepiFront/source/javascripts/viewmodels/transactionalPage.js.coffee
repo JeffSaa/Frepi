@@ -2,6 +2,7 @@ class window.TransactionalPageVM
 	constructor: ->
 		@session =
 			currentStore				: null
+			stringToSearch			: null
 			currentSucursal			: null
 			currentDeparmentID	: null
 			categories					: ko.observableArray()
@@ -33,6 +34,12 @@ class window.TransactionalPageVM
 
 		@setUserInfo()
 		@setDOMElems()
+
+	searchInput: =>
+		valueInput = $('#product-searcher').form('get value', 'value')
+		@session.stringToSearch = valueInput
+		@saveOrder()
+		window.location.href = '../../store/search'
 
 	checkout: =>
 		if @user.id isnt null
@@ -109,7 +116,7 @@ class window.TransactionalPageVM
 				# productToAdd.totalPrice = parseFloat(productToAdd.frepiPrice)
 				@session.currentOrder.products.push(
 					comment: ""
-					frepiPrice: productToAdd.frepiPrice
+					frepiPrice: productToAdd.frepiPrice or productToAdd.frepi_price
 					id: productToAdd.id
 					image: productToAdd.image
 					name: productToAdd.name
@@ -121,17 +128,17 @@ class window.TransactionalPageVM
 				oldProduct = product
 				newProduct =
 					comment: oldProduct.comment
-					frepiPrice: oldProduct.frepiPrice
+					frepiPrice: oldProduct.frepiPrice or oldProduct.frepi_price
 					id: oldProduct.id
 					image: oldProduct.image
 					name: oldProduct.name
 					quantity: oldProduct.quantity + quantitySelected
 					subcategoryId: oldProduct.subcategoryId
-					totalPrice: parseFloat((oldProduct.frepiPrice*(oldProduct.quantity+quantitySelected)).toFixed(2))
+					totalPrice: parseFloat(((oldProduct.frepiPrice or oldProduct.frepi_price).frepiPrice*(oldProduct.quantity+quantitySelected)).toFixed(2))
 
 				@session.currentOrder.products.replace(oldProduct, newProduct)
 
-			@session.currentOrder.price(parseFloat((@session.currentOrder.price() + productToAdd.frepiPrice*quantitySelected).toFixed(2)))
+			@session.currentOrder.price(parseFloat((@session.currentOrder.price() + (productToAdd.frepiPrice or productToAdd.frepi_price)*quantitySelected).toFixed(2)))
 			console.log @session.currentOrder.price()
 			$('#modal-dropdown').dropdown('set text', 'Cantidad')
 			$('#modal-dropdown').dropdown('set value', '')
@@ -158,6 +165,7 @@ class window.TransactionalPageVM
 			categories: @session.categories()
 			currentStore: ko.mapping.toJS(@session.currentStore)
 			currentSucursal: ko.mapping.toJS(@session.currentSucursal)
+			stringToSearch: @session.stringToSearch
 			currentDeparmentID: @session.currentDeparmentID
 			signedUp: @session.signedUp()
 			sucursals: @session.sucursals()
@@ -180,16 +188,16 @@ class window.TransactionalPageVM
 			oldProduct = product
 			newProduct =
 				comment: oldProduct.comment
-				frepiPrice: oldProduct.frepiPrice
+				frepiPrice: oldProduct.frepiPrice or oldProduct.frepi_price
 				id: oldProduct.id
 				image: oldProduct.image
 				name: oldProduct.name
 				quantity: oldProduct.quantity - 1
 				subcategoryId: oldProduct.subcategoryId
-				totalPrice: parseFloat((oldProduct.frepiPrice*(oldProduct.quantity-1)).toFixed(2))
+				totalPrice: parseFloat(((oldProduct.frepiPrice or oldProduct.frepi_price)*(oldProduct.quantity-1)).toFixed(2))
 
 			@session.currentOrder.products.replace(oldProduct, newProduct)
-			@session.currentOrder.price(parseFloat((@session.currentOrder.price() - product.frepiPrice).toFixed(2)))
+			@session.currentOrder.price(parseFloat((@session.currentOrder.price() - (product.frepiPrice or product.frepi_price)).toFixed(2)))
 			@saveOrder()
 
 	removeItem: (item) ->
@@ -211,6 +219,7 @@ class window.TransactionalPageVM
 			@session.currentStore = ko.mapping.fromJS(session.currentStore)
 			@session.currentSucursal = ko.mapping.fromJS(session.currentSucursal)
 			@session.currentDeparmentID = session.currentDeparmentID
+			@session.stringToSearch = session.stringToSearch
 			@session.categories(session.categories)
 			@session.sucursals(session.sucursals)
 			@session.signedUp(session.signedUp)
@@ -220,6 +229,7 @@ class window.TransactionalPageVM
 			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
 		else
 			@session.currentStore = ko.mapping.fromJS(DefaultModels.STORE_PARTNER)
+			@session.stringToSearch = ''
 			@session.currentSucursal = ko.mapping.fromJS(DefaultModels.SUCURSAL)
 			@session.currentDeparmentID = 1
 			@session.categories([])
@@ -257,7 +267,7 @@ class window.TransactionalPageVM
 				email: $form.form('get value', 'email')
 				phone_number: $form.form('get value', 'phoneNumber')
 				password: $form.form('get value', 'password')
-				password_confirmation: $form.form('get value', 'password')				
+				password_confirmation: $form.form('get value', 'password')
 
 			$('#sign-up .form .green.button').addClass('loading')
 			RESTfulService.makeRequest('POST', '/users', data, (error, success, headers) =>
@@ -278,6 +288,14 @@ class window.TransactionalPageVM
 						# @setExistingSession()
 						$('#sign-up').modal('hide')
 				)
+
+	showProduct: (product) ->
+		@selectedProduct = product
+		@selectedProductCategory(product.subcategoryName)
+		@selectedProductImage(product.image)
+		@selectedProductName(product.name)
+		@selectedProductPrice("$#{(product.frepi_price or product.frepiPrice).toLocaleString()}")
+		$('#product-desc').modal('show')
 
 	setDOMElems: ->
 		# $('#choose-store')
@@ -307,11 +325,8 @@ class window.TransactionalPageVM
 									)
 								))
 							return response
-				onSelect: (result, response) ->
-					console.log 'RESULT'
-					console.log result
-					console.log 'response'
-					console.log response
+				onSelect: (result, response) =>
+					@showProduct(result)
 					# return false
 				})
 		$('.ui.accordion')

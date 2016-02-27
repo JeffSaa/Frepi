@@ -88,13 +88,13 @@ class DeparmentVM extends TransactionalPageVM
 				.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
 
-	showProduct: (product) ->
-		@selectedProduct = product
-		@selectedProductCategory(product.subcategoryName)
-		@selectedProductImage(product.image)
-		@selectedProductName(product.name)
-		@selectedProductPrice("$#{product.frepiPrice}")
-		$('#product-desc').modal('show')
+	# showProduct: (product) ->
+	# 	@selectedProduct = product
+	# 	@selectedProductCategory(product.subcategoryName)
+	# 	@selectedProductImage(product.image)
+	# 	@selectedProductName(product.name)
+	# 	@selectedProductPrice("$#{product.frepiPrice}")
+	# 	$('#product-desc').modal('show')
 
 store = new DeparmentVM
 ko.applyBindings(store)

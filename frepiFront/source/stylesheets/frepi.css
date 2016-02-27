@@ -6,7 +6,7 @@ html.ios, html.ios body {
 
 .main-content {
   position: relative;
-  padding-top: 100px;
+  padding-top: 110px;
 }
 
 .clearfix {
@@ -385,6 +385,7 @@ footer p {
 
 #store-frepi-logo {
   border-right: 1px solid #64CC9F;
+  cursor: pointer;
   width: 200px;
 }
 
@@ -459,14 +460,6 @@ header #shopping-cart .icon {
   color: #fff !important;
 }
 
-#store-banner {
-  background-color: #c20010;
-  color: #fff;
-  height: 250px;
-  padding: 20px 50px;
-  width: 100%
-}
-
 #store-banner a {
   color: #fff;
 }
@@ -489,6 +482,22 @@ header #shopping-cart .icon {
 
 .sidebar.menu>.item:first-child {
   padding-top: 25px;
+}
+
+/**
+ ** Search page rules
+ **/
+
+.search .query-info {padding-top: 3em;}
+.search .query {
+  font-style: italic;
+  font-weight: normal;
+}
+.search .no-results-message {
+  color: rgba(0, 0, 0, 0.7);
+  font-style: italic;
+  font-weight: lighter;
+  padding-top: 4em;
 }
 
 /**
