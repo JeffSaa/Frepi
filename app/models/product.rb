@@ -3,8 +3,8 @@ class Product < ActiveRecord::Base
   # External resources definitions
   include ActiveRecordHelper
 
-  # scopes
-  scope :active, -> { where(active: true) }
+  # scope
+  scope :available, -> { where(available: true) }
 
   # Associations
   belongs_to :subcategory

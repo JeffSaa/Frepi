@@ -6,7 +6,7 @@ class  Api::V1::UsersController < Api::V1::ApiController
   skip_before_action :authenticate_supervisor!
 
   def index
-    render json: User.all
+    render json: User.active
   end
 
   def show

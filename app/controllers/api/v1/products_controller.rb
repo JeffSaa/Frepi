@@ -39,7 +39,7 @@ class  Api::V1::ProductsController < Api::V1::ApiController
     end
 =end
     #render(json: Product.where(available: true), serializer: nil)
-    render(json: Product.where(available: true).as_json(include: [:subcategory, :category]), serializer: nil)
+    render(json: Product.available.as_json(include: [:subcategory, :category]), serializer: nil)
   end
 
   def show

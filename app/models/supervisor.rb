@@ -5,6 +5,9 @@ class Supervisor < ActiveRecord::Base
 
   include DeviseTokenAuth::Concerns::User
 
+  # scope
+  scope :active, -> { where(active: true) }
+
   # Associations
   belongs_to :city
 
