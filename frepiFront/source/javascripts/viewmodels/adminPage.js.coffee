@@ -11,21 +11,21 @@ class window.AdminPageVM
 		@setDOMEventsHandlers()
 
 	logout: ->
-		# RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (error, success, headers) =>
-		# 	if error
-		# 		console.log 'An error has ocurred'
-		# 	else
-		# 		Config.destroyLocalStorage()
-		# 		window.location.href = '../../login.html'
-		# )
-		Config.destroyLocalStorage()
-		window.location.href = '../../login.html'
+		RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (error, success, headers) =>
+			if error
+				console.log 'An error has ocurred'
+			else
+				Config.destroyLocalStorage()
+				window.location.href = '../../login.html'
+		)
+		# Config.destroyLocalStorage()
+		# window.location.href = '../../login.html'
 
 	setUserInfo: =>
 		tempUser = JSON.parse(Config.getItem('userObject'))
 		# @user = ko.mapping.fromJS(tempUser)
 		console.log tempUser
-		console.log @user	
+		console.log @user
 
 	setPaginationItemsToShow: (objPage, DOMParent) ->
 		numShownPages = objPage.showablePages().length

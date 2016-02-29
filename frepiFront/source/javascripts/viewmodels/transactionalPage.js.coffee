@@ -59,9 +59,9 @@ class window.TransactionalPageVM
 			$('#shopping-cart .sign-up-banner').addClass('show')
 
 	# Returns null or a product if is currently in the cart
-	getProductByName: (name) ->
+	getProductByID: (id) ->
 		for product in @session.currentOrder.products()
-			return product if product.name is name
+			return product if product.id is id
 		return null
 
 	chooseStore: (store) ->
@@ -108,12 +108,10 @@ class window.TransactionalPageVM
 
 	addToCart: (productToAdd, quantitySelected) =>
 		quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0]) if quantitySelected is null
-		product = @getProductByName(productToAdd.name)
+		product = @getProductByID(productToAdd.id)
 
 		if not isNaN(quantitySelected)
 			if !product
-				# productToAdd.quantity = quantitySelected
-				# productToAdd.totalPrice = parseFloat(productToAdd.frepiPrice)
 				@session.currentOrder.products.push(
 					comment: ""
 					frepiPrice: productToAdd.frepiPrice or productToAdd.frepi_price
@@ -124,6 +122,7 @@ class window.TransactionalPageVM
 					subcategoryId: productToAdd.subcategoryId
 					totalPrice: parseFloat(productToAdd.frepiPrice)
 				)
+				$("##{productToAdd.id} .image .label").addClass('show')
 			else
 				oldProduct = product
 				newProduct =
@@ -203,6 +202,7 @@ class window.TransactionalPageVM
 	removeItem: (item) ->
 		@session.currentOrder.price(parseFloat((@session.currentOrder.price() - item.totalPrice).toFixed(2)))
 		@session.currentOrder.products.remove(item)
+		$("##{item.id} .image .label").removeClass('show')
 		@saveOrder()
 
 		if @session.currentOrder.products().length isnt 1
@@ -210,9 +210,13 @@ class window.TransactionalPageVM
 		else
 			@session.currentOrder.numberProducts("1 item")
 
+	setCartItemsLabels: ->
+		for product in @session.currentOrder.products()
+		  $("##{product.id} .image .label").addClass('show')
+
+
 	setExistingSession: ->
 		session = Config.getItem('currentSession')
-		# console.log session.currentStore
 
 		if session
 			session = JSON.parse(Config.getItem('currentSession'))
@@ -298,9 +302,6 @@ class window.TransactionalPageVM
 		$('#product-desc').modal('show')
 
 	setDOMElems: ->
-		# $('#choose-store')
-		# 	.modal('setting', 'closable', false)
-		# 	.modal('attach events', '#store-primary-navbar #target-store', 'show')
 		$('.ui.search')
 			.search({
 					minCharacters: 3
@@ -331,8 +332,16 @@ class window.TransactionalPageVM
 				})
 		$('.ui.accordion')
 			.accordion()
+		$('#shopping-cart').sidebar({
+				dimPage: false
+				transition: 'overlay'
+			})
+			.sidebar('attach events', '#store-secondary-navbar .right.menu button', 'show')
+			.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#sign-up')
 			.modal(
+				onShow: ->
+					$('#shopping-cart').sidebar('hide')
 				onHide: ->
 					$('#sign-up.modal form').form('clear')
 			)

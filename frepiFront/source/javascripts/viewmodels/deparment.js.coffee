@@ -60,8 +60,8 @@ class DeparmentVM extends TransactionalPageVM
 				console.log error
 			else
 				console.log success
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				@products(success)
+				@setCartItemsLabels()
 		)
 
 	profile: ->

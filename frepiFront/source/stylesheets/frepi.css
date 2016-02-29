@@ -456,17 +456,14 @@ header #shopping-cart .icon {
   z-index: 110;
 }
 
-#user-account .menu>.item {
-  color: #fff !important;
-}
+#user-account .menu>.item { color: #fff !important; }
 
-#store-banner a {
-  color: #fff;
-}
+#store-banner a { color: #fff; }
 
-.card .extra.content br {
-  display: none;
-}
+.card .extra.content br { display: none; }
+
+.card .image .label { display: none; }
+.card .image .label.show { display: inline-block; }
 
 #frepi-categories section {
   margin: 50px 0;

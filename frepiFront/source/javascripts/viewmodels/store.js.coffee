@@ -2,14 +2,6 @@ class StoreVM extends TransactionalPageVM
 	constructor: ->
 		super()
 		@shouldShowError = ko.observable(false)
-
-		# Modal variables
-		# @selectedProduct = null
-		# @selectedProductCategory = ko.observable()
-		# @selectedProductImage = ko.observable()
-		# @selectedProductName = ko.observable()
-		# @selectedProductPrice = ko.observable()
-
 		# Methods to execute on instance
 		@setExistingSession()
 		@setUserInfo()
@@ -29,7 +21,7 @@ class StoreVM extends TransactionalPageVM
 			else
 				console.log success
 				@session.categories(success)
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				@setCartItemsLabels()
 		)
 
 	profile: ->
@@ -53,11 +45,11 @@ class StoreVM extends TransactionalPageVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
-		$('#shopping-cart').sidebar({
-				dimPage: false
-				transition: 'overlay'
-			}).sidebar('attach events', '#store-secondary-navbar .right button', 'show')
-				.sidebar('attach events', '#shopping-cart i', 'show')
+		# $('#shopping-cart').sidebar({
+		# 		dimPage: false
+		# 		transition: 'overlay'
+		# 	}).sidebar('attach events', '#store-secondary-navbar .right button', 'show')
+		# 		.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
 
 	# showProduct: (product) ->

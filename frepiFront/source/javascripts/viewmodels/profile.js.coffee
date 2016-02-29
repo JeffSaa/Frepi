@@ -197,10 +197,7 @@ class ProfileVM extends TransactionalPageVM
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
-		$('#shopping-cart').sidebar({
-				dimPage: false
-				transition: 'overlay'
-			}).sidebar('attach events', '#store-secondary-navbar .right.menu button', 'show')
+
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
@@ -227,8 +224,8 @@ class ProfileVM extends TransactionalPageVM
 					phone 			: @user.phone()
 				)
 
-	showShoppingCart: ->
-		$('#shopping-cart').sidebar('show')
+	# showShoppingCart: ->
+	# 	$('#shopping-cart').sidebar('show')
 
 	setStatus: (status, truncated) ->
 		switch status

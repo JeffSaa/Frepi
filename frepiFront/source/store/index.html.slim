@@ -13,9 +13,11 @@
 					|Ver más
 			#products-x-categories.ui.five.column.doubling.grid data-bind="foreach: $data.products"
 				.column
-					.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"
+					.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}, attr: {id: $data.id}"
 						.image
 							img data-bind="attr: {src: $data.image}" alt="Product's image"
+							.ui.blue.left.corner.label
+								i.check.icon
 						.content
 							.truncated.header data-bind="text: $data.name"
 							.meta
@@ -25,10 +27,8 @@
 								i.dollar.icon
 							span.centering data-bind="text: ($data.frepiPrice).toLocaleString()"
 							br
-							.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
-								.hidden.content Agregar
-								.visible.content
-									i.add.to.cart.icon
+							.ui.right.floated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
+								|Agregar
 		.ui.divider
 
 script src="../javascripts/viewmodels/store.js" type="text/javascript"

@@ -31,6 +31,7 @@ class SearchVM extends TransactionalPageVM
 			else
 				console.log success
 				@products(success)
+				@setCartItemsLabels()
 		)
 
 	profile: ->
@@ -56,6 +57,6 @@ class SearchVM extends TransactionalPageVM
 			}).sidebar('attach events', '#store-secondary-navbar .right button', 'show')
 				.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
-		
+
 searchVM = new SearchVM
 ko.applyBindings(searchVM)

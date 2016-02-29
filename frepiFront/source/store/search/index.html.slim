@@ -13,11 +13,13 @@
 				.ui.tiny.teal.label data-bind="text: products().length"
 
 		.ui.five.column.doubling.grid data-bind="foreach: products"
-			
+
 			.column
-				.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"
+				.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}, attr: {id: $data.id}"
 					.image
 						img data-bind="attr: {src: $data.image}" alt="Product's image"
+						.ui.blue.left.corner.label
+							i.check.icon
 					.content
 						.truncated.header data-bind="text: $data.name"
 					.extra.content
