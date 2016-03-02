@@ -6,6 +6,9 @@
 				.ui.basic.teal.button data-bind="text: $data.name, click: $root.fetchProducts"
 
 	section.products
+		h2.ui.centered.header.no-results-message data-bind="visible: products().length == 0"
+			|Estamos trabajando duro para agregar nuevos productos todos los días
+
 		.ui.five.column.doubling.grid data-bind="foreach: products"
 			.column
 				.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}, attr: {id: $data.id}"

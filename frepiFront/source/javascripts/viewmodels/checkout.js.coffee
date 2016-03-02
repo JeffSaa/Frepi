@@ -156,11 +156,13 @@ class CheckoutVM
 
 	setAvailableDeliveryDateTime: =>
 		if moment().hours() > 8 and moment().hours() < 22
-			today = moment().add(2, 'hours').minutes(0)
+			today = moment().add(1, 'hours').minutes(0)
 		else
 			today = moment().hours(8).minutes(0)
 		tomorrow = moment().add(1, 'days').hours(8).minutes(0)
 		aftertomorrow = moment().add(2, 'days').hours(8).minutes(0)
+		console.log 'today moment'
+		console.log today
 		@availableDateTime =
 			today:
 				date: today.format('YYYY-MM-DD')
@@ -182,10 +184,10 @@ class CheckoutVM
 	generateAvailableHours: (startHour) ->
 		endHour = moment(startHour.format('YYYY-MM-DD'), 'YYYY-MM-DD').hours(19).minutes(0)
 		hours = []
-		difference = endHour.diff(startHour, 'hours')
+		difference = endHour.diff(startHour, 'minutes')
 		if difference > 0
-			for i in [0..difference]
-				hours.push(startHour.add(1, 'hours').format('H:mm'))
+			for i in [0..difference/60]
+				hours.push(startHour.add(1, 'hours').format('HH:00'))
 
 		return hours
 

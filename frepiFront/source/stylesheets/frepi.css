@@ -6,6 +6,7 @@ html.ios, html.ios body {
 
 .main-content {
   position: relative;
+  padding-bottom: 7em;
   padding-top: 110px;
 }
 
@@ -17,6 +18,13 @@ html.ios, html.ios body {
 
 a {
   cursor: pointer;
+}
+
+footer:not(#footer) {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
 }
 
 footer p {
@@ -490,7 +498,7 @@ header #shopping-cart .icon {
   font-style: italic;
   font-weight: normal;
 }
-.search .no-results-message {
+.products .no-results-message {
   color: rgba(0, 0, 0, 0.7);
   font-style: italic;
   font-weight: lighter;
@@ -644,6 +652,11 @@ header #shopping-cart .icon {
 .modal .dropdown {
   margin-bottom: 1em;
 }
+
+.modal .input.field {display: none;}
+.modal .input.field.show {display: block;}
+
+.modal .dropdown.field.hide {display: none;}
 
 .modal .dropdown,
 .modal .dropdown .item {

@@ -33,6 +33,7 @@ class window.TransactionalPageVM
 		@isLogged = ko.observable(false)
 
 		@setUserInfo()
+		@setRulesValidation()
 		@setDOMElems()
 
 	searchInput: =>
@@ -54,7 +55,6 @@ class window.TransactionalPageVM
 			else
 				console.log 'There is nothing in the cart...'
 		else
-			@session.signedUp(true)
 			$('#shopping-cart .checkout').addClass('hide')
 			$('#shopping-cart .sign-up-banner').addClass('show')
 
@@ -106,8 +106,18 @@ class window.TransactionalPageVM
 		$textArea.css('display', 'none')
 		$saveComment.css('display', 'none')
 
+	showInputField: ->
+		$('.modal .input.field').addClass('show')
+		$('.modal .dropdown.field').addClass('hide')
+
+	addProductModal: ->
+		if $('#product-desc form').form('is valid')
+			quantity = $('#product-desc form').form('get value', 'quantity') or $('#product-desc form').form('get value', 'quantityDropdown')
+			@addToCart(@selectedProduct, parseInt(quantity))
+			$('#product-desc').modal('hide')
+
 	addToCart: (productToAdd, quantitySelected) =>
-		quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0]) if quantitySelected is null
+		# quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0]) if quantitySelected is null
 		product = @getProductByID(productToAdd.id)
 
 		if not isNaN(quantitySelected)
@@ -139,9 +149,6 @@ class window.TransactionalPageVM
 
 			@session.currentOrder.price(parseFloat((@session.currentOrder.price() + (productToAdd.frepiPrice or productToAdd.frepi_price)*quantitySelected).toFixed(2)))
 			console.log @session.currentOrder.price()
-			$('#modal-dropdown').dropdown('set text', 'Cantidad')
-			$('#modal-dropdown').dropdown('set value', '')
-			$('#product-desc').modal('hide')
 
 			if @session.currentOrder.products().length isnt 1
 				@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
@@ -213,7 +220,6 @@ class window.TransactionalPageVM
 	setCartItemsLabels: ->
 		for product in @session.currentOrder.products()
 		  $("##{product.id} .image .label").addClass('show')
-
 
 	setExistingSession: ->
 		session = Config.getItem('currentSession')
@@ -301,6 +307,10 @@ class window.TransactionalPageVM
 		@selectedProductPrice("$#{(product.frepi_price or product.frepiPrice).toLocaleString()}")
 		$('#product-desc').modal('show')
 
+	setRulesValidation: ->
+		$.fn.form.settings.rules.isValidQuantity = (value) ->
+			value > 0
+
 	setDOMElems: ->
 		$('.ui.search')
 			.search({
@@ -330,14 +340,26 @@ class window.TransactionalPageVM
 					@showProduct(result)
 					# return false
 				})
+		$('.ui.dropdown')
+			.dropdown()
 		$('.ui.accordion')
 			.accordion()
 		$('#shopping-cart').sidebar({
 				dimPage: false
 				transition: 'overlay'
+				onHide: ->
+					$('#shopping-cart .checkout').removeClass('hide')
+					$('#shopping-cart .sign-up-banner').removeClass('show')
 			})
 			.sidebar('attach events', '#store-secondary-navbar .right.menu button', 'show')
 			.sidebar('attach events', '#shopping-cart i', 'show')
+		$('#product-desc')
+			.modal(
+				onHidden: ->
+					$('#product-desc form').form('clear')
+					$('.modal .input.field').removeClass('show')
+					$('.modal .dropdown.field').removeClass('hide')
+			)
 		$('#sign-up')
 			.modal(
 				onShow: ->
@@ -347,6 +369,29 @@ class window.TransactionalPageVM
 			)
 			.modal('attach events', '.sign-up-banner .green.button', 'show')
 			.modal('attach events', '#sign-up.modal .cancel.button', 'hide')
+
+		$('#product-desc form')
+			.form(
+				fields:
+					quantity:
+						identifier: 'quantity'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Debes poner la cantidad'
+							}
+							{
+								type: 'integer'
+								prompt: 'Cantidad no válida'
+							}
+							{
+								type: 'isValidQuantity[quantity]'
+								prompt: 'Cantidad no válida'
+							}
+						]
+				inline: true
+				keyboardShortcuts: false
+			)
 
 		$('#sign-up .form').form(
 				fields:
