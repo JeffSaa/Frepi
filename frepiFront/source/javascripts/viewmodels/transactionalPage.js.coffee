@@ -30,6 +30,8 @@ class window.TransactionalPageVM
 		@selectedProductName = ko.observable()
 		@selectedProductPrice = ko.observable()
 
+		@errorTextSignUp = ko.observable()
+
 		@isLogged = ko.observable(false)
 
 		@setUserInfo()
@@ -111,13 +113,19 @@ class window.TransactionalPageVM
 		$('.modal .dropdown.field').addClass('hide')
 
 	addProductModal: ->
-		if $('#product-desc form').form('is valid')
-			quantity = $('#product-desc form').form('get value', 'quantity') or $('#product-desc form').form('get value', 'quantityDropdown')
-			@addToCart(@selectedProduct, parseInt(quantity))
-			$('#product-desc').modal('hide')
+		isntInputFieldShown = $('.modal .input.field').attr('class').split(' ').indexOf('show') is -1
+		if isntInputFieldShown
+			if $('#product-desc form').form('get value', 'quantityDropdown')
+				quantity = $('#product-desc form').form('get value', 'quantityDropdown')
+				@addToCart(@selectedProduct, parseInt(quantity))
+				$('#product-desc').modal('hide')
+		else
+			if $('#product-desc form').form('get value', 'quantity') > 0
+				quantity = $('#product-desc form').form('get value', 'quantity')
+				@addToCart(@selectedProduct, parseInt(quantity))
+				$('#product-desc').modal('hide')
 
 	addToCart: (productToAdd, quantitySelected) =>
-		# quantitySelected = parseInt($('#modal-dropdown').dropdown('get value')[0]) if quantitySelected is null
 		product = @getProductByID(productToAdd.id)
 
 		if not isNaN(quantitySelected)
@@ -284,8 +292,14 @@ class window.TransactionalPageVM
 					if error
 						$('#sign-up .form .green.button').removeClass('loading')
 						$form.addClass('error')
-						console.log 'An error has ocurred in the authentication.'
-						# @errorTextResponse(error.responseJSON.errors.toString())
+						console.log error
+						if error.responseJSON
+							# REVIEW: It doesn't semd an array with the error texts
+							# @errorTextSignUp(error.responseJSON.errors.toString())
+							@errorTextSignUp('No se pudo crear la cuenta')
+
+						else
+							@errorTextSignUp('No se pudo establecer conexión')
 					else
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers))
@@ -305,6 +319,7 @@ class window.TransactionalPageVM
 		@selectedProductImage(product.image)
 		@selectedProductName(product.name)
 		@selectedProductPrice("$#{(product.frepi_price or product.frepiPrice).toLocaleString()}")
+		$("#product-desc .ribbon.label").addClass('show') if @getProductByID(product.id)
 		$('#product-desc').modal('show')
 
 	setRulesValidation: ->
@@ -359,6 +374,7 @@ class window.TransactionalPageVM
 					$('#product-desc form').form('clear')
 					$('.modal .input.field').removeClass('show')
 					$('.modal .dropdown.field').removeClass('hide')
+					$("#product-desc .ribbon.label").removeClass('show')
 			)
 		$('#sign-up')
 			.modal(
@@ -387,6 +403,14 @@ class window.TransactionalPageVM
 							{
 								type: 'isValidQuantity[quantity]'
 								prompt: 'Cantidad no válida'
+							}
+						]
+					quantityDropdown:
+						identifier: 'quantityDropdown'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Debes poner la cantidad'
 							}
 						]
 				inline: true

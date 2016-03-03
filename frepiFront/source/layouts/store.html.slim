@@ -42,6 +42,8 @@ html
 		#product-desc.ui.modal
 			i.close.icon
 			.image.content
+				.ui.blue.ribbon.label
+					i.check.icon
 				.ui.large.image
 					img data-bind="attr: {src: selectedProductImage}"
 				.product.description
@@ -69,7 +71,7 @@ html
 							label Cantidad
 							input name="quantity" type="text"
 						button.ui.fluid.large.green.button type="submit" Agregar a carrito
-		#sign-up.ui.modal
+		#sign-up.ui.small.modal
 			i.close.icon
 			.header Crea una cuenta
 			.content
@@ -94,6 +96,8 @@ html
 					.field
 						label Contraseña
 						input type="password" name="password" placeholder="Contraseña"
+					.ui.error.message
+						.header data-bind="text: errorTextSignUp"
 					.buttons-to-right
 						.ui.cancel.button Cancelar
 						button.ui.labeled.green.submit.icon.button type="submit"

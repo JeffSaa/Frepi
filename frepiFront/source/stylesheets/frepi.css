@@ -671,6 +671,16 @@ header #shopping-cart .icon {
   text-align: left;
 }
 
+#product-desc .ribbon.label {
+  display: none;
+  left: -1rem;
+  position: absolute;
+  top: 1.2rem;
+  z-index: 1;
+}
+
+#product-desc .ribbon.label.show { display: inline-block; }
+
 /**
  ** Profile rules
  **/

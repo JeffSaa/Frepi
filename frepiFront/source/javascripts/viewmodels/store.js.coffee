@@ -52,14 +52,6 @@ class StoreVM extends TransactionalPageVM
 		# 		.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
 
-	# showProduct: (product) ->
-	# 	@selectedProduct = product
-	# 	@selectedProductCategory(product.subcategoryName)
-	# 	@selectedProductImage(product.image)
-	# 	@selectedProductName(product.name)
-	# 	@selectedProductPrice("$#{product.frepiPrice}")
-	# 	$('#product-desc').modal('show')
-
 	setSizeSidebar: ->
 		if $(window).width() < 480
 			$('#shopping-cart').removeClass('wide')
