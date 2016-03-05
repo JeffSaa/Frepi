@@ -6,8 +6,10 @@
 				.ui.basic.teal.button data-bind="text: $data.name, click: $root.fetchProducts"
 
 	section.products
-		h2.ui.centered.header.no-results-message data-bind="visible: products().length == 0"
+		h2.ui.centered.header.no-results-message data-bind="visible: shouldDisplayNoResultAlert"
 			|Estamos trabajando duro para agregar nuevos productos todos los días
+
+		.ui.active.fetching.large.text.loader data-bind="visible: shouldDisplayLoader" Buscando los productos
 
 		.ui.five.column.doubling.grid data-bind="foreach: products"
 			.column
@@ -27,31 +29,5 @@
 							.hidden.content Agregar
 							.visible.content
 								i.shop.icon
-	/ section#error-container data-bind="visible: shouldShowError"
-	/ 	h2.ui.request-error.header
-	/ 		i.frown.icon
-	/ 		.content
-	/ 			|Ha ocurrido mientras se cargaba la página
-	/ #frepi-categories data-bind="foreach: session.categories, visible: !shouldShowError()"
-	/ 	section
-	/ 		h2.ui.header data-bind="text: $data.name"
-	/ 		#products-x-categories.ui.four.column.stackable.grid data-bind="foreach: $data.productsToShow"
-	/ 			.column
-	/ 				.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}"
-	/ 					.image
-	/ 						img data-bind="attr: {src: $data.image}" alt="Product's image"
-	/ 					.content
-	/ 						.truncated.header data-bind="text: $data.name"
-	/ 						.meta
-	/ 							a data-bind="text: $data.subcategoryName"
-	/ 					.extra.content
-	/ 						span.centering
-	/ 							i.dollar.icon
-	/ 						span.centering data-bind="text: $data.frepi_price"
-	/ 						.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
-	/ 							.hidden.content Agregar
-	/ 							.visible.content
-	/ 								i.shop.icon
-	/ 	.ui.divider
 
 script src="../javascripts/viewmodels/deparment.js" type="text/javascript"

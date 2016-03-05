@@ -4,6 +4,9 @@
 			i.frown.icon
 			.content
 				|Ha ocurrido un error mientras se cargaba la página
+
+	.ui.active.fetching.large.text.loader data-bind="visible: shouldDisplayLoader" Buscando los productos
+
 	#frepi-categories.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
 		section
 			h2.ui.header
@@ -15,7 +18,7 @@
 				.column
 					.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}, attr: {id: $data.id}"
 						.image
-							img data-bind="attr: {src: $data.image}" alt="Product's image"
+							img data-bind="attr: {src: $data.image, alt: $data.name}"
 							.ui.blue.left.corner.label
 								i.check.icon
 						.content
@@ -28,7 +31,7 @@
 							span.centering data-bind="text: ($data.frepiPrice).toLocaleString()"
 							br
 							.ui.right.floated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
-								|Agregar
+								i.shopping.cart.icon
 		.ui.divider
 
 script src="../javascripts/viewmodels/store.js" type="text/javascript"

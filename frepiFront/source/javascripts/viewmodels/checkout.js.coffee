@@ -26,11 +26,12 @@ class CheckoutVM
 		@userName = ko.observable()
 		@comment = ko.observable()
 		@address = ko.observable(@user.address)
+		@phoneNumber = ko.observable(@user.phoneNumber or @user.phone_number)
+		console.log @user
 		@setDOMElements()
 		@setExistingSession()
 		@setSizeButtons()
 		@setAvailableDeliveryDateTime()
-		console.log @availableDateTime
 
 	seeDeliveryRight: ->
 		$('.form .field').removeClass('error')
@@ -52,7 +53,8 @@ class CheckoutVM
 		$('#delivery').transition('fade left')
 
 	seeConfirm: ->
-		if !!@selectedDay() and !!@selectedHour() and !!@address()
+		isInvalidPhone = !@phoneNumber() or not @isValidPhoneNumber(@phoneNumber())
+		if !!@selectedDay() and !!@selectedHour() and !!@address() and !isInvalidPhone
 			$('#delivery-icon').removeClass('active')
 			$('#confirm-icon').addClass('active')
 			$('#delivery').transition('fade right')
@@ -61,6 +63,7 @@ class CheckoutVM
 			$('.address.field').addClass('error') if !@address()
 			$('.date.field').addClass('error') if !@selectedDay()
 			$('.time.field').addClass('error') if !@selectedHour()
+			$('.phone.field').addClass('error') if isInvalidPhone
 
 	logout: ->
 		Config.destroyLocalStorage()
@@ -102,10 +105,9 @@ class CheckoutVM
 				@session.currentOrder.numberProducts('0 items')
 				@session.currentOrder.products([])
 				@session.currentOrder.price(0.0)
+
 				@saveSession()
 				$('.successful.modal').modal('show')
-				console.log 'Order has been created'
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
 	goToProfile: ->
@@ -131,9 +133,12 @@ class CheckoutVM
 					window.location.href = '../../store'
 			)
 
-	addressGotFocus: ->
-		console.log 'LOL the address got the focus'
-		$('.address.field').removeClass('error')
+	inputGotFocus: (data, event) ->
+		$(event.target.parentElement).removeClass('error')
+
+	isValidPhoneNumber: (phoneNumber) ->
+		# TODO: Use library for validating phone number or add other restrictions
+		phoneNumber.length > 6 and not(phoneNumber.match(/[^\s|\d]/g))
 
 	setHours: =>
 		console.log 'It should set the new hours'

@@ -99,7 +99,7 @@ class window.TransactionalPageVM
 			name: product.name
 			quantity: product.quantity
 			subcategoryId: product.subcategoryId
-			totalPrice: parseFloat(product.frepiPrice)
+			totalPrice: parseInt(product.frepiPrice)
 
 		@session.currentOrder.products.replace(oldProduct, newProduct)
 		@saveOrder()
@@ -127,6 +127,7 @@ class window.TransactionalPageVM
 
 	addToCart: (productToAdd, quantitySelected) =>
 		product = @getProductByID(productToAdd.id)
+		quantitySelected = parseInt(quantitySelected)
 
 		if not isNaN(quantitySelected)
 			if !product
@@ -138,7 +139,7 @@ class window.TransactionalPageVM
 					name: productToAdd.name
 					quantity: quantitySelected
 					subcategoryId: productToAdd.subcategoryId
-					totalPrice: parseFloat(productToAdd.frepiPrice)
+					totalPrice: parseInt(productToAdd.frepiPrice)
 				)
 				$("##{productToAdd.id} .image .label").addClass('show')
 			else
@@ -151,11 +152,11 @@ class window.TransactionalPageVM
 					name: oldProduct.name
 					quantity: oldProduct.quantity + quantitySelected
 					subcategoryId: oldProduct.subcategoryId
-					totalPrice: parseFloat(((oldProduct.frepiPrice or oldProduct.frepi_price).frepiPrice*(oldProduct.quantity+quantitySelected)).toFixed(2))
+					totalPrice: parseInt(((oldProduct.frepiPrice or oldProduct.frepi_price)*(oldProduct.quantity+quantitySelected)))
 
 				@session.currentOrder.products.replace(oldProduct, newProduct)
 
-			@session.currentOrder.price(parseFloat((@session.currentOrder.price() + (productToAdd.frepiPrice or productToAdd.frepi_price)*quantitySelected).toFixed(2)))
+			@session.currentOrder.price(parseInt((@session.currentOrder.price() + (productToAdd.frepiPrice or productToAdd.frepi_price)*quantitySelected)))
 			console.log @session.currentOrder.price()
 
 			if @session.currentOrder.products().length isnt 1
@@ -193,7 +194,7 @@ class window.TransactionalPageVM
 
 	store: ->
 		@saveOrder()
-		window.location.href = '../../store'
+		window.location.href = '../../index.html'
 
 	removeFromCart: (product) ->
 		if product.quantity is 1
@@ -208,22 +209,24 @@ class window.TransactionalPageVM
 				name: oldProduct.name
 				quantity: oldProduct.quantity - 1
 				subcategoryId: oldProduct.subcategoryId
-				totalPrice: parseFloat(((oldProduct.frepiPrice or oldProduct.frepi_price)*(oldProduct.quantity-1)).toFixed(2))
+				totalPrice: parseInt(((oldProduct.frepiPrice or oldProduct.frepi_price)*(oldProduct.quantity-1)))
 
 			@session.currentOrder.products.replace(oldProduct, newProduct)
-			@session.currentOrder.price(parseFloat((@session.currentOrder.price() - (product.frepiPrice or product.frepi_price)).toFixed(2)))
+			@session.currentOrder.price(parseInt((@session.currentOrder.price() - (product.frepiPrice or product.frepi_price))))
 			@saveOrder()
 
 	removeItem: (item) ->
-		@session.currentOrder.price(parseFloat((@session.currentOrder.price() - item.totalPrice).toFixed(2)))
+		console.log item
+		@session.currentOrder.price(parseInt((@session.currentOrder.price() - item.totalPrice)))
 		@session.currentOrder.products.remove(item)
 		$("##{item.id} .image .label").removeClass('show')
-		@saveOrder()
 
 		if @session.currentOrder.products().length isnt 1
 			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
 		else
 			@session.currentOrder.numberProducts("1 item")
+
+		@saveOrder()
 
 	setCartItemsLabels: ->
 		for product in @session.currentOrder.products()

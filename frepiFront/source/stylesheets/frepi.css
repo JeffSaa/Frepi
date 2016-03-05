@@ -358,6 +358,18 @@ footer p {
 
 /* Store */
 
+.ui.fetching.loader:before { border-width: .5em; }
+
+.ui.fetching.loader {
+  margin-top: 3rem;
+  position: fixed;
+}
+
+.ui.fetching.loader:after {
+  border-color: rgb(34, 182, 118) transparent transparent;
+  border-width: .5em;
+}
+
 #store-primary-navbar {
   background-color: rgb(34, 182, 118) !important;
   height: 60px;
@@ -502,7 +514,7 @@ header #shopping-cart .icon {
   color: rgba(0, 0, 0, 0.7);
   font-style: italic;
   font-weight: lighter;
-  padding-top: 4em;
+  padding-top: 2rem;
 }
 
 /**
@@ -839,6 +851,10 @@ header #shopping-cart .icon {
 .checkout #delivery form, .checkout #confirm .details-content {
   margin-bottom: 1em;
 }
+
+.checkout #delivery .prompt { display: none; }
+
+.checkout #delivery .error .prompt { display: inline-block; }
 
 .checkout #confirm .line {
   width: 100%;

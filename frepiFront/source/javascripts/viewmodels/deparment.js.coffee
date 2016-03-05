@@ -7,6 +7,10 @@ class DeparmentVM extends TransactionalPageVM
 
 		@currentSubcatBtn = null
 
+		# Display variables
+		@shouldDisplayNoResultAlert = ko.observable(false)
+		@shouldDisplayLoader = ko.observable(true)
+
 		# Modal variables
 		@selectedProduct = null
 		@selectedProductCategory = ko.observable()
@@ -17,14 +21,11 @@ class DeparmentVM extends TransactionalPageVM
 		@setExistingSession()
 		@setUserInfo()
 		@setDeparment()
+		@setSizeButtons()
 
-		# Methods to execute on instance
-		# @setExistingSession()
-		# @setUserInfo()
-		# @fetchStoreSucursals()
+		# TODO: Change size of buttons on mobile devices
+
 		@setDOMElements()
-		# # @setSucursal()
-		# @setSizeSidebar()
 
 	setDeparment: ->
 		RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}", '', (error, success, headers) =>
@@ -47,6 +48,9 @@ class DeparmentVM extends TransactionalPageVM
 		)
 
 	fetchProducts: (subcategory, clickedButton) =>
+		@products([])
+		@shouldDisplayLoader(true)
+		@shouldDisplayNoResultAlert(false)
 		if !!@currentSubcatBtn
 			@currentSubcatBtn.addClass('basic')
 			@currentSubcatBtn = $(clickedButton.toElement)
@@ -55,13 +59,16 @@ class DeparmentVM extends TransactionalPageVM
 		@currentSubcatBtn.removeClass('basic')
 		# currentButton = clickedButton.toElement if !!clickedButton
 		RESTfulService.makeRequest('GET', "/subcategories/#{subcategory.id}/products", '', (error, success, headers) =>
+			@shouldDisplayLoader(false)
 			if error
 			# console.log 'An error has ocurred while fetching the categories!'
 				console.log error
 			else
-				console.log success
-				@products(success)
-				@setCartItemsLabels()
+				if success.length > 0
+					@products(success)
+					@setCartItemsLabels()
+				else
+					@shouldDisplayNoResultAlert(true)
 		)
 
 	profile: ->
@@ -88,13 +95,16 @@ class DeparmentVM extends TransactionalPageVM
 				.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
 
-	# showProduct: (product) ->
-	# 	@selectedProduct = product
-	# 	@selectedProductCategory(product.subcategoryName)
-	# 	@selectedProductImage(product.image)
-	# 	@selectedProductName(product.name)
-	# 	@selectedProductPrice("$#{product.frepiPrice}")
-	# 	$('#product-desc').modal('show')
+	setSizeButtons: ->
+		if $(window).width() < 480
+			$('.horizontal.list .button').addClass('tiny')
+
+		$(window).resize(->
+			if $(window).width() < 480
+				$('.horizontal.list .button').addClass('tiny')
+			else
+				$('.horizontal.list .button').removeClass('tiny')
+		)
 
 store = new DeparmentVM
 ko.applyBindings(store)

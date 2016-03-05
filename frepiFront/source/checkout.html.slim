@@ -108,7 +108,6 @@ html
 
 				.right.menu
 					.item
-						/ button.ui.labeled.icon.button data-bind="click: showShoppingCart"
 						button.ui.labeled.icon.button
 							i.shop.icon
 							|<!--ko text: session.currentOrder.numberProducts--><!--/ko-->
@@ -166,7 +165,12 @@ html
 										form.ui.form
 											.address.field
 												label Dirección
-												input name="address" type="text" data-bind="textInput: address, event: {focus: addressGotFocus}" placeholder="Ej: Cra 45 # 65 - 56"
+												input name="address" type="text" data-bind="textInput: address, event: {focus: inputGotFocus}" placeholder="Ej: Cra 45 # 65 - 56"
+												.ui.pointing.red.prompt.label Información incorrecta
+											.phone.field
+												label Teléfono
+												input name="phoneNumber" type="text" data-bind="textInput: phoneNumber, event: {focus: inputGotFocus}" placeholder="Ej: 310 645 8888"
+												.ui.pointing.red.prompt.label Información incorrecta
 											.instructions.field
 												label Instrucciones
 												textarea name="instructions" rows="3" data-bind="textInput: comment" placeholder="Ej: Dejar en portería o llámame cuando llegue"
@@ -179,11 +183,13 @@ html
 																																value: selectedDay,
 																																event: {change: setHours},
 																																optionsCaption: 'Fecha'"
+														.ui.pointing.red.prompt.label Selecciona el día
 													.time.field data-variation="small" data-content="Las entregas son de 09:00 AM a 07:00 PM"
 														select.ui.fluid.hours.dropdown data-bind="options: availableHours,
 																																value: selectedHour,
 																																event: {change: setExpireHour},
 																																optionsCaption: 'Hora'"
+														.ui.pointing.red.prompt.label Selecciona la hora
 										.ui.buttons.left.floated
 											.ui.labeled.icon.teal.button data-bind="click: seeProducts"
 												|Productos

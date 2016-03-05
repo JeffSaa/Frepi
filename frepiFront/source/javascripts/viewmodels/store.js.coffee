@@ -2,6 +2,7 @@ class StoreVM extends TransactionalPageVM
 	constructor: ->
 		super()
 		@shouldShowError = ko.observable(false)
+		@shouldDisplayLoader = ko.observable(true)
 		# Methods to execute on instance
 		@setExistingSession()
 		@setUserInfo()
@@ -14,9 +15,10 @@ class StoreVM extends TransactionalPageVM
 
 	fetchCategories: ->
 		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/categories", '', (error, success, headers) =>
+			@shouldDisplayLoader(false)
 			if error
 				# console.log 'An error has ocurred while fetching the categories!'
-				# @shouldShowError(true)
+				@shouldShowError(true)
 				console.log error
 			else
 				console.log success
