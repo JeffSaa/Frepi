@@ -305,7 +305,6 @@ class window.TransactionalPageVM
 							@errorTextSignUp('No se pudo establecer conexión')
 					else
 						console.log success
-						Config.setItem('headers', JSON.stringify(headers))
 						Config.setItem('credentials', JSON.stringify({email: data.email, password: data.password}))
 						Config.setItem('userObject', JSON.stringify(success))
 						@setUserInfo()
@@ -315,6 +314,17 @@ class window.TransactionalPageVM
 						# @setExistingSession()
 						$('#sign-up').modal('hide')
 				)
+
+	login: ->
+		LoginService.regularLogin(true)
+		# REVIEW: I had to add this timeout because there is a lag between the userObject
+		# is set in LocalStorage in LoginService and here when I try to get the item from
+		# the LocalStorage, so the real value it's not updating instantly
+		setTimeout((=>
+				if Config.getItem('userObject')
+					@setUserInfo()
+					$('.login.modal').modal('hide')
+			), 1000)
 
 	showProduct: (product) ->
 		@selectedProduct = product
@@ -379,14 +389,24 @@ class window.TransactionalPageVM
 					$('.modal .dropdown.field').removeClass('hide')
 					$("#product-desc .ribbon.label").removeClass('show')
 			)
+		$('.login.modal')
+			.modal(
+				onShow: ->
+					$('#mobile-menu').sidebar('hide')
+				onHide: ->
+					$('.login.modal form').form('clear')
+			)
+			.modal('attach events', '.login.trigger', 'show')
+			.modal('attach events', '.login.modal .cancel.button', 'hide')
 		$('#sign-up')
 			.modal(
 				onShow: ->
 					$('#shopping-cart').sidebar('hide')
+					$('#mobile-menu').sidebar('hide')
 				onHide: ->
 					$('#sign-up.modal form').form('clear')
 			)
-			.modal('attach events', '.sign-up-banner .green.button', 'show')
+			.modal('attach events', '.sign-up.trigger', 'show')
 			.modal('attach events', '#sign-up.modal .cancel.button', 'hide')
 
 		$('#product-desc form')
@@ -414,6 +434,34 @@ class window.TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'Debes poner la cantidad'
+							}
+						]
+				inline: true
+				keyboardShortcuts: false
+			)
+
+		$('.login.modal .form').form(
+				fields:
+					username:
+						identifier: 'username'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Olvidaste poner un usuario'
+							}, {
+								type: 'email'
+								prompt: 'La dirección de correo no es válida'
+							}
+						]
+					password:
+						identifier: 'password'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Olvidaste poner una contraseña'
+							}, {
+								type: 'length[6]'
+								prompt: 'La contraseña debe tener por lo menos 6 caracteres'
 							}
 						]
 				inline: true

@@ -28,16 +28,18 @@ html
 		link rel="stylesheet" type="text/css" href="../stylesheets/frepi.css"
 		link rel="stylesheet" type="text/css" href="../stylesheets/responsive-frepi.css"
 
-		script src="../javascripts/plugins/crypto-js.min.js"
-		script src="../javascripts/jquery/jquery-2.1.4.min.js"
-		script src="../semantic/out/semantic.min.js"
-		script src="../javascripts/knockout.js"
-		script src="../javascripts/plugins/ko-mapping.min.js"
-		script src="../javascripts/classes/encrypter.js"
-		script src="../javascripts/classes/config.js"
-		script src="../javascripts/classes/constans.js"
-		script src="../javascripts/classes/RESTfulService.js"
-		script src="../javascripts/viewmodels/transactionalPage.js"
+		script src="../javascripts/plugins/crypto-js.min.js" type="text/javascript"
+		script src="../javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"
+		script src="../semantic/out/semantic.min.js" type="text/javascript"
+		script src="../javascripts/knockout.js" type="text/javascript"
+		script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"
+		script src="../javascripts/plugins/ko-mapping.min.js" type="text/javascript"
+		script src="../javascripts/classes/encrypter.js" type="text/javascript"
+		script src="../javascripts/classes/config.js" type="text/javascript"
+		script src="../javascripts/classes/constans.js" type="text/javascript"
+		script src="../javascripts/classes/RESTfulService.js" type="text/javascript"
+		script src="../javascripts/classes/loginService.js" type="text/javascript"
+		script src="../javascripts/viewmodels/transactionalPage.js" type="text/javascript"
 	body.store-layout
 		#product-desc.ui.modal
 			i.close.icon
@@ -71,6 +73,23 @@ html
 							label Cantidad
 							input name="quantity" type="text"
 						button.ui.fluid.large.green.button type="submit" Agregar a carrito
+		.ui.small.login.modal
+			i.close.icon
+			.header Entrar a cuenta
+			.content
+				form.ui.login.form data-bind="submit: login"
+					.field
+						label Correo electrónico
+						input type="email" name="username" placeholder="Ej: pepe@frepi.com"
+					.field
+						label Contraseña
+						input type="password" name="password" placeholder="Contraseña"
+					.ui.error.message
+					.buttons-to-right
+						.ui.cancel.button Cancelar
+						button.ui.labeled.green.submit.icon.login.button type="submit"
+							|Entrar
+							i.sign.in.icon
 		#sign-up.ui.small.modal
 			i.close.icon
 			.header Crea una cuenta
@@ -131,10 +150,14 @@ html
 				h4.ui.header.title
 					i.sign.out.icon
 					|Salir
-			a.item href="../login.html" data-bind="visible: !isLogged()"
+			a.sign-up.trigger.item data-bind="visible: !isLogged()"
+				h4.ui.header.title
+					i.add.user.icon
+					|Crear cuenta
+			a.login.trigger.item data-bind="visible: !isLogged()"
 				h4.ui.header.title
 					i.sign.in.icon
-					|Entrar
+					|Entrar			
 		#departments-menu.ui.vertical.left.sidebar.menu
 			.item
 				h3.ui.header
@@ -181,11 +204,11 @@ html
 			.sign-up-banner
 				p.ui.header
 					|Oops! Tienes que estar en tu cuenta,&nbsp;
-					a href="../login.html" ingresa!
+					a.login.trigger ingresa!
 					|&nbsp;Si no tiene una, puedes:
-				button.ui.fluid.large.green.button Crea una cuenta
+				button.ui.fluid.large.green.sign-up.trigger.button Crea una cuenta
 				.ui.horizontal.divider o
-				button#login-fb.ui.fluid.large.labeled.icon.facebook.button
+				button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: LoginService.FBLogin"
 					i.facebook.icon
 					|Inicia con Facebook
 		.pusher
