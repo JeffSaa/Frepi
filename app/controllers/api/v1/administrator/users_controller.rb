@@ -4,7 +4,7 @@ class Api::V1::Administrator::UsersController < Api::V1::ApiController
 
   def index
     if params[:page]
-      @users = User.active.where(administrator: false).paginate(per_page: params[:per_page], page: params[:page])
+      @users = User.active.where(administrator: false).order(:id).paginate(per_page: params[:per_page], page: params[:page])
       set_pagination_headers :users
       render json: @users
     else

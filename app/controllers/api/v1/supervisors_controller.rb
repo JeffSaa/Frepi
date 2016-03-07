@@ -7,7 +7,7 @@ class  Api::V1::SupervisorsController < Api::V1::ApiController
     page = params[:page] || 1
     per_page = params[:per_page] || 10
 
-    @supervisor = Supervisor.active.paginate(per_page: per_page, page: page)
+    @supervisor = Supervisor.active.order(:id).paginate(per_page: per_page, page: page)
     set_pagination_headers :supervisor
     render json: @supervisor
    
