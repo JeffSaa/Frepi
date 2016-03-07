@@ -4,7 +4,7 @@ class Api::V1::Explorer::ProductsController < Api::V1::ApiController
   before_action :find_category
 
   def index
-  	render json: @category.products, serializer: nil
+  	render json: @category.products.available, each_serializer: ExplorerProductsCategorySerializer
   end
 
   private
