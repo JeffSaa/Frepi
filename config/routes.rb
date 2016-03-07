@@ -56,6 +56,9 @@ Rails.application.routes.draw do
       end
 
       resources :categories, except: [:new, :edit] do
+        namespace :explorer, path: '' do
+          resources :products, only: :index
+        end
         resources :subcategories, except: [:new, :edit]
       end
 
