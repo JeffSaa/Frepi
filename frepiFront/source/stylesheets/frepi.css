@@ -940,7 +940,8 @@ nav.admin.menu #landing-logo img {
 }
 
 .admin.content .twelve.wide.column {
-  min-height: 37rem;
+	min-height: 37em;
+  padding-bottom: 5em;
 }
 
 .admin.content .twelve.wide.column .dimmer .loader {
