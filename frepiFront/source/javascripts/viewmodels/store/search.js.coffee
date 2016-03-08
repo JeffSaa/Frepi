@@ -37,12 +37,12 @@ class SearchVM extends TransactionalPageVM
 	profile: ->
 		@saveOrder()
 		Config.setItem('showOrders', 'false')
-		window.location.href = '../../store/profile.html'
+		window.location.href = '../store/profile.html'
 
 	orders: ->
 		@saveOrder()
 		Config.setItem('showOrders', 'true')
-		window.location.href = '../../store/profile.html'
+		window.location.href = '../store/profile.html'
 
 	setDOMElements: ->
 		$('#departments-menu').sidebar({

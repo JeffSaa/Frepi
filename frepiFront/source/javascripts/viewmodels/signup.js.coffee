@@ -69,10 +69,10 @@ class SignUpVM
 													console.log success
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
-													if success.user.userType is 'user'
-														window.location.href = '../../store/index.html'
+													if success.user.administrator
+														window.location.href = '../admin/index.html'
 													else
-														window.location.href = '../../admin.html'
+														window.location.href = '../store/index.html'
 										)
 								)
 							else
@@ -82,10 +82,10 @@ class SignUpVM
 								Config.setItem('uid', headers.uid)
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
-								if success.user.userType is 'user'
-									window.location.href = '../../store/index.html'
+								if success.user.administrator
+									window.location.href = '../admin/index.html'
 								else
-									window.location.href = '../../admin.html'
+									window.location.href = '../store/index.html'
 					)
 				else if response.status is 'not_authorized'
 					console.log 'Doesnt logged into FrepiTest!'

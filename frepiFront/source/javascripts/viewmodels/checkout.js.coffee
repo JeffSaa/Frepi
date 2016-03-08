@@ -67,10 +67,10 @@ class CheckoutVM
 
 	logout: ->
 		Config.destroyLocalStorage()
-		window.location.href = '../../login.html'
+		window.location.href = '../login.html'
 
 	cancel: ->
-		window.location.href = '../../store/index.html'
+		window.location.href = '../store/index.html'
 
 	generate: ->
 		console.log 'Its here, generating order'
@@ -112,11 +112,11 @@ class CheckoutVM
 
 	goToProfile: ->
 		Config.setItem('showOrders', 'false')
-		window.location.href = '../../store/profile.html'
+		window.location.href = '../store/profile.html'
 
 	goToOrders: ->
 		Config.setItem('showOrders', 'true')
-		window.location.href = '../../store/profile.html'
+		window.location.href = '../store/profile.html'
 
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
@@ -130,7 +130,7 @@ class CheckoutVM
 		$('.successful.modal')
 			.modal(
 				onHidden: ->
-					window.location.href = '../../store'
+					window.location.href = '../store/index.html'
 			)
 
 	inputGotFocus: (data, event) ->

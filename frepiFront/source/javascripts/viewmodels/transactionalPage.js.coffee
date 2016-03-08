@@ -42,7 +42,7 @@ class window.TransactionalPageVM
 		valueInput = $('#product-searcher').form('get value', 'value')
 		@session.stringToSearch = valueInput
 		@saveOrder()
-		window.location.href = '../../store/search'
+		window.location.href = '../store/search/index.html'
 
 	checkout: =>
 		if @user.id isnt null
@@ -53,7 +53,7 @@ class window.TransactionalPageVM
 					sucursalId: @session.currentOrder.sucursalId
 				console.log orderToPay
 				Config.setItem('orderToPay', JSON.stringify(orderToPay))
-				window.location.href = '../../checkout.html'
+				window.location.href = '../checkout.html'
 			else
 				console.log 'There is nothing in the cart...'
 		else
@@ -73,7 +73,7 @@ class window.TransactionalPageVM
 	chooseDeparment: (deparment) =>
 		@session.currentDeparmentID = deparment.id
 		@saveOrder()
-		window.location.href = '../../store/deparment.html'
+		window.location.href = '../store/deparment.html'
 
 	showTextArea: (data, event) ->
 		$noteLabel = $(event.currentTarget)
