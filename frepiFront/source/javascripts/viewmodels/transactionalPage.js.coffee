@@ -172,7 +172,7 @@ class window.TransactionalPageVM
 				console.log 'An error has ocurred'
 			else
 				Config.destroyLocalStorage()
-				window.location.href = '../../login.html'
+				window.location.href = '../login.html'
 		)
 
 	saveOrder: ->
@@ -194,7 +194,7 @@ class window.TransactionalPageVM
 
 	store: ->
 		@saveOrder()
-		window.location.href = '../../index.html'
+		window.location.href = '../index.html'
 
 	removeFromCart: (product) ->
 		if product.quantity is 1
