@@ -346,7 +346,7 @@ class window.TransactionalPageVM
 					error:
 						noResults: 'No hay resultados para la búsqueda'
 					apiSettings:
-						url: '//ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1/search/products?search={query}'
+						url: 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1/search/products?search={query}'
 						onResponse: (APIResponse) ->
 							response = results: []
 
