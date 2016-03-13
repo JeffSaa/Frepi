@@ -52,6 +52,7 @@ html
 		#shopping-order.ui.small.frepi.modal
 			i.close.icon
 			.content
+				i.red.asterisk.icon data-bind="visible: shouldShowAsterisk"
 				.header data-bind="text: selectedOrder.address"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p

@@ -5,12 +5,18 @@
 
   .content {
     background-color: rgb(204, 255, 144) !important;
-
+		.asterisk.icon {
+			font-weight: bold;
+			position: absolute;
+			right: 5em;
+			top: 2em;
+		}
     .header {
       font-size: 1.071em;
       font-weight: 700;
       max-height: 2.8571428em;
       overflow: hidden;
+			width: 90%;
     }
     .meta {
       color: rgba(0,0,0,.4);

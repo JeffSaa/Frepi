@@ -97,13 +97,13 @@ class DeparmentVM extends TransactionalPageVM
 
 	setSizeButtons: ->
 		if $(window).width() < 480
-			$('.horizontal.list .button').addClass('tiny')
+			$('.horizontal.list .button').addClass('mini')
 
 		$(window).resize(->
 			if $(window).width() < 480
-				$('.horizontal.list .button').addClass('tiny')
+				$('.horizontal.list .button').addClass('mini')
 			else
-				$('.horizontal.list .button').removeClass('tiny')
+				$('.horizontal.list .button').removeClass('mini')
 		)
 
 store = new DeparmentVM

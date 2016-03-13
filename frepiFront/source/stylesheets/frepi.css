@@ -202,7 +202,7 @@ footer p {
 
 .main-content #error-container .request-error {
   top: 130%;
-  color: rgba(0, 0, 0, 0.9) !important;
+  color: rgba(0, 0, 0, 0.8) !important;
 }
 
 .main-content #error-container .request-error .sub.header {
@@ -482,7 +482,15 @@ header #shopping-cart .icon {
 
 #store-banner a { color: #fff; }
 
+.card > .content:not(.extra) { padding-bottom: 0.5em; }
+
+.card > .extra.content {
+	border-top: none !important;
+	padding-top: 0.5em;
+}
+
 .card .extra.content br { display: none; }
+.card .green.button .icon { margin-right: 0; }
 
 .card .image .label { display: none; }
 .card .image .label.show { display: inline-block; }
@@ -514,9 +522,10 @@ header #shopping-cart .icon {
 }
 .products .no-results-message {
   color: rgba(0, 0, 0, 0.7);
+	font-size: 1.5em;
   font-style: italic;
   font-weight: lighter;
-  padding-top: 2rem;
+  padding: 2rem 2rem 0;
 }
 
 /**

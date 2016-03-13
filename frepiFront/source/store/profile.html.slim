@@ -142,12 +142,6 @@
 						td data-bind="text: $root.dateFormatter($data.date)"
 						td data-bind="text: $root.productsText($data.products)"
 						td data-bind="text: $data.totalPrice"
-						/ td.center.aligned
-						/   a.ui.teal.label
-						/     i.eye.icon
-						/     |<!--ko text: $data.ordersProducts.length+' items'--><!--/ko-->
-						/   a.ui.teal.truncated.label
-						/     |<!--ko text: $data.ordersProducts.length--><!--/ko-->
 						td.center.aligned
 							.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status.toLowerCase()"
 							.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status.toLowerCase()"

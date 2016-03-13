@@ -5,12 +5,12 @@ class window.TransactionalPageVM
 			stringToSearch			: null
 			currentSucursal			: null
 			currentDeparmentID	: null
-			categories					: ko.observableArray()
+			categories					: ko.observableArray([])
 			signedUp						: ko.observable()
-			sucursals						: ko.observableArray()
+			sucursals						: ko.observableArray([])
 			currentOrder:
 				numberProducts	: ko.observable()
-				products 				: ko.observableArray()
+				products 				: ko.observableArray([])
 				price 					: ko.observable()
 				sucursalId			: null
 		@user =

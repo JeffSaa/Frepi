@@ -47,11 +47,6 @@ class StoreVM extends TransactionalPageVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
-		# $('#shopping-cart').sidebar({
-		# 		dimPage: false
-		# 		transition: 'overlay'
-		# 	}).sidebar('attach events', '#store-secondary-navbar .right button', 'show')
-		# 		.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
 
 	setSizeSidebar: ->

@@ -1,6 +1,7 @@
 class HomeVM
 	constructor: ->
 		@loading = ko.observable(true)
+		@shouldShowAsterisk = ko.observable(false)
 		@receivedOrdersCount = ko.observable()
 		@currentDate = ko.observable()
 		@currentState = ko.observable('ordenes recibidas')
@@ -37,6 +38,9 @@ class HomeVM
 		@fetchOrders('received', 1)
 		@setSectionVisiblity()
 		@setDOMElements()
+		@automaticRefresher = setInterval(=>
+				@refresh() if not(true in $('.ui.modal').modal('is active'))
+			, 10000)
 
 
 	finishOrder: ->
@@ -127,6 +131,7 @@ class HomeVM
 				console.log success
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				ko.mapping.fromJS(success, @selectedOrder)
+				@shouldShowAsterisk(false)
 				$('#shopping-order .items + .button').removeClass('loading')
 		)
 
@@ -273,11 +278,9 @@ class HomeVM
 				Config.destroyLocalStorage()
 				window.location.href = '../../'
 		)
-		# IMPORTANT: Review this, the request isn't logging me out or destroying the session
-		# Config.destroyLocalStorage()
-		# window.location.href = '../../'
 
 	markAsAcquired: (product) =>
+		@shouldShowAsterisk(true)
 		product.acquired(!product.acquired())
 
 	refresh: ->
@@ -313,7 +316,8 @@ class HomeVM
 					$("#assign-shopper .content .ui.dropdown").dropdown('restore defaults')
 			})
 		$('#shopping-order').modal({
-				onHidden: ->
+				onHidden: =>
+					@shouldShowAsterisk(false)
 					$("#shopping-order .content .ui.dropdown").dropdown('set text', 'Selecciona Shopper')
 					$("#shopping-order .content .ui.dropdown").dropdown('restore defaults')
 			})
