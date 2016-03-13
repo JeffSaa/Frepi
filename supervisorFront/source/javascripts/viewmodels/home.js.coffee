@@ -40,7 +40,7 @@ class HomeVM
 		@setDOMElements()
 		@automaticRefresher = setInterval(=>
 				@refresh() if not(true in $('.ui.modal').modal('is active'))
-			, 10000)
+			, 300000)
 
 
 	finishOrder: ->
