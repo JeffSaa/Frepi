@@ -30,7 +30,11 @@ class SignUpVM
 						$('.ui.form .green.button').removeClass('loading')
 						$form.addClass('error')
 						console.log 'An error has ocurred in the authentication.'
-						@errorTextResponse(error.responseJSON.errors.toString())
+						errors = []
+						$.each(error.responseJSON, (key, value) ->
+								errors.push "#{key.charAt(0).toUpperCase() + key.slice(1)} #{value[0]}"
+							)
+						$form.form('add errors', errors)
 					else
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken

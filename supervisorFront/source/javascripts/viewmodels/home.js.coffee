@@ -2,6 +2,7 @@ class HomeVM
 	constructor: ->
 		@loading = ko.observable(true)
 		@shouldShowAsterisk = ko.observable(false)
+		@shouldDisplayNoResultAlert = ko.observable(false)
 		@receivedOrdersCount = ko.observable()
 		@currentDate = ko.observable()
 		@currentState = ko.observable('ordenes recibidas')
@@ -227,6 +228,7 @@ class HomeVM
 
 	fetchOrders: (state, numPage, event) =>
 		changed = not(state is @lastFetchedState)
+		@shouldDisplayNoResultAlert(false)
 		@lastFetchedState = state
 		@loading(true)
 		data =
@@ -238,31 +240,35 @@ class HomeVM
 			else
 				console.log success
 				@activeOrders(success)
-				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				if success.length > 0					
+					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 
-				totalPages = Math.ceil(headers.totalItems/10)
+					totalPages = Math.ceil(headers.totalItems/10)
+
+					if changed
+						@pagination.activePage = 1
+						@pagination.lowerLimit = 0
+						@pagination.upperLimit = if totalPages < 10 then totalPages else 10
+						@pagination.allPages.push(i) for i in [1..totalPages]
+						@pagination.showablePages(@pagination.allPages.slice(@pagination.lowerLimit, @pagination.upperLimit))
+
+						$(".pagination .pages .item:first-of-type").addClass('active')
+				else
+					@shouldDisplayNoResultAlert(true)
 
 				if changed
-					@pagination.activePage = 1
-					@pagination.lowerLimit = 0
-					@pagination.upperLimit = if totalPages < 10 then totalPages else 10
-					@pagination.allPages.push(i) for i in [1..totalPages]
-					@pagination.showablePages(@pagination.allPages.slice(@pagination.lowerLimit, @pagination.upperLimit))
-
-					$(".pagination .pages .item:first-of-type").addClass('active')
-
-				switch state
-					when 'received'
-						@currentState('ordenes recibidas')
-						@receivedOrdersCount(headers.totalItems)
-						@fetchInStoreShoppers()
-					when 'shopping'
-						@currentState('ordenes siendo compradas')
-						@fetchDeliveryShoppers()
-					when 'delivering'
-						@currentState('ordenes siendo llevadas')
-					when 'dispatched'
-						@currentState('ordenes despachadas')
+					switch state
+						when 'received'
+							@currentState('ordenes recibidas')
+							@receivedOrdersCount(headers.totalItems)
+							@fetchInStoreShoppers()
+						when 'shopping'
+							@currentState('ordenes siendo compradas')
+							@fetchDeliveryShoppers()
+						when 'delivering'
+							@currentState('ordenes siendo llevadas')
+						when 'dispatched'
+							@currentState('ordenes despachadas')
 
 			@loading(false)
 		)

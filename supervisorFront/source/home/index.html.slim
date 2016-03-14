@@ -267,6 +267,7 @@ html
 							a.item data-bind="text: $data, click: $root.fetchPage"
 						a.icon.item data-bind="click: fetchNextPage"
 							i.right.chevron.icon
+					h3.ui.centered.header.no-results-message data-bind="visible: shouldDisplayNoResultAlert" No hay ordenes
 					.ui.five.column.doubling.grid data-bind="foreach: activeOrders"
 						.column
 							.ui.frepi-card data-bind="click: $root.pickOrder"

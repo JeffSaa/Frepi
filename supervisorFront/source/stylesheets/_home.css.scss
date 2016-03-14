@@ -50,6 +50,14 @@
       margin-bottom: 1.5em;
     }
 
+		.no-results-message {
+		  color: rgba(0, 0, 0, 0.7);
+			font-size: 1.5em;
+		  font-style: italic;
+		  font-weight: lighter;
+		  padding: 2rem 2rem 0;
+		}
+
     .dimmer {
       position: fixed;
       top: 86px !important;
