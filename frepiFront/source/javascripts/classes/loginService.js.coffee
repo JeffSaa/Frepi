@@ -38,9 +38,9 @@ class window.LoginService
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
 													if success.user.administrator
-														window.location.href = '../../admin/products.html'
+														window.location.href = 'admin/products.html'
 													else
-														window.location.href = '../../store'
+														window.location.href = 'store/index.html'
 										)
 								)
 							else
@@ -50,9 +50,9 @@ class window.LoginService
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
 								if success.user.administrator
-									window.location.href = '../../admin/products.html'
+									window.location.href = 'admin/products.html'
 								else
-									window.location.href = '../../store'
+									window.location.href = 'store/index.html'
 					)
 				else if response.status is 'not_authorized'
 					console.log 'Doesnt logged into FrepiTest!'
@@ -88,7 +88,7 @@ class window.LoginService
 
 						unless isLoginFromStore
 							if success.data.administrator
-								window.location.href = '../../admin/products.html'
+								window.location.href = 'admin/products.html'
 							else
-								window.location.href = '../../store'
+								window.location.href = 'store/index.html'
 				)

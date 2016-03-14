@@ -16,10 +16,10 @@ class window.AdminPageVM
 				console.log 'An error has ocurred'
 			else
 				Config.destroyLocalStorage()
-				window.location.href = '../../login.html'
+				window.location.href = '../login.html'
 		)
 		# Config.destroyLocalStorage()
-		# window.location.href = '../../login.html'
+		# window.location.href = '../login.html'
 
 	setUserInfo: =>
 		tempUser = JSON.parse(Config.getItem('userObject'))

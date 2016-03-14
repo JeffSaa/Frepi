@@ -42,7 +42,7 @@ class window.TransactionalPageVM
 		valueInput = $('#product-searcher').form('get value', 'value')
 		@session.stringToSearch = valueInput
 		@saveOrder()
-		window.location.href = '../../store/search'
+		window.location.href = '../store/search/index.html'
 
 	checkout: =>
 		if @user.id isnt null
@@ -53,7 +53,7 @@ class window.TransactionalPageVM
 					sucursalId: @session.currentOrder.sucursalId
 				console.log orderToPay
 				Config.setItem('orderToPay', JSON.stringify(orderToPay))
-				window.location.href = '../../checkout.html'
+				window.location.href = '../checkout.html'
 			else
 				console.log 'There is nothing in the cart...'
 		else
@@ -73,7 +73,7 @@ class window.TransactionalPageVM
 	chooseDeparment: (deparment) =>
 		@session.currentDeparmentID = deparment.id
 		@saveOrder()
-		window.location.href = '../../store/deparment.html'
+		window.location.href = '../store/deparment.html'
 
 	showTextArea: (data, event) ->
 		$noteLabel = $(event.currentTarget)
@@ -172,7 +172,7 @@ class window.TransactionalPageVM
 				console.log 'An error has ocurred'
 			else
 				Config.destroyLocalStorage()
-				window.location.href = '../../login.html'
+				window.location.href = '../login.html'
 		)
 
 	saveOrder: ->
@@ -346,7 +346,7 @@ class window.TransactionalPageVM
 					error:
 						noResults: 'No hay resultados para la búsqueda'
 					apiSettings:
-						url: '//ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1/search/products?search={query}'
+						url: 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1/search/products?search={query}'
 						onResponse: (APIResponse) ->
 							response = results: []
 

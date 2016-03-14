@@ -16,14 +16,14 @@ class LoadingVM
           if error
             # alert('An error has ocurred in the authentication. Check your network conection.')
             @shouldShowError = ko.observable(true)
-            # window.location.href = '../../login.html'
+            # window.location.href = '../login.html'
           else
             Config.setItem('accessToken', headers.accessToken)
             Config.setItem('client', headers.client)
             if success.data.user_type is 'user'
-              window.location.href = '../../store.html'
+              window.location.href = '../store.html'
             else
-              window.location.href = '../../admin.html'
+              window.location.href = '../admin.html'
         )
       else
         data = 
@@ -33,17 +33,17 @@ class LoadingVM
           if error
             # alert('An error has ocurred in the authentication. Check your network conection.')
             @shouldShowError = ko.observable(true)
-            # window.location.href = '../../login.html'
+            # window.location.href = '../login.html'
           else
             Config.setItem('accessToken', headers.accessToken)
             Config.setItem('client', headers.client)
             if success.user.userType is 'user'
-              window.location.href = '../../store.html'
+              window.location.href = '../store.html'
             else
-              window.location.href = '../../admin.html'
+              window.location.href = '../admin.html'
         )
     else
-      window.location.href = '../../login.html'
+      window.location.href = '../login.html'
 
 loading = new LoadingVM
 ko.applyBindings(loading)

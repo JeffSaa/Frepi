@@ -29,12 +29,12 @@ class StoreVM extends TransactionalPageVM
 	profile: ->
 		@saveOrder()
 		Config.setItem('showOrders', 'false')
-		window.location.href = '../../store/profile.html'
+		window.location.href = '../store/profile.html'
 
 	orders: ->
 		@saveOrder()
 		Config.setItem('showOrders', 'true')
-		window.location.href = '../../store/profile.html'
+		window.location.href = '../store/profile.html'
 
 	setSucursal: ->
 		if @session.currentSucursal.id() is -1
