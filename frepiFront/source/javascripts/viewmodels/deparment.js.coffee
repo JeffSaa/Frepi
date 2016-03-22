@@ -42,9 +42,29 @@ class DeparmentVM extends TransactionalPageVM
 					else
 						console.log success
 						@subcategories(success)
-						@fetchProducts(@subcategories()[0])
-						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+						@fetchAllProducts()
+						# Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				)
+		)
+
+	fetchAllProducts: ->
+		console.log 'entra qui'
+		@products([])
+		@shouldDisplayLoader(true)
+		@shouldDisplayNoResultAlert(false)
+		$('.list .item.all .button').removeClass('basic')
+
+		RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}/products", '', (error, success, headers) =>
+			@shouldDisplayLoader(false)
+			if error
+			# console.log 'An error has ocurred while fetching the categories!'
+				console.log error
+			else
+				if success.length > 0
+					@products(success)
+					@setCartItemsLabels()
+				else
+					@shouldDisplayNoResultAlert(true)
 		)
 
 	fetchProducts: (subcategory, clickedButton) =>
@@ -52,10 +72,10 @@ class DeparmentVM extends TransactionalPageVM
 		@shouldDisplayLoader(true)
 		@shouldDisplayNoResultAlert(false)
 		if !!@currentSubcatBtn
+			$('.list .item.all .button').addClass('basic')
 			@currentSubcatBtn.addClass('basic')
 			@currentSubcatBtn = $(clickedButton.toElement)
-		else
-			@currentSubcatBtn = $('.list .item:first-of-type .button')
+		
 		@currentSubcatBtn.removeClass('basic')
 		# currentButton = clickedButton.toElement if !!clickedButton
 		RESTfulService.makeRequest('GET', "/subcategories/#{subcategory.id}/products", '', (error, success, headers) =>

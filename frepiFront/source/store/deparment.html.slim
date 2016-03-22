@@ -2,8 +2,12 @@
 	section.category-info
 		h1.ui.center.aligned.header data-bind="text: deparment.name"
 		.ui.horizontal.list data-bind="foreach: subcategories"
+			<!-- ko if: $index() === 0 -->
+			.item.all
+				.ui.basic.teal.button data-bind="click: $root.fetchAllProducts" Todo
+			<!-- /ko -->
 			.item
-				.ui.basic.teal.button data-bind="text: $data.name, click: $root.fetchProducts"
+				.ui.basic.teal.button data-bind="text: $data.name, click: function(data, event){ $root.fetchProducts(data, event) }"
 
 	section.products
 		h2.ui.centered.header.no-results-message data-bind="visible: shouldDisplayNoResultAlert"
