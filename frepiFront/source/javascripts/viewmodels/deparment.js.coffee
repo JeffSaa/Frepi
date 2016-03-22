@@ -48,12 +48,13 @@ class DeparmentVM extends TransactionalPageVM
 				)
 		)
 
-	fetchAllProducts: ->
-		console.log 'entra qui'
+	fetchAllProducts: =>
 		@products([])
 		@shouldDisplayLoader(true)
 		@shouldDisplayNoResultAlert(false)
-		$('.list .item.all .button').removeClass('basic')
+		@currentSubcatBtn.addClass('basic') if @currentSubcatBtn
+		@currentSubcatBtn = $('.list .item.all .button')
+		@currentSubcatBtn.removeClass('basic')
 
 		RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}/products", '', (error, success, headers) =>
 			@shouldDisplayLoader(false)
@@ -73,10 +74,9 @@ class DeparmentVM extends TransactionalPageVM
 		@shouldDisplayLoader(true)
 		@shouldDisplayNoResultAlert(false)
 		if !!@currentSubcatBtn
-			$('.list .item.all .button').addClass('basic')
 			@currentSubcatBtn.addClass('basic')
 			@currentSubcatBtn = $(clickedButton.toElement)
-		
+
 		@currentSubcatBtn.removeClass('basic')
 		# currentButton = clickedButton.toElement if !!clickedButton
 		RESTfulService.makeRequest('GET', "/subcategories/#{subcategory.id}/products", '', (error, success, headers) =>

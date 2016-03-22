@@ -381,7 +381,7 @@ class window.TransactionalPageVM
 					@showProduct(result)
 					# return false
 				})
-		$('.ui.dropdown')
+		$('.ui.dropdown:not(#user-account)')
 			.dropdown()
 		$('.ui.accordion')
 			.accordion()
