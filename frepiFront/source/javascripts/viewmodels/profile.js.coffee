@@ -26,6 +26,7 @@ class ProfileVM extends TransactionalPageVM
 		@setRulesValidation()
 		@setDOMElements()
 		@shouldShowOrders()
+		@setSizeSidebar()
 		# @setSizeButtons()
 
 

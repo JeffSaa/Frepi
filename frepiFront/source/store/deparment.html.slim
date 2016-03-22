@@ -25,9 +25,7 @@
 							i.dollar.icon
 						span.centering data-bind="text: ($data.frepiPrice).toLocaleString()"
 						br
-						.ui.right.floated.vertical.animated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
-							.hidden.content Agregar
-							.visible.content
-								i.shop.icon
+						.ui.right.floated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
+							i.shopping.add.to.cart.icon
 
 script src="../javascripts/viewmodels/deparment.js" type="text/javascript"

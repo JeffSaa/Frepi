@@ -11,25 +11,28 @@ html
 		meta name="robots" content="index, follow"
 
 		// Add favicons
-		link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png"
-		link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png"
-		link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png"
-		link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png"
-		link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png"
-		link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png"
-		link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png"
-		link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png"
-		link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png"
-		link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png"
-		link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png"
-		link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png"
-		link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png"
-		meta name="msapplication-TileColor" content="#ffffff"
-		meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png"
+		link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-touch-icon-57x57.png"
+		link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-touch-icon-60x60.png"
+		link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-touch-icon-72x72.png"
+		link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-touch-icon-76x76.png"
+		link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-touch-icon-114x114.png"
+		link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-touch-icon-120x120.png"
+		link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-touch-icon-144x144.png"
+		link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-touch-icon-152x152.png"
+		link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon-180x180.png"
+		link rel="icon" type="image/png" href="images/favicons/favicon-32x32.png" sizes="32x32"
+		link rel="icon" type="image/png" href="images/favicons/android-chrome-192x192.png" sizes="192x192"
+		link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96"
+		link rel="icon" type="image/png" href="images/favicons/favicon-16x16.png" sizes="16x16"
+		link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg" color="#5bbad5"
+		meta name="msapplication-TileColor" content="#00aba9"
+		meta name="msapplication-TileImage" content="images/favicons/mstile-144x144.png"
 		meta name="theme-color" content="#ffffff"
 
 		/! Add semantic's CSS
 		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
+		link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'
+		link rel="stylesheet" type="text/css" href="icons/FontAwesome/css/font-awesome.min.css"
 		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
 		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
 	body
@@ -39,9 +42,11 @@ html
 					img src="images/landing/full_logo.png" alt="Frepi logo"
 				.right.menu
 					.item
-						a.ui.orange.basic.button href="login.html" Sign In
+						a.ui.inverted.grey.basic.button href="login.html" Entrar
 					.item
-						a.ui.orange.button href="store/index.html" TIENDA
+						a.ui.orange.labeled.icon.store.button href="store/index.html"
+							i.shop.icon
+							|Tienda
 			.header-padding
 
 		section#slider
@@ -54,13 +59,13 @@ html
 					ul.inner-images
 						li
 							figure.top-img
-								img src="images/landing/SLIDER_01.png" alt="SLIDER_01"
+								img.tomato src="images/tomatoPNG.png" alt="SLIDER_01"
 						li
 							figure.left-img
-								img src="images/landing/SLIDER_02.png" alt="SLIDER_02"
+								img.corn src="images/cornPNG.png" alt="SLIDER_02"
 						li
 							figure.right-img
-								img src="images/landing/SLIDER_03.png" alt="SLIDER_03"
+								img.broccoli src="images/broccoliPNG.png" alt="SLIDER_03"
 				li
 					h3
 						|Productos frescos directo de tu&nbsp;
@@ -68,17 +73,22 @@ html
 					ul.inner-images
 						li
 							figure.top-img
-								img src="images/landing/SLIDER_04.png" alt="SLIDER_04"
+								img.pepper src="images/pepperPNG.png" alt="SLIDER_04"
 						li
 							figure.left-img
-								img src="images/landing/SLIDER_05.png" alt="SLIDER_05"
+								img.carrot src="images/carrotPNG.png" alt="SLIDER_05"
 						li
 							figure.right-img
-								img src="images/landing/SLIDER_06.png" alt="SLIDER_06"
+								img.avocado src="images/avocadoPNG.png" alt="SLIDER_06"
 
 		section#deparments
 		section#how-we-work
-			h2.ui.centered.header¿Cómo funciona Frepi?
+			.ui.container
+				h2.ui.centered.header¿Cómo funciona Frepi?
+				img.ui.image src="images/landing/how_it_works.png"
+				p
+					|Frepi te permite escoger los mejores productos a los mejores precios.&nbsp;
+					|Lo mejor de esto es que todo lo que llevas proviene de pequeños y medianos distribuidores, garantizando el desarrollo de la economía local.
 		footer#footer
 			h2 footer
 			p
@@ -86,6 +96,16 @@ html
 				span
 					i.heart.red.icon
 				|en Colombia
+			ul.ui.horizontal.list
+				li.item
+					a.ui.circular.facebook.icon.button
+						i.facebook.icon
+				li.item
+					a.ui.circular.instagram.icon.button
+						i.instagram.icon
+				li.item
+					a.ui.circular.twitter.icon.button
+						i.twitter.icon
 			p © 2016 Frepi, inc. Todos los derechos reservados.
 
 		script src="javascripts/plugins/crypto-js.min.js"

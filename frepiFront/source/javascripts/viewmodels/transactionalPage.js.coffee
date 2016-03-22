@@ -42,7 +42,7 @@ class window.TransactionalPageVM
 		valueInput = $('#product-searcher').form('get value', 'value')
 		@session.stringToSearch = valueInput
 		@saveOrder()
-		window.location.href = '../store/search/index.html'
+		window.location.href = '../store/search.html'
 
 	checkout: =>
 		if @user.id isnt null
@@ -338,6 +338,19 @@ class window.TransactionalPageVM
 	setRulesValidation: ->
 		$.fn.form.settings.rules.isValidQuantity = (value) ->
 			value > 0
+
+	setSizeSidebar: ->
+		if $(window).width() < 480
+			$('#shopping-cart').removeClass('wide')
+		else
+			$('#shopping-cart').addClass('wide')
+
+		$(window).resize(->
+			if $(window).width() < 480
+				$('#shopping-cart').removeClass('wide')
+			else
+				$('#shopping-cart').addClass('wide')
+		)
 
 	setDOMElems: ->
 		$('.ui.search')

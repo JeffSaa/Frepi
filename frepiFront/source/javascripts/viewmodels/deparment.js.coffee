@@ -21,6 +21,7 @@ class DeparmentVM extends TransactionalPageVM
 		@setExistingSession()
 		@setUserInfo()
 		@setDeparment()
+		@setSizeSidebar()
 		@setSizeButtons()
 
 		# TODO: Change size of buttons on mobile devices

@@ -20,13 +20,43 @@
    ** Ixdex/Landing rules
    **/
 
+	 #slider .images li ul li .corn {
+ 	  height: 110px;
+ 		width: 105px;
+ 	}
+
+ 	#slider .images li ul li .tomato {
+ 	  height: 110px;
+ 		width: 95px;
+ 	}
+
+ 	#slider .images li ul li .broccoli {
+ 	  height: 120px;
+ 		width: 95px;
+ 	}
+
+ 	#slider .images li ul li .carrot {
+ 	  height: 130px;
+ 		width: 90px;
+ 	}
+
+ 	#slider .images li ul li .pepper {
+ 	  width: 100px;
+ 		height: 105px;
+ 	}
+
+ 	#slider .images li ul li .avocado {
+ 		height: 105px;
+ 	  width: 90px;
+ 	}
+
    #slider .images li h3 {
      font-size: 2em;
    }
 
    #slider .images li ul li .top-img {
      right: 40%;
-     top: 60px;
+     top: 50px;
    }
 
    #slider .images li ul li .left-img {
@@ -49,7 +79,7 @@
    /* Image coming from the slider's top */
    @keyframes slidein-top {
      from {top: -100px;}
-     to {top: 60px;}
+     to {top: 50px;}
    }
 
    /* Image coming from the slider's left */
@@ -64,9 +94,8 @@
      to {right: 14%;}
    }
 
-   #how-we-work {
-     background-size: 90%;
-     height: 30em;
+   #how-we-work p {
+     margin: 2.5em 2em 1em;
    }
 
   /**
@@ -179,12 +208,42 @@
 
   /* Landing page rules */
 
+	#slider .images li ul li .corn {
+	  height: 90px;
+		width: 85px;
+	}
+
+	#slider .images li ul li .tomato {
+	  height: 90px;
+		width: 75px;
+	}
+
+	#slider .images li ul li .broccoli {
+	  height: 100px;
+		width: 75px;
+	}
+
+	#slider .images li ul li .carrot {
+	  height: 110px;
+		width: 70px;
+	}
+
+	#slider .images li ul li .pepper {
+		height: 100px;
+		width: 90px;
+	}
+
+	#slider .images li ul li .avocado {
+		height: 90px;
+	  width: 75px;
+	}
+
   #slider .images li h3 {
     width: 85%;
   }
 
-  #how-we-work {
-    height: 22.857142em;
+  #how-we-work p {
+    margin: 2.5em 0 1em;
   }
 
   /* Profile rules */
@@ -243,21 +302,9 @@
     padding: 0.1rem;
   }
 
-  /* Shopping cart rules */
+  .card .header { font-size: 1em !important; }
 
-  /*#shopping-cart .item .minus {
-    bottom: 0.15em !important;
-  }
-
-  #shopping-cart .item .plus {
-    bottom: 2.5em !important;
-  }*/
-
-  /* Card rules on mobile */
-
-  .card .header {
-    font-size: 1em !important;
-  }
+	.card .meta { font-size: 0.857142em !important; }
 
   .card .extra.content {
     padding-top: 0;
