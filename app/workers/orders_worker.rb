@@ -6,20 +6,21 @@ class OrdersWorker
   include Sidekiq::Worker
 
   def perform(orders)
+    puts 'sending'
     orders = ActiveSupport::JSON.decode(orders)
     OrderExpiredMailer.notification_email(orders).deliver_now
-    puts 'sending'
   end
 
   # Include User information!!
   def self.send_notification
     orders = Order.in_progress.expiries(DateTime.current)
-    puts 'sending orders'
-    perform_async(orders.to_json) unless orders.empty?
+    unless orders.empty?
+      perform_async(orders.to_json) 
+      puts 'sending orders'
+    end
   end
 
   def self.establish_best_customers
-    p 'userss'
     start_date = DateTime.now.beginning_of_month
     end_date = DateTime.now.end_of_month
     loyal_users = Order.created_between(start_date, end_date).group(:user).count.keep_if { |user, orders_counter|  orders_counter >= 2 }

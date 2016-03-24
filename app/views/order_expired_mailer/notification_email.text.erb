@@ -8,6 +8,7 @@ Ordenes:
   Nombre del cliente: <%= "#{user.name} #{user.last_name}" %>
   Email: <%= user.email %>
   Telefono: <%= user.phone_number %>
+  Id Order: <%= order['id'] %>
   Fecha de creación: <%= DateTime.parse(order['date']).to_formatted_s(:long) %>
   Tiempo de llegada maximo: <%= DateTime.parse(order['scheduled_date']).to_formatted_s(:long) %>
   Rango horas de llegada:  <%="#{Time.parse(order['arrival_time']).to_formatted_s(:time)} - #{Time.parse(order['expiry_time']).to_formatted_s(:time)}" %>
@@ -16,4 +17,4 @@ Ordenes:
 <% end %>
 
 
-Fecha de generación: <%= DateTime.current.to_formatted_s(:long) %>cc
+Fecha de generación: <%= DateTime.current.to_formatted_s(:long) %>
