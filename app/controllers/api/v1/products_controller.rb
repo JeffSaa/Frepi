@@ -99,6 +99,6 @@ class  Api::V1::ProductsController < Api::V1::ApiController
   end
 
   def product_params
-    params.permit(:reference_code, :name, :store_price, :frepi_price, :image, :available, :sales_count, :subcategory_id)
+    params.permit(:reference_code, :name, :store_price, :frepi_price, :image, :available, :sales_count, :subcategory_id, :size, :description)
   end
 end

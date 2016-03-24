@@ -49,7 +49,7 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
     assert_difference('Product.count') do
       post :create, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id,
                     reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image',
-                    subcategory_id: subcategories(:whiskies)
+                    size: '2 Lb', description: 'this is the best cococho', subcategory_id: subcategories(:whiskies)
 
       assert_response :created
     end
@@ -59,19 +59,22 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
 
     assert_no_difference('Product.count') do
       post :create, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id,
-                    reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image'
+                    reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image',
+                    size: '2 Lb', description: 'this is the best cococho', subcategory_id: subcategories(:whiskies)
 
       assert_response :unauthorized
 
       sign_in :user, users(:user)
       post :create, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id,
-                    reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image'
+                    reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image',
+                    size: '2 Lb', description: 'this is the best cococho', subcategory_id: subcategories(:whiskies)
 
       assert_response :unauthorized
 
       sign_in :supervisor, supervisors(:supervisor)
       post :create, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id,
-                    reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image'
+                    reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image',
+                    size: '2 Lb', description: 'this is the best cococho', subcategory_id: subcategories(:whiskies)
 
       assert_response :unauthorized
     end
@@ -80,10 +83,12 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
 
   test "only administrator should update a product" do
     sign_in :user, users(:admin)
-    put :update, id: products(:johnny).id, name: 'updated', store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
+    put :update, id: products(:johnny).id, name: 'updated', store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id, size: 'updated', description: 'updated'
     response = JSON.parse(@response.body)
 
     assert_match('updated', response['name'])
+    assert_match('updated', response['size'])
+    assert_match('updated', response['description'])
     assert_response :ok
   end
 
