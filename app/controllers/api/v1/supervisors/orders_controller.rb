@@ -53,9 +53,15 @@ class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
   end
 
   def destroy
-    @order.status = 0
-    @order.shoppers_order.destroy_all
+    if @order.status = 0
+      @order.active = false
+    else
+      @order.status = 0
+      @order.shoppers_order.destroy_all
+    end
     @order.save
+
+    render json: @order, status: :ok
   end
 
   # --------------------  Private ------------------- #
