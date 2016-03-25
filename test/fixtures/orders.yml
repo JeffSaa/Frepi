@@ -1,7 +1,7 @@
 one:
   id: 1
   active: true
-  status: 0
+  status: 1
   date: 2015-08-03 13:51:19
   total_price: 20.98
   user_id: 2
