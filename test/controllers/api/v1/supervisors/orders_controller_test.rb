@@ -44,14 +44,11 @@ class  Api::V1::Supervisors::OrdersControllerTest < ActionController::TestCase
   end
 
   test "An supervisor can disable a order if the status is RECEIVED" do
-    total = orders(:two).total_price
     shoppers = orders(:two).shopper
     
-
     sign_in :supervisor, supervisors(:supervisor)
     delete :destroy, id: orders(:two)
     response = JSON.parse(@response.body)
-    
 
     assert_equal(false, response['active'])
     assert_match("RECEIVED", response['status'])

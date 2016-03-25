@@ -53,7 +53,7 @@ class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
   end
 
   def destroy
-    if @order.status == 0
+    if @order.status == 'RECEIVED'
       @order.active = false
     else
       @order.status = 0
