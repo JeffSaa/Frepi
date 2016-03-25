@@ -82,6 +82,7 @@ Rails.application.configure do
   config.threadsafe = true
 
   # Mailers configuration
+  Rails.application.routes.default_url_options[:host] = 'frepi.co'
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
