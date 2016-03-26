@@ -54,10 +54,18 @@ class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
 
   def destroy
     if @order.status == 'RECEIVED'
+      # Desable order
       @order.active = false
+      # Decremt orders request by a user
+      User.decrement_counter(:counter_orders, @order.user.id)
     else
+      # Decrement products adquired
+      @order.orders_products.each { |order| order.decrement_counter }
+      # Sending to received
       @order.status = 0
+      # Deleting all shoppers associated to this order
       @order.shoppers_order.destroy_all
+      @order.shopper.destroy_all
     end
     @order.save
 
