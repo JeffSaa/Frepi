@@ -50,7 +50,8 @@ Rails.application.routes.draw do
           get 'dispatched' => 'dispatched#index'
           get 'received' => 'received#index'
           get 'shopping' => 'shopping#index'
-          post ':id/optimize' => 'optimized#create'
+          get 'disabled' => 'disabled#index'
+          #post ':id/optimize' => 'optimized#create'
         end
         resources :orders, except: [:new, :edit]
       end

@@ -26,15 +26,11 @@ class  Api::V1::Supervisors::OrdersControllerTest < ActionController::TestCase
   test "An supervisor return a order to received status" do
     total = orders(:one).total_price
     shoppers = orders(:one).shopper
-     p orders(:one).shopper
-
     sales_jhonny = Product.find(products(:johnny).id).sales_count
 
     sign_in :supervisor, supervisors(:supervisor)
     delete :destroy, id: orders(:one)
     response = JSON.parse(@response.body)
-
-       p orders(:one).shopper
     
     assert_equal(total, response['totalPrice'].to_f)
     assert_equal(true, response['active'])

@@ -25,5 +25,18 @@ two:
   expiry_time: "22:00"
   scheduled_date: "2015-11-06"
 
+three:
+  id: 3
+  active: false
+  status: 0
+  date: 2015-09-11 15:51:19
+  total_price: 100000
+  user_id: 2
+  address: 'cll 98 # 42 - 54'
+  comment: Dolore illum animi et neque accusantium
+  arrival_time: "20:40"
+  expiry_time: "22:00"
+  scheduled_date: "2015-11-06"
+
 
 
