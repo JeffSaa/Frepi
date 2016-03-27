@@ -9,7 +9,7 @@ module Clockwork
     puts "Running #{job}"
   end
 
-  every(2.hours, 'orders_worker.send_notification') do
+  every(1.hours, 'orders_worker.send_notification') do
     puts 'Event: Sending expired orders'
     OrdersWorker.send_notification
   end

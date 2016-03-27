@@ -6,7 +6,7 @@ class Order < ActiveRecord::Base
 
   # Scopes
   scope :in_progress, -> { where(active: true, notification_email: false).where('status >= 0 AND status <= 2') }
-  scope :expiries, -> (datetime) { where('scheduled_date > ?', datetime ) }
+  scope :expiries, -> (datetime) { where('scheduled_date < ?', datetime ) }
   scope :created_between, lambda { |start_date, end_date| where("created_at >= ? AND created_at <= ?", start_date, end_date ) }
 
   # Associations
