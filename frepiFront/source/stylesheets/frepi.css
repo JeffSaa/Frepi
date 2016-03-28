@@ -345,9 +345,57 @@ footer p {
   max-height: 65px;
 }
 
+body.user-session {
+	background: url(../images/background.png) no-repeat center center fixed #49AE62;
+	background-size: cover;
+	width: 100%;
+}
+
 .user-session.wrapper {
-	background: url(../images/backgroung.png) no-repeat fixed;
-	background-size: 100%;
+	min-height: 100%;
+	padding-top: 5%;
+	position: relative;
+	padding-bottom: 8em;
+}
+
+.user-session .darkener {
+	background-color: rgba(0, 0, 0, .05);
+	left: 0;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.user-session h1 {
+	margin: 0 !important;
+	text-align: center;
+}
+
+.user-session h1 a {
+	background: url(../images/landing/full_logo.png) no-repeat center;
+	background-size: contain;
+	display: block;
+	height: 75px;
+	margin: 0 auto;
+	text-indent: -9999px;
+	width: 200px;
+}
+
+.user-session h2 {
+	margin-top: 0 !important;
+}
+
+.user-session h2 .sub.header {
+	font-size: 1rem !important;
+}
+
+.user-session .stacked.segment {
+	background: rgba(255, 255, 255, .5);
+}
+
+.user-session footer {
+	color: #fff;
 }
 
 .login-main {
@@ -669,7 +717,9 @@ header #shopping-cart .icon {
 }
 
 .ui.items>.item>.image {
-  align-self: center;
+  -webkit-align-self: center;
+      -ms-flex-item-align: center;
+          align-self: center;
 }
 
 .ui.items>.item>.image+.content {

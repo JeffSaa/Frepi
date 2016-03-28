@@ -1,81 +1,35 @@
-doctype html
-html
-	head
-		meta charset="utf-8" /
-		title Frepi - Haz tu mercado fácil y rápido
-		/! Sets initial viewport load and disables zooming
-		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
-		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
-		// Add favicons
-		link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-touch-icon-57x57.png"
-		link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-touch-icon-60x60.png"
-		link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-touch-icon-72x72.png"
-		link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-touch-icon-76x76.png"
-		link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-touch-icon-114x114.png"
-		link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-touch-icon-120x120.png"
-		link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-touch-icon-144x144.png"
-		link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-touch-icon-152x152.png"
-		link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon-180x180.png"
-		link rel="icon" type="image/png" href="images/favicons/favicon-32x32.png" sizes="32x32"
-		link rel="icon" type="image/png" href="images/favicons/android-chrome-192x192.png" sizes="192x192"
-		link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96"
-		link rel="icon" type="image/png" href="images/favicons/favicon-16x16.png" sizes="16x16"
-		link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg" color="#5bbad5"
-		meta name="msapplication-TileColor" content="#00aba9"
-		meta name="msapplication-TileImage" content="images/favicons/mstile-144x144.png"
-		meta name="theme-color" content="#ffffff"
-		/! Add semantic's CSS
-		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
-		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
-		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
-	body
-		.sign-up
-			header
-				.ui.fixed.inverted.menu
-					.ui.container
-						a#landing-logo.ui.image href="index.html"
-							img src="images/landing/full_logo.png"
-			section.ui.one.column.centered.stackable.page.grid
-				.column.eight.wide
-					.column
-						h1.ui.center.aligned.header
-							|Crea tu cuenta!
-							.sub.header Y ten los mejores productos a la mano
-						form.ui.form data-bind="submit: signUp"
-							.field
-								label Nombres
-								input type="text" name="firstName" placeholder="Nombres"
-							.field
-								label Apellidos
-								input type="text" name="lastName" placeholder="Apellidos"
-							.field
-								label Dirección
-								input type="text" name="address" placeholder="Dirección"
-							.field
-								label Teléfono
-								input type="text" name="phoneNumber" placeholder="Teléfono"
-							.field
-								label Correo electrónico
-								input type="email" name="email" placeholder="Correo electrónico"
-							.field
-								label Contraseña
-								input type="password" name="password" placeholder="Contraseña"
-							.ui.error.message
-								.header data-bind="text: errorTextResponse"
-							button.ui.fluid.large.green.button type="submit" Crear cuenta
-							.ui.horizontal.divider o
-							button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: signWithFB"
-								i.facebook.icon
-								|Inicia con Facebook
-			footer
-				p © 2016 Frepi, inc. Todos los derechos reservados.
-
-		script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"
-		script src="javascripts/plugins/crypto-js.min.js" type="text/javascript"
-		script src="javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"
-		script src="semantic/out/semantic.min.js" type="text/javascript"
-		script src="javascripts/knockout.js" type="text/javascript"
-		script src="javascripts/classes/encrypter.js" type="text/javascript"
-		script src="javascripts/classes/config.js" type="text/javascript"
-		script src="javascripts/classes/RESTfulService.js" type="text/javascript"
-		script src="javascripts/viewmodels/signup.js" type="text/javascript"
+h2.ui.center.aligned.header
+	|Crea tu cuenta!
+	.sub.header Y ten los mejores productos a la mano
+form.ui.form data-bind="submit: signUp"
+	.field
+		label Nombres
+		input type="text" name="firstName" placeholder="Nombres"
+	.field
+		label Apellidos
+		input type="text" name="lastName" placeholder="Apellidos"
+	.field
+		label Dirección
+		input type="text" name="address" placeholder="Dirección"
+	.field
+		label Teléfono
+		input type="text" name="phoneNumber" placeholder="Teléfono"
+	.field
+		label Correo electrónico
+		input type="email" name="email" placeholder="Correo electrónico"
+	.field
+		label Contraseña
+		input type="password" name="password" placeholder="Contraseña"
+	.ui.error.message
+		.header data-bind="text: errorTextResponse"
+	button.ui.fluid.large.green.right.labeled.icon.button type="submit"
+		i.check.icon
+		|Crear cuenta
+	.ui.horizontal.divider o
+	button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: signWithFB"
+		i.facebook.icon
+		|Inicia con Facebook
+	#login-message.ui.center.aligned
+		|¿Tienes cuenta?&nbsp;
+		a href="login.html" Entra
+script src="javascripts/viewmodels/signup.js" type="text/javascript"
