@@ -12,7 +12,7 @@ html
 		link rel="stylesheet" type="text/css" href="../stylesheets/print.css"
 	body data-bind="css: { unscrollable: loading }"
 		// Modals
-		/ Asign shopper to a list
+		/ Asign shopper to an order
 		#assign-shopper.ui.small.frepi.modal
 			i.close.icon
 			.content
@@ -83,12 +83,15 @@ html
 					.menu data-bind="foreach: deliveringShoppers"
 						.item data-bind="attr: {'data-value': $data.id}, text: $data.firstName+' '+$data.lastName"
 				.actions
+					button.ui.black.basic.undo.button data-bind="click: undoOrder"
+						i.undo.icon
+						|Deshacer orden
 					button.ui.black.basic.button data-bind="click: printInvoice"
 						i.print.icon
 						|Imprimir lista
 					button.ui.black.basic.button data-bind="click: setShopperToOrder"
 						i.check.icon
-						|Asignar Delivering Shopper
+						|Orden comprada
 
 		#delivering-order.ui.small.frepi.modal
 			i.close.icon
@@ -116,6 +119,9 @@ html
 					strong Orden llevada por:&nbsp;
 					span data-bind="text: deliveryShopperFullName"
 				.actions
+					button.ui.black.basic.undo.button data-bind="click: undoOrder"
+						i.undo.icon
+						|Deshacer orden
 					button.ui.black.basic.button data-bind="click: finishOrder"
 						i.check.icon
 						|Finalizar orden
@@ -249,6 +255,9 @@ html
 						a.item data-bind="click: function(data, event){ fetchOrders('dispatched', 1, event) }"
 							i.check.icon
 							span.state Despachadas
+						a.item data-bind="click: function(data, event){ fetchOrders('dispatched', 1, event) }"
+							i.recycle.icon
+							span.state Deshabilitadas
 						.right.menu
 							.item data-bind="click: refresh"
 								i.refresh.link.icon

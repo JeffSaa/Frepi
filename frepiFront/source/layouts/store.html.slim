@@ -52,8 +52,10 @@ html
 					img data-bind="attr: {src: selectedProductImage}"
 				.product.description
 					h1.ui.header data-bind="text: selectedProductName"
-					.meta data-bind="text: selectedProductCategory"
-					h2.header data-bind="text: selectedProductPrice"
+					.meta data-bind="text: selectedProductSize"
+					h2.ui.header
+						|<!--ko text: selectedProductPrice--><!--/ko-->
+						.sub.header data-bind="text: selectedProductDescription"
 					form.ui.form data-bind="submit: addProductModal"
 						.dropdown.field
 							#modal-dropdown.ui.fluid.selection.dropdown
@@ -166,8 +168,20 @@ html
 					i.sidebar.icon
 					.content Departamentos
 			.items data-bind="foreach: session.categories"
-				a.item data-bind="click: $root.chooseDeparment"
-					.header data-bind="text: $data.name"
+				.ui.dropdown.item
+					i.chevron.right.icon
+					|<!--ko text: $data.name--><!--/ko-->
+					.menu data-bind="foreach: $data.subcategories"
+						a.item data-bind="text: $data.name, click: $root.chooseDeparment"
+
+				//  data-bind="click: $root.chooseDeparment"
+				// .ui.accordion.item
+				// 	// i.chevron.right.icon
+				// 	.title
+				// 		i.dropdown.icon
+				// 		|<!--ko text: $data.name--><!--/ko-->
+				// 		.item data-bind="text: $data.name"
+				// 	.content data-bind="foreach: $data.subcategories"
 
 		#shopping-cart.ui.vertical.right.sidebar.menu
 			.item
@@ -210,7 +224,7 @@ html
 					|&nbsp;Si no tiene una, puedes:
 				button.ui.fluid.large.green.sign-up.trigger.button Crea una cuenta
 				.ui.horizontal.divider o
-				button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: LoginService.FBLogin"
+				button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: function(){LoginService.regularLogin(true)}"
 					i.facebook.icon
 					|Inicia con Facebook
 		.pusher
@@ -263,4 +277,14 @@ html
 				== yield
 
 			footer
+				.ui.horizontal.list
+					.item
+						a.ui.circular.icon.button
+							i.facebook.icon
+					.item
+						a.ui.circular.icon.button
+							i.instagram.icon
+					.item
+						a.ui.circular.icon.button
+							i.twitter.icon
 				p © 2016 Frepi, inc. Todos los derechos reservados.

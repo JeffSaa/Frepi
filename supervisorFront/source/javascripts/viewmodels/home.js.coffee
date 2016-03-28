@@ -62,6 +62,23 @@ class HomeVM
 					@refresh()
 			)
 
+	undoOrder: ->
+		orderID = @selectedOrder.id()
+
+		$(".undo.button").addClass('loading')
+		RESTfulService.makeRequest('DELETE', "/orders/#{orderID}", '', (error, success, headers) =>
+				$(".undo.button").removeClass('loading')
+				if error
+					console.log 'ERRRRRRO'
+					console.log error
+				else
+					console.log 'asdasdhj ducktective'
+					console.log success
+					@receivedOrdersCount(parseInt(@receivedOrdersCount()) + 1)
+					$('.ui.modal').modal('hide')
+					@refresh()
+			)
+
 	parseDate: (date) ->
 		return moment(date, moment.ISO_8601).format('dddd, DD MMMM YYYY')
 
@@ -103,6 +120,7 @@ class HomeVM
 				else
 					console.log success
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+					@receivedOrdersCount(parseInt(@receivedOrdersCount()) - 1) unless @lastFetchedState is 'shopping'
 					$("#{modal} .actions .button:last-child").removeClass('loading')
 					setTimeout( ->
 								$("#{modal}").modal('hide')
@@ -240,7 +258,7 @@ class HomeVM
 			else
 				console.log success
 				@activeOrders(success)
-				if success.length > 0					
+				if success.length > 0
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 
 					totalPages = Math.ceil(headers.totalItems/10)
@@ -289,7 +307,7 @@ class HomeVM
 		@shouldShowAsterisk(true)
 		product.acquired(!product.acquired())
 
-	refresh: ->
+	refresh: =>
 		@loading(true)
 		data =
 			page : 1
@@ -298,8 +316,12 @@ class HomeVM
 				console.log error
 			else
 				console.log success
-				@activeOrders(success)
-				@receivedOrders(success) if @lastFetchedState is 'received'
+				if success > 0
+					@activeOrders(success)
+					@receivedOrders(success) if @lastFetchedState is 'received'
+				else
+					@activeOrders([])
+					@shouldDisplayNoResultAlert(true)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 			@loading(false)
 		)

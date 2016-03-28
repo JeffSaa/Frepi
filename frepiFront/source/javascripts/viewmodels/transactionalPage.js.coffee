@@ -5,6 +5,7 @@ class window.TransactionalPageVM
 			stringToSearch			: null
 			currentSucursal			: null
 			currentDeparmentID	: null
+			currentSubcategorID	: null
 			categories					: ko.observableArray([])
 			signedUp						: ko.observable()
 			sucursals						: ko.observableArray([])
@@ -29,6 +30,8 @@ class window.TransactionalPageVM
 		@selectedProductImage = ko.observable()
 		@selectedProductName = ko.observable()
 		@selectedProductPrice = ko.observable()
+		@selectedProductSize = ko.observable()
+		@selectedProductDescription = ko.observable()
 
 		@errorTextSignUp = ko.observable()
 
@@ -36,7 +39,7 @@ class window.TransactionalPageVM
 
 		@setUserInfo()
 		@setRulesValidation()
-		@setDOMElems()
+		# @setDOMElems()
 
 	searchInput: =>
 		valueInput = $('#product-searcher').form('get value', 'value')
@@ -70,8 +73,14 @@ class window.TransactionalPageVM
 		ko.mapping.fromJS(store, @session.currentSucursal)
 		$('#choose-store').modal('hide')
 
-	chooseDeparment: (deparment) =>
-		@session.currentDeparmentID = deparment.id
+	chooseDeparment: (subdeparment) =>
+		console.log subdeparment
+		if subdeparment.categoryId
+			@session.currentDeparmentID = subdeparment.categoryId
+			@session.currentSubcategorID = subdeparment.id
+		else
+			@session.currentDeparmentID = subdeparment.id
+			@session.currentSubcategorID = null
 		@saveOrder()
 		window.location.href = '../store/deparment.html'
 
@@ -182,6 +191,7 @@ class window.TransactionalPageVM
 			currentSucursal: ko.mapping.toJS(@session.currentSucursal)
 			stringToSearch: @session.stringToSearch
 			currentDeparmentID: @session.currentDeparmentID
+			currentSubcategorID: @session.currentSubcategorID
 			signedUp: @session.signedUp()
 			sucursals: @session.sucursals()
 			currentOrder:
@@ -240,6 +250,7 @@ class window.TransactionalPageVM
 			@session.currentStore = ko.mapping.fromJS(session.currentStore)
 			@session.currentSucursal = ko.mapping.fromJS(session.currentSucursal)
 			@session.currentDeparmentID = session.currentDeparmentID
+			@session.currentSubcategorID = session.currentSubcategorID
 			@session.stringToSearch = session.stringToSearch
 			@session.categories(session.categories)
 			@session.sucursals(session.sucursals)
@@ -248,11 +259,13 @@ class window.TransactionalPageVM
 			@session.currentOrder.products(session.currentOrder.products)
 			@session.currentOrder.price(session.currentOrder.price)
 			@session.currentOrder.sucursalId = session.currentOrder.sucursalId
+			@setDOMElems()
 		else
 			@session.currentStore = ko.mapping.fromJS(DefaultModels.STORE_PARTNER)
 			@session.stringToSearch = ''
 			@session.currentSucursal = ko.mapping.fromJS(DefaultModels.SUCURSAL)
 			@session.currentDeparmentID = 1
+			@session.currentSubcategorID = 1
 			@session.categories([])
 			@session.sucursals([])
 			@session.signedUp(false)
@@ -331,6 +344,8 @@ class window.TransactionalPageVM
 		@selectedProductCategory(product.subcategoryName)
 		@selectedProductImage(product.image)
 		@selectedProductName(product.name)
+		@selectedProductSize(product.size)
+		@selectedProductDescription(product.description)
 		@selectedProductPrice("$#{(product.frepi_price or product.frepiPrice).toLocaleString()}")
 		$("#product-desc .ribbon.label").addClass('show') if @getProductByID(product.id)
 		$('#product-desc').modal('show')
@@ -383,6 +398,10 @@ class window.TransactionalPageVM
 				})
 		$('.ui.dropdown:not(#user-account)')
 			.dropdown()
+		console.log $('#departments-menu .ui .dropdown')
+		$('#departments-menu .ui .dropdown')
+			.dropdown()
+
 		$('.ui.accordion')
 			.accordion()
 		$('#shopping-cart').sidebar({

@@ -36,29 +36,32 @@ html
 						img src="images/landing/full_logo.png"
 			#login-grid.ui.one.column.centered.stackable.page.grid
 				.column.eight.wide
-					.column
-						h1.ui.center.aligned.header
-							|Bienvenido!
-							.sub.header Ingresa y escoge los mejores productos.
-						form.ui.login.form data-bind="submit: function(){LoginService.regularLogin()}"
-							#login-form.ui.raised.segment
-								.field
-									.ui.left.icon.input
-										i.user.icon
-										input type="text" name="username" placeholder="Usuario"
-								.field
-									.ui.left.icon.input
-										i.lock.icon
-										input type="password" name="password" placeholder="Contraseña"
-								.ui.error.message
-								button.ui.fluid.large.green.login.button type="submit" Iniciar
-								.ui.horizontal.divider o
-								button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: LoginService.FBLogin"
-									i.facebook.icon
-									|Inicia con Facebook
-								#login-message.ui.center.aligned
-									|¿No tienes cuenta?&nbsp;
-									a href="signup.html" Crea una!
+					// .column
+					h1.ui.center.aligned.header
+						|Bienvenido!
+						.sub.header Ingresa y escoge los mejores productos.
+					form.ui.login.form data-bind="submit: function(){LoginService.regularLogin()}"
+						#login-form.ui.raised.segment
+							.field
+								.ui.left.icon.input
+									i.user.icon
+									input type="text" name="username" placeholder="Usuario"
+							.field
+								.ui.left.icon.input
+									i.lock.icon
+									input type="password" name="password" placeholder="Contraseña"
+							.ui.error.message
+							button.ui.fluid.large.green.login.button type="submit" Iniciar
+							.ui.horizontal.divider o
+							button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: LoginService.FBLogin"
+								i.facebook.icon
+								|Inicia con Facebook
+							#login-message.ui.center.aligned
+								|¿No tienes cuenta?&nbsp;
+								a href="signup.html" Crea una
+								br
+								|¿Olvidaste tu contraseña?&nbsp;
+								a href="signup.html" Cambiala
 
 			footer
 				p © 2016 Frepi, inc. Todos los derechos reservados.

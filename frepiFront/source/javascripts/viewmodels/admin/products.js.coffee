@@ -17,9 +17,11 @@ class ProductsVM extends AdminPageVM
 			id : ko.observable()
 			image: ko.observable()
 			name : ko.observable()
+			size : ko.observable()
 			sucursalID : ko.observable()
 			frepiPrice : ko.observable()
 			storePrice : ko.observable()
+			description : ko.observable()
 			subcategoryID : ko.observable()
 
 		@productsPages =
@@ -41,8 +43,10 @@ class ProductsVM extends AdminPageVM
 		$form = $('.create.modal form')
 		data =
 			name: $form.form('get value', 'name')
+			size: $form.form('get value', 'size')
 			frepiPrice: $form.form('get value', 'frepiPrice')
 			storePrice: $form.form('get value', 'storePrice')
+			description: $form.form('get value', 'description')
 			subcategoryId : $form.form('get value', 'subcategoryID')
 			image: 'http://s3-sa-east-1.amazonaws.com/frepi/products/' + @currentUniqueID
 
@@ -66,8 +70,10 @@ class ProductsVM extends AdminPageVM
 		$form = $('.update.modal form')
 		data =
 			name: $form.form('get value', 'name')
+			size: $form.form('get value', 'size')
 			frepiPrice: $form.form('get value', 'frepiPrice')
 			storePrice: $form.form('get value', 'storePrice')
+			description: $form.form('get value', 'description')
 			subcategoryId : $form.form('get value', 'subcategoryID')
 
 		data.image = 'http://s3-sa-east-1.amazonaws.com/frepi/products/' + @currentUniqueID if @previewingImageHasChanged
@@ -114,6 +120,8 @@ class ProductsVM extends AdminPageVM
 
 	showUpdate: (product) =>
 		@chosenProduct.id(product.id)
+		@chosenProduct.size(product.size)
+		@chosenProduct.description(product.description)
 		@chosenProduct.name(product.name)
 		@chosenProduct.sucursalID(product.sucursal.id)
 		@currentProduct = product
@@ -126,9 +134,11 @@ class ProductsVM extends AdminPageVM
 		$('.update.modal form')
 			.form('set values',
 					name 					: @currentProduct.name
+					size 					: @currentProduct.size
 					frepiPrice 		: @currentProduct.frepiPrice
 					storePrice 		: @currentProduct.storePrice
 					sucursalID 		: @currentProduct.sucursal.id
+					description		: @currentProduct.description
 					subcategoryID : @currentProduct.subcategory.id
 					categoryID 		: @currentProduct.subcategory.categoryId
 				)
@@ -250,6 +260,9 @@ class ProductsVM extends AdminPageVM
 							rules: [emptyRule]
 						sucursal:
 							identifier: 'sucursal'
+							rules: [emptyRule]
+						size:
+							identifier: 'size'
 							rules: [emptyRule]
 						categoryID:
 							identifier: 'categoryID'

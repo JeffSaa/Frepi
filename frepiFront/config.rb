@@ -62,6 +62,8 @@ set :relative_links, true
 
 page "/store/*", :layout => "store"
 page "/admin/*", :layout => "admin"
+page "login.html", :layout => "user-session"
+page "signup.html", :layout => "user-session"
 
 # Build-specific configuration
 configure :build do

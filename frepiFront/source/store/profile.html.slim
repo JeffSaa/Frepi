@@ -2,7 +2,7 @@
 	#edit-email.ui.small.modal
 		.header Editar información de cuenta
 		.content
-			form.ui.form data-bind="submit: function(){updateUser('email')}"
+			form.ui.form
 				.field
 					label Correo nuevo
 					input type="text" name="new-email" placeholder="Nuevo correo"
@@ -14,14 +14,14 @@
 					input type="password" name="password" placeholder="Contraseña actual"
 				.buttons-to-right
 					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
-					button.ui.labeled.green.submit.icon.button type="submit"
+					button.ui.labeled.green.icon.button data-bind="click: function(){updateUser('email')}"
 						|Guardar cambios
 						i.checkmark.icon
 
 	#edit-password.ui.small.modal
 		.header Editar información de cuenta
 		.content
-			form.ui.form data-bind="submit: function(){updateUser('password')}"
+			form.ui.form
 				.field
 					label Contraseña nueva
 					input type="password" name="new-password" placeholder="Nuevo contraseña"
@@ -33,14 +33,14 @@
 					input type="password" name="current-password" placeholder="Contraseña actual"
 				.buttons-to-right
 					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
-					button.ui.labeled.green.submit.icon.button type="submit"
+					button.ui.labeled.green.icon.button data-bind="click: function(){updateUser('password')}"
 						|Guardar cambios
 						i.checkmark.icon
 
 	#edit-user-info.ui.small.modal
 		.header Editar información de cuenta
 		.content
-			form.ui.form data-bind="submit: function(){updateUser('user')}"
+			form.ui.form
 				.field
 					label Nombres
 					input type="text" name="firstName" placeholder="Nombres"
@@ -52,7 +52,7 @@
 					input type="text" name="phone" placeholder="Teléfono"
 				.buttons-to-right
 					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
-					.ui.labeled.green.submit.icon.button
+					.ui.labeled.green.icon.button data-bind="click: function(){updateUser('user')}"
 						|Guardar cambios
 						i.checkmark.icon
 	#order-details.ui.small.modal

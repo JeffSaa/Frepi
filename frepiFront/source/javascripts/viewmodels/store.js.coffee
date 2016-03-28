@@ -23,6 +23,7 @@ class StoreVM extends TransactionalPageVM
 			else
 				console.log success
 				@session.categories(success)
+				@setDOMElems()
 				@setCartItemsLabels()
 		)
 

@@ -7,7 +7,7 @@
 				.ui.basic.teal.button data-bind="click: $root.fetchAllProducts" Todo
 			<!-- /ko -->
 			.item
-				.ui.basic.teal.button data-bind="text: $data.name, click: function(data, event){ $root.fetchProducts(data, event) }"
+				.ui.basic.teal.button data-bind="text: $data.name, attr: {id: 'subcat'+$data.id}, click: $root.fetchProducts"
 
 	section.products
 		h2.ui.centered.header.no-results-message data-bind="visible: shouldDisplayNoResultAlert"
@@ -24,6 +24,7 @@
 							i.check.icon
 					.content
 						.truncated.header data-bind="text: $data.name"
+						.meta data-bind="text: $data.size"
 					.extra.content
 						span.centering
 							i.dollar.icon

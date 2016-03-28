@@ -61,12 +61,12 @@
 
    #slider .images li ul li .left-img {
      left: 12%;
-     top: 68%;
+     top: 75%;
    }
 
    #slider .images li ul li .right-img {
      right: 14%;
-     top: 64%;
+     top: 70%;
    }
 
    #slider .images li ul li figure img {
@@ -207,6 +207,11 @@
 @media (max-width: 481px) {
 
   /* Landing page rules */
+
+	#slider .button {
+		font-size: 1.142857em;
+		width: 60%;
+	}
 
 	#slider .images li ul li .corn {
 	  height: 90px;

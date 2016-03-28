@@ -46,7 +46,7 @@ class ProfileVM extends TransactionalPageVM
 			else
 				console.log success
 				# Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-
+				@setDOMElems()
 				@currentOrders(success)
 		)
 
@@ -249,9 +249,9 @@ class ProfileVM extends TransactionalPageVM
 					data =
 						email: newEmail
 
-					$('#edit-email .submit').addClass('loading')
+					$('#edit-email .green.button').addClass('loading')
 					RESTfulService.makeRequest('PUT', "/users/#{@user.id}", data, (error, success, headers) =>
-						$('#edit-email .submit').removeClass('loading')
+						$('#edit-email .green.button').removeClass('loading')
 						if error
 							console.log 'An error has ocurred while updating the user!'
 						else
@@ -272,9 +272,9 @@ class ProfileVM extends TransactionalPageVM
 					data =
 						password: newPassword
 
-					$('#edit-password .submit').addClass('loading')
+					$('#edit-password .green.button').addClass('loading')
 					RESTfulService.makeRequest('PUT', "/users/#{@user.id}", data, (error, success, headers) =>
-						$('#edit-password .submit').removeClass('loading')
+						$('#edit-password .green.button').removeClass('loading')
 						if error
 							console.log 'An error has ocurred while updating the user!'
 						else
@@ -302,9 +302,9 @@ class ProfileVM extends TransactionalPageVM
 						last_name: newLastName
 						phone_number: newPhone
 
-					$('#edit-user-info .submit').addClass('loading')
+					$('#edit-user-info .green.button').addClass('loading')
 					RESTfulService.makeRequest('PUT', "/users/#{@user.id}", data, (error, success, headers) =>
-						$('#edit-user-info .submit').removeClass('loading')
+						$('#edit-user-info .green.button').removeClass('loading')
 						if error
 							console.log 'An error has ocurred while updating the user!'
 						else
