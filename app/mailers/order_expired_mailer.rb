@@ -1,5 +1,5 @@
 class OrderExpiredMailer < ApplicationMailer
-  ADMIN = ['amcamargo95@gmail.com', 'fepicolombia@gmail.com']
+  ADMIN = ['fepicolombia@gmail.com', 'amcamargo95@gmail.com']
 
   # TODO: ADD information about products (ask about it to ernesto)
   def notification_email(orders)
