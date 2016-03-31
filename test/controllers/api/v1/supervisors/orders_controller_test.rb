@@ -17,8 +17,10 @@ class  Api::V1::Supervisors::OrdersControllerTest < ActionController::TestCase
     assert_equal(true, response['active'])
     assert_match("SHOPPING", response['status'])
 
-    assert_equal(quantity_jhonny, Product.find(products(:johnny).id).sales_count)
-    assert_equal(quantity_jack, Product.find(products(:jack).id).sales_count)
+      
+
+    assert_equal(quantity_jhonny + orders_products(:two).quantity, Product.find(products(:johnny).id).sales_count)
+    assert_equal(quantity_jack + orders_products(:three).quantity , Product.find(products(:jack).id).sales_count)
     assert_response :created
   end
 

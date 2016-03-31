@@ -24,6 +24,7 @@ class  Api::V1::Supervisors::OrdersController < Api::V1::ApiController
       order = shopper_order.order
       shopper = Shopper.find(params[:shopper_id])
       if shopper.shopper_type  == 'IN-STORE'
+        order.orders_products.each {|order_product| order_product.touch }
         order.status = 1
       else
         order.status = 2

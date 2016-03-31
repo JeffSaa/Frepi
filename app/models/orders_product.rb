@@ -10,16 +10,16 @@ class OrdersProduct < ActiveRecord::Base
   validates :acquired, inclusion: { in: [true, false] }
 
   # Callbacks
-  after_create  :increment_counter
+  after_touch    :increment_counter
   after_destroy :decrement_counter
 
   # Methods
-  def increment_counter
-    self.product.increment!(:sales_count, self.quantity)
-  end
-
   def decrement_counter
     self.product.decrement!(:sales_count, self.quantity)
+  end
+
+  def increment_counter  
+    self.product.increment!(:sales_count, self.quantity)
   end
 end
 
