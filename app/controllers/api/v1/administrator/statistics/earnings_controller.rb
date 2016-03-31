@@ -1,8 +1,6 @@
 class Api::V1::Administrator::Statistics::EarningsController < Api::V1::ApiController
 
   skip_before_action  :authenticate_supervisor!
-  skip_before_action :authenticate_user!, :require_administrator
-
 
   def index
 

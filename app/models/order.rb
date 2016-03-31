@@ -105,10 +105,12 @@ class Order < ActiveRecord::Base
   end
 
   def delete_order
-    self.active = false
-    User.decrement_counter(:counter_orders, self.user.id)
-    self.orders_products.each { |order| order.decrement_counter } if self.status == 'RECEIVED'
-    self.save
+    if self.status == 'RECEIVED'
+      self.active = false
+      User.decrement_counter(:counter_orders, self.user.id)
+      self.orders_products.each { |order| order.decrement_counter }
+      self.save
+    end
   end
 
   def self.products_valid?(products)
