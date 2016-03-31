@@ -902,6 +902,11 @@ header #shopping-cart .icon {
   width: 100%;
 }
 
+.profile .segment .disabled.line {
+  pointer-events: none;
+	opacity: .45;
+}
+
 .profile .segment .line .title,
 .profile .segment .line .value {
   display: inline-block;
@@ -952,11 +957,19 @@ header #shopping-cart .icon {
 }
 
 .profile .table thead tr th:nth-last-of-type(2),
-.profile .table thead tr th:last-of-type,
-.profile .table tbody tr td:first-child {
+.profile .table thead tr th:last-of-type {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.profile .table tbody tr {
+	cursor: pointer;
+	font-size: .857142em;
+}
+
+.profile .table tbody tr:hover {
+	background-color: rgba(0, 0, 0, .08);
 }
 
 .profile .table tr td:last-of-type .delivering {

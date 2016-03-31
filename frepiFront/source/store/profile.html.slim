@@ -58,14 +58,24 @@
 	#order-details.ui.small.modal
 		.header Detalles de la orden
 		.content
-			h4.ui.header Lista de productos
-			ul data-bind="foreach: chosenOrder.products"
-				li data-bind="text: $data.product.name+' x '+$data.quantity"
+			p
+				strong Fecha creación:
+				|<!--ko text: ' '+chosenOrder.creationDate()--><!--/ko-->
+			p
+				strong Fecha entrega:
+				|<!--ko text: ' '+chosenOrder.arrivalDate()--><!--/ko-->
 			p
 				strong Dirección entrega:
 				|<!--ko text: ' '+chosenOrder.address()--><!--/ko-->
+			h4.ui.header Lista de productos
+			ul data-bind="foreach: chosenOrder.products"
+				li
+					|<!-- ko text: $data.product.name --><!--/ko-->
+					span data-bind="text: ' ('+$data.product.size+') x ', visible: $data.product.size"
+					|<!-- ko text: $data.quantity --><!--/ko-->
+					span data-bind="visible: !$data.acquired" &nbsp;- No adquirido
 			p
-				strong Precio orden:
+				strong Precio total:
 				|<!--ko text: ' $'+chosenOrder.totalPrice()--><!--/ko-->
 		.actions
 			.ui.green.ok.button
@@ -94,7 +104,7 @@
 							span.title Email
 							span.value data-bind="text: user.email"
 							i.pencil.link.large.icon
-						.clearfix.line data-bind="click: showEditPassword"
+						.clearfix.line data-bind="click: showEditPassword, css: {disabled: user.provider === 'facebook'}"
 							span.title Password
 							span.value ●●●●●●●●
 							i.pencil.link.large.icon
@@ -133,15 +143,17 @@
 			table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
 				thead
 					tr
-						th.three.wide Fecha
+						th.three.wide Fecha creación
+						th.three.wide Fecha entrega
 						th.three.wide Productos
 						th.two.wide Valor($)
 						th.two.wide Estado
 				tbody data-bind="foreach: currentOrders"
 					tr data-bind="click: $root.showOrderDetails"
 						td data-bind="text: $root.dateFormatter($data.date)"
+						td data-bind="text: $root.parseDate($data.scheduledDate)+', '+$root.parseTime($data.arrivalTime)"
 						td data-bind="text: $root.productsText($data.products)"
-						td data-bind="text: $data.totalPrice"
+						td data-bind="text: $data.totalPrice.toLocaleString()"
 						td.center.aligned
 							.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status.toLowerCase()"
 							.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status.toLowerCase()"

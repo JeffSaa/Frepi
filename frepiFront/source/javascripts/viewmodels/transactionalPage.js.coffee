@@ -16,6 +16,7 @@ class window.TransactionalPageVM
 				sucursalId			: null
 		@user =
 			id 							: null
+			provider				: null
 			email 					: ko.observable()
 			name 						: ko.observable()
 			firstName 			: ko.observable()
@@ -181,7 +182,7 @@ class window.TransactionalPageVM
 				console.log 'An error has ocurred'
 			else
 				Config.destroyLocalStorage()
-				window.location.href = '../login.html'
+				window.location.href = '../'
 		)
 
 	saveOrder: ->
@@ -278,6 +279,7 @@ class window.TransactionalPageVM
 		if !!Config.getItem('userObject')
 			tempUser = JSON.parse(Config.getItem('userObject'))
 			@user.id = tempUser.id
+			@user.provider = tempUser.provider
 			@user.email(tempUser.email)
 			@user.name(tempUser.name)
 			@user.firstName(tempUser.name.split(' ')[0])
@@ -338,6 +340,15 @@ class window.TransactionalPageVM
 					@setUserInfo()
 					$('.login.modal').modal('hide')
 			), 1000)
+
+	loginFB: ->
+		LoginService.FBLogin( (error, success) =>
+					if error
+						console.log 'An error ocurred while trying to login to FB'
+					else
+						@setUserInfo()
+						$('#shopping-cart').sidebar('hide')
+			)
 
 	showProduct: (product) ->
 		@selectedProduct = product

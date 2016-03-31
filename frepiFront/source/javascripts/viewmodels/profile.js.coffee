@@ -14,6 +14,8 @@ class ProfileVM extends TransactionalPageVM
 
 		# Models
 		@chosenOrder =
+			creationDate: ko.observable()
+			arrivalDate: ko.observable()
 			address: ko.observable()
 			totalPrice: ko.observable()
 			products: ko.observableArray()
@@ -74,9 +76,10 @@ class ProfileVM extends TransactionalPageVM
 		console.log 'Orders shown'
 
 	setRulesValidation: ->
-		credentials = JSON.parse(Config.getItem('credentials'))
-		$.fn.form.settings.rules.isValidPassword = (value) ->
-			value is credentials.password
+		if @user.provider isnt 'facebook'
+			credentials = JSON.parse(Config.getItem('credentials'))
+			$.fn.form.settings.rules.isValidPassword = (value) ->
+				value is credentials.password
 
 	setDOMElements: ->
 		$('#edit-email form').form({
@@ -386,7 +389,13 @@ class ProfileVM extends TransactionalPageVM
 			# $('.create.modal form')
 
 	dateFormatter: (datetime)->
-		return moment(datetime, moment.ISO_8601).format('lll')
+		return moment(datetime, moment.ISO_8601).format('DD MMMM YYYY [, ] h:mm A')
+
+	parseDate: (date) ->
+		return moment(date, moment.ISO_8601).format('DD MMMM YYYY')
+
+	parseTime: (date) ->
+		return moment(date, moment.ISO_8601).utcOffset("00:00").format('h:mm A')
 
 	ProductsFormatter: (products) ->
 		information = ''
@@ -406,9 +415,11 @@ class ProfileVM extends TransactionalPageVM
 
 	showOrderDetails: (order) =>
 		console.log order
+		@chosenOrder.creationDate(@dateFormatter(order.date))
+		@chosenOrder.arrivalDate("#{@parseDate(order.scheduledDate)}, #{@parseTime(order.arrivalTime)}")
 		@chosenOrder.address(order.address)
 		@chosenOrder.products(order.products)
-		@chosenOrder.totalPrice(order.totalPrice)
+		@chosenOrder.totalPrice(order.totalPrice.toLocaleString())
 		$('#order-details').modal('show')
 
 profile = new ProfileVM

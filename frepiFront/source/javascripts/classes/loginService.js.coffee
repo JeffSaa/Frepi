@@ -6,7 +6,7 @@ class window.LoginService
 				version: 'v2.4'
 			})
 
-	@FBLogin: =>
+	@FBLogin: (callback) =>
 		@initFB()
 		FBcredentials = {}
 		FB.login(((response) ->
@@ -32,15 +32,13 @@ class window.LoginService
 										RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBcredentials, (error, success, headers) =>
 												if error
 													console.log 'The user couldnt be created'
+													callback(error, null)
 												else
 													console.log success
 													Config.destroyLocalStorage()
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
-													if success.user.administrator
-														window.location.href = 'admin/products.html'
-													else
-														window.location.href = 'store/index.html'
+
 										)
 								)
 							else
@@ -49,15 +47,15 @@ class window.LoginService
 								Config.setItem('headers', JSON.stringify(headers))
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
-								if success.user.administrator
-									window.location.href = 'admin/products.html'
-								else
-									window.location.href = 'store/index.html'
+
+							callback(null, success)
 					)
 				else if response.status is 'not_authorized'
 					console.log 'Doesnt logged into FrepiTest!'
+					callback(response.status, null)
 				else
 					console.log 'Doesnt logged into Facebook!'
+					callback(response.status, null)
 			), {
 					scope: 'public_profile,email'
 			})
@@ -91,4 +89,6 @@ class window.LoginService
 								window.location.href = 'admin/products.html'
 							else
 								window.location.href = 'store/index.html'
+						# else
+						# 	callback(null, data)
 				)
