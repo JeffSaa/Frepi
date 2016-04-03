@@ -64,6 +64,7 @@ page "/store/*", :layout => "store"
 page "/admin/*", :layout => "admin"
 page "login.html", :layout => "user-session"
 page "signup.html", :layout => "user-session"
+page "change-password.html", :layout => "user-session"
 
 # Build-specific configuration
 configure :build do

@@ -356,7 +356,7 @@ class window.TransactionalPageVM
 		@selectedProductImage(product.image)
 		@selectedProductName(product.name)
 		@selectedProductSize(product.size)
-		@selectedProductDescription(product.description)
+		if product.description and product.description.startsWith('$') then @selectedProductDescription(product.desc) else @selectedProductDescription(product.description)
 		@selectedProductPrice("$#{(product.frepi_price or product.frepiPrice).toLocaleString()}")
 		$("#product-desc .ribbon.label").addClass('show') if @getProductByID(product.id)
 		$('#product-desc').modal('show')
@@ -395,8 +395,10 @@ class window.TransactionalPageVM
 
 									response.results.push(
 										id: item.id
+										size: item.size
 										name: item.name
 										title: item.name
+										desc: item.description
 										description: "$#{(item.frepi_price).toLocaleString()}"
 										image: item.image
 										frepiPrice: item.frepi_price

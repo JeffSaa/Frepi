@@ -14,6 +14,8 @@ class ProfileVM extends TransactionalPageVM
 
 		# Models
 		@chosenOrder =
+			id: ko.observable()
+			status: ko.observable("")
 			creationDate: ko.observable()
 			arrivalDate: ko.observable()
 			address: ko.observable()
@@ -132,6 +134,9 @@ class ProfileVM extends TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'No puede estar vacía'
+							}, {
+								type: 'length[6]'
+								prompt: 'La contraseña debe tener por lo menos 6 caracteres'
 							}
 						]
 					match:
@@ -230,6 +235,20 @@ class ProfileVM extends TransactionalPageVM
 
 	# showShoppingCart: ->
 	# 	$('#shopping-cart').sidebar('show')
+
+	cancelOrder: ->
+		$('#order-details .red.button').addClass('loading')
+		RESTfulService.makeRequest('DELETE', "/users/#{@user.id}/orders/#{@chosenOrder.id()}", '', (error, success, headers) =>
+			$('#order-details .red.button').removeClass('loading')
+			if error
+				console.log 'An error has ocurred while cancelling the orders!'
+			else
+				console.log success
+				@currentOrders.remove( (order) =>
+						return order.id is @chosenOrder.id()
+					)
+				$('#order-details').modal('hide')
+		)
 
 	setStatus: (status, truncated) ->
 		switch status
@@ -414,7 +433,8 @@ class ProfileVM extends TransactionalPageVM
 			return "#{numberProducts} productos"
 
 	showOrderDetails: (order) =>
-		console.log order
+		@chosenOrder.id(order.id)
+		@chosenOrder.status(order.status)
 		@chosenOrder.creationDate(@dateFormatter(order.date))
 		@chosenOrder.arrivalDate("#{@parseDate(order.scheduledDate)}, #{@parseTime(order.arrivalTime)}")
 		@chosenOrder.address(order.address)

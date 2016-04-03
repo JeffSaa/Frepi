@@ -56,7 +56,7 @@ class DeparmentVM extends TransactionalPageVM
 		@products([])
 		@shouldDisplayLoader(true)
 		@shouldDisplayNoResultAlert(false)
-		$('.horizontal.list .button').addClass('basic')
+		$('h1 + .horizontal.list .button').addClass('basic')
 		$('.list .item.all .button').removeClass('basic')
 
 		RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}/products", '', (error, success, headers) =>
@@ -76,7 +76,7 @@ class DeparmentVM extends TransactionalPageVM
 		@products([])
 		@shouldDisplayLoader(true)
 		@shouldDisplayNoResultAlert(false)
-		$('.horizontal.list .button').addClass('basic')
+		$('h1 + .horizontal.list .button').addClass('basic')
 		$("#subcat#{subcategory.id}").removeClass('basic')
 
 		# currentButton = clickedButton.toElement if !!clickedButton

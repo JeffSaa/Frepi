@@ -24,8 +24,45 @@ class LoginVM
 							window.location.href = 'store/index.html'
 			)
 
+	resetPassword: ->
+		$form = $('.reset-password .form')
+		if $form.form('is valid')
+			data =
+				email: $form.form('get value', 'email')
+				redirect_url: 'localhost:4567/change-password.html'
+			$('.reset-password .green.button').addClass('loading')
+			RESTfulService.makeRequest('POST', "/auth/password", data, (error, success, headers) =>
+				$('.reset-password .green.button').removeClass('loading')
+				if error
+					console.log 'An error has ocurred while fetching the categories!'
+					console.log error
+				else
+					console.log success
+					$('.reset-password .green.button').addClass('disabled')
+					$('.reset-password .success.segment').transition('fade down')
+					setTimeout((->
+							$('.reset-password.modal').modal('hide')
+						), 5000)
+			)
+
 	setDOMElements: ->
-		$('.ui.form').form(
+		$('.reset-password .form').form(
+				fields:
+					email:
+						identifier: 'email'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Olvidaste poner el correo'
+							}, {
+								type: 'email'
+								prompt: 'La dirección de correo no es válida'
+							}
+						]
+				inline: true
+				keyboardShortcuts: false
+			)
+		$('.ui.login.form').form(
 				fields:
 					username:
 						identifier: 'username'
@@ -52,6 +89,12 @@ class LoginVM
 				inline: true
 				keyboardShortcuts: false
 			)
+		$('.reset-password.modal').modal(
+				onHidden: ->
+					$('.reset-password form').form('clear')
+			)
+			.modal('attach events', '.reset.trigger', 'show')
+			.modal('attach events', '.reset-password .cancel.button', 'hide')
 
 login = new LoginVM
 ko.applyBindings(login)

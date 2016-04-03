@@ -62,19 +62,21 @@ class HomeVM
 					@refresh()
 			)
 
-	undoOrder: ->
+	undoOrder: (data, event) ->
 		orderID = @selectedOrder.id()
+		triggeredButton = event.currentTarget
 
-		$(".undo.button").addClass('loading')
+		$(triggeredButton).addClass('loading')
 		RESTfulService.makeRequest('DELETE', "/orders/#{orderID}", '', (error, success, headers) =>
-				$(".undo.button").removeClass('loading')
+				$(triggeredButton).removeClass('loading')
 				if error
-					console.log 'ERRRRRRO'
 					console.log error
 				else
-					console.log 'asdasdhj ducktective'
 					console.log success
-					@receivedOrdersCount(parseInt(@receivedOrdersCount()) + 1)
+					if @lastFetchedState is 'received'
+						@receivedOrdersCount(parseInt(@receivedOrdersCount()) - 1)
+					else
+						@receivedOrdersCount(parseInt(@receivedOrdersCount()) + 1)
 					$('.ui.modal').modal('hide')
 					@refresh()
 			)
@@ -97,6 +99,8 @@ class HomeVM
 				$('#delivering-order').modal('show')
 			when 'dispatched'
 				$('#dispatched-order').modal('show')
+			when 'disabled'
+				$('#disabled-order').modal('show')
 
 	setShopperToOrder: ->
 		modal = ''
@@ -287,6 +291,8 @@ class HomeVM
 							@currentState('ordenes siendo llevadas')
 						when 'dispatched'
 							@currentState('ordenes despachadas')
+						when 'disabled'
+							@currentState('ordenes deshabilitadas')
 
 			@loading(false)
 		)
@@ -309,6 +315,7 @@ class HomeVM
 
 	refresh: =>
 		@loading(true)
+		@shouldDisplayNoResultAlert(false)
 		data =
 			page : 1
 		RESTfulService.makeRequest('GET', "/orders/#{@lastFetchedState}", data, (error, success, headers) =>
@@ -316,7 +323,7 @@ class HomeVM
 				console.log error
 			else
 				console.log success
-				if success > 0
+				if success.length > 0
 					@activeOrders(success)
 					@receivedOrders(success) if @lastFetchedState is 'received'
 				else

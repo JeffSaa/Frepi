@@ -1,3 +1,23 @@
+.reset-password.ui.small.modal
+	.header
+		|Restaurar contraseña
+	.content
+		p Te enviaremos un correo para que restaures tu contraseña
+		.ui.success.segment style="display: none"
+			h3.ui.header
+				i.checkmark.icon
+				.content
+					|Listo!
+					.sub.header Hemos envíado un correo con instrucciones para restaurar tu contraseña
+		form.ui.form data-bind="submit: resetPassword"
+			.field
+				label Correo
+				input name="email" type="email"
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.green.right.labeled.icon.button type="submit"
+					|Restaurar
+					i.checkmark.icon
 h2.ui.center.aligned.header
 	|Bienvenido!
 	.sub.header Ingresa y escoge los mejores productos.
@@ -23,6 +43,6 @@ form.ui.login.form data-bind="submit: function(){LoginService.regularLogin()}"
 			a href="signup.html" Crea una
 			br
 			|¿Olvidaste tu contraseña?&nbsp;
-			a href="signup.html" Cambiala
+			a.reset.trigger Restaurala
 
 script src="javascripts/viewmodels/login.js" type="text/javascript"

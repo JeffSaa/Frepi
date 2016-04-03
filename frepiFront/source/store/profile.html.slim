@@ -52,12 +52,15 @@
 					input type="text" name="phone" placeholder="Teléfono"
 				.buttons-to-right
 					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
-					.ui.labeled.green.icon.button data-bind="click: function(){updateUser('user')}"
+					.ui.right.labeled.green.icon.button data-bind="click: function(){updateUser('user')}"
 						|Guardar cambios
 						i.checkmark.icon
 	#order-details.ui.small.modal
 		.header Detalles de la orden
 		.content
+			p
+				strong Estado:&nbsp;
+				span.ui.label data-bind="text: setStatus(chosenOrder.status(), false), css: chosenOrder.status().toLowerCase()"
 			p
 				strong Fecha creación:
 				|<!--ko text: ' '+chosenOrder.creationDate()--><!--/ko-->
@@ -71,13 +74,16 @@
 			ul data-bind="foreach: chosenOrder.products"
 				li
 					|<!-- ko text: $data.product.name --><!--/ko-->
-					span data-bind="text: ' ('+$data.product.size+') x ', visible: $data.product.size"
-					|<!-- ko text: $data.quantity --><!--/ko-->
+					span data-bind="text: ' ('+$data.product.size+')', visible: $data.product.size"
+					|<!-- ko text: ' x '+$data.quantity --><!--/ko-->
 					span data-bind="visible: !$data.acquired" &nbsp;- No adquirido
 			p
 				strong Precio total:
 				|<!--ko text: ' $'+chosenOrder.totalPrice()--><!--/ko-->
 		.actions
+			.ui.red.button data-bind="visible: chosenOrder.status() === 'RECEIVED', click: cancelOrder"
+				i.ban.icon
+				|Cancelar orden
 			.ui.green.ok.button
 				i.check.icon
 				|Ok

@@ -87,9 +87,10 @@ class CheckoutVM
 		data =
 			address					: @address()
 			comment 				: @comment()
+			telephone				: @phoneNumber()
 			products 				:	productsToSend
 			arrivalTime			: @selectedHour()
-			scheduledDate		: @selectedDate()
+			scheduledDate		: @selectedDate()			
 			expiryTime			: @selectedExpiredHour()
 
 		console.log 'DATA TO SEND'

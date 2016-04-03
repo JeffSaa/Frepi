@@ -1,7 +1,8 @@
 class window.DefaultModels
-	@ORDER = 
+	@ORDER =
 		active: true
 		address: "29045 Bashirian Prairie"
+		telephone: "123"
 		arrivalTime: null
 		comment: null
 		date: "2015-11-20T19:26:14.736Z"
@@ -13,7 +14,7 @@ class window.DefaultModels
 		shopper: []
 		status: "RECEIVED"
 		totalPrice: "23.79"
-		user: 
+		user:
 			active: true
 			address: "366 West Green"
 			cityId: 1

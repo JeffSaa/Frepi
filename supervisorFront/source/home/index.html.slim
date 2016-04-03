@@ -16,7 +16,8 @@ html
 		#assign-shopper.ui.small.frepi.modal
 			i.close.icon
 			.content
-				.header data-bind="text: selectedOrder.address"
+				.header data-bind="text: 'Orden #'+selectedOrder.id()"
+				.meta data-bind="text: 'Dirección: '+selectedOrder.address()"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p
 					strong Información cliente
@@ -25,7 +26,7 @@ html
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
 					strong Teléfono:&nbsp;
-					span data-bind="text: selectedOrder.user.phoneNumber()"
+					span data-bind="text: selectedOrder.telephone"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
 				p
@@ -43,6 +44,9 @@ html
 					.menu data-bind="foreach: inStoreShoppers"
 						.item data-bind="attr: {'data-value': $data.id}, text: $data.firstName+' '+$data.lastName"
 				.actions
+					button.ui.black.basic.undo.button data-bind="click: undoOrder"
+						i.ban.icon
+						|Cancelar orden
 					button.ui.black.basic.button data-bind="click: printList"
 						i.print.icon
 						|Imprimir lista
@@ -53,7 +57,8 @@ html
 			i.close.icon
 			.content
 				i.red.asterisk.icon data-bind="visible: shouldShowAsterisk"
-				.header data-bind="text: selectedOrder.address"
+				.header data-bind="text: 'Orden #'+selectedOrder.id()"
+				.meta data-bind="text: 'Dirección: '+selectedOrder.address()"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p
 					strong Información cliente
@@ -62,7 +67,7 @@ html
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
 					strong Teléfono:&nbsp;
-					span data-bind="text: selectedOrder.user.phoneNumber()"
+					span data-bind="text: selectedOrder.telephone"
 				ul.checking.items data-bind="foreach: selectedOrder.products"
 					li data-bind="click: $root.markAsAcquired, text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
 				button.ui.tiny.black.basic.button data-bind="click: updateProductsOrder"
@@ -96,7 +101,8 @@ html
 		#delivering-order.ui.small.frepi.modal
 			i.close.icon
 			.content
-				.header data-bind="text: selectedOrder.address"
+				.header data-bind="text: 'Orden #'+selectedOrder.id()"
+				.meta data-bind="text: 'Dirección: '+selectedOrder.address()"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.
 				arrivalTime())"
 				p
@@ -106,7 +112,7 @@ html
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
 				p
 					strong Teléfono:&nbsp;
-					span data-bind="text: selectedOrder.user.phoneNumber()"
+					span data-bind="text: selectedOrder.telephone"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
 				p
@@ -128,11 +134,15 @@ html
 		#dispatched-order.ui.small.frepi.modal
 			i.close.icon
 			.content
-				.header data-bind="text: selectedOrder.address"
+				.header data-bind="text: 'Orden #'+selectedOrder.id()"
+				.meta data-bind="text: 'Dirección: '+selectedOrder.address()"
 				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
 				p
 					strong Nombre cliente:&nbsp;
 					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
+				p
+					strong Teléfono cliente:&nbsp;
+					span data-bind="text: selectedOrder.telephone"
 				ul.items data-bind="foreach: selectedOrder.products"
 					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
 				p
@@ -147,6 +157,26 @@ html
 				p
 					strong Orden llevada por:&nbsp;
 					span data-bind="text: deliveryShopperFullName"
+		#disabled-order.ui.small.frepi.modal
+			i.close.icon
+			.content
+				.header data-bind="text: 'Orden #'+selectedOrder.id()"
+				.meta data-bind="text: 'Dirección: '+selectedOrder.address()"
+				.meta data-bind="text: 'Límite: '+parseDate(selectedOrder.scheduledDate())+', '+parseTime(selectedOrder.arrivalTime())"
+				p
+					strong Nombre cliente:&nbsp;
+					span data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
+				p
+					strong Teléfono cliente:&nbsp;
+					span data-bind="text: selectedOrder.telephone"
+				ul.items data-bind="foreach: selectedOrder.products"
+					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
+				p
+					strong Instrucciones del cliente:&nbsp;
+					span data-bind="text: selectedOrder.comment()"
+				p
+					strong Valor orden:&nbsp;
+					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
 		// Tables for printing
 		/ Pre order
 		#pre-order
@@ -199,7 +229,7 @@ html
 					tr
 						td
 							strong Teléfono
-						td data-bind="text: selectedOrder.user.phoneNumber()"
+						td data-bind="text: selectedOrder.telephone"
 					tr
 						td
 							strong Fecha entrega
@@ -255,8 +285,8 @@ html
 						a.item data-bind="click: function(data, event){ fetchOrders('dispatched', 1, event) }"
 							i.check.icon
 							span.state Despachadas
-						a.item data-bind="click: function(data, event){ fetchOrders('dispatched', 1, event) }"
-							i.recycle.icon
+						a.item data-bind="click: function(data, event){ fetchOrders('disabled', 1, event) }"
+							i.ban.icon
 							span.state Deshabilitadas
 						.right.menu
 							.item data-bind="click: refresh"
@@ -281,8 +311,13 @@ html
 						.column
 							.ui.frepi-card data-bind="click: $root.pickOrder"
 								.content
-									.header data-bind="text: $data.address"
-									.meta data-bind="text: 'Límite: '+$root.parseDate($data.scheduledDate)+', '+$root.parseTime($data.arrivalTime)"
+									.header data-bind="text: 'Orden #'+$data.id"
+									.meta
+										strong Dir:&nbsp;
+										|<!-- ko text: $data.address --><!--/ko-->
+									.meta
+										strong Límite:&nbsp;
+										|<!-- ko text: $root.parseDate($data.scheduledDate)+', '+$root.parseTime($data.arrivalTime) --><!--/ko-->
 
 									ul.items data-bind="foreach: $data.products"
 										li data-bind="text: $data.product.name+' x '+$data.quantity"

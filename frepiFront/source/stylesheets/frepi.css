@@ -43,6 +43,22 @@ footer p {
   white-space: nowrap;
 }
 
+.success.segment {
+	background-color: #f6fdf8;
+	border: solid 2px #21ba45;
+  color: #21ba45;
+}
+
+.success.segment .ui.header,
+.success.segment .sub.header {
+	color: #21ba45;
+}
+
+.ui.modal > .header {
+	background: #21ba45;
+  color: #fff;
+}
+
 /* Home/Index Page Styles */
 
 .header-padding {
@@ -666,33 +682,49 @@ header #shopping-cart .icon {
  ** Shopping Cart rules
  **/
 
- #shopping-cart .item {
-   display: -webkit-box;
-   display: -webkit-flex;
-   display: -ms-flexbox;
-   display: flex;
-   color: rgba(0,0,0,.67);
- }
+#shopping-cart .ui.items { margin: 0; }
 
-#shopping-cart>.item:first-child {
+#shopping-cart .item {
+ display: -webkit-box;
+ display: -webkit-flex;
+ display: -ms-flexbox;
+ display: flex;
+ color: rgba(0,0,0,.67);
+}
+
+#shopping-cart .empty-cart-banner.item { padding-top: 10%; }
+#shopping-cart .empty-cart-banner.item .header { font-size: 1.428571em; font-style: italic; width: 100%;}
+
+#shopping-cart > .item:first-child {
   background-color: #513C2C;
+	border-bottom: 4px solid #32251b;
+	display: block;
   padding: 1.71428em 1.28571em 1.42857em;
 }
 
-#shopping-cart>.item:first-child h3 {
-  color: #FFFFFF;
+#shopping-cart > .item:first-child h3 {
+  color: #fff;
+	font-size: 1.142857em;
   margin: 0;
+	padding-bottom: .375em;
+	width: auto;
 }
 
-#shopping-cart>.item:first-child .label {
-  background-color: #413023;
-  font-size: 1em;
-  height: 2.75em;
-  line-height: 2;
+#shopping-cart > .item:first-child .ui.divider {
+	border-bottom: 1px solid #fff;
+	margin-bottom: .571428em;
 }
 
-#shopping-cart .checkout { display: block; }
+#shopping-cart > .item:first-child p { color: #fff; font-size: .857142em; }
+
+#shopping-cart .checkout { display: block; height: calc(100% - 7.285714em); }
 #shopping-cart .checkout.hide { display: none; }
+
+#shopping-cart .checkout .items+.item {
+	bottom: 0;
+	position: absolute;
+	width: 100%;
+}
 
 #shopping-cart .sign-up-banner {
   display: none;
@@ -710,6 +742,8 @@ header #shopping-cart .icon {
 .centering {
   line-height: 2.5;
 }
+
+#shopping-cart .ui.items { overflow: auto; height: calc(100% - 5em); }
 
 #shopping-cart .ui.items .item {
   padding: .5625em 1.5625em .5625em 3em;
@@ -972,25 +1006,25 @@ header #shopping-cart .icon {
 	background-color: rgba(0, 0, 0, .08);
 }
 
-.profile .table tr td:last-of-type .delivering {
+.delivering.label {
   background-color: #B5CC18;
   border-color: #B5CC18;
   color: #FFF;
 }
 
-.profile .table tr td:last-of-type .dispatched {
+.dispatched.label {
   background-color: #21BA45;
   border-color: #21BA45;
   color: #FFF;
 }
 
-.profile .table tr td:last-of-type .shopping {
+.shopping.label {
   background-color: #FBBD08;
   border-color: #FBBD08;
   color: #FFF;
 }
 
-.profile .table tr td:last-of-type .received {
+.received.label {
   background-color: #00B5AD;
   border-color: #00B5AD;
   color: #FFF;

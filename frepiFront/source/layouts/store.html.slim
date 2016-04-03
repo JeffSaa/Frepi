@@ -185,11 +185,13 @@ html
 
 		#shopping-cart.ui.vertical.right.sidebar.menu
 			.item
-				h3.ui.header
-					i.shop.icon
-					.content CARRITO
-				.ui.label data-bind="text: '$ '+(session.currentOrder.price()).toLocaleString()"
+				h3.ui.left.floated.header Total
+				h3.ui.right.floated.header data-bind="text: '$ '+(session.currentOrder.price()).toLocaleString()"
+				.ui.clearing.divider
+				p Entregas de 09:00 AM a 07:00 PM
 			.checkout
+				.empty-cart-banner.item data-bind="visible: session.currentOrder.numberProducts() === '0 items'"
+					h4.ui.centered.header El carrito esta vacío
 				.ui.items data-bind="foreach: session.currentOrder.products"
 					.item
 						.ui.tiny.image
