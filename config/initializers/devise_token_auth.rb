@@ -26,5 +26,5 @@ DeviseTokenAuth.setup do |config|
   # attribute updates. Set it to :password if you want it to be checked only if
   # password is updated.
   # config.check_current_password_before_update = :attributes
-  default_password_reset_url = 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1/'
+  default_password_reset_url = 'www.frepi.co'
 end
