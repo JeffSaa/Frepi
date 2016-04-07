@@ -81,6 +81,8 @@ Rails.application.routes.draw do
         resources :products, only: :index
       end
 
+      resources :passwords, only: [:index, :create]
+
       # Explore
       get 'subcategories/:subcategory_id/products', to: 'explore_products#index'
     end

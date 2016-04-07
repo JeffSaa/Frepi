@@ -27,7 +27,7 @@ user:
   uid: email3
   phone_number: MyString
   active: true
-
+  
 disable_client:
   id: 3
   name: MyString
