@@ -41,7 +41,7 @@ html
 		script src="../javascripts/classes/constans.js" type="text/javascript"
 		script src="../javascripts/classes/RESTfulService.js" type="text/javascript"
 		script src="../javascripts/classes/loginService.js" type="text/javascript"
-		script src="../javascripts/viewmodels/transactionalPage.js" type="text/javascript"
+		script src="../javascripts/viewmodels/store/transactionalPage.js" type="text/javascript"
 	body.store-layout
 		#product-desc.ui.modal
 			i.close.icon
@@ -173,15 +173,6 @@ html
 					|<!--ko text: $data.name--><!--/ko-->
 					.menu data-bind="foreach: $data.subcategories"
 						a.item data-bind="text: $data.name, click: $root.chooseDeparment"
-
-				//  data-bind="click: $root.chooseDeparment"
-				// .ui.accordion.item
-				// 	// i.chevron.right.icon
-				// 	.title
-				// 		i.dropdown.icon
-				// 		|<!--ko text: $data.name--><!--/ko-->
-				// 		.item data-bind="text: $data.name"
-				// 	.content data-bind="foreach: $data.subcategories"
 
 		#shopping-cart.ui.vertical.right.sidebar.menu
 			.item

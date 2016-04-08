@@ -4,20 +4,29 @@ class ChangePasswordVM
 
 	changePassword: ->
 		$form = $('.ui.form')
-		if $form.form('is valid')
-			alert('Hmm, I dont know that to do here')
-			# data =
-			# 	email: $form.form('get value', 'email')
-			# 	redirect_url: 'localhost:4567/store'
-			# $('.reset-password .green.button').addClass('loading')
-			# RESTfulService.makeRequest('POST', "/auth/password", data, (error, success, headers) =>
-			# 	$('.reset-password .green.button').removeClass('loading')
-			# 	if error
-			# 		console.log 'An error has ocurred while fetching the categories!'
-			# 		console.log error
-			# 	else
-			# 		console.log success
-			# )
+		url = window.location.href
+		resetToken = url.split('reset_password_token=')[1]
+
+		if $form.form('is valid') and resetToken
+			data =
+				reset_password_token: resetToken
+				password: $form.form('get value', 'new-password')
+				password_confirmation: $form.form('get value', 'confirmation-new-password')
+
+			$('.change.green.button').addClass('loading')
+			RESTfulService.makeRequest('POST', "/passwords", data, (error, success, headers) =>
+				$('.change.green.button').removeClass('loading')
+				if error
+					$form.addClass('error')
+					$('.ui.error.hidden.message').removeClass('hidden')
+					if error.responseJSON
+						$form.form('add errors', ['La solicitud no es válida'])
+					else
+						$form.form('add errors', ['No se pudo establecer conexión'])
+				else
+					console.log success
+					$('.success.segment').transition('fade down')
+			)
 
 	setDOMElements: ->
 		$('.ui.form').form(

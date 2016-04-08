@@ -29,7 +29,8 @@ class LoginVM
 		if $form.form('is valid')
 			data =
 				email: $form.form('get value', 'email')
-				redirect_url: 'localhost:4567/change-password.html'
+				redirect_url: '/'
+
 			$('.reset-password .green.button').addClass('loading')
 			RESTfulService.makeRequest('POST', "/auth/password", data, (error, success, headers) =>
 				$('.reset-password .green.button').removeClass('loading')
@@ -91,6 +92,8 @@ class LoginVM
 			)
 		$('.reset-password.modal').modal(
 				onHidden: ->
+					$('.reset-password .success.segment').attr('style', 'display: none !important')
+					$('.reset-password .green.button').removeClass('disabled')
 					$('.reset-password form').form('clear')
 			)
 			.modal('attach events', '.reset.trigger', 'show')

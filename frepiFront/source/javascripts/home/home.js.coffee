@@ -22,4 +22,22 @@ restartAnimation = ->
 			$elem.before( $elem.clone(true) ).remove()
 		)
 
+$('.nav.button').click( ->
+		$('nav .right.menu').toggleClass('hidden')
+)
+
+setMenuVisibility = ->
+	if $(window).width() < 480
+		$('nav .right.menu').addClass('hidden')
+	else
+		$('nav .right.menu').removeClass('hidden')
+
+	$(window).resize(->
+		if $(window).width() < 480
+			$('nav .right.menu').addClass('hidden')
+		else
+			$('nav .right.menu').removeClass('hidden')
+	)
+
+setMenuVisibility()
 initSlider()

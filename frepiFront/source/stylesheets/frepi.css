@@ -49,6 +49,8 @@ footer p {
   color: #21ba45;
 }
 
+.success.hidden.segment { display: none; visibility: hidden;}
+
 .success.segment .ui.header,
 .success.segment .sub.header {
 	color: #21ba45;
@@ -60,6 +62,10 @@ footer p {
 }
 
 /* Home/Index Page Styles */
+
+.nav.button {display: none;}
+
+.right.menu.hidden {display: none !important;}
 
 .header-padding {
   height: 60px;
@@ -305,7 +311,7 @@ footer p {
 
 /* Loading */
 .loading {
-  background-color: rgb(34, 182, 118);
+  background-color: #22B676;
   height: 100%;
   position: relative;
 }
@@ -332,7 +338,7 @@ footer p {
 
 /* Admin */
 .admin.loader {
-  background-color: rgb(34, 182, 118);
+  background-color: #22B676;
   height: 100%;
   position: relative;
 }
@@ -348,7 +354,7 @@ footer p {
 
 /* Login */
 .inverted.menu {
-  background-color: rgb(34, 182, 118) !important;
+  background-color: #22B676 !important;
   height: 85px;
 }
 
@@ -470,7 +476,7 @@ body.user-session {
 /* Mobile Sidebar Menu */
 
 #mobile-menu {
-  background-color: rgb(34, 182, 118) !important;
+  background-color: #22B676 !important;
 }
 
 #mobile-menu h2 {
@@ -515,12 +521,12 @@ body.user-session {
 }
 
 .ui.fetching.loader:after {
-  border-color: rgb(34, 182, 118) transparent transparent;
+  border-color: #22B676 transparent transparent;
   border-width: .5em;
 }
 
 #store-primary-navbar {
-  background-color: rgb(34, 182, 118) !important;
+  background-color: #22B676 !important;
   height: 60px;
 }
 
@@ -621,7 +627,7 @@ header #shopping-cart .icon {
 }
 
 #user-account .menu {
-  background-color: rgb(34, 182, 118) !important;
+  background-color: #22B676 !important;
   z-index: 110;
 }
 
@@ -1128,10 +1134,6 @@ header #shopping-cart .icon {
 nav.admin.menu {
   height: 60px !important;
   z-index: 1500 !important;
-}
-
-nav.admin.menu #landing-logo {
-  padding: 0;
 }
 
 nav.admin.menu #landing-logo img {

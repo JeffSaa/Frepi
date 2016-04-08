@@ -1,4 +1,5 @@
 class ProfileVM extends TransactionalPageVM
+	RouteValidator.checkUser()
 	moment.locale('es')
 
 	constructor: ->

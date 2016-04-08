@@ -1,7 +1,7 @@
 class CheckoutVM
+	RouteValidator.checkCart()
 	constructor: ->
 		# Observables
-		constructor: ->
 		@session =
 			currentStore				: null
 			currentSucursal			: null
@@ -66,8 +66,13 @@ class CheckoutVM
 			$('.phone.field').addClass('error') if isInvalidPhone
 
 	logout: ->
-		Config.destroyLocalStorage()
-		window.location.href = 'login.html'
+		RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (error, success, headers) =>
+			if error
+				console.log 'An error has ocurred'
+			else
+				Config.destroyLocalStorage()
+				window.location.href = '/'
+		)
 
 	cancel: ->
 		window.location.href = 'store/index.html'
@@ -90,7 +95,7 @@ class CheckoutVM
 			telephone				: @phoneNumber()
 			products 				:	productsToSend
 			arrivalTime			: @selectedHour()
-			scheduledDate		: @selectedDate()			
+			scheduledDate		: @selectedDate()
 			expiryTime			: @selectedExpiredHour()
 
 		console.log 'DATA TO SEND'

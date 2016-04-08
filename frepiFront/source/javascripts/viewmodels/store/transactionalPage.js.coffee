@@ -205,7 +205,7 @@ class window.TransactionalPageVM
 
 	store: ->
 		@saveOrder()
-		window.location.href = 'index.html'
+		window.location.href = '../store/index.html'
 
 	removeFromCart: (product) ->
 		if product.quantity is 1

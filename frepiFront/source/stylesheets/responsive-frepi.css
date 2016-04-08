@@ -208,6 +208,29 @@
 
   /* Landing page rules */
 
+	.nav.button {
+		display: block;
+		position: absolute;
+    right: 1em;
+    top: .857142em;
+	}
+
+	#landing-logo {
+		display: inline-block;
+	}
+
+	nav.ui.menu.fixed {
+		border-bottom: 1px solid #22B676;
+		display: inline;
+		height: auto !important;
+	}
+
+	nav.ui.menu.fixed .right.menu {display: block;}
+	nav.ui.menu.fixed .right.menu *:not(i) { display: inline-block;	}
+	nav.ui.menu.fixed .right.menu .item {width: 50%;}
+	nav.ui.menu.fixed .right.menu .item .button{width: 100%;}
+	nav.ui.menu.fixed .right.menu .item:last-child {padding-left: 0;}
+
 	#slider .button {
 		font-size: 1.142857em;
 		width: 60%;

@@ -34,19 +34,19 @@ html
 			.item
 				img src="images/landing/full_logo.png" alt="Frepi's logo"
 			a.item href="store/index.html"
-				h4.ui.header
+				h4.ui.header.title
 					i.home.icon
 					|Tienda
 			a.item href="store/profile.html"
-				h4.ui.header
+				h4.ui.header.title
 					i.user.icon
 					|Cuenta
 			a.item data-bind="click: goToOrders"
-				h4.ui.header
+				h4.ui.header.title
 					i.book.icon
 					|Pedidos
 			a.item data-bind="click: logout"
-				h4.ui.header
+				h4.ui.header.title
 					i.sign.out.icon
 					|Salir
 
@@ -78,9 +78,10 @@ html
 		.pusher
 			header
 				#store-primary-navbar.ui.fixed.inverted.menu
-					a#store-frepi-logo href="store/index.html"
+					#store-frepi-logo
 						i.sidebar.icon
-						img.ui.image src="images/landing/full_logo.png" alt="Frepi's logo"
+						a href="store/index.html"
+							img.ui.image src="images/landing/full_logo.png" alt="Frepi's logo"
 
 					#user-account.ui.simple.right.floated.dropdown.item
 							.text data-bind="text: 'Hola, '+userName()"
@@ -136,11 +137,14 @@ html
 
 					.ui.one.column.centered.stackable.page.grid
 						.column
+							.ui.info.message
+								.header
+									i.info.circle.icon
+									|&nbsp;El pago de la orden es contraentrega
 							.ui.clearfix.segment
 								.ui.top.attached.label
 									|Total Cuenta:&nbsp;$
 									span data-bind="text: (session.currentOrder.price()).toLocaleString()"
-									strong &nbsp;- El pago de la orden es contraentrega
 								.order-content data-bind="visible: !orderGenerated()"
 									#products
 										table.ui.celled.unstackable.table
@@ -243,4 +247,5 @@ html
 		script src="javascripts/classes/encrypter.js"
 		script src="javascripts/classes/config.js"
 		script src="javascripts/classes/RESTfulService.js"
-		script src="javascripts/viewmodels/checkout.js"
+		script src="javascripts/classes/router.js"
+		script src="javascripts/viewmodels/store/checkout.js"
