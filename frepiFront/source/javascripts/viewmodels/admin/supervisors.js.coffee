@@ -49,6 +49,7 @@ class SupervisorsVM extends AdminPageVM
 
 	updateSupervisor: ->
 		$form = $('.update.modal form')
+		passwordConfirmation = $form.form('get value', 'confirmationPasswordUpdate')
 		data =
 			email: $form.form('get value', 'email')
 			firstName: $form.form('get value', 'firstName')
@@ -56,6 +57,7 @@ class SupervisorsVM extends AdminPageVM
 			phoneNumber: $form.form('get value', 'phoneNumber')
 
 		if $form.form('is valid')
+			data.password = passwordConfirmation if passwordConfirmation.length > 0
 			$('.update.modal form .green.button').addClass('loading')
 			RESTfulService.makeRequest('PUT', "/supervisors/#{@chosenSupervisor.id()}", data, (error, success, headers) =>
 					$('.update.modal form .green.button').removeClass('loading')
@@ -188,6 +190,17 @@ class SupervisorsVM extends AdminPageVM
 							rules: [
 								emptyRule, {
 									type: 'match[password]'
+									prompt: 'Las contraseñas no coinciden'
+								}
+							]
+						passwordUpdate:
+							identifier: 'passwordUpdate'
+							rules: []
+						confirmationPasswordUpdate:
+							identifier: 'confirmationPasswordUpdate'
+							rules: [
+								{
+									type: 'match[passwordUpdate]'
 									prompt: 'Las contraseñas no coinciden'
 								}
 							]

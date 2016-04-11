@@ -47,7 +47,6 @@
 						|Crear
 						i.checkmark.icon
 
-
 .ui.small.admin.update.modal
 	i.close.icon
 	.header Editar Supervisor
@@ -67,6 +66,13 @@
 				.field
 					label Correo electrónico
 					input type="email" name="email" placeholder="Correo electrónico"
+			.field
+				label Contraseña
+				.two.fields
+					.field
+						input type="password" name="passwordUpdate" placeholder="Contraseña"
+					.field
+						input type="password" name="confirmationPasswordUpdate" placeholder="Confirme contraseña"
 			.buttons-to-right
 				.ui.cancel.button Cancelar
 				button.ui.labeled.green.submit.icon.button type="submit"
