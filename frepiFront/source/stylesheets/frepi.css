@@ -722,8 +722,9 @@ header #shopping-cart .icon {
 }
 
 #shopping-cart > .item:first-child p { color: #fff; font-size: .857142em; }
+#shopping-cart > .item:first-child p:first-of-type { margin: 0; }
 
-#shopping-cart .checkout { display: block; height: calc(100% - 7.285714em); }
+#shopping-cart .checkout { display: block; height: calc(100% - 8.428571em); }
 #shopping-cart .checkout.hide { display: none; }
 
 #shopping-cart .checkout .items+.item {

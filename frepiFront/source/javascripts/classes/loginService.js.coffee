@@ -8,7 +8,7 @@ class window.LoginService
 
 	@FBLogin: (callback) =>
 		@initFB()
-		FBcredentials = {}
+		FBInfo = {}
 		FB.login(((response) ->
 				if response.status is 'connected'
 					console.log 'User logged into FrepiTest'
@@ -21,7 +21,7 @@ class window.LoginService
 								FB.api('/me', {fields: 'email, first_name, last_name, picture.height(400).width(400)'}, (responseAPI) ->
 										console.log 'Successful login for: ' + responseAPI.name
 										console.log 'Successful login for: ' + responseAPI.email
-										FBcredentials =
+										FBInfo =
 											email: responseAPI.email
 											name: responseAPI.first_name
 											last_name: responseAPI.last_name
@@ -29,7 +29,7 @@ class window.LoginService
 											uid: responseAPI.id
 
 										console.log responseAPI
-										RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBcredentials, (error, success, headers) =>
+										RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBInfo, (error, success, headers) =>
 												if error
 													console.log 'The user couldnt be created'
 													callback(error, null)
@@ -81,7 +81,7 @@ class window.LoginService
 							$form.form('add errors', ['No se pudo establecer conexión'])
 					else
 						Config.setItem('headers', JSON.stringify(headers))
-						Config.setItem('credentials', JSON.stringify(data))
+						# Config.setItem('credentials', JSON.stringify(data))
 						Config.setItem('userObject', JSON.stringify(success.data))
 
 						unless isLoginFromStore
