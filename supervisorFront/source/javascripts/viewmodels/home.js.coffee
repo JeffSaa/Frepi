@@ -43,6 +43,10 @@ class HomeVM
 				@refresh() if not(true in $('.ui.modal').modal('is active'))
 			, 300000)
 
+	baseFrepiPrice: (product) ->
+		iva = parseFloat(product.iva())/100
+		productWithoutIva = product.frepiPrice()*(1 - iva)
+		return productWithoutIva.toLocaleString()
 
 	finishOrder: ->
 		orderID = @selectedOrder.id()
@@ -163,8 +167,8 @@ class HomeVM
 		divToPrint = document.getElementById('pos-order')
 		newWin = window.open("")
 		newWin.document.write(divToPrint.outerHTML)
-		head  = newWin.document.getElementsByTagName('head')[0]
-		link  = document.createElement('link')
+		head = newWin.document.getElementsByTagName('head')[0]
+		link = document.createElement('link')
 		link.rel  = 'stylesheet'
 		link.type = 'text/css'
 		link.href = '../../semantic/out/semantic.min.css'

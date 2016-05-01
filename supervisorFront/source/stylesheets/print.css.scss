@@ -1,6 +1,46 @@
+// #pre-order, #pos-order {
+// 	width: 300px;
+// 	span {
+// 		font-size: 0.9em;
+// 	}
+// }
+
 #pre-order, #pos-order {
-	width: 300px;
-	span {
-		font-size: 0.9em;
-	}
+  display: block;
+  font-size: .714285em;
+  padding: 2em 1em 6em;
+  width: 300px;
+  i { color: red; }
+
+  .header {
+    
+    text-align: center;
+
+    img { width: 100%; }
+    p { margin: 0; }
+    .user.info { 
+      border-bottom: #000 1px dashed;
+      padding-bottom: 1em;
+    }
+    .company.info { 
+      border-bottom: #000 1px dashed;
+      padding: 1em 0 1.8em;
+    }
+  }
+
+  .products {
+    border: none;
+    font-size: 1em !important;
+    margin: .5em 0 2.5em;
+    width: 100%;
+    thead th {
+      background: #fff;
+      border-bottom: #000 1px dashed;
+      border-radius: 0;
+      border-top: #000 1px dashed;
+    }
+    tbody { border-bottom: #000 1px dashed; }
+    tbody td { padding: .6em 0; text-align: center; }    
+    tbody td.comment { padding: .3em 1.2em; text-align: left; }
+  }
 }

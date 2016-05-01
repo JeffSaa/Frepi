@@ -15,6 +15,7 @@ class ProductsVM extends AdminPageVM
 		@availableSubcategories = ko.observableArray()
 		@chosenProduct =
 			id : ko.observable()
+			iva : ko.observable()
 			image: ko.observable()
 			name : ko.observable()
 			size : ko.observable()
@@ -42,6 +43,7 @@ class ProductsVM extends AdminPageVM
 	createProduct: ->
 		$form = $('.create.modal form')
 		data =
+			iva: $form.form('get value', 'iva')
 			name: $form.form('get value', 'name')
 			size: $form.form('get value', 'size')
 			frepiPrice: $form.form('get value', 'frepiPrice')
@@ -69,6 +71,7 @@ class ProductsVM extends AdminPageVM
 	updateProduct: =>
 		$form = $('.update.modal form')
 		data =
+			iva: $form.form('get value', 'iva')
 			name: $form.form('get value', 'name')
 			size: $form.form('get value', 'size')
 			frepiPrice: $form.form('get value', 'frepiPrice')
@@ -120,6 +123,7 @@ class ProductsVM extends AdminPageVM
 
 	showUpdate: (product) =>
 		@chosenProduct.id(product.id)
+		@chosenProduct.iva(product.iva)
 		@chosenProduct.size(product.size)
 		@chosenProduct.description(product.description)
 		@chosenProduct.name(product.name)
@@ -135,6 +139,7 @@ class ProductsVM extends AdminPageVM
 			.form('set values',
 					name 					: @currentProduct.name
 					size 					: @currentProduct.size
+					iva 					: @currentProduct.iva
 					frepiPrice 		: @currentProduct.frepiPrice
 					storePrice 		: @currentProduct.storePrice
 					sucursalID 		: @currentProduct.sucursal.id
@@ -263,6 +268,9 @@ class ProductsVM extends AdminPageVM
 							rules: [emptyRule]
 						size:
 							identifier: 'size'
+							rules: [emptyRule]
+						iva:
+							identifier: 'iva'
 							rules: [emptyRule]
 						categoryID:
 							identifier: 'categoryID'

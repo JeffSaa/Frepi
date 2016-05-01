@@ -8,8 +8,8 @@ html
 		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
 		/! Add semantic's CSS
 		link rel="stylesheet" type="text/css" href="../semantic/out/semantic.min.css"
-		link rel="stylesheet" type="text/css" href="../stylesheets/screen.css"
-		link rel="stylesheet" type="text/css" href="../stylesheets/print.css"
+		link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/screen.css"
+		link rel="stylesheet" type="text/css" media="print" href="../stylesheets/print.css"
 	body data-bind="css: { unscrollable: loading }"
 		// Modals
 		/ Asign shopper to an order
@@ -180,86 +180,124 @@ html
 		// Tables for printing
 		/ Pre order
 		#pre-order
-			h2.ui.header
-				|Frepi
-				.sub.header NIT: 900 800 498 - 1
-				.sub.header data-bind="text: currentDate"
-			table.ui.fixed.celled.table
-				tbody
-					tr
-						td
-							strong Cliente
-						td data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
-					tr
-						td
-							strong Dirección
-						td data-bind="text: selectedOrder.address()"
-			table.ui.celled.table
+			.header
+				img src="../images/black_frepi_header.PNG"
+				.user.info
+					p
+						|Hecho con amor para:&nbsp;
+						|<!-- ko text: selectedOrder.user.name()+' '+selectedOrder.user.lastName() --><!--/ko-->
+					p
+						|Teléfono:&nbsp;
+						|<!-- ko text: selectedOrder.telephone --><!--/ko-->
+					p
+						|Domicilio:&nbsp;
+						|<!-- ko text: selectedOrder.address --><!--/ko-->
+					p
+						|Instrucciones:&nbsp;
+						|<!-- ko text: selectedOrder.comment --><!--/ko-->
+				.company.info
+					p Frepi S.A.S.
+					p NIT: 900 800 498 - 1
+					p Barranquilla, Calle 32 # 44 - 110
+					p Tel: 315 898 2043
+					p
+						|<!-- ko text: currentDate --><!--/ko-->
+					p
+						|N° P -&nbsp;
+						|<!-- ko text: selectedOrder.id --><!--/ko-->
+					p Régimen común
+			table.products
 				thead
 					tr
-						th Producto
-						th Cantidad
+						th DESC
+						th PROV
+						th CANT
+						th UNID
+						th PRECIO
 				tbody data-bind="foreach: selectedOrder.products"
 					tr
 						td data-bind="text: $data.product.name()"
-						td data-bind="text: $data.quantity()"
+						td data-bind="text: $data.product.sucursal.name"
+						td data-bind="text: $data.quantity"
+						td data-bind="text: $data.product.size"
+						td data-bind="text: $data.product.storePrice().toLocaleString()"
 					tr data-bind="visible: $data.comment() != '' && $data.comment() != null"
-						td colspan="2"
+						td.comment colspan="5"
 							strong Nota:&nbsp;
 							span data-bind="text: $data.comment()"
-			p data-bind="visible: selectedOrder.comment() != null"
-				strong Instrucciones del cliente:&nbsp;
-			span data-bind="text: selectedOrder.comment()"
-
+				tfoot
+					tr
+						th colspan="3"
+							|Items: &nbsp;&nbsp;
+							|<!-- ko text: selectedOrder.products().length --><!--/ko-->
+						th Total:
+						th data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
+			.footer
+				p
+					|Shopper:&nbsp;
+					|<!-- ko text: inStoreShopperFullName --><!--/ko-->
 		#pos-order
-			h2.ui.header
-				|Frepi
-				.sub.header NIT: 900 800 498 - 1
-				.sub.header data-bind="text: currentDate"
-			table.ui.fixed.celled.table
-				tbody
-					tr
-						td
-							strong Cliente
-						td data-bind="text: selectedOrder.user.name()+' '+selectedOrder.user.lastName()"
-					tr
-						td
-							strong Dirección
-						td data-bind="text: selectedOrder.address()"
-					tr
-						td
-							strong Teléfono
-						td data-bind="text: selectedOrder.telephone"
-					tr
-						td
-							strong Fecha entrega
-						td data-bind="text: $root.parseDate(selectedOrder.scheduledDate())+', '+$root.parseTime(selectedOrder.arrivalTime())"
-			table.ui.celled.table
+			.header
+				img src="../images/black_frepi_header.PNG"
+				.user.info
+					p
+						|Hecho con amor para:&nbsp;
+						|<!-- ko text: selectedOrder.user.name()+' '+selectedOrder.user.lastName() --><!--/ko-->
+					p
+						|Teléfono:&nbsp;
+						|<!-- ko text: selectedOrder.telephone --><!--/ko-->
+					p
+						|Domicilio:&nbsp;
+						|<!-- ko text: selectedOrder.address --><!--/ko-->
+					p
+						|Instrucciones:&nbsp;
+						|<!-- ko text: selectedOrder.comment --><!--/ko-->
+					p DATÁFONO o EFECTIVO
+				.company.info
+					p Frepi S.A.S.
+					p NIT: 900 800 498 - 1
+					p Barranquilla, Calle 32 # 44 - 110
+					p Tel: 315 898 2043
+					p
+						|<!-- ko text: currentDate --><!--/ko-->
+					p
+						|N° C -&nbsp;
+						|<!-- ko text: selectedOrder.id --><!--/ko-->
+					p Régimen común
+			table.products
 				thead
 					tr
-						th Producto
-						th Cantidad
-						th Valor C/U
+						th DESC
+						th P.BASE
+						th CANT
+						th IVA
+						th P.TOTAL
 				tbody data-bind="foreach: selectedOrder.products"
-					<!-- ko if: ($data.acquired) -->
 					tr
 						td data-bind="text: $data.product.name()"
-						td data-bind="text: $data.quantity()"
-						td data-bind="text: ($data.product.frepiPrice()).toLocaleString()"
-					tr data-bind="visible: $data.comment() != null"
-						td colspan="3"
-							strong Nota:
+						td data-bind="text: $root.baseFrepiPrice($data.product)"
+						td data-bind="text: $data.quantity"
+						td data-bind="text: $data.product.iva()+'%'"
+						td data-bind="text: $data.product.frepiPrice().toLocaleString()"
+					tr data-bind="visible: $data.comment() != '' && $data.comment() != null"
+						td.comment colspan="5"
+							strong Nota:&nbsp;
 							span data-bind="text: $data.comment()"
-					<!-- /ko -->
-			table.ui.fixed.celled.table
-				tbody
+				tfoot
 					tr
-						td
-							strong Precio Total
-						td data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
-			p
-				strong Instrucciones del cliente:&nbsp;
-			span data-bind="text: selectedOrder.comment()"
+						th colspan="3"
+							|Items: &nbsp;&nbsp;
+							|<!-- ko text: selectedOrder.products().length --><!--/ko-->
+						th Total:
+						th data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
+			.footer
+				p
+					|Shopper:&nbsp;
+					|<!-- ko text: inStoreShopperFullName --><!--/ko-->
+				p
+					|Domiciliario:&nbsp;
+					|<!-- ko text: deliveryShopperFullName --><!--/ko-->
+				img src="../images/black_bill_footer.PNG"
 
 		.ui.home
 			header
