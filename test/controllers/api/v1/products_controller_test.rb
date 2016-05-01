@@ -49,7 +49,7 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
     assert_difference('Product.count') do
       post :create, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id,
                     reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image',
-                    size: '2 Lb', description: 'this is the best cococho', subcategory_id: subcategories(:whiskies)
+                    size: '2 Lb', description: 'this is the best cococho', subcategory_id: subcategories(:whiskies), iva: 3.3
 
       assert_response :created
     end

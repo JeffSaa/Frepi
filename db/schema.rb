@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160324022845) do
+ActiveRecord::Schema.define(version: 20160501082605) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",             null: false
@@ -91,18 +91,19 @@ ActiveRecord::Schema.define(version: 20160324022845) do
 
   create_table "products", force: :cascade do |t|
     t.string   "reference_code"
-    t.string   "name",                                    null: false
-    t.string   "escaped_name",                            null: false
-    t.integer  "store_price",    limit: 8,                null: false
-    t.integer  "frepi_price",    limit: 8,                null: false
-    t.string   "image",                                   null: false
-    t.boolean  "available",                default: true, null: false
-    t.integer  "sales_count",              default: 0
+    t.string   "name",                                                            null: false
+    t.string   "escaped_name",                                                    null: false
+    t.integer  "store_price",    limit: 8,                                        null: false
+    t.integer  "frepi_price",    limit: 8,                                        null: false
+    t.string   "image",                                                           null: false
+    t.boolean  "available",                                        default: true, null: false
+    t.integer  "sales_count",                                      default: 0
     t.integer  "subcategory_id"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
     t.string   "size"
     t.text     "description"
+    t.decimal  "iva",                      precision: 5, scale: 2, default: 0.0
   end
 
   add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id"
