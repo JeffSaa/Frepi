@@ -4,7 +4,8 @@ class Product < ActiveRecord::Base
   include ActiveRecordHelper
 
   # scope
-  scope :available, -> { where(available: true) }
+  scope :availables, -> { where(available: true, active: true) }
+  scope :actives, -> { where(active: true) }
 
   # Associations
   belongs_to :subcategory
@@ -15,16 +16,16 @@ class Product < ActiveRecord::Base
   has_many   :sucursals_products, dependent: :delete_all
 
   # Validations
-  validates :name, :store_price, :frepi_price, :image, presence: true
-  validates :store_price, :frepi_price, numericality: true
-  validates :available, inclusion: { in: [true, false] }
+  validates :name, :store_price, :frepi_price, presence: true
+  validates :store_price, :frepi_price, :percentage, numericality: true
+  validates :available, :active, inclusion: { in: [true, false] }
   validates :name, uniqueness: { scope: :subcategory_id }
   validates :reference_code, uniqueness: { scope: :subcategory_id }, allow_nil: true
   validates :subcategory, presence: true
 
   # Callbacks
   # before_validation :round_price
-  before_save :format_attributes
+  before_save :format_attributes, :set_default_image
 
   private
     def round_price
@@ -34,5 +35,10 @@ class Product < ActiveRecord::Base
 
     def format_attributes
       self.escaped_name = attr_to_alpha(self.name)
+    end
+
+    def set_default_image
+      self.image = 'http://s3-sa-east-1.amazonaws.com/frepi/products/KY2UFF7G4JJ2WDE2N90SM8LSLSCFAT3U|' if self.image.blank?
+      
     end
 end

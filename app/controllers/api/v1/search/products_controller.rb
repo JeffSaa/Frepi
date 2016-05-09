@@ -6,7 +6,7 @@ class Api::V1::Search::ProductsController < ApplicationController
       page = params[:page] || 1
       per_page = params[:per_page] || 10
 
-      @products = Product.available.where('escaped_name ILIKE ?', "%#{params[:search].downcase}%").paginate(per_page: per_page, page: page)
+      @products = Product.availables.where('escaped_name ILIKE ?', "%#{params[:search].downcase}%").paginate(per_page: per_page, page: page)
       set_pagination_headers :products
       render json: @products, serializer: nil
     end

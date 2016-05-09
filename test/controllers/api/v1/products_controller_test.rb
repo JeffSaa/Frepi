@@ -49,7 +49,8 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
     assert_difference('Product.count') do
       post :create, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id,
                     reference_code: '3XVS34234 ', name: 'cococho', store_price: 9.99, frepi_price: 9.99, image: 'URL image',
-                    size: '2 Lb', description: 'this is the best cococho', subcategory_id: subcategories(:whiskies), iva: 3.3
+                    size: '2 Lb', description: 'this is the best cococho', subcategory_id: subcategories(:whiskies), iva: 3.3,
+                    percentage: 2.5, active: true
 
       assert_response :created
     end
@@ -83,12 +84,16 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
 
   test "only administrator should update a product" do
     sign_in :user, users(:admin)
-    put :update, id: products(:johnny).id, name: 'updated', store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id, size: 'updated', description: 'updated'
+    put :update,  id: products(:johnny).id, name: 'updated', store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id, 
+                  size: 'updated', description: 'updated', iva: 50, percentage: 50, active: false
     response = JSON.parse(@response.body)
 
     assert_match('updated', response['name'])
     assert_match('updated', response['size'])
     assert_match('updated', response['description'])
+    assert_match('50', response['percentage'])
+    assert_match('50', response['iva'])
+    assert_not(response['active'])
     assert_response :ok
   end
 
@@ -120,7 +125,7 @@ class  Api::V1::ProductsControllerTest < ActionController::TestCase
     sign_in :user, users(:admin)
     delete :destroy, id: products(:jack).id, store_partner_id: store_partners(:olimpica).id, sucursal_id: sucursals(:olimpica).id
     response = JSON.parse(@response.body)
-    assert_equal(false, response['available'])
+    assert_equal(false, response['active'])
 
     assert_response :ok
   end

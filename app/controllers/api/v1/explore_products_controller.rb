@@ -16,7 +16,7 @@ class  Api::V1::ExploreProductsController < Api::V1::ApiController
 =end
 
   def index
-    render json: @subcategory.products.where(available: true).order(:name)
+    render json: @subcategory.products.availables.order(:name)
   end
 
   private

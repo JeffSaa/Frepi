@@ -6,7 +6,7 @@ class Api::V1::Administrator::ProductsController < Api::V1::ApiController
 
   def index
     if params[:page]
-      @products = Product.available.order(:id).paginate(per_page: params[:per_page], page: params[:page])
+      @products = Product.actives.order(:id).paginate(per_page: params[:per_page], page: params[:page])
       set_pagination_headers :products
       render json: @products
     else
@@ -37,7 +37,7 @@ class Api::V1::Administrator::ProductsController < Api::V1::ApiController
   end
 
   def destroy
-    @product.destroy
+    @product.update(active: false)
     render(json: @product)
   end
 
@@ -60,6 +60,7 @@ class Api::V1::Administrator::ProductsController < Api::V1::ApiController
     end
 
     def product_params
-      params.permit(:reference_code, :name, :store_price, :frepi_price, :image, :available, :sales_count, :subcategory_id, :iva)
+      params.permit(:reference_code, :name, :store_price, :frepi_price, :image, :available, 
+                    :sales_count, :subcategory_id, :iva, :percentage, :active)
     end
 end

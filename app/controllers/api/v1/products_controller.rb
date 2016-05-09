@@ -39,7 +39,7 @@ class  Api::V1::ProductsController < Api::V1::ApiController
     end
 =end
     #render(json: Product.where(available: true), serializer: nil)
-    render(json: Product.available.as_json(include: [:subcategory, :category]), serializer: nil)
+    render(json: Product.availables.as_json(include: [:subcategory, :category]), serializer: nil)
   end
 
   def show
@@ -66,7 +66,7 @@ class  Api::V1::ProductsController < Api::V1::ApiController
   end
 
   def destroy
-    @product.available = false
+    @product.active = false
     @product.save
     render(json: @product)
   end
@@ -99,6 +99,7 @@ class  Api::V1::ProductsController < Api::V1::ApiController
   end
 
   def product_params
-    params.permit(:reference_code, :name, :store_price, :frepi_price, :image, :available, :sales_count, :subcategory_id, :size, :description, :iva)
+    params.permit(:reference_code, :name, :store_price, :frepi_price, :image, :available, 
+                  :sales_count, :subcategory_id, :size, :description, :iva, :percentage, :active)
   end
 end

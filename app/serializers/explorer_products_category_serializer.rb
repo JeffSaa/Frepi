@@ -1,4 +1,5 @@
 class ExplorerProductsCategorySerializer < ActiveModel::Serializer
     attributes :id, :reference_code, :name, :store_price, :frepi_price, :image,
-               :available, :sales_count, :subcategory_id, :size, :description, :iva
+               :available, :sales_count, :subcategory_id, :size, :description, :iva,
+               :percentage, :active
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160501082605) do
+ActiveRecord::Schema.define(version: 20160509041403) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",             null: false
@@ -104,6 +104,8 @@ ActiveRecord::Schema.define(version: 20160501082605) do
     t.string   "size"
     t.text     "description"
     t.decimal  "iva",                      precision: 5, scale: 2, default: 0.0
+    t.boolean  "active",                                           default: true
+    t.decimal  "percentage",               precision: 5, scale: 2, default: 0.0
   end
 
   add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id"
