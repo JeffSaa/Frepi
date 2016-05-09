@@ -56,7 +56,9 @@ class  Api::V1::ProductsController < Api::V1::ApiController
   end
 
   def update
-    # TODO: Valid when the subcategory_id does not exist
+    sucursalProduct = SucursalsProduct.where(product_id: @product.id).first
+    sucursalProduct.update(sucursal_id: @sucursal.id) if not sucursalProduct.nil?
+  
     @product.assign_attributes(product_params)
     if @product.save
       render(json: @product)

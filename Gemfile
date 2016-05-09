@@ -48,3 +48,6 @@ gem 'pg'
 
 # Search
 gem 'searchkick'
+
+# Excel reader
+gem 'roo', '~> 2.3.2'

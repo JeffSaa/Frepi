@@ -85,6 +85,8 @@ Rails.application.routes.draw do
 
       # Explore
       get 'subcategories/:subcategory_id/products', to: 'explore_products#index'
+
+      #post 'import_products', to: ''
     end
   end
 
