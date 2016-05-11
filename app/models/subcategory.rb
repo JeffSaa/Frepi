@@ -6,5 +6,5 @@ class Subcategory < ActiveRecord::Base
 
   # Validations
   validates :name, :category, presence: true
-  validates :name, uniqueness: { scope: :category_id }
+  #validates :name, uniqueness: { scope: :category_id }
 end
