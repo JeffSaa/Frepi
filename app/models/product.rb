@@ -19,7 +19,7 @@ class Product < ActiveRecord::Base
   validates :name, :store_price, :frepi_price, presence: true
   validates :store_price, :frepi_price, :percentage, numericality: true
   validates :available, :active, inclusion: { in: [true, false] }
-  validates :name, uniqueness: { scope: :subcategory_id }
+  #validates :name, uniqueness: { scope: :subcategory_id }
   validates :reference_code, uniqueness: { scope: :subcategory_id }, allow_nil: true
   validates :subcategory, presence: true
 

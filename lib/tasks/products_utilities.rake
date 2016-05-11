@@ -34,9 +34,11 @@ namespace :products_utilities do
           params[:sucursal_id] = column.value.to_i
         end
       end
-
+      p params
+      break if params[:name].nil?
       sucursal = Sucursal.find(params[:sucursal_id])
         
+
       if Product.exists? params[:id]
         # Updated the sucursal
         sucursalProduct = SucursalsProduct.where(product_id: params[:id]).first
@@ -48,7 +50,6 @@ namespace :products_utilities do
                         iva: params[:iva], percentage: params[:percentage],
                         frepi_price: params[:frepi_price], subcategory_id: params[:subcategory_id])
       else
-        p params
         p sucursal.products.create!(id: params[:id], name: params[:name], size: params[:size], description: params[:description],
                                   store_price: params[:store_price], iva: params[:iva], percentage: params[:percentage],
                                   frepi_price: params[:frepi_price], subcategory_id: params[:subcategory_id])        
