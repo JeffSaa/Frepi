@@ -3,7 +3,7 @@ class  Api::V1::ExploreCategoriesController < Api::V1::ApiController
   before_action      :find_store_partner
 
   def index
-    render json: @store_partner.categories.distinct, each_serializer: ExplorerCategorySerializer
+    render json: @store_partner.categories.order(:id).distinct, each_serializer: ExplorerCategorySerializer
   end
 
   private

@@ -38,7 +38,7 @@ class Product < ActiveRecord::Base
     end
 
     def set_default_image
-      self.image = 'http://s3-sa-east-1.amazonaws.com/frepi/products/KY2UFF7G4JJ2WDE2N90SM8LSLSCFAT3U|' if self.image.blank?
+      self.image = 'http://s3-sa-east-1.amazonaws.com/frepi/products/KY2UFF7G4JJ2WDE2N90SM8LSLSCFAT3U' if self.image.blank?
       
     end
 end
