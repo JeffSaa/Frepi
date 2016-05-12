@@ -20,7 +20,9 @@
    ** Ixdex/Landing rules
    **/
 
-	 #slider .images li ul li .corn {
+  nav.landing.menu .motto { display: none !important; }
+
+	#slider .images li ul li .corn {
  	  height: 110px;
  		width: 105px;
  	}
@@ -213,6 +215,7 @@
 		position: absolute;
     right: 1em;
     top: .857142em;
+    z-index: 1;
 	}
 
 	#landing-logo {

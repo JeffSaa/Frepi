@@ -36,52 +36,27 @@ html
 		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
 	body
 		header
-			nav.ui.fixed.inverted.borderless.admin.menu
-				button.ui.inverted.grey.basic.icon.nav.button
-					i.sidebar.icon
-				a#landing-logo.item href="index.html"
-					img src="images/landing/full_logo.png" alt="Frepi logo"
+			nav.ui.fixed.borderless.landing.menu
+				/button.ui.inverted.basic.icon.nav.frep.button
+				/	i.sidebar.icon
+				a.store.nav.button href="store/index.html"
+				.item.main.logo
+					a#landing-logo href="index.html"
+						img src="images/frepi_logo.png" alt="Frepi logo"
+				.item.motto ¡un mercado a la vez!
 				.right.menu
 					.item
-						a.ui.inverted.grey.basic.button href="login.html" Entrar
+						a.ui.inverted.basic.login.frep.button href="login.html" Entrar
 					.item
-						a.ui.orange.labeled.icon.store.button href="store/index.html"
-							i.shop.icon
-							|Tienda
+						a.store href="store/index.html"
+						// a.ui.orange.labeled.icon.store.button href="store/index.html"
+						//	i.shop.icon
+						//	|Tienda
 			.header-padding
 
 		section#slider
 			h2 Slider
-			a.ui.blue.button href="store/index.html" Comienza a mercar!
-			ul.images
-				li
-					h3
-						|Los mejores productos a los&nbsp;
-						strong mejores precios
-					ul.inner-images
-						li
-							figure.top-img
-								img.tomato src="images/tomatoPNG.png" alt="SLIDER_01"
-						li
-							figure.left-img
-								img.corn src="images/cornPNG.png" alt="SLIDER_02"
-						li
-							figure.right-img
-								img.broccoli src="images/broccoliPNG.png" alt="SLIDER_03"
-				li
-					h3
-						|Te hacemos el mercado, y lo llevamos a tu casa por solo&nbsp;
-						strong 6 mil pesos
-					ul.inner-images
-						li
-							figure.top-img
-								img.pepper src="images/pepperPNG.png" alt="SLIDER_04"
-						li
-							figure.left-img
-								img.carrot src="images/carrotPNG.png" alt="SLIDER_05"
-						li
-							figure.right-img
-								img.avocado src="images/avocadoPNG.png" alt="SLIDER_06"
+
 
 		section#deparments
 		section#how-we-work
@@ -100,10 +75,10 @@ html
 				|en Colombia
 			ul.ui.horizontal.list
 				li.item
-					a.ui.circular.facebook.icon.button
+					a.ui.circular.facebook.icon.button href="http://www.fb.com/frepi.co" target="_blank"
 						i.facebook.icon
 				li.item
-					a.ui.circular.instagram.icon.button
+					a.ui.circular.instagram.icon.button href="http://www.instagram.com/frepi.co" target="_blank"
 						i.instagram.icon
 				li.item
 					a.ui.circular.twitter.icon.button

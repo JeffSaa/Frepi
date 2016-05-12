@@ -22,9 +22,9 @@ restartAnimation = ->
 			$elem.before( $elem.clone(true) ).remove()
 		)
 
-$('.nav.button').click( ->
-		$('nav .right.menu').toggleClass('hidden')
-)
+# $('.nav.button').click( ->
+# 		$('nav .right.menu').toggleClass('hidden')
+# )
 
 setMenuVisibility = ->
 	if $(window).width() < 480

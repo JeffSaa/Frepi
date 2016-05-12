@@ -28,7 +28,6 @@ class ProfileVM extends TransactionalPageVM
 		@setExistingSession()
 		@fetchOrders()
 		# @setAWSCredentials()
-		@setRulesValidation()
 		@setDOMElements()
 		@shouldShowOrders()
 		@setSizeSidebar()
@@ -78,12 +77,6 @@ class ProfileVM extends TransactionalPageVM
 			$('.secondary.menu .item').tab('change tab', 'history')
 		console.log 'Orders shown'
 
-	setRulesValidation: ->
-		if @user.provider isnt 'facebook'
-			credentials = JSON.parse(Config.getItem('credentials'))
-			$.fn.form.settings.rules.isValidPassword = (value) ->
-				value is credentials.password
-
 	setDOMElements: ->
 		$('#edit-email form').form({
 				fields:
@@ -119,9 +112,6 @@ class ProfileVM extends TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'No puede estar vacía'
-							}, {
-								type: "isValidPassword[password]"
-								prompt: 'Contraseña incorrecta'
 							}
 						]
 				inline: true
@@ -157,9 +147,6 @@ class ProfileVM extends TransactionalPageVM
 							{
 								type: 'empty'
 								prompt: 'No puede estar vacía'
-							}, {
-								type: 'isValidPassword[current-password]'
-								prompt: 'Contraseña incorrecta'
 							}
 						]
 				inline: true
@@ -282,9 +269,9 @@ class ProfileVM extends TransactionalPageVM
 							console.log success
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
-							credentials = JSON.parse(Config.getItem('credentials'))
-							credentials.user = newEmail
-							Config.setItem('credentials', JSON.stringify(credentials))
+							# credentials = JSON.parse(Config.getItem('credentials'))
+							# credentials.user = newEmail
+							# Config.setItem('credentials', JSON.stringify(credentials))
 							@setUserInfo()
 							$('#edit-email').modal('hide')
 					)
@@ -305,9 +292,9 @@ class ProfileVM extends TransactionalPageVM
 							console.log success
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
-							credentials = JSON.parse(Config.getItem('credentials'))
-							credentials.password = newPassword
-							Config.setItem('credentials', JSON.stringify(credentials))
+							# credentials = JSON.parse(Config.getItem('credentials'))
+							# credentials.password = newPassword
+							# Config.setItem('credentials', JSON.stringify(credentials))
 							@setUserInfo()
 
 							$('#edit-password').modal('hide')

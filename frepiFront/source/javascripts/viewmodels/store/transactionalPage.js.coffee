@@ -147,9 +147,10 @@ class window.TransactionalPageVM
 					id: productToAdd.id
 					image: productToAdd.image
 					name: productToAdd.name
+					size: productToAdd.size
 					quantity: quantitySelected
 					subcategoryId: productToAdd.subcategoryId
-					totalPrice: parseInt(productToAdd.frepiPrice)
+					totalPrice: parseInt(productToAdd.frepiPrice or productToAdd.frepi_price) * quantitySelected
 				)
 				$("##{productToAdd.id} .image .label").addClass('show')
 			else
@@ -160,6 +161,7 @@ class window.TransactionalPageVM
 					id: oldProduct.id
 					image: oldProduct.image
 					name: oldProduct.name
+					size: oldProduct.size
 					quantity: oldProduct.quantity + quantitySelected
 					subcategoryId: oldProduct.subcategoryId
 					totalPrice: parseInt(((oldProduct.frepiPrice or oldProduct.frepi_price)*(oldProduct.quantity+quantitySelected)))
@@ -167,7 +169,6 @@ class window.TransactionalPageVM
 				@session.currentOrder.products.replace(oldProduct, newProduct)
 
 			@session.currentOrder.price(parseInt((@session.currentOrder.price() + (productToAdd.frepiPrice or productToAdd.frepi_price)*quantitySelected)))
-			console.log @session.currentOrder.price()
 
 			if @session.currentOrder.products().length isnt 1
 				@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
@@ -273,9 +274,12 @@ class window.TransactionalPageVM
 			@session.currentOrder.numberProducts('0 items')
 			@session.currentOrder.products([])
 			@session.currentOrder.price(0.0)
+			console.log 'session price'
+			console.log @session.currentOrder.price()
 			@session.currentOrder.sucursalId = 1
 
 	setUserInfo: =>
+
 		if !!Config.getItem('userObject')
 			tempUser = JSON.parse(Config.getItem('userObject'))
 			@user.id = tempUser.id
@@ -411,7 +415,6 @@ class window.TransactionalPageVM
 				})
 		$('.ui.dropdown:not(#user-account)')
 			.dropdown()
-		console.log $('#departments-menu .ui .dropdown')
 		$('#departments-menu .ui .dropdown')
 			.dropdown()
 

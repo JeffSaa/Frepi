@@ -127,7 +127,7 @@ class ProductsVM extends AdminPageVM
 		@chosenProduct.size(product.size)
 		@chosenProduct.description(product.description)
 		@chosenProduct.name(product.name)
-		@chosenProduct.sucursalID(product.sucursal.id)
+		@chosenProduct.sucursalID(product.sucursalID or product.sucursal.id)
 		@currentProduct = product
 		$('.update.modal').modal('show')
 
@@ -287,6 +287,43 @@ class ProductsVM extends AdminPageVM
 					inline: true
 					keyboardShortcuts: false
 				})
+
+	searchProduct: =>
+		valueInput = $('#product-searcher').form('get value', 'value')
+		data =
+			search: valueInput
+
+		RESTfulService.makeRequest('GET', "/search/products", data, (error, success, headers) =>
+			@isLoading(false)
+			if error
+				console.log 'An error has ocurred while fetching the products!'
+				@shouldShowProductsAlert(true)
+				@productsAlertText('Hubo un problema buscando la información de los productos')
+			else
+				@shouldShowProductsAlert(false)
+				console.log 'After searching products with ' + valueInput
+				console.log success
+				@currentProducts.removeAll()
+				@productsPages.allPages = []
+				if success.length > 0
+					@shouldShowProductsAlert(false)
+					totalPages = Math.ceil(headers.totalItems/10)
+					for i in [0..totalPages]
+						@productsPages.allPages.push({num: i+1})
+
+					@productsPages.activePage = 1
+					@productsPages.lowerLimit = 0
+					@productsPages.upperLimit = if totalPages < 10 then totalPages else 10
+					@productsPages.showablePages(@productsPages.allPages.slice(@productsPages.lowerLimit, @productsPages.upperLimit))
+
+					$("table.products .pagination .pages .item:first-of-type").addClass('active')
+					@currentProducts(success)
+				else
+					@shouldShowProductsAlert(true)
+					@productsAlertText("Sin resultados para #{valueInput}")
+
+				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+		)
 
 	setDOMProperties: ->
 		$('.ui.modal')

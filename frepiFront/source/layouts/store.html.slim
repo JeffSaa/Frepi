@@ -178,10 +178,14 @@ html
 			.item
 				h3.ui.left.floated.header Total
 				h3.ui.right.floated.header data-bind="text: '$ '+(session.currentOrder.price()).toLocaleString()"
+				/ h3.ui.right.floated.header data-bind="text: '$ '+(session.currentOrder.price())"
 				.ui.clearing.divider
 				p Entregas de 09:00 AM a 07:00 PM
-				p Costo domicilio: $6000
-			.checkout
+				p Costo domicilio: $6,000
+				p.minimum.value data-bind="visible: session.currentOrder.price() < 34000"
+					i.info.circle.icon
+					strong Pedido mínimo de $34,000
+			.checkout data-bind="css: {'minimum-displayed': session.currentOrder.price() < 34000}"
 				.empty-cart-banner.item data-bind="visible: session.currentOrder.numberProducts() === '0 items'"
 					h4.ui.centered.header El carrito esta vacío
 				.ui.items data-bind="foreach: session.currentOrder.products"
@@ -190,6 +194,8 @@ html
 							img data-bind="attr: {src: $data.image}"
 						.content
 							.header data-bind="text: $data.name"
+							.meta
+								|<!--ko text: $data.size--><!--/ko-->
 							.meta
 								span.price data-bind="text: '$'+($data.frepiPrice).toLocaleString()"
 								span x
@@ -210,7 +216,7 @@ html
 							.ui.button data-bind="click: function(data){$root.removeFromCart(data)}"
 								i.down.chevron.icon
 				.item
-					button.ui.fluid.large.green.button data-bind="click: checkout" Pagar
+					button.ui.fluid.large.green.button data-bind="click: checkout, css: {disabled: session.currentOrder.price() < 34000}" Pagar
 			.sign-up-banner
 				p.ui.header
 					|Oops! Tienes que estar en tu cuenta,&nbsp;
@@ -273,10 +279,10 @@ html
 			footer
 				.ui.horizontal.list
 					.item
-						a.ui.circular.icon.button
+						a.ui.circular.icon.button href="http://www.fb.com/frepi.co" target="_blank"
 							i.facebook.icon
 					.item
-						a.ui.circular.icon.button
+						a.ui.circular.icon.button href="http://www.instagram.com/frepi.co" target="_blank"
 							i.instagram.icon
 					.item
 						a.ui.circular.icon.button
