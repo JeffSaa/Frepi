@@ -108,7 +108,7 @@ class Order < ActiveRecord::Base
     if self.status == 'RECEIVED'
       self.active = false
       User.decrement_counter(:counter_orders, self.user.id)
-      self.orders_products.each { |order| order.decrement_counter }
+      # self.orders_products.each { |order| order.decrement_counter }
       self.save
     end
   end
