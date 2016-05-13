@@ -15,7 +15,7 @@ class OrdersProduct < ActiveRecord::Base
 
   # Methods
   def decrement_counter
-    self.product.decrement!(:sales_count, self.quantity)
+    self.product.decrement!(:sales_count, self.quantity) if not self.order.status == 'RECEIVED'
   end
 
   def increment_counter  
