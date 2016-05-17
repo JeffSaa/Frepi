@@ -6,7 +6,7 @@ namespace :products_utilities do
 
     spreadsheet = Roo::Spreadsheet.open(Rails.root + 'public/products.xlsx', extension: :xlsx)
 
-    spreadsheet = spreadsheet.sheet('productos')
+    spreadsheet = spreadsheet.sheet('Oficial')
 
     spreadsheet.each_row_streaming(offset: 1) do |row|
       params = {}

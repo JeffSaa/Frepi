@@ -1,0 +1,39 @@
+Orden Creada!
+-------------
+
+Información del cliente
+  
+  Id: <%= @user.id %>
+  Nombre del cliente: <%= "#{@user.name} #{@user.last_name}" %>
+  Email: <%= @user.email %>
+  Telefono Usuario: <%= @user.phone_number %>
+  Dirección cliente:  <%= @user.address %>
+
+-----------------------------------------------
+
+Información de la Orden:
+  
+  1. Id Order: <%= @order.id %>
+  2. Dirección de la orden: <%= @order.address %>
+  3. Comentario de la Orden: <%= @order.comment %>
+  4. Telefono de la orden: <%= @order.telephone %>
+  5. Fecha de creación: <%= @order.date.to_formatted_s(:long) %>
+  6. Debe llegar al cliente maximo a esta fecha: <%= @order.scheduled_date.to_formatted_s(:short) %>
+  
+  7. Productos:
+      <% @order.orders_products.each do |order_product| %>
+        ***********************************************************
+        * Nombre del producto: <%= order_product.product.name %>
+        * Cantidad: <%= order_product.quantity %>
+        * Comentario: <%= order_product.comment %>
+        ***********************************************************
+      <% end %>
+
+
+-------
+
+Precio Total Orden: <%= @order.total_price %>  + 6000 domicilio
+
+--------
+
+Fecha de generación: <%= DateTime.current.to_formatted_s(:long) %>
