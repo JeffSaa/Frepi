@@ -9,7 +9,15 @@ Información del cliente
   Telefono Usuario: <%= @user.phone_number %>
   Dirección cliente:  <%= @user.address %>
 
------------------------------------------------
+
+-------------
+
+
+Descuento Orden: <%= @order.discount %> 
+Precio Total Orden: <%= @order.total_price %>  + 6000 domicilio
+
+-------------
+
 
 Información de la Orden:
   
@@ -22,17 +30,14 @@ Información de la Orden:
   
   7. Productos:
       <% @order.orders_products.each do |order_product| %>
-        ***********************************************************
-        * Nombre del producto: <%= order_product.product.name %>
-        * Cantidad: <%= order_product.quantity %>
-        * Comentario: <%= order_product.comment %>
-        ***********************************************************
+        ----------
+        - Nombre del producto: <%= order_product.product.name %>
+        - Presentación del producto: <%= order_product.product.size %>
+        - Cantidad: <%= order_product.quantity %>
+        - Comentario: <%= order_product.comment %>
+        ----------
       <% end %>
 
-
--------
-
-Precio Total Orden: <%= @order.total_price %>  + 6000 domicilio
 
 --------
 
