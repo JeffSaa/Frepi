@@ -45,16 +45,16 @@ Rails.application.configure do
   #Rails.application.routes.default_url_options[:host] = 'localhost'
   
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
+  #config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.mailgun.org',
-    port: '587',
-    domain: 'mailgun.org',
-    authentication: 'plain',
-    enable_starttls_auto: true,
-    user_name: 'postmaster@sandboxff1df4e70eca4487a360a6ffe2f37da2.mailgun.org',
-    password: 'de6834ad958b8b4f38445294478b8903'
-  }
+  # config.action_mailer.smtp_settings = {
+  #   address: 'smtp.mailgun.org',
+  #   port: '587',
+  #   domain: 'mailgun.org',
+  #   authentication: 'plain',
+  #   enable_starttls_auto: true,
+  #   user_name: 'postmaster@sandboxff1df4e70eca4487a360a6ffe2f37da2.mailgun.org',
+  #   password: 'de6834ad958b8b4f38445294478b8903'
+  # }
 
 end

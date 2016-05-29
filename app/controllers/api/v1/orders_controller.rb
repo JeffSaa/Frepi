@@ -15,7 +15,7 @@ class  Api::V1::OrdersController < Api::V1::ApiController
     order = current_user.orders.build(params_order)
     if order.buy(current_user, params[:products])
       if order.save
-        #OrderCreatedMailer.notification_email(order, current_user).deliver_now
+        OrderCreatedMailer.notification_email(order, current_user).deliver_now
         render(json: order, status: :created)
       else
         render(json: { errors: order.errors }, status: :bad_request)
