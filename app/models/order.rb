@@ -38,6 +38,16 @@ class Order < ActiveRecord::Base
     products.each do |product|
       self.add_products(product)
     end
+
+    # Discount applied
+    if self.total_price >= 80_000
+      # Discount applied to the order
+      self.discount = user.discount
+      # Discount subtracted to the user
+      user.discount = 0
+      user.save
+    end
+
     self
   end
 
@@ -107,9 +117,9 @@ class Order < ActiveRecord::Base
   def delete_order
     if self.status == 'RECEIVED'
       self.active = false
-      User.decrement_counter(:counter_orders, self.user.id)
-      # self.orders_products.each { |order| order.decrement_counter }
       self.save
+      #User.decrement_counter(:counter_orders, self.user.id)
+      # self.orders_products.each { |order| order.decrement_counter }
     end
   end
 

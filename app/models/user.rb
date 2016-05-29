@@ -22,8 +22,11 @@ class User < ActiveRecord::Base
   validates :counter_orders, numericality: { only_integer: true }
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
   validates :name, :last_name, presence: true, length: { minimum: 3 }, format: { with: /\A[^0-9`!@#\$%\^&*+_=]+\z/ }
-
   reverse_geocoded_by :latitude, :longitude
+
+  # Callbacks
+  before_create :free_discount
+
 
   # Methods
   def self.from_omniauth(auth)
@@ -31,5 +34,10 @@ class User < ActiveRecord::Base
     user.errors
     user.save(validate: false)
     user
+  end
+
+  # Discount for the first time
+  def free_discount
+    self.discount = 15_000
   end
 end

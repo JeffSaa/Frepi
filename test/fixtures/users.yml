@@ -12,6 +12,7 @@ admin:
   administrator: true
   phone_number: MyString
   active: true
+  discount: 15_000
 
 user:
   id: 2
@@ -27,6 +28,7 @@ user:
   uid: email3
   phone_number: MyString
   active: true
+  discount: 15_000
   
 disable_client:
   id: 3
