@@ -7,6 +7,14 @@
 
 	.ui.active.fetching.large.text.loader data-bind="visible: shouldDisplayLoader" Buscando los productos
 
+	.ui.container data-bind="visible: shouldShowDiscountMessage"
+		.ui.discount.success.message
+			h4.ui.header
+				i.money.icon
+				|&nbsp;Tienes $15,000 de descuento*
+				.sub.header
+					|*Válido para compras mayores a $80,000
+
 	#frepi-categories.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
 		section
 			h2.ui.header
@@ -20,7 +28,7 @@
 						.image
 							img data-bind="attr: {src: $data.image, alt: $data.name}"
 							.ui.blue.left.corner.label
-								i.check.icon
+								span.quantity 1
 						.content
 							.truncated.header data-bind="text: $data.name"
 							.meta data-bind="text: $data.size"

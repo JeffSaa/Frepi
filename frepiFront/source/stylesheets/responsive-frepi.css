@@ -22,92 +22,18 @@
 
   nav.landing.menu .motto { display: none !important; }
 
-	#slider .images li ul li .corn {
- 	  height: 110px;
- 		width: 105px;
- 	}
-
- 	#slider .images li ul li .tomato {
- 	  height: 110px;
- 		width: 95px;
- 	}
-
- 	#slider .images li ul li .broccoli {
- 	  height: 120px;
- 		width: 95px;
- 	}
-
- 	#slider .images li ul li .carrot {
- 	  height: 130px;
- 		width: 90px;
- 	}
-
- 	#slider .images li ul li .pepper {
- 	  width: 100px;
- 		height: 105px;
- 	}
-
- 	#slider .images li ul li .avocado {
- 		height: 105px;
- 	  width: 90px;
- 	}
-
-   #slider .images li h3 {
-     font-size: 2em;
-   }
-
-   #slider .images li ul li .top-img {
-     right: 40%;
-     top: 50px;
-   }
-
-   #slider .images li ul li .left-img {
-     left: 12%;
-     top: 75%;
-   }
-
-   #slider .images li ul li .right-img {
-     right: 14%;
-     top: 70%;
-   }
-
-   #slider .images li ul li figure img {
-     height: 80px;
-     width: 80px;
-   }
-
-   /**** Slider Animations ***/
-
-   /* Image coming from the slider's top */
-   @keyframes slidein-top {
-     from {top: -100px;}
-     to {top: 50px;}
-   }
-
-   /* Image coming from the slider's left */
-   @keyframes slidein-left {
-     from {left: -100px;}
-     to {left: 12%;}
-   }
-
-   /* Image coming from the slider's right */
-   @keyframes slidein-right {
-     from {right: -100px;}
-     to {right: 14%;}
-   }
-
-   #how-we-work p {
-     margin: 2.5em 2em 1em;
-   }
+  #how-we-work p {
+    margin: 2.5em 2em 1em;
+  }
 
   /**
    ** Login rules
    **/
 
-   .login-main {
-     background: url(../images/landing/login-bg-min.jpg) no-repeat fixed center bottom;
-     background-size: 100%;
-   }
+  .login-main {
+    background: url(../images/landing/login-bg-min.jpg) no-repeat fixed center bottom;
+    background-size: 100%;
+  }
 
   .ui.stackable.grid>.column:not(.row) {
     padding: 1rem 2rem !important;
@@ -162,6 +88,8 @@
   #store-secondary-navbar {
     display: none;
   }
+
+  .ui.discount.message { display: block; margin: 2rem auto 0; width: 80%; }
 
   /* Checkout steps rules */
   .checkout .ui.steps {
@@ -234,48 +162,21 @@
 	nav.ui.menu.fixed .right.menu .item .button{width: 100%;}
 	nav.ui.menu.fixed .right.menu .item:last-child {padding-left: 0;}
 
-	#slider .button {
-		font-size: 1.142857em;
-		width: 60%;
-	}
-
-	#slider .images li ul li .corn {
-	  height: 90px;
-		width: 85px;
-	}
-
-	#slider .images li ul li .tomato {
-	  height: 90px;
-		width: 75px;
-	}
-
-	#slider .images li ul li .broccoli {
-	  height: 100px;
-		width: 75px;
-	}
-
-	#slider .images li ul li .carrot {
-	  height: 110px;
-		width: 70px;
-	}
-
-	#slider .images li ul li .pepper {
-		height: 100px;
-		width: 90px;
-	}
-
-	#slider .images li ul li .avocado {
-		height: 90px;
-	  width: 75px;
-	}
-
-  #slider .images li h3 {
-    width: 85%;
+	#slider {padding-top: 470px;}
+  #slider .motto { 
+    margin: -140px 0 0 -150px;
+    width: 300px;
   }
+  #slider .button { margin: -100px 0 0 -102px; }
+
 
   #how-we-work p {
     margin: 2.5em 0 1em;
   }
+
+  /* Store rules */
+
+  .ui.discount.message { width: 100%; }
 
   /* Profile rules */
   .profile #guide-status {

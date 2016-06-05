@@ -27,13 +27,13 @@ restartAnimation = ->
 # )
 
 setMenuVisibility = ->
-	if $(window).width() < 480
+	if $(window).outerWidth() < 480
 		$('nav .right.menu').addClass('hidden')
 	else
 		$('nav .right.menu').removeClass('hidden')
 
 	$(window).resize(->
-		if $(window).width() < 480
+		if $(window).outerWidth() < 480
 			$('nav .right.menu').addClass('hidden')
 		else
 			$('nav .right.menu').removeClass('hidden')

@@ -18,6 +18,7 @@ class SearchVM extends TransactionalPageVM
 		@fetchProducts()
 
 		@setDOMElements()
+		@setSizeSidebar()
 
 	fetchProducts: =>
 		data =
@@ -51,12 +52,20 @@ class SearchVM extends TransactionalPageVM
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
-		$('#shopping-cart').sidebar({
-				dimPage: false
-				transition: 'overlay'
-			}).sidebar('attach events', '#store-secondary-navbar .right button', 'show')
-				.sidebar('attach events', '#shopping-cart i', 'show')
 		$('#modal-dropdown').dropdown()
+
+	setSizeSidebar: ->
+		if $(window).width() < 480
+			$('#shopping-cart').removeClass('wide')
+		else
+			$('#shopping-cart').addClass('wide')
+
+		$(window).resize(->
+			if $(window).width() < 480
+				$('#shopping-cart').removeClass('wide')
+			else
+				$('#shopping-cart').addClass('wide')
+		)
 
 searchVM = new SearchVM
 ko.applyBindings(searchVM)

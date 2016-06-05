@@ -20,10 +20,10 @@ html
 		link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-touch-icon-144x144.png"
 		link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-touch-icon-152x152.png"
 		link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon-180x180.png"
-		link rel="icon" type="image/png" href="images/favicons/favicon-32x32.png" sizes="32x32"
-		link rel="icon" type="image/png" href="images/favicons/android-chrome-192x192.png" sizes="192x192"
-		link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96"
-		link rel="icon" type="image/png" href="images/favicons/favicon-16x16.png" sizes="16x16"
+		link rel="icon" type="image/png" href="../images/favicons/favicon-32x32.png" sizes="32x32"
+		link rel="icon" type="image/png" href="../images/favicons/android-chrome-192x192.png" sizes="192x192"
+		link rel="icon" type="image/png" href="../images/favicons/favicon-96x96.png" sizes="96x96"
+		link rel="icon" type="image/png" href="../images/favicons/favicon-16x16.png" sizes="16x16"
 		link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg" color="#5bbad5"
 		meta name="msapplication-TileColor" content="#00aba9"
 		meta name="msapplication-TileImage" content="images/favicons/mstile-144x144.png"
@@ -42,11 +42,10 @@ html
 				a.store.nav.button href="store/index.html"
 				.item.main.logo
 					a#landing-logo href="index.html"
-						img src="images/frepi_logo.png" alt="Frepi logo"
-				.item.motto ¡un mercado a la vez!
+						img src="images/landing/full_logo_with_motto.png" alt="Frepi logo"
 				.right.menu
 					.item
-						a.ui.inverted.basic.login.frep.button href="login.html" Entrar
+						a.ui.inverted.basic.login.frep.button href="login.html" Log in
 					.item
 						a.store href="store/index.html"
 						// a.ui.orange.labeled.icon.store.button href="store/index.html"
@@ -56,16 +55,18 @@ html
 
 		section#slider
 			h2 Slider
-
+			img.motto src="images/landing/frepi_motto_470.png" alt="Frepi"
+			img.giant.balloon src="images/landing/giant_balloon.png" alt="Frepi"
+			a.ui.button href="store/index.html" Mercar ahora
 
 		section#deparments
 		section#how-we-work
-			.ui.container
-				h2.ui.centered.header¿Cómo funciona Frepi?
-				img.ui.image src="images/landing/how_it_works.png"
-				p
-					|Frepi te permite escoger los mejores productos a los mejores precios.&nbsp;
-					|Lo mejor de esto es que todo lo que llevas proviene de pequeños y medianos distribuidores, garantizando el desarrollo de la economía local.
+			/ .ui.container
+				/ h2.ui.centered.header¿Cómo funciona Frepi?
+				/ img.ui.image src="images/landing/how_it_works.png"
+				/ p
+				/	|Frepi te permite escoger los mejores productos a los mejores precios.&nbsp;
+				/	|Lo mejor de esto es que todo lo que llevas proviene de pequeños y medianos distribuidores, garantizando el desarrollo de la economía local.
 		footer#footer
 			h2 footer
 			p
@@ -83,7 +84,9 @@ html
 				li.item
 					a.ui.circular.twitter.icon.button
 						i.twitter.icon
-			p © 2016 Frepi, inc. Todos los derechos reservados.
+			p
+				|© 2016 Frepi, inc. Todos los derechos reservados. Teléfono: 3158982043. Mail:&nbsp;
+				a href="mailto:contacto@frepi.com.co" contacto@frepi.com.co
 
 		script src="javascripts/plugins/crypto-js.min.js"
 		script src="javascripts/jquery/jquery-2.1.4.min.js"

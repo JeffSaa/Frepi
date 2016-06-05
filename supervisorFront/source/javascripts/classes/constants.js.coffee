@@ -7,6 +7,7 @@ class window.DefaultModels
 		comment: null
 		date: "2015-11-20T19:26:14.736Z"
 		deliveryTime: null
+		discount: 0
 		expiryTime: null
 		id: 3
 		products: []

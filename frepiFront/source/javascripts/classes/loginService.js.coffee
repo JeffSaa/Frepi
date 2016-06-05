@@ -38,7 +38,6 @@ class window.LoginService
 													Config.destroyLocalStorage()
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
-
 										)
 								)
 							else
@@ -60,7 +59,7 @@ class window.LoginService
 					scope: 'public_profile,email'
 			})
 
-	@regularLogin: (isLoginFromStore = false) =>
+	@regularLogin: (callback) =>
 		console.log 'normal log'
 		$form = $('.ui.login.form')
 		$form.removeClass('error')
@@ -79,16 +78,9 @@ class window.LoginService
 							$form.form('add errors', error.responseJSON.errors)
 						else
 							$form.form('add errors', ['No se pudo establecer conexión'])
+						callback(error, null)
 					else
 						Config.setItem('headers', JSON.stringify(headers))
-						# Config.setItem('credentials', JSON.stringify(data))
 						Config.setItem('userObject', JSON.stringify(success.data))
-
-						unless isLoginFromStore
-							if success.data.administrator
-								window.location.href = 'admin/products.html'
-							else
-								window.location.href = 'store/index.html'
-						# else
-						# 	callback(null, data)
+						callback(null, success)
 				)

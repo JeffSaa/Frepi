@@ -27,11 +27,19 @@ class CheckoutVM
 		@comment = ko.observable()
 		@address = ko.observable(@user.address)
 		@phoneNumber = ko.observable(@user.phoneNumber or @user.phone_number)
-		console.log @user
 		@setDOMElements()
 		@setExistingSession()
 		@setSizeButtons()
 		@setAvailableDeliveryDateTime()
+		@finalOrderPrice = ko.computed( =>
+				finalPrice = 0
+				if @session.currentOrder.price() > 80000 and @user.discount > 0
+					finalPrice = @session.currentOrder.price() - @user.discount
+				else
+					finalPrice = @session.currentOrder.price()
+
+				return finalPrice
+			)
 
 	seeDeliveryRight: ->
 		$('.form .field').removeClass('error')
@@ -166,12 +174,16 @@ class CheckoutVM
 
 
 	setAvailableDeliveryDateTime: =>
-		if moment().hours() > 8 and moment().hours() < 22
-			today = moment().add(1, 'hours').minutes(0)
+		if moment().hours() < 17
+			if moment().hours() > 7			
+				today = moment().add(1, 'hours').minutes(0)
+			else
+				today = moment().hours(7).minutes(0)
 		else
-			today = moment().hours(8).minutes(0)
-		tomorrow = moment().add(1, 'days').hours(8).minutes(0)
-		aftertomorrow = moment().add(2, 'days').hours(8).minutes(0)
+			today = moment().hours(moment().hours()).minutes(0)
+
+		tomorrow = moment().add(1, 'days').hours(7).minutes(0)
+		aftertomorrow = moment().add(2, 'days').hours(7).minutes(0)
 		console.log 'today moment'
 		console.log today
 		@availableDateTime =
@@ -193,7 +205,7 @@ class CheckoutVM
 		console.log @availableDays()
 
 	generateAvailableHours: (startHour) ->
-		endHour = moment(startHour.format('YYYY-MM-DD'), 'YYYY-MM-DD').hours(19).minutes(0)
+		endHour = moment(startHour.format('YYYY-MM-DD'), 'YYYY-MM-DD').hours(16).minutes(0)
 		hours = []
 		difference = endHour.diff(startHour, 'minutes')
 		if difference > 0

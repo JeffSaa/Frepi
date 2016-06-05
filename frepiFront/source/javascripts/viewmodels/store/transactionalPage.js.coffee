@@ -17,6 +17,7 @@ class window.TransactionalPageVM
 		@user =
 			id 							: null
 			provider				: null
+			discount				: ko.observable()
 			email 					: ko.observable()
 			name 						: ko.observable()
 			firstName 			: ko.observable()
@@ -37,6 +38,7 @@ class window.TransactionalPageVM
 		@errorTextSignUp = ko.observable()
 
 		@isLogged = ko.observable(false)
+		@shouldShowDiscountMessage = ko.observable(false)
 
 		@setUserInfo()
 		@setRulesValidation()
@@ -152,6 +154,7 @@ class window.TransactionalPageVM
 					subcategoryId: productToAdd.subcategoryId
 					totalPrice: parseInt(productToAdd.frepiPrice or productToAdd.frepi_price) * quantitySelected
 				)
+				$("##{productToAdd.id} .image .label .quantity").text(quantitySelected)
 				$("##{productToAdd.id} .image .label").addClass('show')
 			else
 				oldProduct = product
@@ -167,8 +170,10 @@ class window.TransactionalPageVM
 					totalPrice: parseInt(((oldProduct.frepiPrice or oldProduct.frepi_price)*(oldProduct.quantity+quantitySelected)))
 
 				@session.currentOrder.products.replace(oldProduct, newProduct)
+				$("##{productToAdd.id} .image .label .quantity").text(oldProduct.quantity + quantitySelected)
 
 			@session.currentOrder.price(parseInt((@session.currentOrder.price() + (productToAdd.frepiPrice or productToAdd.frepi_price)*quantitySelected)))
+
 
 			if @session.currentOrder.products().length isnt 1
 				@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
@@ -223,6 +228,7 @@ class window.TransactionalPageVM
 				subcategoryId: oldProduct.subcategoryId
 				totalPrice: parseInt(((oldProduct.frepiPrice or oldProduct.frepi_price)*(oldProduct.quantity-1)))
 
+			$("##{product.id} .image .label .quantity").text(oldProduct.quantity - 1)
 			@session.currentOrder.products.replace(oldProduct, newProduct)
 			@session.currentOrder.price(parseInt((@session.currentOrder.price() - (product.frepiPrice or product.frepi_price))))
 			@saveOrder()
@@ -242,7 +248,8 @@ class window.TransactionalPageVM
 
 	setCartItemsLabels: ->
 		for product in @session.currentOrder.products()
-		  $("##{product.id} .image .label").addClass('show')
+			$("##{product.id} .image .label .quantity").text(product.quantity)
+			$("##{product.id} .image .label").addClass('show')
 
 	setExistingSession: ->
 		session = Config.getItem('currentSession')
@@ -279,22 +286,25 @@ class window.TransactionalPageVM
 			@session.currentOrder.sucursalId = 1
 
 	setUserInfo: =>
-
 		if !!Config.getItem('userObject')
 			tempUser = JSON.parse(Config.getItem('userObject'))
 			@user.id = tempUser.id
 			@user.provider = tempUser.provider
 			@user.email(tempUser.email)
+			@user.discount(tempUser.discount)
 			@user.name(tempUser.name)
+			@user.discount(tempUser.discount)
 			@user.firstName(tempUser.name.split(' ')[0])
 			@user.lastName(tempUser.lastName or tempUser.last_name)
 			@user.fullName(@user.firstName()+' '+@user.lastName())
 			@user.phone(tempUser.phoneNumber or tempUser.phone_number)
 			@user.profilePicture(tempUser.image or '../images/male_avatar.png')
+			@shouldShowDiscountMessage(tempUser.discount > 0)
 			@isLogged(true)
 		else
 			@user.firstName('amigo')
 			@isLogged(false)
+			@shouldShowDiscountMessage(false)
 
 	signUp: =>
 		$form = $('#sign-up .ui.form')
@@ -317,41 +327,41 @@ class window.TransactionalPageVM
 						console.log error
 						if error.responseJSON
 							# REVIEW: It doesn't semd an array with the error texts
-							# @errorTextSignUp(error.responseJSON.errors.toString())
 							@errorTextSignUp('No se pudo crear la cuenta')
 
 						else
 							@errorTextSignUp('No se pudo establecer conexión')
 					else
 						console.log success
-						Config.setItem('credentials', JSON.stringify({email: data.email, password: data.password}))
 						Config.setItem('userObject', JSON.stringify(success))
+						Config.setItem('headers', JSON.stringify(headers))
 						@setUserInfo()
 						@session.signedUp(true)
 						$('#shopping-cart .checkout').removeClass('hide')
 						$('#shopping-cart .sign-up-banner').removeClass('show')
 						# @setExistingSession()
 						$('#sign-up').modal('hide')
+						$('#shopping-cart').sidebar('hide')
 				)
 
 	login: ->
-		LoginService.regularLogin(true)
-		# REVIEW: I had to add this timeout because there is a lag between the userObject
-		# is set in LocalStorage in LoginService and here when I try to get the item from
-		# the LocalStorage, so the real value it's not updating instantly
-		setTimeout((=>
-				if Config.getItem('userObject')
+		LoginService.regularLogin( (error, success) =>
+				if error
+					console.log 'An error ocurred while trying to login'
+				else
+					console.log success
 					@setUserInfo()
 					$('.login.modal').modal('hide')
-			), 1000)
+					$('#shopping-cart').sidebar('hide')
+			)
 
 	loginFB: ->
 		LoginService.FBLogin( (error, success) =>
-					if error
-						console.log 'An error ocurred while trying to login to FB'
-					else
-						@setUserInfo()
-						$('#shopping-cart').sidebar('hide')
+				if error
+					console.log 'An error ocurred while trying to login to FB'
+				else
+					@setUserInfo()
+					$('#shopping-cart').sidebar('hide')
 			)
 
 	showProduct: (product) ->
@@ -415,7 +425,7 @@ class window.TransactionalPageVM
 				})
 		$('.ui.dropdown:not(#user-account)')
 			.dropdown()
-		$('#departments-menu .ui .dropdown')
+		$('#departments-menu .ui.dropdown')
 			.dropdown()
 
 		$('.ui.accordion')

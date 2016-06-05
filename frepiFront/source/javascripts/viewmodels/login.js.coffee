@@ -3,25 +3,25 @@ class LoginVM
 		@setDOMElements()
 
 	login: ->
-		LoginService.regularLogin(true)
-		# REVIEW: I had to add this timeout because there is a lag between the userObject
-		# is set in LocalStorage in LoginService and here when I try to get the item from
-		# the LocalStorage, so the real value it's not updating instantly
-		setTimeout((=>
-				if Config.getItem('userObject')
-					@setUserInfo()
-					$('.login.modal').modal('hide')
-			), 1000)
+		LoginService.regularLogin( (error, success) =>
+				if error
+					console.log 'An error ocurred while trying to login'
+				else
+					if success.data.administrator
+						window.location.href = 'admin/products.html'
+					else
+						window.location.href = 'store/index.html'
+			)
 
 	loginFB: ->
 		LoginService.FBLogin( (error, success) =>
-					if error
-						console.log 'An error ocurred while trying to login to FB'
+				if error
+					console.log 'An error ocurred while trying to login to FB'
+				else
+					if success.administrator
+						window.location.href = 'admin/products.html'
 					else
-						if success.user.administrator
-							window.location.href = 'admin/products.html'
-						else
-							window.location.href = 'store/index.html'
+						window.location.href = 'store/index.html'
 			)
 
 	resetPassword: ->

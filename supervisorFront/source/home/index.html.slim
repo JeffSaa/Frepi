@@ -28,13 +28,20 @@ html
 					strong Teléfono:&nbsp;
 					span data-bind="text: selectedOrder.telephone"
 				ul.items data-bind="foreach: selectedOrder.products"
-					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
+					li
+						|<!-- ko text: $data.product.name --><!--/ko-->
+						span data-bind="text: ' ('+$data.product.size()+')', visible: $data.product.size"
+						|<!-- ko text: ' x '+$data.quantity() --><!--/ko-->
+						span data-bind="visible: !$data.acquired" &nbsp;- No adquirido
 				p
 					strong Instrucciones del cliente:&nbsp;
 					span data-bind="text: selectedOrder.comment()"
 				p
 					strong Valor orden:&nbsp;
 					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
+				p data-bind="visible: selectedOrder.discount() > 0"
+					strong Descuento:&nbsp;
+					span data-bind="text: '-$'+(selectedOrder.discount()).toLocaleString()"
 				p
 					strong Asignar a:&nbsp;
 				.ui.selection.dropdown
@@ -69,7 +76,10 @@ html
 					strong Teléfono:&nbsp;
 					span data-bind="text: selectedOrder.telephone"
 				ul.checking.items data-bind="foreach: selectedOrder.products"
-					li data-bind="click: $root.markAsAcquired, text: $data.product.name()+' x '+$data.quantity(), css: {acquired: $data.acquired}"
+					li data-bind="click: $root.markAsAcquired, css: {acquired: $data.acquired}"
+						|<!-- ko text: $data.product.name --><!--/ko-->
+						span data-bind="text: ' ('+$data.product.size()+')', visible: $data.product.size"
+						|<!-- ko text: ' x '+$data.quantity() --><!--/ko-->
 				button.ui.tiny.black.basic.button data-bind="click: updateProductsOrder"
 						i.refresh.icon
 						|Actualizar lista
@@ -79,6 +89,9 @@ html
 				p
 					strong Valor orden:&nbsp;
 					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
+				p data-bind="visible: selectedOrder.discount() > 0"
+					strong Descuento:&nbsp;
+					span data-bind="text: '-$'+(selectedOrder.discount()).toLocaleString()"
 				p
 					strong Asignar a:&nbsp;
 				.ui.selection.dropdown
@@ -114,13 +127,20 @@ html
 					strong Teléfono:&nbsp;
 					span data-bind="text: selectedOrder.telephone"
 				ul.items data-bind="foreach: selectedOrder.products"
-					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
+					li
+						|<!-- ko text: $data.product.name --><!--/ko-->
+						span data-bind="text: ' ('+$data.product.size()+')', visible: $data.product.size"
+						|<!-- ko text: ' x '+$data.quantity() --><!--/ko-->
+						span data-bind="visible: !$data.acquired" &nbsp;- No adquirido
 				p
 					strong Instrucciones del cliente:&nbsp;
 					span data-bind="text: selectedOrder.comment()"
 				p
 					strong Valor orden:&nbsp;
 					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
+				p data-bind="visible: selectedOrder.discount() > 0"
+					strong Descuento:&nbsp;
+					span data-bind="text: '-$'+(selectedOrder.discount()).toLocaleString()"
 				p
 					strong Orden llevada por:&nbsp;
 					span data-bind="text: deliveryShopperFullName"
@@ -144,13 +164,20 @@ html
 					strong Teléfono cliente:&nbsp;
 					span data-bind="text: selectedOrder.telephone"
 				ul.items data-bind="foreach: selectedOrder.products"
-					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
+					li
+						|<!-- ko text: $data.product.name --><!--/ko-->
+						span data-bind="text: ' ('+$data.product.size()+')', visible: $data.product.size"
+						|<!-- ko text: ' x '+$data.quantity() --><!--/ko-->
+						span data-bind="visible: !$data.acquired" &nbsp;- No adquirido
 				p
 					strong Instrucciones del cliente:&nbsp;
 					span data-bind="text: selectedOrder.comment()"
 				p
 					strong Valor orden:&nbsp;
 					span data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
+				p data-bind="visible: selectedOrder.discount() > 0"
+					strong Descuento:&nbsp;
+					span data-bind="text: '-$'+(selectedOrder.discount()).toLocaleString()"
 				p
 					strong Orden comprada por:&nbsp;
 					span data-bind="text: inStoreShopperFullName"
@@ -170,7 +197,11 @@ html
 					strong Teléfono cliente:&nbsp;
 					span data-bind="text: selectedOrder.telephone"
 				ul.items data-bind="foreach: selectedOrder.products"
-					li data-bind="text: $data.product.name()+' x '+$data.quantity()"
+					li
+						|<!-- ko text: $data.product.name --><!--/ko-->
+						span data-bind="text: ' ('+$data.product.size()+')', visible: $data.product.size"
+						|<!-- ko text: ' x '+$data.quantity() --><!--/ko-->
+						span data-bind="visible: !$data.acquired" &nbsp;- No adquirido
 				p
 					strong Instrucciones del cliente:&nbsp;
 					span data-bind="text: selectedOrder.comment()"
@@ -278,7 +309,7 @@ html
 						td data-bind="text: $root.baseFrepiPrice($data.product)"
 						td data-bind="text: $data.quantity"
 						td data-bind="text: $data.product.iva()+'%'"
-						td data-bind="text: $data.product.frepiPrice().toLocaleString()"
+						td data-bind="text: ($data.product.frepiPrice() * $data.quantity()).toLocaleString()"
 					tr data-bind="visible: $data.comment() != '' && $data.comment() != null"
 						td.comment colspan="5"
 							strong Nota:&nbsp;
@@ -288,8 +319,14 @@ html
 						th colspan="3"
 							|Items: &nbsp;&nbsp;
 							|<!-- ko text: selectedOrder.products().length --><!--/ko-->
-						th Total:
+						th Valor orden:
 						th data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
+					tr data-bind="visible: selectedOrder.discount() > 0"
+						th style="text-align: right;" colspan="4" Descuento:
+						th data-bind="text: '-$'+(selectedOrder.discount()).toLocaleString()"
+					tr
+						th style="text-align: right;" colspan="4" Valor a pagar:
+						th data-bind="text: '$'+(selectedOrder.totalPrice() - selectedOrder.discount()).toLocaleString()"
 			.footer
 				p
 					|Shopper:&nbsp;

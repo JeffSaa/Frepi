@@ -16,10 +16,10 @@ html
 		link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-touch-icon-144x144.png"
 		link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-touch-icon-152x152.png"
 		link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon-180x180.png"
-		link rel="icon" type="image/png" href="images/favicons/favicon-32x32.png" sizes="32x32"
-		link rel="icon" type="image/png" href="images/favicons/android-chrome-192x192.png" sizes="192x192"
-		link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96"
-		link rel="icon" type="image/png" href="images/favicons/favicon-16x16.png" sizes="16x16"
+		link rel="icon" type="image/png" href="../images/favicons/favicon-32x32.png" sizes="32x32"
+		link rel="icon" type="image/png" href="../images/favicons/android-chrome-192x192.png" sizes="192x192"
+		link rel="icon" type="image/png" href="../images/favicons/favicon-96x96.png" sizes="96x96"
+		link rel="icon" type="image/png" href="../images/favicons/favicon-16x16.png" sizes="16x16"
 		link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg" color="#5bbad5"
 		meta name="msapplication-TileColor" content="#00aba9"
 		meta name="msapplication-TileImage" content="images/favicons/mstile-144x144.png"
@@ -189,7 +189,7 @@ html
 																																event: {change: setHours},
 																																optionsCaption: 'Fecha'"
 														.ui.pointing.red.prompt.label Selecciona el día
-													.time.field data-variation="small" data-content="Las entregas son de 09:00 AM a 07:00 PM"
+													.time.field data-variation="small" data-content="Las entregas son de 08:00 AM a 04:00 PM"
 														select.ui.fluid.hours.dropdown data-bind="options: availableHours,
 																																value: selectedHour,
 																																event: {change: setExpireHour},
@@ -204,9 +204,14 @@ html
 											i.right.arrow.icon
 								#confirm
 									.details-content
+										p.disclaimer El total a pagar puede variar dependiendo de la disponiblidad y/o cambios de los productos de un pedido.
+										div data-bind="if: user.discount"
+											.clearfix.line data-bind="visible: user.discount > 0 && session.currentOrder.price() > 80000"
+												span.title Descuento
+												span.value data-bind="text: '-$'+(user.discount).toLocaleString()"
 										.clearfix.line
 											span.title Valor compra
-											span.value data-bind="text: '$'+(session.currentOrder.price()).toLocaleString()"
+											span.value data-bind="text: '$'+(finalOrderPrice()).toLocaleString()"
 										.clearfix.line
 											span.title Dirección
 											span.value data-bind="text: address"
@@ -236,7 +241,9 @@ html
 					.item
 						a.ui.circular.icon.button
 							i.twitter.icon
-				p © 2016 Frepi, inc. Todos los derechos reservados.
+				p
+					|© 2016 Frepi, inc. Todos los derechos reservados. Teléfono: 3158982043. Mail:&nbsp;
+					a href="mailto:contacto@frepi.com.co" contacto@frepi.com.co
 
 		script src="javascripts/knockout.js"
 		script src="javascripts/plugins/crypto-js.min.js"

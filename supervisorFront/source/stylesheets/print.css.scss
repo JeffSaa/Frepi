@@ -6,41 +6,41 @@
 // }
 
 #pre-order, #pos-order {
-  display: block;
-  font-size: .714285em;
-  padding: 2em 1em 6em;
-  width: 300px;
-  i { color: red; }
+  display: block !important;
+  font-size: .714285em !important;
+  padding: 2em 1em 6em !important;
+  width: 300px !important;
+  i { color: red !important; }
 
   .header {
     
-    text-align: center;
+    text-align: center !important;
 
-    img { width: 100%; }
-    p { margin: 0; }
+    img { width: 100% !important; }
+    p { margin: 0 !important; }
     .user.info { 
-      border-bottom: #000 1px dashed;
-      padding-bottom: 1em;
+      border-bottom: #000 1px dashed !important;
+      padding-bottom: 1em !important;
     }
     .company.info { 
-      border-bottom: #000 1px dashed;
-      padding: 1em 0 1.8em;
+      border-bottom: #000 1px dashed !important;
+      padding: 1em 0 1.8em !important;
     }
   }
 
   .products {
-    border: none;
+    border: none !important;
     font-size: 1em !important;
-    margin: .5em 0 2.5em;
-    width: 100%;
+    margin: .5em 0 2.5em !important;
+    width: 100% !important;
     thead th {
-      background: #fff;
-      border-bottom: #000 1px dashed;
-      border-radius: 0;
-      border-top: #000 1px dashed;
+      background: #fff !important;
+      border-bottom: #000 1px dashed !important;
+      border-radius: 0 !important;
+      border-top: #000 1px dashed !important;
     }
-    tbody { border-bottom: #000 1px dashed; }
-    tbody td { padding: .6em 0; text-align: center; }    
-    tbody td.comment { padding: .3em 1.2em; text-align: left; }
+    tbody { border-bottom: #000 1px dashed !important; }
+    tbody td { padding: .6em 0 !important; text-align: center !important; }
+    tbody td.comment { padding: .3em 1.2em !important; text-align: left !important; }
   }
 }

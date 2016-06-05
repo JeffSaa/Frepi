@@ -6,10 +6,8 @@ class StoreVM extends TransactionalPageVM
 		# Methods to execute on instance
 		@setExistingSession()
 		@setUserInfo()
-		# @fetchStoreSucursals()
 		@fetchCategories()
 		@setDOMElements()
-		# @setSucursal()
 		@setSizeSidebar()
 		console.log 'Is signed Up? ' + @session.signedUp()
 
@@ -36,10 +34,6 @@ class StoreVM extends TransactionalPageVM
 		@saveOrder()
 		Config.setItem('showOrders', 'true')
 		window.location.href = '../store/profile.html'
-
-	setSucursal: ->
-		if @session.currentSucursal.id() is -1
-			$('#choose-store').modal('show')
 
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
