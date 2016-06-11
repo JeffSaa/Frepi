@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Frepi - Haz tu mercado fácil y rápido</title><!--Sets initial viewport load and disables zooming-->
+    <meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" />
+    <meta content="Haz tu compra y recibela en menos de una hora. Inténtalo!" name="description" />
+    <link href="images/favicons/apple-touch-icon-57x57.png" rel="apple-touch-icon" sizes="57x57" />
+    <link href="images/favicons/apple-touch-icon-60x60.png" rel="apple-touch-icon" sizes="60x60" />
+    <link href="images/favicons/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72" />
+    <link href="images/favicons/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+    <link href="images/favicons/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114" />
+    <link href="images/favicons/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+    <link href="images/favicons/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144" />
+    <link href="images/favicons/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+    <link href="images/favicons/apple-touch-icon-180x180.png" rel="apple-touch-icon" sizes="180x180" />
+    <link href="../images/favicons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+    <link href="../images/favicons/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png" />
+    <link href="../images/favicons/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="../images/favicons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+    <link color="#5bbad5" href="images/favicons/safari-pinned-tab.svg" rel="mask-icon" />
+    <meta content="#00aba9" name="msapplication-TileColor" />
+    <meta content="images/favicons/mstile-144x144.png" name="msapplication-TileImage" />
+    <meta content="#22B676" name="theme-color" />
+    <!--Add semantic's CSS-->
+    <link href="semantic/out/semantic.min.css" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/frepi.css" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/responsive-frepi.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <nav class="ui vertical left sidebar borderless menu" id="mobile-menu">
+      <h2>
+        Frepi Menu
+      </h2>
+      <div class="item">
+        <img alt="Frepi's logo" src="images/landing/full_logo.png" />
+      </div>
+      <a class="item" href="store/index.html">
+        <h4 class="ui header title">
+          <i class="home icon"></i>Tienda
+        </h4>
+      </a><a class="item" href="store/profile.html">
+        <h4 class="ui header title">
+          <i class="user icon"></i>Cuenta
+        </h4>
+      </a><a class="item" data-bind="click: goToOrders">
+        <h4 class="ui header title">
+          <i class="book icon"></i>Pedidos
+        </h4>
+      </a><a class="item" data-bind="click: logout">
+        <h4 class="ui header title">
+          <i class="sign out icon"></i>Salir
+        </h4>
+      </a>
+    </nav>
+    <div class="ui vertical left sidebar menu" id="departments-menu">
+      <div class="item">
+        <h3 class="ui header">
+          <i class="sidebar icon"></i>
+          <div class="content">
+            Departamentos
+          </div>
+        </h3>
+      </div>
+      <div class="items" data-bind="foreach: session.categories">
+        <a class="item">
+          <div class="header" data-bind="text: $data.name"></div>
+        </a>
+      </div>
+    </div>
+    <div class="successful ui small modal">
+      <div class="image content">
+        <div class="ui medium rounded image">
+          <img src="images/landing/confirmation.png" />
+        </div>
+        <div class="description">
+          <h2 class="ui header">
+            Solicitud exitosa!
+          </h2>
+          <p></p>
+          Hemos recibido satisfactoriamente tu orden, estamos trabajando para entregarla lo más pronto posible.
+          <p></p>
+          Recuerda que todos nuestros empleados portan carné. Además, te puedes contactar con nosotros para corroborar su identidad.
+          <p>
+            <br /><strong>Ten buen día!</strong>
+          </p>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui positive right labeled icon button">
+          Ok<i class="checkmark icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="pusher">
+      <header>
+        <div class="ui fixed inverted menu" id="store-primary-navbar">
+          <div id="store-frepi-logo">
+            <i class="sidebar icon"></i><a href="store/index.html"><img alt="Frepi's logo" class="ui image" src="images/landing/full_logo.png" /></a>
+          </div>
+          <div class="ui simple right floated dropdown item" id="user-account">
+            <div class="text" data-bind="text: 'Hola, '+userName()"></div>
+            <i class="chevron down icon"></i>
+            <div class="menu">
+              <div class="item" data-bind="click: goToProfile">
+                <i class="user icon"></i>Ver perfil
+              </div>
+              <div class="item" data-bind="click: goToOrders">
+                <i class="book icon"></i>Mis pedidos
+              </div>
+              <div class="divider"></div>
+              <div class="item" data-bind="click: logout">
+                <i class="sign out icon"></i>Salir
+              </div>
+            </div>
+          </div>
+          <div id="shopping-cart">
+            <i class="circular inverted orange shop icon"></i>
+          </div>
+        </div>
+      </header>
+      <div class="ui fixed borderless checkout menu" id="store-secondary-navbar">
+        <div class="item">
+          <button class="ui basic grey button"><i class="sidebar icon"></i>Departamentos</button>
+        </div>
+        <a class="link item" href="store/index.html"><i class="home large grey icon"></i></a>
+        <div class="right menu">
+          <div class="item">
+            <button class="ui labeled icon button"><i class="shop icon"></i><!--ko text: session.currentOrder.numberProducts--><!--/ko--></button>
+          </div>
+        </div>
+      </div>
+      <div class="main-content checkout">
+        <div class="ui container">
+          <h1 class="ui centered header" data-bind="text: headerMessage"></h1>
+          <div class="steps-wrapper">
+            <div class="ui steps">
+              <div class="active step" id="products-icon">
+                <i class="shop icon"></i>
+                <div class="content">
+                  <div class="title">
+                    Productos
+                  </div>
+                  <div class="description">
+                    Verifica los productos
+                  </div>
+                </div>
+              </div>
+              <div class="step" id="delivery-icon">
+                <i class="truck icon"></i>
+                <div class="content">
+                  <div class="title">
+                    Entrega
+                  </div>
+                  <div class="description">
+                    Detalles de envío
+                  </div>
+                </div>
+              </div>
+              <div class="step" id="confirm-icon">
+                <i class="thumbs outline up icon"></i>
+                <div class="content">
+                  <div class="title">
+                    Confirmar
+                  </div>
+                  <div class="description">
+                    Confirma tu orden
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui one column centered stackable page grid">
+            <div class="column">
+              <div class="ui info message">
+                <div class="header">
+                  <i class="info circle icon"></i>&nbsp;El pago de la orden es contraentrega
+                </div>
+              </div>
+              <div class="ui clearfix segment">
+                <div class="ui top attached label">
+                  Total Cuenta:&nbsp;$<span data-bind="text: (session.currentOrder.price()).toLocaleString()"></span>
+                </div>
+                <div class="order-content" data-bind="visible: !orderGenerated()">
+                  <div id="products">
+                    <table class="ui celled unstackable table">
+                      <thead>
+                        <tr>
+                          <th class="five wide">
+                            Nombre
+                          </th>
+                          <th class="two wide">
+                            Cantidad
+                          </th>
+                          <th class="four wide">
+                            Precio c/u ($)
+                          </th>
+                          <th class="four wide">
+                            Precio Total ($)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody data-bind="foreach: session.currentOrder.products">
+                        <tr>
+                          <td data-bind="text: $data.name"></td>
+                          <td data-bind="text: $data.quantity"></td>
+                          <td data-bind="text: ($data.frepiPrice).toLocaleString()"></td>
+                          <td data-bind="text: ($data.totalPrice).toLocaleString()"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="ui buttons left floated">
+                      <div class="ui button" data-bind="click: cancel">
+                        Cancelar
+                      </div>
+                    </div>
+                    <div class="ui right labeled icon teal button" data-bind="click: seeDeliveryRight">
+                      Entrega<i class="right arrow icon"></i>
+                    </div>
+                  </div>
+                  <div id="delivery">
+                    <form class="ui form">
+                      <div class="address field">
+                        <label>Dirección</label><input data-bind="textInput: address, event: {focus: inputGotFocus}" name="address" placeholder="Ej: Cra 45 # 65 - 56" type="text" />
+                        <div class="ui pointing red prompt label">
+                          Información incorrecta
+                        </div>
+                      </div>
+                      <div class="phone field">
+                        <label>Teléfono</label><input data-bind="textInput: phoneNumber, event: {focus: inputGotFocus}" name="phoneNumber" placeholder="Ej: 310 645 8888" type="text" />
+                        <div class="ui pointing red prompt label">
+                          Información incorrecta
+                        </div>
+                      </div>
+                      <div class="instructions field">
+                        <label>Instrucciones</label><textarea data-bind="textInput: comment" name="instructions" placeholder="Ej: Dejar en portería o llámame cuando llegue" rows="3"></textarea>
+                      </div>
+                      <div class="field">
+                        <label>¿Cuándo lo llevamos?</label>
+                        <div class="two fields">
+                          <div class="date field">
+                            <select class="ui fluid days dropdown" data-bind="options: availableDays,
+optionsText: 'date',
+value: selectedDay,
+event: {change: setHours},
+optionsCaption: 'Fecha'"></select>
+                            <div class="ui pointing red prompt label">
+                              Selecciona el día
+                            </div>
+                          </div>
+                          <div class="time field" data-content="Las entregas son de 08:00 AM a 04:00 PM" data-variation="small">
+                            <select class="ui fluid hours dropdown" data-bind="options: availableHours,
+value: selectedHour,
+event: {change: setExpireHour},
+optionsCaption: 'Hora'"></select>
+                            <div class="ui pointing red prompt label">
+                              Selecciona la hora
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="ui buttons left floated">
+                      <div class="ui labeled icon teal button" data-bind="click: seeProducts">
+                        Productos<i class="left arrow icon"></i>
+                      </div>
+                    </div>
+                    <div class="ui right labeled icon teal button" data-bind="click: seeConfirm">
+                      Confirmar<i class="right arrow icon"></i>
+                    </div>
+                  </div>
+                </div>
+                <div id="confirm">
+                  <div class="details-content">
+                    <p class="disclaimer">
+                      El total a pagar puede variar dependiendo de la disponiblidad y/o cambios de los productos de un pedido.
+                    </p>
+                    <div data-bind="if: user.discount">
+                      <div class="clearfix line" data-bind="visible: user.discount > 0 && session.currentOrder.price() > 80000">
+                        <span class="title">Descuento</span><span class="value" data-bind="text: '-$'+(user.discount).toLocaleString()"></span>
+                      </div>
+                    </div>
+                    <div class="clearfix line">
+                      <span class="title">Valor compra</span><span class="value" data-bind="text: '$'+(finalOrderPrice()).toLocaleString()"></span>
+                    </div>
+                    <div class="clearfix line">
+                      <span class="title">Dirección</span><span class="value" data-bind="text: address"></span>
+                    </div>
+                    <div class="clearfix line">
+                      <span class="title">Fecha llegada</span><span class="value" data-bind="text: selectedDate()+' / '+selectedHour()"></span>
+                    </div>
+                    <div class="clearfix line">
+                      <span class="title">Instrucciones</span><span class="value" data-bind="text: comment"></span>
+                    </div>
+                  </div>
+                  <div class="ui buttons left floated">
+                    <div class="ui labeled icon teal button" data-bind="click: seeDeliveryLeft">
+                      Entrega<i class="left arrow icon"></i>
+                    </div>
+                  </div>
+                  <div class="ui right labeled icon green generate button" data-bind="click: generate">
+                    Listo<i class="check icon"></i>
+                  </div>
+                  <div class="ui button right floated" data-bind="click: cancel">
+                    Cancelar
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <div class="ui horizontal list">
+          <div class="item">
+            <a class="ui circular icon button" href="http://www.fb.com/frepi.co" target="_blank"><i class="facebook icon"></i></a>
+          </div>
+          <div class="item">
+            <a class="ui circular icon button" href="http://www.instagram.com/frepi.co" target="_blank"><i class="instagram icon"></i></a>
+          </div>
+          <div class="item">
+            <a class="ui circular icon button"><i class="twitter icon"></i></a>
+          </div>
+        </div>
+        <p>
+          © 2016 Frepi, inc. Todos los derechos reservados. Teléfono: 3158982043. Mail:&nbsp;<a href="mailto:contacto@frepi.com.co">contacto@frepi.com.co</a>
+        </p>
+      </footer>
+    </div>
+    <script src="javascripts/knockout.js"></script>
+    <script src="javascripts/plugins/crypto-js.min.js"></script>
+    <script src="javascripts/plugins/ko-mapping.min.js"></script>
+    <script src="javascripts/plugins/moment+locales.min.js"></script>
+    <script src="javascripts/jquery/jquery-2.1.4.min.js"></script>
+    <script src="semantic/out/semantic.min.js"></script>
+    <script src="javascripts/classes/encrypter.js"></script>
+    <script src="javascripts/classes/config.js"></script>
+    <script src="javascripts/classes/RESTfulService.js"></script>
+    <script src="javascripts/classes/router.js"></script>
+    <script src="javascripts/viewmodels/store/checkout.js"></script>
+  </body>
+</html>

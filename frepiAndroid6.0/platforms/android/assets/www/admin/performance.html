@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Frepi - Haz tu mercado fácil y rápido</title><!--Sets initial viewport load and disables zooming-->
+    <meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" />
+    <meta content="Haz tu compra y recibela en menos de una hora. Inténtalo!" name="description" />
+    <link href="../images/favicons/apple-touch-icon-57x57.png" rel="apple-touch-icon" sizes="57x57" />
+    <link href="../images/favicons/apple-touch-icon-60x60.png" rel="apple-touch-icon" sizes="60x60" />
+    <link href="../images/favicons/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72" />
+    <link href="../images/favicons/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+    <link href="../images/favicons/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114" />
+    <link href="../images/favicons/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+    <link href="../images/favicons/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144" />
+    <link href="../images/favicons/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+    <link href="../images/favicons/apple-touch-icon-180x180.png" rel="apple-touch-icon" sizes="180x180" />
+    <link href="../images/favicons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+    <link href="../images/favicons/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png" />
+    <link href="../images/favicons/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="../images/favicons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+    <link color="#5bbad5" href="../images/favicons/safari-pinned-tab.svg" rel="mask-icon" />
+    <meta content="#00aba9" name="msapplication-TileColor" />
+    <meta content="../images/favicons/mstile-144x144.png" name="msapplication-TileImage" />
+    <meta content="#ffffff" name="theme-color" />
+    <!--Add semantic's CSS-->
+    <link href="../semantic/out/semantic.min.css" rel="stylesheet" type="text/css" />
+    <link href="../stylesheets/vendor/daterangepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="../stylesheets/frepi.css" rel="stylesheet" type="text/css" />
+    <link href="../stylesheets/responsive-frepi.css" rel="stylesheet" type="text/css" />
+    <script src="../javascripts/plugins/crypto-js.min.js"></script>
+    <script src="../javascripts/jquery/jquery-2.1.4.min.js"></script>
+    <script src="../semantic/out/semantic.min.js"></script>
+    <script src="../javascripts/knockout.js"></script>
+    <script src="../javascripts/plugins/ko-mapping.min.js"></script>
+    <script src="../javascripts/classes/encrypter.js"></script>
+    <script src="../javascripts/classes/config.js"></script>
+    <script src="../javascripts/classes/constans.js"></script>
+    <script src="../javascripts/classes/RESTfulService.js"></script>
+    <script src="../javascripts/viewmodels/admin/adminPage.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="ui fixed inverted borderless admin menu">
+        <a class="item" href="../admin/index.html" id="landing-logo"><img src="../images/landing/full_logo.png" /></a>
+        <div class="right menu">
+          <div class="item">
+            <button class="ui orange button" data-bind="click: logout">Salir</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <section class="ui container admin content">
+      <div class="ui grid">
+        <div class="four wide column">
+          <aside class="ui vertical menu">
+            <a class="item" href="../admin/index.html"><i class="user icon"></i>Administradores</a><a class="item" href="../admin/orders.html"><i class="book icon"></i>Ordenes</a><a class="item" href="../admin/products.html"><i class="lemon icon"></i>Productos</a><a class="item" href="../admin/performance.html"><i class="bar chart icon"></i>Rendimiento</a><a class="item" href="../admin/shoppers.html"><i class="users icon"></i>Shoppers</a><a class="item" href="../admin/sucursals.html"><i class="building icon"></i>Sucursales</a><a class="item" href="../admin/supervisors.html"><i class="users icon"></i>Supervisors</a>
+          </aside>
+        </div>
+        <div class="twelve wide column">
+          <div class="ui active inverted dimmer" data-bind="visible: isLoading">
+            <div class="ui text loader">
+              Cargando
+            </div>
+          </div>
+          <header>
+            <h2>
+              Rendimiento
+            </h2>
+          </header>
+          <section class="content">
+            <article class="products">
+              <h3>
+                Productos
+              </h3>
+              <p>
+                <strong>Selecciona un rango:</strong>
+              </p>
+              <div class="ui labeled daterange products input">
+                <div class="ui label">
+                  <i class="calendar icon"></i>
+                </div>
+                <input id="products-daterange" placeholder="Rango..." type="text" />
+              </div>
+              <table class="ui celled table">
+                <thead>
+                  <tr>
+                    <th>
+                      ID
+                    </th>
+                    <th>
+                      Nombre
+                    </th>
+                    <th>
+                      Precio Frepi
+                    </th>
+                    <th>
+                      Precio Tienda
+                    </th>
+                    <th>
+                      Unds Vendidas
+                    </th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: currentProducts, visible: !shouldShowProductsAlert()">
+                  <tr>
+                    <td data-bind="text: $data.id"></td>
+                    <td data-bind="text: $data.name"></td>
+                    <td data-bind="text: $data.frepiPrice"></td>
+                    <td data-bind="text: $data.storePrice"></td>
+                    <td data-bind="text: $data.salesCount"></td>
+                  </tr>
+                </tbody>
+                <tbody data-bind="visible: shouldShowProductsAlert">
+                  <tr>
+                    <td class="alert box" colspan="5">
+                      <h4 class="ui centered header" data-bind="text: productsAlertText"></h4>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="5">
+                      <div class="ui right floated pagination menu">
+                        <a class="icon item" data-bind="click: setPrevProductPage"><i class="left chevron icon"></i></a>
+                        <div class="pages item" data-bind="foreach: productsPages.showablePages">
+                          <a class="item" data-bind="text: $data.num, click: $root.fetchProductsPage"></a>
+                        </div>
+                        <a class="icon item" data-bind="click: setNextProductPage"><i class="right chevron icon"></i></a>
+                      </div>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+            </article>
+            <article class="shoppers">
+              <h3>
+                Shoppers
+              </h3>
+              <p>
+                <strong>Selecciona un rango:</strong>
+              </p>
+              <div class="ui labeled daterange shoppers input">
+                <div class="ui label">
+                  <i class="calendar icon"></i>
+                </div>
+                <input id="shoppers-daterange" placeholder="Rango..." type="text" />
+              </div>
+              <table class="ui celled table">
+                <thead>
+                  <tr>
+                    <th>
+                      ID
+                    </th>
+                    <th>
+                      CC
+                    </th>
+                    <th>
+                      Nombres
+                    </th>
+                    <th>
+                      Apellidos
+                    </th>
+                    <th>
+                      Teléfono
+                    </th>
+                    <th>
+                      E-mail
+                    </th>
+                    <th>
+                      Ordenes ejecutadas
+                    </th>
+                    <th>
+                      Tipo
+                    </th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: currentShoppers, visible: !shouldShowShoppersAlert()">
+                  <tr>
+                    <td data-bind="text: $data.id"></td>
+                    <td data-bind="text: $data.identification"></td>
+                    <td data-bind="text: $data.firstName"></td>
+                    <td data-bind="text: $data.lastName"></td>
+                    <td data-bind="text: $data.phoneNumber"></td>
+                    <td data-bind="text: $data.email"></td>
+                    <td data-bind="text: $data.takenOrdersCount"></td>
+                    <td data-bind="text: $data.shopperType"></td>
+                  </tr>
+                </tbody>
+                <tbody data-bind="visible: shouldShowShoppersAlert">
+                  <tr>
+                    <td class="alert box" colspan="8">
+                      <h4 class="ui centered header" data-bind="text: shoppersAlertText"></h4>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="8">
+                      <div class="ui right floated pagination menu">
+                        <a class="icon item" data-bind="click: setPrevShopperPage"><i class="left chevron icon"></i></a>
+                        <div class="pages item" data-bind="foreach: shoppersPages.showablePages">
+                          <a class="item" data-bind="text: $data.num"></a>
+                        </div>
+                        <a class="icon item" data-bind="click: setNextShopperPage"><i class="right chevron icon"></i></a>
+                      </div>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+            </article>
+            <article class="sucursals">
+              <h3>
+                Sucursales
+              </h3>
+              <p>
+                <strong>Selecciona un rango:</strong>
+              </p>
+              <div class="ui labeled daterange sucursals input">
+                <div class="ui label">
+                  <i class="calendar icon"></i>
+                </div>
+                <input id="sucursals-daterange" placeholder="Rango..." type="text" />
+              </div>
+              <table class="ui celled table">
+                <thead>
+                  <tr>
+                    <th>
+                      ID
+                    </th>
+                    <th>
+                      Nombre
+                    </th>
+                    <th>
+                      Dirección
+                    </th>
+                    <th>
+                      Teléfono
+                    </th>
+                    <th>
+                      Manager
+                    </th>
+                    <th>
+                      Tel Manager
+                    </th>
+                    <th>
+                      Ventas Precio Frepi
+                    </th>
+                    <th>
+                      Ventas Precio Distribuidor
+                    </th>
+                    <th>
+                      Ganancias
+                    </th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: currentSucursals, visible: !shouldShowSucursalsAlert()">
+                  <tr>
+                    <td data-bind="text: $data.id"></td>
+                    <td data-bind="text: $data.name"></td>
+                    <td data-bind="text: $data.address"></td>
+                    <td data-bind="text: $data.phoneNumber"></td>
+                    <td data-bind="text: $data.managerFullName"></td>
+                    <td data-bind="text: $data.managerPhoneNumber"></td>
+                    <td data-bind="text: $data.totalSoldFrepiPrice"></td>
+                    <td data-bind="text: $data.totalSoldStorePrice"></td>
+                    <td data-bind="text: $root.getProfit($data.totalSoldFrepiPrice, $data.totalSoldStorePrice)"></td>
+                  </tr>
+                </tbody>
+                <tbody data-bind="visible: shouldShowSucursalsAlert">
+                  <tr>
+                    <td class="alert box" colspan="9">
+                      <h4 class="ui centered header" data-bind="text: sucursalsAlertText"></h4>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="9">
+                      <div class="ui right floated pagination menu">
+                        <a class="icon item" data-bind="click: setPrevSucursalPage"><i class="left chevron icon"></i></a>
+                        <div class="pages item" data-bind="foreach: sucursalsPages.showablePages">
+                          <a class="item" data-bind="text: $data.num"></a>
+                        </div>
+                        <a class="icon item" data-bind="click: setNextSucursalPage"><i class="right chevron icon"></i></a>
+                      </div>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+            </article>
+          </section>
+          <script src="../javascripts/plugins/moment+locales.min.js" type="text/javascript"></script>
+          <script src="../javascripts/plugins/daterangepicker.min.js" type="text/javascript"></script>
+          <script src="../javascripts/viewmodels/admin/performance.js" type="text/javascript"></script>
+          <footer>
+            <p>
+              © 2016 Frepi, inc. Todos los derechos reservados. Teléfono: 3158982043. Mail:&nbsp;<a href="mailto:contacto@frepi.com.co">contacto@frepi.com.co</a>
+            </p>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Frepi - Haz tu mercado fácil y rápido</title><!--Sets initial viewport load and disables zooming-->
+    <meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" />
+    <meta content="Haz tu compra y recibela en menos de una hora. Inténtalo!" name="description" />
+    <link href="../images/favicons/apple-touch-icon-57x57.png" rel="apple-touch-icon" sizes="57x57" />
+    <link href="../images/favicons/apple-touch-icon-60x60.png" rel="apple-touch-icon" sizes="60x60" />
+    <link href="../images/favicons/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72" />
+    <link href="../images/favicons/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+    <link href="../images/favicons/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114" />
+    <link href="../images/favicons/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+    <link href="../images/favicons/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144" />
+    <link href="../images/favicons/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+    <link href="../images/favicons/apple-touch-icon-180x180.png" rel="apple-touch-icon" sizes="180x180" />
+    <link href="../images/favicons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+    <link href="../images/favicons/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png" />
+    <link href="../images/favicons/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="../images/favicons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+    <link color="#5bbad5" href="../images/favicons/safari-pinned-tab.svg" rel="mask-icon" />
+    <meta content="#00aba9" name="msapplication-TileColor" />
+    <meta content="../images/favicons/mstile-144x144.png" name="msapplication-TileImage" />
+    <meta content="#ffffff" name="theme-color" />
+    <!--Add semantic's CSS-->
+    <link href="../semantic/out/semantic.min.css" rel="stylesheet" type="text/css" />
+    <link href="../stylesheets/vendor/daterangepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="../stylesheets/frepi.css" rel="stylesheet" type="text/css" />
+    <link href="../stylesheets/responsive-frepi.css" rel="stylesheet" type="text/css" />
+    <script src="../javascripts/plugins/crypto-js.min.js"></script>
+    <script src="../javascripts/jquery/jquery-2.1.4.min.js"></script>
+    <script src="../semantic/out/semantic.min.js"></script>
+    <script src="../javascripts/knockout.js"></script>
+    <script src="../javascripts/plugins/ko-mapping.min.js"></script>
+    <script src="../javascripts/classes/encrypter.js"></script>
+    <script src="../javascripts/classes/config.js"></script>
+    <script src="../javascripts/classes/constans.js"></script>
+    <script src="../javascripts/classes/RESTfulService.js"></script>
+    <script src="../javascripts/viewmodels/admin/adminPage.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="ui fixed inverted borderless admin menu">
+        <a class="item" href="../admin/index.html" id="landing-logo"><img src="../images/landing/full_logo.png" /></a>
+        <div class="right menu">
+          <div class="item">
+            <button class="ui orange button" data-bind="click: logout">Salir</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <section class="ui container admin content">
+      <div class="ui grid">
+        <div class="four wide column">
+          <aside class="ui vertical menu">
+            <a class="item" href="../admin/index.html"><i class="user icon"></i>Administradores</a><a class="item" href="../admin/orders.html"><i class="book icon"></i>Ordenes</a><a class="item" href="../admin/products.html"><i class="lemon icon"></i>Productos</a><a class="item" href="../admin/performance.html"><i class="bar chart icon"></i>Rendimiento</a><a class="item" href="../admin/shoppers.html"><i class="users icon"></i>Shoppers</a><a class="item" href="../admin/sucursals.html"><i class="building icon"></i>Sucursales</a><a class="item" href="../admin/supervisors.html"><i class="users icon"></i>Supervisors</a>
+          </aside>
+        </div>
+        <div class="twelve wide column">
+          <div class="ui active inverted dimmer" data-bind="visible: isLoading">
+            <div class="ui text loader">
+              Cargando
+            </div>
+          </div>
+          <div class="ui small admin delete modal">
+            <div class="header">
+              Eliminar producto
+            </div>
+            <div class="content">
+              <p>
+                Está a punto de eliminar la sucursal<strong data-bind="text: chosenSucursal.name"></strong>, al hacerlo se eliminará toda la información asociada a ella, como ordenes o productos ¿Desea hacerlo?
+              </p>
+            </div>
+            <div class="actions">
+              <div class="ui cancel button">
+                <i class="remove icon"></i>No
+              </div>
+              <div class="ui green button" data-bind="click: deleteSucursal">
+                <i class="check icon"></i>Si
+              </div>
+            </div>
+          </div>
+          <div class="ui small admin create modal">
+            <i class="close icon"></i>
+            <div class="header">
+              Agregar sucursal
+            </div>
+            <div class="content">
+              <form class="ui form" data-bind="submit: createSucursal">
+                <div class="field">
+                  <label>Nombre</label><input name="name" placeholder="Nombre" type="text" />
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <label>Dirección</label><input name="address" placeholder="Dirección" type="text" />
+                  </div>
+                  <div class="field">
+                    <label>Teléfono</label><input name="phoneNumber" placeholder="Teléfono contacto" type="text" />
+                  </div>
+                </div>
+                <div class="ui divider"></div>
+                <div class="field">
+                  <label>Administrador</label>
+                  <div class="two fields">
+                    <div class="field">
+                      <input name="managerFullName" placeholder="Nombre" type="text" />
+                    </div>
+                    <div class="field">
+                      <input name="managerPhoneNumber" placeholder="Teléfono" type="text" />
+                    </div>
+                  </div>
+                </div>
+                <div class="buttons-to-right">
+                  <div class="ui cancel button">
+                    Cancelar
+                  </div>
+                  <button class="ui labeled green submit icon button" type="submit">Crear Sucursal<i class="checkmark icon"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="ui small admin update modal">
+            <i class="close icon"></i>
+            <div class="header">
+              Editar sucursal
+            </div>
+            <div class="content">
+              <form class="ui form" data-bind="submit: updateSucursal">
+                <div class="field">
+                  <label>Nombre</label><input name="name" placeholder="Nombre" type="text" />
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <label>Dirección</label><input name="address" placeholder="Dirección" type="text" />
+                  </div>
+                  <div class="field">
+                    <label>Teléfono</label><input name="phoneNumber" placeholder="Teléfono contacto" type="text" />
+                  </div>
+                </div>
+                <div class="ui divider"></div>
+                <div class="field">
+                  <label>Administrador</label>
+                  <div class="two fields">
+                    <div class="field">
+                      <input name="managerFullName" placeholder="Nombre" type="text" />
+                    </div>
+                    <div class="field">
+                      <input name="managerPhoneNumber" placeholder="Teléfono" type="text" />
+                    </div>
+                  </div>
+                </div>
+                <div class="buttons-to-right">
+                  <div class="ui cancel button">
+                    Cancelar
+                  </div>
+                  <button class="ui labeled green submit icon button" type="submit">Editar Sucursal<i class="checkmark icon"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <header>
+            <h2>
+              Sucursales
+            </h2>
+          </header>
+          <section class="actions">
+            <button class="ui green create button"><i class="plus icon"></i>Agregar sucursal</button>
+          </section>
+          <section class="content">
+            <table class="ui celled sucursals table">
+              <thead>
+                <tr>
+                  <th>
+                    ID
+                  </th>
+                  <th>
+                    Nombre
+                  </th>
+                  <th>
+                    Dirección
+                  </th>
+                  <th>
+                    Teléfono
+                  </th>
+                  <th>
+                    Manager
+                  </th>
+                  <th>
+                    Tel Manager
+                  </th>
+                  <th>
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody data-bind="foreach: currentSucursals, visible: !shouldShowSucursalsAlert()">
+                <tr>
+                  <td data-bind="text: $data.id"></td>
+                  <td data-bind="text: $data.name"></td>
+                  <td data-bind="text: $data.address"></td>
+                  <td data-bind="text: $data.phoneNumber"></td>
+                  <td data-bind="text: $data.managerFullName"></td>
+                  <td data-bind="text: $data.managerPhoneNumber"></td>
+                  <td>
+                    <i class="bordered inverted blue pencil link icon" data-bind="click: $root.showUpdate"></i><i class="bordered inverted red trash link icon" data-bind="click: $root.showDelete"></i>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody data-bind="visible: shouldShowSucursalsAlert">
+                <tr>
+                  <td class="alert box" colspan="7">
+                    <h4 class="ui centered header" data-bind="text: sucursalsAlertText"></h4>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="7">
+                    <div class="ui right floated pagination menu">
+                      <a class="icon item" data-bind="click: setPrevSucursalPage"><i class="left chevron icon"></i></a>
+                      <div class="pages item" data-bind="foreach: sucursalsPages.showablePages">
+                        <a class="item" data-bind="text: $data.num, click: $root.fetchSucursalsPage"></a>
+                      </div>
+                      <a class="icon item" data-bind="click: setNextSucursalPage"><i class="right chevron icon"></i></a>
+                    </div>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+          </section>
+          <script src="../javascripts/viewmodels/admin/sucursals.js"></script>
+          <footer>
+            <p>
+              © 2016 Frepi, inc. Todos los derechos reservados. Teléfono: 3158982043. Mail:&nbsp;<a href="mailto:contacto@frepi.com.co">contacto@frepi.com.co</a>
+            </p>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

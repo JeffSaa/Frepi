@@ -1,0 +1,16 @@
+<h2 id="how-to-use">How to use</h2>
+
+<p>These are collections of tasks that are imported together.</p>
+
+<p>To import them into gulp:
+```javascript
+var
+  gulp    = require('gulp'),
+  // modified to point to semantic folder
+  install = require('tasks/collections/install')
+;
+gulp = install(gulp);</p>
+
+<p>// tasks are now injected and ready to be used
+gulp.start('install');
+```</p>
