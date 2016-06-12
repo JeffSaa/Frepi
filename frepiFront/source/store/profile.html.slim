@@ -1,0 +1,171 @@
+.profile
+	#edit-email.ui.small.modal
+		.header Editar información de cuenta
+		.content
+			form.ui.form
+				.field
+					label Correo nuevo
+					input type="text" name="new-email" placeholder="Nuevo correo"
+				.field
+					label Confirmación correo nuevo
+					input type="text" name="confirmation-new-email" placeholder="Confirmación"
+				.field
+					label Contraseña
+					input type="password" name="password" placeholder="Contraseña actual"
+				.buttons-to-right
+					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+					button.ui.labeled.green.icon.button data-bind="click: function(){updateUser('email')}"
+						|Guardar cambios
+						i.checkmark.icon
+
+	#edit-password.ui.small.modal
+		.header Editar información de cuenta
+		.content
+			form.ui.form
+				.field
+					label Contraseña nueva
+					input type="password" name="new-password" placeholder="Nuevo contraseña"
+				.field
+					label Confirmación contraseña nueva
+					input type="password" name="confirmation-new-password" placeholder="Confirmación"
+				.field
+					label Contraseña actual
+					input type="password" name="current-password" placeholder="Contraseña actual"
+				.buttons-to-right
+					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+					button.ui.labeled.green.icon.button data-bind="click: function(){updateUser('password')}"
+						|Guardar cambios
+						i.checkmark.icon
+
+	#edit-user-info.ui.small.modal
+		.header Editar información de cuenta
+		.content
+			form.ui.form
+				.field
+					label Nombres
+					input type="text" name="firstName" placeholder="Nombres"
+				.field
+					label Apellidos
+					input type="text" name="lastName" placeholder="Apellidos"
+				.field
+					label Teléfono
+					input type="text" name="phone" placeholder="Teléfono"
+				.buttons-to-right
+					.ui.cancel.button data-bind="click: closeEditEmail" Cancelar
+					.ui.right.labeled.green.icon.button data-bind="click: function(){updateUser('user')}"
+						|Guardar cambios
+						i.checkmark.icon
+	#order-details.ui.small.modal
+		.header Detalles de la orden
+		.content
+			p
+				strong Estado:&nbsp;
+				span.ui.label data-bind="text: setStatus(chosenOrder.status(), false), css: chosenOrder.status().toLowerCase()"
+			p
+				strong Fecha creación:
+				|<!--ko text: ' '+chosenOrder.creationDate()--><!--/ko-->
+			p
+				strong Fecha entrega:
+				|<!--ko text: ' '+chosenOrder.arrivalDate()--><!--/ko-->
+			p
+				strong Dirección entrega:
+				|<!--ko text: ' '+chosenOrder.address()--><!--/ko-->
+			h4.ui.header Lista de productos
+			ul data-bind="foreach: chosenOrder.products"
+				li
+					|<!-- ko text: $data.product.name --><!--/ko-->
+					span data-bind="text: ' ('+$data.product.size+')', visible: $data.product.size"
+					|<!-- ko text: ' x '+$data.quantity --><!--/ko-->
+					span data-bind="visible: !$data.acquired" &nbsp;- No adquirido
+			p
+				strong Precio total:
+				|<!--ko text: ' $'+chosenOrder.totalPrice()--><!--/ko-->
+		.actions
+			.ui.red.button data-bind="visible: chosenOrder.status() === 'RECEIVED', click: cancelOrder"
+				i.ban.icon
+				|Cancelar orden
+			.ui.green.ok.button
+				i.check.icon
+				|Ok
+	.ui.container
+		#profile-picture.ui.centered.medium.circular.image
+			// .ui.inverted.dimmer
+			//	.content
+			//		.center
+			//			span.ui.basic.teal.file.button
+			//				i.camera.retro.icon
+			//				|Cambiar imagen
+			//				input type='file' data-bind="event: {change: previewImage}"
+			img data-bind="attr: {src: user.profilePicture}"
+		h1.ui.centered.header data-bind="text: user.fullName"
+		.ui.fluid.two.item.secondary.pointing.menu
+			a.active.item data-tab="account" Cuenta
+			a.item data-tab="history" Historial de pedidos
+		.ui.active.tab.segment data-tab="account"
+			.ui.two.column.stackable.grid
+				.column
+					.ui.green.segment
+						.ui.header Información de cuenta
+						.clearfix.line data-bind="click: showEditEmail"
+							span.title Email
+							span.value data-bind="text: user.email"
+							i.pencil.link.large.icon
+						.clearfix.line data-bind="click: showEditPassword, css: {disabled: user.provider === 'facebook'}"
+							span.title Password
+							span.value ●●●●●●●●
+							i.pencil.link.large.icon
+				.column
+					.ui.green.segment
+						.ui.header Información personal
+						.clearfix.line
+							span.title Nombres
+							span.value data-bind="text: user.name"
+						.clearfix.line
+							span.title Apellidos
+							span.value data-bind="text: user.lastName"
+						.clearfix.line
+							span.title Teléfono
+							span.value data-bind="text: user.phone"
+						button.ui.green.button data-bind="click: showEditUser" Editar
+
+		.ui.tab.segment data-tab="history"
+			#guide-status.ui.centered.green.segment
+				.ui.centered.header Estados de orden
+				#status
+					.first.row
+						div.status-tag
+							.ui.yellow.label C
+							span Comprando
+						div.status-tag
+							.ui.green.label E
+							span Entregada
+					.second.row
+						div.status-tag
+							.ui.olive.label E
+							span En camino
+						div.status-tag
+							.ui.teal.label R
+							span Recibida
+			table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
+				thead
+					tr
+						th.three.wide Fecha creación
+						th.three.wide Fecha entrega
+						th.three.wide Productos
+						th.two.wide Valor($)
+						th.two.wide Estado
+				tbody data-bind="foreach: currentOrders"
+					tr data-bind="click: $root.showOrderDetails"
+						td data-bind="text: $root.dateFormatter($data.date)"
+						td data-bind="text: $root.parseDate($data.scheduledDate)+', '+$root.parseTime($data.arrivalTime)"
+						td data-bind="text: $root.productsText($data.products)"
+						td data-bind="text: $data.totalPrice.toLocaleString()"
+						td.center.aligned
+							.ui.label data-bind="text: $root.setStatus($data.status, false), css: $data.status.toLowerCase()"
+							.ui.truncated.label data-bind="text: $root.setStatus($data.status, true), css: $data.status.toLowerCase()"
+			.ui.centered.header data-bind="visible: showEmptyMessage" No hay pedidos registrados
+
+
+script src="../javascripts/plugins/moment+locales.min.js"
+script src="../javascripts/classes/router.js"
+script src="../javascripts/viewmodels/store/profile.js"

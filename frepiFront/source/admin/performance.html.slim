@@ -1,0 +1,138 @@
+header
+	h2 Rendimiento
+
+section.content
+	article.products
+		h3 Productos
+		p
+			strong Selecciona un rango:
+		.ui.labeled.daterange.products.input
+			.ui.label
+				i.calendar.icon
+			input#products-daterange type="text" placeholder="Rango..."
+
+		table.ui.celled.table
+			thead
+				tr
+					th ID
+					th Nombre
+					th Precio Frepi
+					th Precio Tienda
+					th Unds Vendidas
+			tbody data-bind="foreach: currentProducts, visible: !shouldShowProductsAlert()"
+				tr
+					td data-bind="text: $data.id"
+					td data-bind="text: $data.name"
+					td data-bind="text: $data.frepiPrice"
+					td data-bind="text: $data.storePrice"
+					td data-bind="text: $data.salesCount"
+			tbody data-bind="visible: shouldShowProductsAlert"
+				tr
+					td.alert.box colspan="5"
+						h4.ui.centered.header data-bind="text: productsAlertText"
+			tfoot
+				tr
+					th colspan="5"
+						.ui.right.floated.pagination.menu
+							a.icon.item data-bind="click: setPrevProductPage"
+								i.left.chevron.icon
+							.pages.item data-bind="foreach: productsPages.showablePages"
+								a.item data-bind="text: $data.num, click: $root.fetchProductsPage"
+							a.icon.item data-bind="click: setNextProductPage"
+								i.right.chevron.icon
+	article.shoppers
+		h3 Shoppers
+		p
+			strong Selecciona un rango:
+		.ui.labeled.daterange.shoppers.input
+			.ui.label
+				i.calendar.icon
+			input#shoppers-daterange type="text" placeholder="Rango..."
+
+		table.ui.celled.table
+			thead
+				tr
+					th ID
+					th CC
+					th Nombres
+					th Apellidos
+					th Teléfono
+					th E-mail
+					th Ordenes ejecutadas
+					th Tipo
+			tbody data-bind="foreach: currentShoppers, visible: !shouldShowShoppersAlert()"
+				tr
+					td data-bind="text: $data.id"
+					td data-bind="text: $data.identification"
+					td data-bind="text: $data.firstName"
+					td data-bind="text: $data.lastName"
+					td data-bind="text: $data.phoneNumber"
+					td data-bind="text: $data.email"
+					td data-bind="text: $data.takenOrdersCount"
+					td data-bind="text: $data.shopperType"
+			tbody data-bind="visible: shouldShowShoppersAlert"
+				tr
+					td.alert.box colspan="8"
+						h4.ui.centered.header data-bind="text: shoppersAlertText"
+			tfoot
+				tr
+					th colspan="8"
+						.ui.right.floated.pagination.menu
+							a.icon.item data-bind="click: setPrevShopperPage"
+								i.left.chevron.icon
+							.pages.item data-bind="foreach: shoppersPages.showablePages"
+								a.item data-bind="text: $data.num"
+							a.icon.item data-bind="click: setNextShopperPage"
+								i.right.chevron.icon
+
+	article.sucursals
+		h3 Sucursales
+		p
+			strong Selecciona un rango:
+		.ui.labeled.daterange.sucursals.input
+			.ui.label
+				i.calendar.icon
+			input#sucursals-daterange type="text" placeholder="Rango..."
+
+		table.ui.celled.table
+			thead
+				tr
+					th ID
+					th Nombre
+					th Dirección
+					th Teléfono
+					th Manager
+					th Tel Manager
+					th Ventas Precio Frepi
+					th Ventas Precio Distribuidor
+					th Ganancias
+			tbody data-bind="foreach: currentSucursals, visible: !shouldShowSucursalsAlert()"
+				tr
+					td data-bind="text: $data.id"
+					td data-bind="text: $data.name"
+					td data-bind="text: $data.address"
+					td data-bind="text: $data.phoneNumber"
+					td data-bind="text: $data.managerFullName"
+					td data-bind="text: $data.managerPhoneNumber"
+					td data-bind="text: $data.totalSoldFrepiPrice"
+					td data-bind="text: $data.totalSoldStorePrice"
+					td data-bind="text: $root.getProfit($data.totalSoldFrepiPrice, $data.totalSoldStorePrice)"
+			tbody data-bind="visible: shouldShowSucursalsAlert"
+				tr
+					td.alert.box colspan="9"
+						h4.ui.centered.header data-bind="text: sucursalsAlertText"
+			tfoot
+				tr
+					th colspan="9"
+						.ui.right.floated.pagination.menu
+							a.icon.item data-bind="click: setPrevSucursalPage"
+								i.left.chevron.icon
+							.pages.item data-bind="foreach: sucursalsPages.showablePages"
+								a.item data-bind="text: $data.num"
+							a.icon.item data-bind="click: setNextSucursalPage"
+								i.right.chevron.icon
+
+
+script src="../javascripts/plugins/moment+locales.min.js" type="text/javascript"
+script src="../javascripts/plugins/daterangepicker.min.js" type="text/javascript"
+script src="../javascripts/viewmodels/admin/performance.js" type="text/javascript"

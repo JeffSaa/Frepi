@@ -1,0 +1,35 @@
+h2.ui.center.aligned.header
+	|Crea tu cuenta!
+	.sub.header Y ten los mejores productos a la mano
+form.ui.form data-bind="submit: signUp"
+	.field
+		label Nombres
+		input type="text" name="firstName" placeholder="Nombres"
+	.field
+		label Apellidos
+		input type="text" name="lastName" placeholder="Apellidos"
+	.field
+		label Dirección
+		input type="text" name="address" placeholder="Dirección"
+	.field
+		label Teléfono
+		input type="text" name="phoneNumber" placeholder="Teléfono"
+	.field
+		label Correo electrónico
+		input type="email" name="email" placeholder="Correo electrónico"
+	.field
+		label Contraseña
+		input type="password" name="password" placeholder="Contraseña"
+	.ui.error.message
+		.header data-bind="text: errorTextResponse"
+	button.ui.fluid.large.green.right.labeled.icon.button type="submit"
+		i.check.icon
+		|Crear cuenta
+	.ui.horizontal.divider o
+	button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: signWithFB"
+		i.facebook.icon
+		|Inicia con Facebook
+	#login-message.ui.center.aligned
+		|¿Tienes cuenta?&nbsp;
+		a href="login.html" Entra
+script src="javascripts/viewmodels/signup.js" type="text/javascript"
