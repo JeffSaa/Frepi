@@ -1,5 +1,4 @@
 class CheckoutVM
-	RouteValidator.checkCart()
 	constructor: ->
 		# Observables
 		@session =
@@ -76,7 +75,6 @@ class CheckoutVM
 	logout: ->
 		RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (error, success, headers) =>
 			if error
-				console.log 'An error has ocurred'
 			else
 				Config.destroyLocalStorage()
 				window.location.href = '/'
@@ -86,7 +84,6 @@ class CheckoutVM
 		window.location.href = 'store/index.html'
 
 	generate: ->
-		console.log 'Its here, generating order'
 
 		productsToSend = []
 
@@ -106,14 +103,11 @@ class CheckoutVM
 			scheduledDate		: @selectedDate()
 			expiryTime			: @selectedExpiredHour()
 
-		console.log 'DATA TO SEND'
-		console.log data
 
 		$('.generate.button').addClass('loading')
 		RESTfulService.makeRequest('POST', "/users/#{@user.id}/orders", data, (error, success, headers) =>
 			$('.generate.button').removeClass('loading')
 			if error
-				console.log 'An error has ocurred while updating the user!'
 				@headerMessage('Ha ocurrido un error generando la orden. Intenta más tarde.')
 			else
 				@session.currentOrder.numberProducts('0 items')
@@ -155,12 +149,10 @@ class CheckoutVM
 		phoneNumber.length > 6 and not(phoneNumber.match(/[^\s|\d]/g))
 
 	setHours: =>
-		console.log 'It should set the new hours'
 		$('.date.field').removeClass('error')
 		if !!@selectedDay()
 			@availableHours(@selectedDay().availableHours)
 			@selectedDate(@selectedDay().date)
-			console.log "availableHours #{@selectedDay().availableHours}, length #{@selectedDay().availableHours.length}"
 			if @selectedDay().availableHours.length is 0 then $('.hours.dropdown').addClass('disabled') else $('.hours.dropdown').removeClass('disabled')
 		else
 			@availableHours([])
@@ -184,8 +176,6 @@ class CheckoutVM
 
 		tomorrow = moment().add(1, 'days').hours(7).minutes(0)
 		aftertomorrow = moment().add(2, 'days').hours(7).minutes(0)
-		console.log 'today moment'
-		console.log today
 		@availableDateTime =
 			today:
 				date: today.format('YYYY-MM-DD')
@@ -202,7 +192,6 @@ class CheckoutVM
 				@availableDateTime.tomorrow
 				@availableDateTime.aftertomorrow
 			])
-		console.log @availableDays()
 
 	generateAvailableHours: (startHour) ->
 		endHour = moment(startHour.format('YYYY-MM-DD'), 'YYYY-MM-DD').hours(16).minutes(0)
@@ -265,5 +254,7 @@ class CheckoutVM
 				$('.ui.labeled.button').removeClass('tiny')
 		)
 
+RouteValidator.checkUser()
+RouteValidator.checkCart()
 checkout = new CheckoutVM
 ko.applyBindings(checkout)

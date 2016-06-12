@@ -344,6 +344,40 @@ class window.TransactionalPageVM
 						$('#shopping-cart').sidebar('hide')
 				)
 
+	resetPassword: ->
+		$form = $('.reset-password .form')
+		$form.removeClass('error')
+		if $form.form('is valid')
+			data =
+				email: $form.form('get value', 'email')
+				redirect_url: '/'
+
+			$('.reset-password .green.button').addClass('loading')
+			RESTfulService.makeRequest('POST', "/auth/password", data, (error, success, headers) =>
+				$('.reset-password .green.button').removeClass('loading')
+				if error
+					$form.addClass('error')
+					console.log 'An error has ocurred while reseting the password!'
+					console.log error
+					if error.responseJSON
+						$form.form('add errors', error.responseJSON.errors)
+					else
+						$form.form('add errors', ['No se pudo establecer conexión'])
+				else
+					console.log success
+					$('.reset-password .green.button').addClass('disabled')
+					$('.reset-password .success.segment').transition('fade down')
+					setTimeout((->
+							$('.reset-password.modal').modal('hide')
+						), 5000)
+			)
+
+	hideLoader: (product) ->
+		console.log "img #{product.name} loaded"
+		$("##{product.id} .image img.loading").hide()
+		$("##{product.id} .image .loader").hide()
+		$("##{product.id} .image img.product").show()
+
 	login: ->
 		LoginService.regularLogin( (error, success) =>
 				if error
@@ -400,6 +434,7 @@ class window.TransactionalPageVM
 						noResults: 'No hay resultados para la búsqueda'
 					apiSettings:
 						url: 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/api/v1/search/products?search={query}'
+						# url: 'http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:3000/api/v1/search/products?search={query}'
 						onResponse: (APIResponse) ->
 							response = results: []
 
@@ -426,7 +461,9 @@ class window.TransactionalPageVM
 		$('.ui.dropdown:not(#user-account)')
 			.dropdown()
 		$('#departments-menu .ui.dropdown')
-			.dropdown()
+			.dropdown(
+					on: 'hover'
+				)
 
 		$('.ui.accordion')
 			.accordion()
@@ -447,6 +484,14 @@ class window.TransactionalPageVM
 					$('.modal .dropdown.field').removeClass('hide')
 					$("#product-desc .ribbon.label").removeClass('show')
 			)
+		$('.reset-password.modal').modal(
+				onHidden: ->
+					$('.reset-password .success.segment').attr('style', 'display: none !important')
+					$('.reset-password .green.button').removeClass('disabled')
+					$('.reset-password form').form('clear')
+			)
+			.modal('attach events', '.reset.trigger', 'show')
+			.modal('attach events', '.reset-password .cancel.button', 'hide')
 		$('.login.modal')
 			.modal(
 				onShow: ->
@@ -466,6 +511,23 @@ class window.TransactionalPageVM
 			)
 			.modal('attach events', '.sign-up.trigger', 'show')
 			.modal('attach events', '#sign-up.modal .cancel.button', 'hide')
+
+		$('.reset-password .form').form(
+				fields:
+					email:
+						identifier: 'email'
+						rules: [
+							{
+								type: 'empty'
+								prompt: 'Olvidaste poner el correo'
+							}, {
+								type: 'email'
+								prompt: 'La dirección de correo no es válida'
+							}
+						]
+				inline: true
+				keyboardShortcuts: false
+			)
 
 		$('#product-desc form')
 			.form(

@@ -16,7 +16,9 @@
 			.column
 				.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}, attr: {id: $data.id}"
 					.image
-						img data-bind="attr: {src: $data.image}" alt="Product's image"
+						img.loading src="../images/blank_loader.png"
+						.ui.active.small.loader
+						img.product data-bind="attr: {src: $data.image, alt: $data.name}, event: { load: $root.hideLoader }"
 						.ui.blue.left.corner.label
 							span.quantity 1
 					.content

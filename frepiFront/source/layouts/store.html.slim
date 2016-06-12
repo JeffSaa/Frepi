@@ -77,6 +77,27 @@ html
 							label Cantidad
 							input name="quantity" type="text"
 						button.ui.fluid.large.green.button type="submit" Agregar a carrito
+		.reset-password.ui.small.modal
+			.header
+				|Restaurar contraseña
+			.content
+				p Te enviaremos un correo para que restaures tu contraseña
+				.ui.success.hidden.segment
+					h3.ui.header
+						i.checkmark.icon
+						.content
+							|Listo!
+							.sub.header Hemos envíado un correo con instrucciones para restaurar tu contraseña
+				form.ui.form data-bind="submit: resetPassword"
+					.field
+						label Correo
+						input name="email" type="email"
+					.ui.error.message
+					.buttons-to-right
+						.ui.cancel.button Cancelar
+						button.ui.green.right.labeled.icon.button type="submit"
+							|Restaurar
+							i.checkmark.icon
 		.ui.small.login.modal
 			i.close.icon
 			.header Entrar a cuenta
@@ -89,6 +110,8 @@ html
 						label Contraseña
 						input type="password" name="password" placeholder="Contraseña"
 					.ui.error.message
+					strong ¿Olvidaste tu contraseña?&nbsp;
+					a.reset.trigger Recuperala
 					.buttons-to-right
 						.ui.cancel.button Cancelar
 						button.ui.labeled.green.submit.icon.login.button type="submit"
@@ -172,6 +195,10 @@ html
 					i.chevron.right.icon
 					|<!--ko text: $data.name--><!--/ko-->
 					.menu data-bind="foreach: $data.subcategories"
+						|<!-- ko if: ($index() === 0) -->
+						a.item data-bind="click: function() {$root.chooseDeparment({id: $parent.id})}"
+							strong Todo
+						|<!-- /ko -->
 						a.item data-bind="text: $data.name, click: $root.chooseDeparment"
 
 		#shopping-cart.ui.vertical.right.sidebar.menu
@@ -215,6 +242,9 @@ html
 							.ui.button data-bind="click: function(data){$root.removeFromCart(data)}"
 								i.down.chevron.icon
 				.item
+					p
+						i.info.circle.icon
+						strong Pedido mínimo de $34,000
 					button.ui.fluid.large.green.button data-bind="click: checkout, css: {disabled: session.currentOrder.price() < 34000}" Pagar
 			.sign-up-banner
 				p.ui.header
@@ -256,6 +286,9 @@ html
 							.item.login.trigger
 								i.sign.in.icon
 								|Entrar
+							.item.sign-up.trigger
+								i.add.user.icon
+								|Crear cuenta
 					#shopping-cart
 						i.circular.inverted.orange.shop.icon
 

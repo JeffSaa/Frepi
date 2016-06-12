@@ -5,6 +5,7 @@ class StoreVM extends TransactionalPageVM
 		@shouldDisplayLoader = ko.observable(true)
 		# Methods to execute on instance
 		@setExistingSession()
+		@session.categories([])
 		@setUserInfo()
 		@fetchCategories()
 		@setDOMElements()
@@ -13,6 +14,7 @@ class StoreVM extends TransactionalPageVM
 
 	fetchCategories: ->
 		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/categories", '', (error, success, headers) =>
+			$('.active.fetching.loader').hide()
 			@shouldDisplayLoader(false)
 			if error
 				# console.log 'An error has ocurred while fetching the categories!'
