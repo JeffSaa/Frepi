@@ -115,15 +115,15 @@ if Rails.env.development?
     sucursal = Sucursal.find([1, 2, 3].sample)
     subcategory = Subcategory.find(Faker::Number.between(1, 10))
     valid = false
-    until valid
+    #until valid
       price = Faker::Number.number(Faker::Number.between(4, 6)).to_i
       product = sucursal.products.create(reference_code: Faker::Company.duns_number, name: Faker::Commerce.product_name,
                                          store_price: price, frepi_price: price + 2000,
                                          image: Faker::Avatar.image(nil, "960x800"),
                                          subcategory_id: subcategory.id, available: true)
-      valid = product.valid?
+      #valid = product.valid?
       product.save
-    end
+    #end
 
   end
 

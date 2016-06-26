@@ -90,4 +90,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :products, only: [:new, :create]
+  get '/products/logs', to: 'products#logs'
 end

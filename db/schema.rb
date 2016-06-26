@@ -46,34 +46,23 @@ ActiveRecord::Schema.define(version: 20160529033649) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "distances", force: :cascade do |t|
-    t.integer  "sucursal_id",    null: false
-    t.integer  "destination_id", null: false
-    t.decimal  "distance",       null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  add_index "distances", ["destination_id"], name: "index_distances_on_destination_id"
-  add_index "distances", ["sucursal_id"], name: "index_distances_on_sucursal_id"
-
   create_table "orders", force: :cascade do |t|
-    t.boolean  "active",                                     default: true,  null: false
-    t.integer  "status",                                     default: 0,     null: false
-    t.decimal  "total_price",        precision: 8, scale: 2, default: 0.0,   null: false
-    t.datetime "date",                                                       null: false
-    t.datetime "scheduled_date",                                             null: false
-    t.time     "arrival_time",                                               null: false
-    t.time     "expiry_time",                                                null: false
-    t.boolean  "notification_email",                         default: false, null: false
+    t.boolean  "active",                       default: true,  null: false
+    t.integer  "status",                       default: 0,     null: false
+    t.integer  "total_price",        limit: 8,                 null: false
+    t.datetime "date",                                         null: false
+    t.datetime "scheduled_date",                               null: false
+    t.time     "arrival_time",                                 null: false
+    t.time     "expiry_time",                                  null: false
+    t.boolean  "notification_email",           default: false, null: false
     t.string   "comment"
     t.string   "address"
     t.date     "shopping_at"
-    t.integer  "user_id",                                                    null: false
+    t.integer  "user_id",                                      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "telephone"
-    t.integer  "discount",                                   default: 0
+    t.integer  "discount",                     default: 0
   end
 
   add_index "orders", ["user_id"], name: "index_orders_on_user_id"
@@ -103,20 +92,21 @@ ActiveRecord::Schema.define(version: 20160529033649) do
 
   create_table "products", force: :cascade do |t|
     t.string   "reference_code"
-    t.string   "name",                                                  null: false
-    t.decimal  "store_price",    precision: 8, scale: 2,                null: false
-    t.decimal  "frepi_price",    precision: 8, scale: 2,                null: false
-    t.string   "image",                                                 null: false
-    t.boolean  "available",                              default: true, null: false
-    t.integer  "sales_count",                            default: 0
+    t.string   "name",                                                            null: false
+    t.string   "escaped_name",                                                    null: false
+    t.integer  "store_price",    limit: 8,                                        null: false
+    t.integer  "frepi_price",    limit: 8,                                        null: false
+    t.string   "image",                                                           null: false
+    t.boolean  "available",                                        default: true, null: false
+    t.integer  "sales_count",                                      default: 0
     t.integer  "subcategory_id"
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
     t.string   "size"
     t.text     "description"
-    t.decimal  "iva",            precision: 5, scale: 2, default: 0.0
-    t.boolean  "active",                                 default: true
-    t.decimal  "percentage",     precision: 5, scale: 2, default: 0.0
+    t.decimal  "iva",                      precision: 5, scale: 2, default: 0.0
+    t.boolean  "active",                                           default: true
+    t.decimal  "percentage",               precision: 5, scale: 2, default: 0.0
   end
 
   add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id"
@@ -183,10 +173,10 @@ ActiveRecord::Schema.define(version: 20160529033649) do
   add_index "states", ["country_id"], name: "index_states_on_country_id"
 
   create_table "store_partners", force: :cascade do |t|
-    t.string   "nit",         null: false
     t.string   "name",        null: false
-    t.string   "logo",        null: false
-    t.text     "description", null: false
+    t.string   "nit"
+    t.string   "logo"
+    t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

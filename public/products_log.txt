@@ -1,0 +1,62 @@
+Uploading product: {:id=>57, :name=>"Albondigas", :size=>"1 kg", :description=>nil, :store_price=>9800, :iva=>0.0, :percentage=>0.1, :frepi_price=>10780, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>58, :name=>"Atravesao", :size=>"1 kg", :description=>nil, :store_price=>13000, :iva=>0.0, :percentage=>0.1, :frepi_price=>14300, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>59, :name=>"Bife Paleta", :size=>"1 kg", :description=>nil, :store_price=>12000, :iva=>0.0, :percentage=>0.1, :frepi_price=>13200, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>60, :name=>"Bisteck Aliñado", :size=>"1 kg", :description=>nil, :store_price=>11000, :iva=>0.0, :percentage=>0.1, :frepi_price=>12100, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>61, :name=>"Bollo", :size=>"1 kg", :description=>nil, :store_price=>14500, :iva=>0.0, :percentage=>0.1, :frepi_price=>15950, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>62, :name=>"Capón", :size=>"1 kg", :description=>nil, :store_price=>15200, :iva=>0.0, :percentage=>0.1, :frepi_price=>16720, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>63, :name=>"Carabela", :size=>"1 kg", :description=>nil, :store_price=>15200, :iva=>0.0, :percentage=>0.1, :frepi_price=>16720, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>64, :name=>"Carne para asar", :size=>"1 kg", :description=>nil, :store_price=>14800, :iva=>0.0, :percentage=>0.1, :frepi_price=>16280, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>65, :name=>"Carne para Bisteck", :size=>"1 kg", :description=>nil, :store_price=>11800, :iva=>0.0, :percentage=>0.1, :frepi_price=>12980, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>66, :name=>"Carne para Guisar", :size=>"1 kg", :description=>nil, :store_price=>9000, :iva=>0.0, :percentage=>0.1, :frepi_price=>9900, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>67, :name=>"Carne Salada", :size=>"1 kg", :description=>nil, :store_price=>10800, :iva=>0.0, :percentage=>0.1, :frepi_price=>11880, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>68, :name=>"Carnero", :size=>"1 kg", :description=>nil, :store_price=>11500, :iva=>0.0, :percentage=>0.1, :frepi_price=>12650, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>69, :name=>"Costilla corriente", :size=>"1 kg", :description=>nil, :store_price=>3400, :iva=>0.0, :percentage=>0.1, :frepi_price=>3740, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>70, :name=>"Costilla Especial", :size=>"1 kg", :description=>nil, :store_price=>5000, :iva=>0.0, :percentage=>0.1, :frepi_price=>5500, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>71, :name=>"Costilla Super-especial", :size=>"1 kg", :description=>nil, :store_price=>8400, :iva=>0.0, :percentage=>0.1, :frepi_price=>9240, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>72, :name=>"Costilla Mega", :size=>"1 kg", :description=>nil, :store_price=>10000, :iva=>0.0, :percentage=>0.1, :frepi_price=>11000, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>73, :name=>"Hilachar", :size=>"1 kg", :description=>nil, :store_price=>9700, :iva=>0.0, :percentage=>0.1, :frepi_price=>10670, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>74, :name=>"Jarrete", :size=>"1 kg", :description=>nil, :store_price=>9400, :iva=>0.0, :percentage=>0.1, :frepi_price=>10340, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>75, :name=>"Lomo ancho", :size=>"1 kg", :description=>nil, :store_price=>16700, :iva=>0.0, :percentage=>0.1, :frepi_price=>18370, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>76, :name=>"Lomo fino limpio", :size=>"1 kg", :description=>nil, :store_price=>22800, :iva=>0.0, :percentage=>0.1, :frepi_price=>25080, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>77, :name=>"Lomo Redondo Especial", :size=>"1 kg", :description=>nil, :store_price=>16700, :iva=>0.0, :percentage=>0.1, :frepi_price=>18370, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>78, :name=>"Carne Molida Corriente", :size=>"1 kg", :description=>nil, :store_price=>4400, :iva=>0.0, :percentage=>0.1, :frepi_price=>4840, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>79, :name=>"Carne Molida especial", :size=>"1 kg", :description=>nil, :store_price=>8700, :iva=>0.0, :percentage=>0.1, :frepi_price=>9570, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>80, :name=>"Carne Molida Super-especial", :size=>"1 kg", :description=>nil, :store_price=>10600, :iva=>0.0, :percentage=>0.1, :frepi_price=>11660, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>81, :name=>"Morrillo", :size=>"1 kg", :description=>nil, :store_price=>9000, :iva=>0.0, :percentage=>0.1, :frepi_price=>9900, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>82, :name=>"Ombligo", :size=>"1 kg", :description=>nil, :store_price=>5000, :iva=>0.0, :percentage=>0.1, :frepi_price=>5500, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>83, :name=>"Pecho y Espaldilla", :size=>"1 kg", :description=>nil, :store_price=>12500, :iva=>0.0, :percentage=>0.1, :frepi_price=>13750, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>84, :name=>"Punta gorda", :size=>"1 kg", :description=>nil, :store_price=>17700, :iva=>0.0, :percentage=>0.1, :frepi_price=>19470, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>85, :name=>"SobreBarriga Delgada", :size=>"1 kg", :description=>nil, :store_price=>11700, :iva=>0.0, :percentage=>0.1, :frepi_price=>12870, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>86, :name=>"SobreBarriga gruesa", :size=>"1 kg", :description=>nil, :store_price=>10300, :iva=>0.0, :percentage=>0.1, :frepi_price=>11330, :subcategory_id=>5, :sucursal_id=>2}
+Saved? true
+Uploading product: {:id=>87, :name=>"Tetafula", :size=>"1 kg", :description=>nil, :store_price=>15200, :iva=>0.0, :percentage=>0.1, :frepi_price=>16720, :subcategory_id=>5, :sucursal_id=>323}
+ERROR:Couldn't find Sucursal with 'id'=323

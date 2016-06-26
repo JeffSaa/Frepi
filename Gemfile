@@ -51,3 +51,11 @@ gem 'searchkick'
 
 # Excel reader
 gem 'roo', '~> 2.3.2'
+
+
+
+# Assests
+gem 'uglifier'
+gem 'coffee-rails'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'sass-rails', '>= 3.2'
