@@ -1,5 +1,6 @@
 class ProductsController < ActionController::Base
   before_action  :handle_options_request, :set_access_control_headers
+  #before_action  :require_admin
 
   def new
   end
@@ -30,6 +31,12 @@ class ProductsController < ActionController::Base
   end
 
 
+
+  def require_admin
+    if current_user.nil? || current_user.administrator == false
+      redirect_to new_session_path
+    end
+  end
 
   # Methods for avoid cross origin problems
   def handle_options_request
