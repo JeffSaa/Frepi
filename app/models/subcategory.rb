@@ -2,7 +2,7 @@ class Subcategory < ActiveRecord::Base
 
   # Associations
   belongs_to :category
-  has_many   :products, dependent: :destroy
+  has_many   :products#, dependent: :destroy
 
   # Validations
   validates :name, :category, presence: true
