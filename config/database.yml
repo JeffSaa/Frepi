@@ -34,7 +34,7 @@ production:
   pool: 5
   timeout: 5000
   port: 5432
-  host: frepidatabase.cvti86tib82j.us-west-2.rds.amazonaws.com
+  host: frepidatabaseproducts.cvti86tib82j.us-west-2.rds.amazonaws.com
   username: frepicolombia
   password: frepi123
   database: frepidatabase
