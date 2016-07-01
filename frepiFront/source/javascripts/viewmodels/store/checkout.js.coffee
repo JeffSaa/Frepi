@@ -77,7 +77,7 @@ class CheckoutVM
 			if error
 			else
 				Config.destroyLocalStorage()
-				window.location.href = '/'
+				window.location.href = '../index.html'
 		)
 
 	cancel: ->
@@ -167,7 +167,7 @@ class CheckoutVM
 
 	setAvailableDeliveryDateTime: =>
 		if moment().hours() < 17
-			if moment().hours() > 7			
+			if moment().hours() > 7
 				today = moment().add(1, 'hours').minutes(0)
 			else
 				today = moment().hours(7).minutes(0)

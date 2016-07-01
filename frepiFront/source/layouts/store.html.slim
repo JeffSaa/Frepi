@@ -196,7 +196,7 @@ html
 					i.sidebar.icon
 					.content Departamentos
 			.items data-bind="foreach: session.categories"
-				.ui.dropdown.item
+				.ui.dropdown.item data-bind="click: $root.fucking"
 					i.chevron.right.icon
 					|<!--ko text: $data.name--><!--/ko-->
 					.menu data-bind="foreach: $data.subcategories"

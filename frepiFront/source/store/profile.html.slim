@@ -106,7 +106,7 @@
 				.column
 					.ui.green.segment
 						.ui.header Información de cuenta
-						.clearfix.line data-bind="click: showEditEmail"
+						.clearfix.line data-bind="click: showEditEmail, css: {disabled: user.provider === 'facebook'}"
 							span.title Email
 							span.value data-bind="text: user.email"
 							i.pencil.link.large.icon
@@ -131,7 +131,7 @@
 		.ui.tab.segment data-tab="history"
 			#guide-status.ui.centered.green.segment
 				.ui.centered.header Estados de orden
-				#status
+				#status.ui.container
 					.first.row
 						div.status-tag
 							.ui.yellow.label C

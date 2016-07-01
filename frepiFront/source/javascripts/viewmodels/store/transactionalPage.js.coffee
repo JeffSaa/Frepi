@@ -188,8 +188,7 @@ class window.TransactionalPageVM
 				console.log 'An error has ocurred'
 			else
 				Config.destroyLocalStorage()
-				$('#mobile-menu').sidebar('hide')
-				@setUserInfo()
+				window.location.href = '../index.html'
 		)
 
 	saveOrder: ->
@@ -395,7 +394,7 @@ class window.TransactionalPageVM
 					console.log 'An error ocurred while trying to login to FB'
 				else
 					$('#mobile-menu').sidebar('hide')
-					@setUserInfo()					
+					@setUserInfo()
 					$('#shopping-cart').sidebar('hide')
 			)
 
@@ -462,9 +461,7 @@ class window.TransactionalPageVM
 		$('.ui.dropdown:not(#user-account)')
 			.dropdown()
 		$('#departments-menu .ui.dropdown')
-			.dropdown(
-					on: 'hover'
-				)
+			.dropdown()
 
 		$('.ui.accordion')
 			.accordion()

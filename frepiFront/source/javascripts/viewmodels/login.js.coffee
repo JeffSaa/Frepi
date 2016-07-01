@@ -7,10 +7,7 @@ class LoginVM
 				if error
 					console.log 'An error ocurred while trying to login'
 				else
-					if success.data.administrator
-						window.location.href = 'admin/products.html'
-					else
-						window.location.href = 'store/index.html'
+					window.location.href = 'store/index.html'
 			)
 
 	loginFB: ->
@@ -18,10 +15,7 @@ class LoginVM
 				if error
 					console.log 'An error ocurred while trying to login to FB'
 				else
-					if success.administrator
-						window.location.href = 'admin/products.html'
-					else
-						window.location.href = 'store/index.html'
+					window.location.href = 'store/index.html'
 			)
 
 	resetPassword: ->

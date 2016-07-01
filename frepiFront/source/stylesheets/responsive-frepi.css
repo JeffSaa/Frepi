@@ -163,7 +163,7 @@
 	nav.ui.menu.fixed .right.menu .item:last-child {padding-left: 0;}
 
 	#slider {padding-top: 470px;}
-  #slider .motto { 
+  #slider .motto {
     margin: -140px 0 0 -150px;
     width: 300px;
   }
@@ -185,12 +185,11 @@
 
   .status-tag {
     display: inline-block;
-    width: 110px;
+    width: 49%;
   }
 
   #status {
     margin: 0 auto;
-    width: 220px;
   }
 
   .profile #guide-status #status span {

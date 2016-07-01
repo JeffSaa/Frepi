@@ -1,43 +1,48 @@
-doctype html
-html
-	head
-		title Frepi - Haz tu mercado fácil y rápido
-		meta charset="utf-8" /
+.reset-password.ui.small.modal
+	.header
+		|Restaurar contraseña
+	.content
+		p Te enviaremos un correo para que restaures tu contraseña
+		.ui.success.hidden.segment
+			h3.ui.header
+				i.checkmark.icon
+				.content
+					|Listo!
+					.sub.header Hemos envíado un correo con instrucciones para restaurar tu contraseña
+		form.ui.form data-bind="submit: resetPassword"
+			.field
+				label Correo
+				input name="email" type="email"
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.green.right.labeled.icon.button type="submit"
+					|Restaurar
+					i.checkmark.icon
+h2.ui.center.aligned.header
+	|Bienvenido!
+	.sub.header Ingresa y escoge los mejores productos.
+form.ui.login.form data-bind="submit: login"
+		.field
+			.ui.left.icon.input
+				i.user.icon
+				input type="text" name="username" placeholder="Usuario"
+		.field
+			.ui.left.icon.input
+				i.lock.icon
+				input type="password" name="password" placeholder="Contraseña"
+		.ui.error.message
+		button.ui.fluid.large.green.login.right.labeled.icon.button type="submit"
+			i.sign.in.icon
+			|Iniciar
+		.ui.horizontal.divider o
+		button#login-fb.ui.fluid.large.labeled.icon.facebook.button data-bind="click: loginFB"
+			i.facebook.icon
+			|Inicia con Facebook
+		#login-message.ui.center.aligned
+			|¿No tienes cuenta?&nbsp;
+			a href="signup.html" Crea una
+			br
+			|¿Olvidaste tu contraseña?&nbsp;
+			a.reset.trigger Restaurala
 
-		/! Sets initial viewport load and disables zooming
-		meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" /
-		meta name="description" content="Haz tu compra y recibela en menos de una hora. Inténtalo!"
-		meta name="keywords" content="mercado, compras, verduras, carnes, comida, domicilios"
-		meta name="robots" content="index, follow"
-
-		// Add favicons
-		link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-touch-icon-57x57.png"
-		link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-touch-icon-60x60.png"
-		link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-touch-icon-72x72.png"
-		link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-touch-icon-76x76.png"
-		link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-touch-icon-114x114.png"
-		link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-touch-icon-120x120.png"
-		link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-touch-icon-144x144.png"
-		link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-touch-icon-152x152.png"
-		link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon-180x180.png"
-		link rel="icon" type="image/png" href="../images/favicons/favicon-32x32.png" sizes="32x32"
-		link rel="icon" type="image/png" href="../images/favicons/android-chrome-192x192.png" sizes="192x192"
-		link rel="icon" type="image/png" href="../images/favicons/favicon-96x96.png" sizes="96x96"
-		link rel="icon" type="image/png" href="../images/favicons/favicon-16x16.png" sizes="16x16"
-		link rel="mask-icon" href="images/favicons/safari-pinned-tab.svg" color="#5bbad5"
-		meta name="msapplication-TileColor" content="#00aba9"
-		meta name="msapplication-TileImage" content="images/favicons/mstile-144x144.png"
-		meta name="theme-color" content="#ffffff"
-
-		/! Add semantic's CSS
-		link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css"
-		link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'
-		link rel="stylesheet" type="text/css" href="stylesheets/frepi.css"
-		link rel="stylesheet" type="text/css" href="stylesheets/responsive-frepi.css"
-	body.splash
-		img.giant.balloon src="images/landing/giant_balloon.png"
-		img.logo src="images/logo_without_balloon.png"
-
-		script src="javascripts/jquery/jquery-2.1.4.min.js"
-		script src="javascripts/home/home.js"
-		/ script src="javascripts/viewmodels/loading.js"
+script src="javascripts/viewmodels/login.js" type="text/javascript"
