@@ -58,17 +58,19 @@ class window.AdminPageVM
 
 		if lessThanLimit
 			objPage.lowerLimit -= 10
-			objPage.upperLimit -= 10
+			objPage.upperLimit = objPage.lowerLimit + 10
+			activePage = objPage.upperLimit
 		else
 			unless numShownPages < 10
 				console.log "Has more than 10 pages"
 				if module is 1
+					console.log "entro 1"
 					objPage.lowerLimit += 10
 					possibleUpperLimit = objPage.lowerLimit + 10
 					console.log "Possible => #{possibleUpperLimit}"
-					if possibleUpperLimit > objPage.allPages.length
+					if possibleUpperLimit >= objPage.allPages.length
 						console.log "iF 1"
-						objPage.upperLimit = numShownPages
+						objPage.upperLimit = objPage.allPages.length - 1
 					else
 						console.log "iF 2"
 						objPage.upperLimit = possibleUpperLimit
