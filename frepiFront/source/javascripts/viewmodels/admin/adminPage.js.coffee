@@ -49,6 +49,11 @@ class window.AdminPageVM
 		if objPage.activePage <= objPage.lowerLimit
 			lessThanLimit = true
 
+		if objPage.activePage == objPage.lowerLimit + 1
+			$("#{DOMParent} .pagination .pages .item").removeClass('active')
+			$("#{DOMParent} .pagination .pages .item:nth-of-type(#{1})").addClass('active')
+			return
+
 		console.log "Less than limit => #{lessThanLimit}"
 
 		if lessThanLimit
