@@ -27,8 +27,7 @@ html
 		/! Add semantic's CSS
 		link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'
 		link rel="stylesheet" type="text/css" href="../semantic/out/semantic.min.css"
-		link rel="stylesheet" type="text/css" href="../stylesheets/frepi.css"
-		link rel="stylesheet" type="text/css" href="../stylesheets/responsive-frepi.css"
+		link rel="stylesheet" type="text/css" href="../stylesheets/global.css"
 
 		script src="../javascripts/plugins/crypto-js.min.js" type="text/javascript"
 		script src="../javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"
@@ -245,7 +244,7 @@ html
 					p
 						i.info.circle.icon
 						strong Pedido mínimo de $34,000
-					button.ui.fluid.large.green.button data-bind="click: checkout, css: {disabled: session.currentOrder.price() < 34000}" Pagar
+					button.ui.fluid.large.dark-green.button data-bind="click: checkout, css: {disabled: session.currentOrder.price() < 34000}" Pagar
 			.sign-up-banner
 				p.ui.header
 					|Oops! Tienes que estar en tu cuenta,&nbsp;
@@ -290,7 +289,7 @@ html
 								i.add.user.icon
 								|Crear cuenta
 					#shopping-cart
-						i.circular.inverted.orange.shop.icon
+						i.circular.dark-red.inverted.shop.icon
 
 				#store-secondary-navbar.ui.fixed.borderless.menu
 					.item

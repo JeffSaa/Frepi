@@ -50,7 +50,7 @@
 require "slim"
 
 # Avoid HTML minification for people who don't know slim
-# Slim::Engine.default_options[:pretty] = true
+Slim::Engine.default_options[:pretty] = true
 
 set :css_dir, 'stylesheets'
 

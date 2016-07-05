@@ -106,7 +106,7 @@
 				.column
 					.ui.green.segment
 						.ui.header Información de cuenta
-						.clearfix.line data-bind="click: showEditEmail"
+						.clearfix.line data-bind="click: showEditEmail, css: {disabled: user.provider === 'facebook'}"
 							span.title Email
 							span.value data-bind="text: user.email"
 							i.pencil.link.large.icon
