@@ -93,7 +93,7 @@ class ProductsVM extends AdminPageVM
 					else
 						console.log success
 						@shouldSetProductInfo = true
-						@fetchProducts()
+						@fetchProducts(@productsPages.activePage)
 						$('.update.modal').modal('hide')
 				)
 
