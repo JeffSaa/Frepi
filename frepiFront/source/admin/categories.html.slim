@@ -33,11 +33,11 @@
 			.field
 				label Nombre
 				input type="text" name="name" placeholder="Nombre"
-		.buttons-to-right
-			.ui.cancel.button Cancelar
-			button.ui.labeled.green.submit.icon.button type="submit"
-				|Crear Categoria
-				i.checkmark.icon
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Crear Categoria
+					i.checkmark.icon
 
 .ui.small.admin.create.subcategory.modal
 	.header Crear Subcategoria
@@ -64,15 +64,15 @@
 .ui.small.admin.edit.category.modal
 	.header Editar Categoria
 	.content
-		form.ui.form data-bind="submit: updateCategory"
+		form.ui.form.edit.category data-bind="submit: updateCategory"
 			.field
 				label Nombre
 				input type="text" name="name" placeholder="Nombre"
-		.buttons-to-right
-			.ui.cancel.button Cancelar
-			button.ui.labeled.green.submit.icon.button type="submit"
-				|Editar Categoria
-				i.checkmark.icon
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Editar Categoria
+					i.checkmark.icon
 
 .ui.small.admin.edit.subcategory.modal
 	.header Editar Subcategoria
@@ -102,7 +102,7 @@ header
 section.content
 	article
 		h3 Categorias
-		button.ui.green.create.button
+		button.ui.green.create.category.button
 			i.plus.icon
 			|Agregar categoria
 		table.ui.celled.categories.table
@@ -132,7 +132,7 @@ section.content
 					/			i.right.chevron.icon
 	article.subcategories
 		h3 Subcategorias
-		button.ui.green.create.button
+		button.ui.green.create.subcategory.button
 			i.plus.icon
 			|Agregar subcategoria
 		p

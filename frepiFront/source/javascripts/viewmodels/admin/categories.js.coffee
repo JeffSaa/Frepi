@@ -27,71 +27,61 @@ class CategoriesVM extends AdminPageVM
 		@setDOMProperties()
 
 	createCategory: ->
-		$form = $('.create.modal form')
+		$form = $('.create.category.modal form')
 		data =
-			email: $form.form('get value', 'email')
-			identification: $form.form('get value', 'cc')
-			lastName: $form.form('get value', 'lastName')
-			firstName: $form.form('get value', 'firstName')
-			phoneNumber: $form.form('get value', 'phoneNumber')
-			shopperType: $form.form('get value', 'shopperType')
+			name: $form.form('get value', 'name')
 
 		if $form.form('is valid')
-			$('.create.modal form .green.button').addClass('loading')
+			$('.create.category.modal form .green.button').addClass('loading')
 			RESTfulService.makeRequest('POST', "/categories", data, (error, success, headers) =>
-					$('.create.modal form .green.button').removeClass('loading')
+					$('.create.category.modal form .green.button').removeClass('loading')
 					if error
-						console.log 'An error has ocurred in the creation of the shopper.'
+						console.log 'An error has ocurred in the creation of the category.'
 						console.log error
 					else
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 						@currentCategories.push(success)
-						$('.create.modal').modal('hide')
+						$('.create.category.modal').modal('hide')
 				)
 
 	createSubcategory: ->
-		$form = $('.create.modal form')
+		$form = $('.create.subcategory.modal form')
 		categoryId = $form.form('get value', 'categoryID')
 		data =
 			name: $form.form('get value', 'name')
 			category_id: categoryId
 
 		if $form.form('is valid')
-			$('.create.modal form .green.button').addClass('loading')
+			$('.create.subcategory.modal form .green.button').addClass('loading')
 			RESTfulService.makeRequest('POST', "/categories/#{categoryId}/subcategories", data, (error, success, headers) =>
-					$('.create.modal form .green.button').removeClass('loading')
+					$('.create.subcategory.modal form .green.button').removeClass('loading')
 					if error
 						console.log 'An error has ocurred in the creation of the shopper.'
 						console.log error
 					else
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-						@currentCategories.push(success)
-						$('.create.modal').modal('hide')
+						@currentSubcategories.push(success)
+						$('.create.subcategory.modal').modal('hide')
 				)
 
 	updateCategory: ->
-		$form = $('.update.modal form')
+		$form = $('.edit.category.modal form')
 		data =
-			email: $form.form('get value', 'email')
-			identification: $form.form('get value', 'cc')
-			lastName: $form.form('get value', 'lastName')
-			firstName: $form.form('get value', 'firstName')
-			phoneNumber: $form.form('get value', 'phoneNumber')
-			shopperType: $form.form('get value', 'shopperType')
+			name: $form.form('get value', 'name')
 
 		if $form.form('is valid')
-			$('.update.modal form .green.button').addClass('loading')
+			$('.edit.category.modal form .green.button').addClass('loading')
 			RESTfulService.makeRequest('PUT', "/categories/#{@chosenCategory.id()}", data, (error, success, headers) =>
-					$('.update.modal form .green.button').removeClass('loading')
+					$('.edit.category.modal form .green.button').removeClass('loading')
 					if error
 						console.log 'An error has ocurred in the creation of the admin.'
 						console.log error
 					else
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-						$('.update.modal').modal('hide')
+						$('.edit.category.modal').modal('hide')
 						@fetchCategories()
 				)
 
@@ -145,18 +135,13 @@ class CategoriesVM extends AdminPageVM
 				$('.delete.modal').modal('hide')
 		)
 
-	showUpdate: (shopper) =>
-		@chosenCategory.id(shopper.id)
-		$('.update.modal form')
+	showUpdate: (category) =>
+		@chosenCategory.id(category.id)
+		$('.edit.category form')
 			.form('set values',
-					email					: shopper.email
-					cc 				 	  : shopper.identification
-					lastName		  : shopper.lastName
-					firstName			: shopper.firstName
-					phoneNumber 	: shopper.phoneNumber
-					shopperType		: shopper.shopperType
+				name: category.name
 				)
-		$('.update.modal').modal('show')
+		$('.edit.category.modal').modal('show')
 
 	showDelete: (shopper) =>
 		@chosenCategory.id(shopper.id)
@@ -271,6 +256,19 @@ class CategoriesVM extends AdminPageVM
 			.dropdown(
 				onChange: (value, text, $selectedItem) =>
 					@fetchSubcategories(value)
+			)
+
+	setDOMEventsHandlers: ->
+		$('.ui.create.category.button').on('click', ->
+				$('.ui.create.category.modal').modal('show')
+			)
+
+		$('.ui.create.subcategory.button').on('click', ->
+				$('.ui.create.subcategory.modal').modal('show')
+			)
+
+		$('.ui.modal .cancel.button').on('click', ->
+				$('.ui.modal').modal('hide')
 			)
 
 categories = new CategoriesVM
