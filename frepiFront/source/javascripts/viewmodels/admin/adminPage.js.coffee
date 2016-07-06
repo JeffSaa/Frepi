@@ -34,19 +34,13 @@ class window.AdminPageVM
 		#console.log objPage
 		#console.log "Active page => #{objPage.activePage}"
 		module = objPage.activePage % 10
-		moduleFive = module % 5
-
 
 		activePage = module
 		if activePage is 0
 			activePage = objPage.showablePages().length
 
-		# Set a mid point based on the current shown pagination items limits
-		midPoint = parseInt((objPage.lowerLimit + objPage.upperLimit)/2)
-
-
 		lessThanLimit = false
-		if objPage.activePage <= objPage.lowerLimit
+		if (objPage.activePage <= objPage.lowerLimit and objPage.activePage isnt 1) or objPage.activePage == (objPage.allPages.length - 1)
 			lessThanLimit = true
 
 		if objPage.activePage == objPage.lowerLimit + 1
@@ -57,23 +51,28 @@ class window.AdminPageVM
 		#console.log "Less than limit => #{lessThanLimit}"
 
 		if lessThanLimit
-			objPage.lowerLimit -= 10
-			objPage.upperLimit = objPage.lowerLimit + 10
-			activePage = 10
+			if objPage.activePage == (objPage.allPages.length - 1)
+				objPage.lowerLimit = (objPage.allPages.length - 1) - activePage
+				objPage.upperLimit = objPage.activePage
+			else
+				objPage.lowerLimit -= 10
+				objPage.upperLimit = objPage.lowerLimit + 10
+				activePage = 10
 		else
-			unless numShownPages < 10
+			# unless numShownPages < 10
 				#console.log "Has more than 10 pages"
-				if module is 1
-					console.log "entro 1"
-					objPage.lowerLimit += 10
-					possibleUpperLimit = objPage.lowerLimit + 10
-					#console.log "Possible => #{possibleUpperLimit}"
-					if possibleUpperLimit >= objPage.allPages.length
-						objPage.upperLimit = objPage.allPages.length - 1
-					else
-						objPage.upperLimit = possibleUpperLimit
+			if module is 1
+				possibleUpperLimit = objPage.upperLimit + 10
+				objPage.lowerLimit = if objPage.activePage is 1 then 0 else objPage.lowerLimit += 10
 
-		#console.log "Limits => #{objPage.lowerLimit} : #{objPage.upperLimit}"
+				if possibleUpperLimit >= objPage.allPages.length
+					totalPages = objPage.allPages.length - 1
+					if objPage.activePage is 1
+						objPage.upperLimit = if totalPages < 10 then totalPages else 10
+					else
+						objPage.upperLimit = totalPages
+				else
+					objPage.upperLimit = possibleUpperLimit
 
 		# Set new available pages in the pagination list
 		objPage.showablePages(objPage.allPages.slice(objPage.lowerLimit, objPage.upperLimit))

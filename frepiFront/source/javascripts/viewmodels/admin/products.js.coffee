@@ -62,7 +62,6 @@ class ProductsVM extends AdminPageVM
 						console.log 'An error has ocurred in the authentication.'
 						console.log error
 					else
-						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 						@currentProducts.push(success)
 						$('.create.modal').modal('hide')
@@ -91,7 +90,6 @@ class ProductsVM extends AdminPageVM
 						console.log 'An error has ocurred in the product update.'
 						console.log error
 					else
-						console.log success
 						@shouldSetProductInfo = true
 						@fetchProducts(@productsPages.activePage)
 						$('.update.modal').modal('hide')
@@ -104,7 +102,6 @@ class ProductsVM extends AdminPageVM
 			if error
 				console.log 'An error has ocurred while fetching the subcategories!'
 			else
-				console.log success
 				@currentProducts.remove( (product) =>
 						return product.id is @chosenProduct.id()
 					)
@@ -190,7 +187,6 @@ class ProductsVM extends AdminPageVM
 			else
 				@shouldShowProductsAlert(false)
 				console.log 'After fetching products'
-				console.log success
 				if success.length > 0
 					@shouldShowProductsAlert(false)
 					if @productsPages.allPages.length is 0
@@ -217,7 +213,6 @@ class ProductsVM extends AdminPageVM
 			if error
 				console.log 'An error has ocurred while fetching the categories!'
 			else
-				console.log success
 				@availableCategories(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				@fetchSubcategories()
@@ -232,7 +227,6 @@ class ProductsVM extends AdminPageVM
 			if error
 				console.log 'An error has ocurred while fetching the subcategories!'
 			else
-				console.log success
 				@availableSubcategories(success)
 				if @shouldSetProductInfo and $('.update.modal').modal('is active')
 					console.log "It's here setting the info"
@@ -247,7 +241,6 @@ class ProductsVM extends AdminPageVM
 			if error
 				console.log 'An error has ocurred while updating the user!'
 			else
-				console.log success
 				@availableSucursals(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				@fetchCategories()
@@ -302,7 +295,6 @@ class ProductsVM extends AdminPageVM
 			else
 				@shouldShowProductsAlert(false)
 				console.log 'After searching products with ' + valueInput
-				console.log success
 				@currentProducts.removeAll()
 				@productsPages.allPages = []
 				if success.length > 0
