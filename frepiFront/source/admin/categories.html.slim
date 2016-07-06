@@ -1,4 +1,4 @@
-.ui.small.admin.delete.modal
+.ui.small.admin.delete.category.modal
 	.header Eliminar Categoria
 	.content
 		p
@@ -12,7 +12,7 @@
 		.ui.green.button data-bind="click: deleteCategory"
 			i.check.icon
 			|Si
-.ui.small.admin.delete.modal
+.ui.small.admin.delete.subcategory.modal
 	.header Eliminar Subcategoria
 	.content
 		p
@@ -157,8 +157,8 @@ section.content
 					td data-bind="text: $data.name"
 					td data-bind="text: $data.address"
 					td
-						i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
-						i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDelete"
+						i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdateSubcategory"
+						i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDeleteSubcategory"
 			tfoot
 				tr
 					th colspan="4"

@@ -10,6 +10,7 @@ class CategoriesVM extends AdminPageVM
 			name : ko.observable()
 		@chosenSubcategory =
 			id : ko.observable()
+			categoryId: ko.observable()
 			name : ko.observable()
 
 		@categoriesPages =
@@ -86,23 +87,23 @@ class CategoriesVM extends AdminPageVM
 				)
 
 	updateSubcategory: ->
-		$form = $('.update.modal form')
+		$form = $('.edit.subcategory.modal form')
 		data =
-			name: $form.form('get value', 'email')
+			name: $form.form('get value', 'name')
 			category_id: $form.form('get value', 'categoryID')
 
 		if $form.form('is valid')
-			$('.update.modal form .green.button').addClass('loading')
-			RESTfulService.makeRequest('PUT', "/categories/#{@chosenCategory.id()}", data, (error, success, headers) =>
-					$('.update.modal form .green.button').removeClass('loading')
+			$('.edit.subcategory.modal form .green.button').addClass('loading')
+			RESTfulService.makeRequest('PUT', "/categories/#{@chosenSubcategory.categoryId()}/subcategories/#{@chosenSubcategory.id()}", data, (error, success, headers) =>
+					$('.edit.subcategory.modal form .green.button').removeClass('loading')
 					if error
 						console.log 'An error has ocurred in the creation of the admin.'
 						console.log error
 					else
 						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-						$('.update.modal').modal('hide')
-						@fetchCategories()
+						$('.edit.subcategory.modal').modal('hide')
+						@fetchSubcategories(@chosenSubcategory.categoryId())
 				)
 
 	deleteCategory: =>
@@ -121,9 +122,9 @@ class CategoriesVM extends AdminPageVM
 		)
 
 	deleteSubcategory: =>
-		$('.delete.modal .green.button').addClass('loading')
-		RESTfulService.makeRequest('DELETE', "/categories/#{@chosenSubcategory.id()}", '', (error, success, headers) =>
-			$('.delete.modal .green.button').removeClass('loading')
+		$('.delete.subcategory.modal .green.button').addClass('loading')
+		RESTfulService.makeRequest('DELETE', "/categories/#{@chosenSubcategory.categoryId()}/subcategories/#{@chosenSubcategory.id()}", '', (error, success, headers) =>
+			$('.delete.subcategory.modal .green.button').removeClass('loading')
 			if error
 				console.log 'An error has ocurred while fetching the subcategories!'
 			else
@@ -132,7 +133,7 @@ class CategoriesVM extends AdminPageVM
 						return shopper.id is @chosenSubcategory.id()
 					)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-				$('.delete.modal').modal('hide')
+				$('.delete.subcategory.modal').modal('hide')
 		)
 
 	showUpdate: (category) =>
@@ -143,10 +144,27 @@ class CategoriesVM extends AdminPageVM
 				)
 		$('.edit.category.modal').modal('show')
 
-	showDelete: (shopper) =>
-		@chosenCategory.id(shopper.id)
-		@chosenCategory.name(shopper.firstName+' '+shopper.lastName)
-		$('.delete.modal').modal('show')
+	showUpdateSubcategory: (subcategory) =>
+		@chosenSubcategory.id(subcategory.id)
+		@chosenSubcategory.name(subcategory.name)
+		@chosenSubcategory.categoryId(subcategory.categoryId)
+		$('.edit.subcategory form')
+			.form('set values',
+				name: subcategory.name
+				categoryID: subcategory.categoryId
+				)
+		$('.edit.subcategory.modal').modal('show')
+
+	showDelete: (category) =>
+		@chosenCategory.id(category.id)
+		@chosenCategory.name(category.name)
+		$('.delete.category.modal').modal('show')
+
+	showDeleteSubcategory: (subcategory) =>
+		@chosenSubcategory.id(subcategory.id)
+		@chosenSubcategory.name(subcategory.name)
+		@chosenSubcategory.categoryId(subcategory.categoryId)
+		$('.delete.subcategory.modal').modal('show')
 
 	setPrevShopperPage: ->
 		if @categoriesPages.activePage is 1
