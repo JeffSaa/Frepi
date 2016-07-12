@@ -19,11 +19,6 @@
         $("#logs").html(result);
     }});  
   }
-
-  setInterval(function() {
-    response = httpGet('http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/products/logs')
-    
-  }, 5000);
-
+  httpGet('http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/products/logs');
 
 </script>

@@ -1,0 +1,227 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport" />
+    <meta charset="utf-8" />
+       <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Varela+Round">
+    <link rel="stylesheet" type="text/css" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css">
+     
+  </head>
+  <body>
+     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Varela+Round">
+    <link rel="stylesheet" type="text/css" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css">
+     <style type="text/css">
+
+      
+      @import "https://fonts.googleapis.com/css?family=Varela+Round";
+      @import "https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css";
+
+      body {
+        background: url('http://d33wubrfki0l68.cloudfront.net/images/landing/3db3325fd4a9758a6e8e3749a9601311337f2628/bg_desktop.png') no-repeat center center fixed #00A870;
+        background-size: cover;
+        font-family: 'Varela Round', sans-serif;
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+
+      a {
+        color: #00A870;
+        text-decoration: none;
+      }
+
+      
+      .header {
+        position: relative;
+      }
+
+      .container {
+        background-color: white;
+        
+        color: #00A870;
+        left: 7.5%;
+        margin-bottom: 7.5%;
+        padding: 2rem;
+        position: absolute;
+        right: 7.5%;
+        top: 7.5%;
+      }
+
+      h1.name {
+        font-size: 3.5em;
+        margin: 0;
+        text-transform: capitalize;
+        text-align: right;
+      }
+
+      .logo {
+        display: inline-block;
+        width: 30%;
+        margin-right: 10%;
+      }
+
+      .logo a img {
+        width: 100%;
+      }
+      .user {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      h2.frepi-message {
+        font-size: 1.75em;
+        font-weight: normal;
+        margin: 0;
+        text-align: right;
+      }
+
+      
+      .message {
+        font-size: 1.75em;
+        line-height: 2rem;
+        padding: 4em 1em 3em;
+        text-align: center;
+      }
+
+      .apps-links {
+        margin-bottom: 2em;
+        text-align: center;
+      }
+
+      .apps-links .android {
+        margin-right: 3.5em;
+      }
+
+      .apps-links i {
+        font-size: 2.25em;
+      }
+
+      .apps-links strong {
+        display: inline-block;
+        font-size: 1.7em;
+        padding: .15em;
+        vertical-align: top;
+      }
+
+      .suggestions {
+        font-size: 1.5em;
+        margin-bottom: 1.75em;
+        text-align: center;
+      }
+
+      .footer {
+        text-align: center;
+      }
+      .footer .social-links {
+        margin-bottom: 1em;
+      }
+
+      .footer .social-links i {
+        font-size: 2.25em;
+        opacity: .35;
+      }
+
+      .footer .social-links a:not(:last-child) {
+        margin-right: 3.5em;
+      }
+
+      .footer p {
+        color: gray;
+        margin: 0;
+      }
+
+      @media screen and (max-width: 700px) {
+        body {
+          font-size: 11px;
+        }
+      }
+
+      @media screen and (max-width: 420px) {
+        body {
+          font-size: 7px;
+        }
+
+        .logo {
+          display: block;
+          margin: 0 auto;
+          width: 130px;
+        }
+
+        .user {
+          display: block;
+          margin-top: 3em;
+          position: relative;
+        }
+
+        h1.name, h2.frepi-message {
+          text-align: center;
+        }
+
+        .message {  padding: 2em 1em 3em; }
+      }
+
+
+      </style>
+    <table style="background: url('http://d33wubrfki0l68.cloudfront.net/images/landing/3db3325fd4a9758a6e8e3749a9601311337f2628/bg_desktop.png') ">
+      <tr>
+        <td>
+        <div class="container" style="background-color:white;color:#00A870;left:7.5%;margin-bottom:7.5%;padding-top:2rem;padding-bottom:2rem;padding-right:2rem;padding-left:2rem;position:absolute;right:7.5%;top:7.5%;" >
+          <div class="header" style="position:relative;" >
+            <div class="logo" style="display:inline-block;width:30%;margin-right:10%;" >
+              <a href="http://www.frepi.co" target="_blank" id="landing-logo" style="color:#00A870;text-decoration:none;" >
+                <img alt="Frepi logo" src="http://d33wubrfki0l68.cloudfront.net/eb277210de7765cd7ab8f1c92ef22308b536ced0/3b29f/images/landing/full_logo_with_motto.png" style="width:100%;" >
+              </a>
+            </div>
+
+            <div class="user" style="display:inline-block;position:absolute;right:0;top:0;" >
+              <h1 class='name' style="font-size:3.5em;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-transform:capitalize;text-align:right;" ><%= @user.name %>,</h1>
+              <h2 class='frepi-message' style="font-size:1.75em;font-weight:normal;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;text-align:right;" >gracias por preferirnos </h2>
+            </diV>
+          </div>
+
+          <div class="message" style="font-size:1.75em;line-height:2rem;padding-top:4em;padding-bottom:3em;padding-right:1em;padding-left:1em;text-align:center;" >
+            Hemos recibido tu orden el <%= @order.created_at.strftime("El dia %d/%m/%Y")%> <%= @order.created_at.strftime("a las %I:%M %p") %>,
+            estamos trabajando en ella y te la enviaremos el <%= @order.scheduled_date.to_formatted_s(:short) %>  <%= @order.arrival_time.strftime("a las %I:%M %p") %>.
+          </div>
+
+          <div class="apps-links" style="margin-bottom:2em;text-align:center;" >
+            <a href="#" class="android" style="color:#00A870;text-decoration:none;margin-right:3.5em;" >
+              <i class="fa fa-android" aria-hidden="true" style="font-size:2.25em;" ></i>
+              <strong style="display:inline-block;font-size:1.7em;padding-top:.15em;padding-bottom:.15em;padding-right:.15em;padding-left:.15em;vertical-align:top;" >Android</strong>
+            </a>
+            <a href="#" class="ios" style="color:#00A870;text-decoration:none;" >
+              <i class="fa fa-apple" aria-hidden="true" style="font-size:2.25em;" ></i>
+              <strong style="display:inline-block;font-size:1.7em;padding-top:.15em;padding-bottom:.15em;padding-right:.15em;padding-left:.15em;vertical-align:top;" >iOS</strong>
+            </a>
+          </div>
+
+          <div class="suggestions" style="font-size:1.5em;margin-bottom:1.75em;text-align:center;" >
+            Cualquier sugerencia o inquietud, escríbenos a:&nbsp;
+            <a href="mailto:contacto@frepi.com.co" style="color:#00A870;text-decoration:none;" >contacto@frepi.com.co</a>
+          </div>
+
+          <div class="footer" style="text-align:center;" >
+            <div class="social-links" style="margin-bottom:1em;" >
+              <a href="http://www.instagram.com/frepi.co" style="color:#00A870;text-decoration:none;" >
+                <i class="fa fa-instagram" aria-hidden="true" style="font-size:2.25em;opacity:.35;" ></i>
+              </a>
+              <a href="http://www.fb.com/frepi.co" target="_blank" style="color:#00A870;text-decoration:none;" >
+                <i class="fa fa-facebook" aria-hidden="true" style="font-size:2.25em;opacity:.35;" ></i>
+              </a>
+              <a href="#" style="color:#00A870;text-decoration:none;" >
+                <i class="fa fa-youtube-play" aria-hidden="true" style="font-size:2.25em;opacity:.35;" ></i>
+              </a>
+            </div>
+            <p style="color:gray;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;" >
+              © 2016 Frepi S.A.S. Todos los derechos reservados. Teléfono: 315 898 2043
+            </p>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </table>
+  </body>
+</html>
