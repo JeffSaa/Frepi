@@ -183,8 +183,8 @@
           </div>
 
           <div class="message" style="font-size:1.75em;line-height:2rem;padding-top:4em;padding-bottom:3em;padding-right:1em;padding-left:1em;text-align:center;" >
-            Hemos recibido tu orden el <%= @order.created_at.strftime("El dia %d/%m/%Y")%> <%= @order.created_at.strftime("a las %I:%M %p") %>,
-            estamos trabajando en ella y te la enviaremos el <%= @order.scheduled_date.to_formatted_s(:short) %>  <%= @order.arrival_time.strftime("a las %I:%M %p") %>.
+            Hemos recibido tu orden <%= @order.created_at.strftime("el dia %d/%m/%Y")%> <%= @order.created_at.strftime("a las %I:%M %p") %>,
+            estamos trabajando en ella y te la enviaremos <%= @order.scheduled_date.strftime("el dia %d/%m/%Y")%>  <%= @order.arrival_time.strftime("a las %I:%M %p") %>.
           </div>
 
           <div class="apps-links" style="margin-bottom:2em;text-align:center;" >
