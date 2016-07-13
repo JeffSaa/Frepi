@@ -13,20 +13,24 @@
   i { color: red !important; }
 
   .header {
-    
+
     text-align: center !important;
 
     img { width: 100% !important; }
     p { margin: 0 !important; }
-    .user.info { 
+    .user.info {
       border-bottom: #000 1px dashed !important;
       padding-bottom: 1em !important;
     }
-    .company.info { 
+    .company.info {
       border-bottom: #000 1px dashed !important;
       padding: 1em 0 1.8em !important;
     }
   }
+
+	table {
+		td, th { color: #000; }
+	}
 
   .products {
     border: none !important;
@@ -41,6 +45,6 @@
     }
     tbody { border-bottom: #000 1px dashed !important; }
     tbody td { padding: .6em 0 !important; text-align: center !important; }
-    tbody td.comment { padding: .3em 1.2em !important; text-align: left !important; }
+    tbody td.comment { padding: .3em 1.2em !important; text-align: left !important; span { font-style: italic;} }
   }
 }

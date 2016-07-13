@@ -58,7 +58,6 @@ class HomeVM
 				if error
 					console.log error
 				else
-					console.log success
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 					setTimeout( ->
 							$('#delivering-order').modal('hide')
@@ -76,7 +75,6 @@ class HomeVM
 				if error
 					console.log error
 				else
-					console.log success
 					if @lastFetchedState is 'received'
 						@receivedOrdersCount(parseInt(@receivedOrdersCount()) - 1)
 					else
@@ -92,7 +90,6 @@ class HomeVM
 		return moment(date, moment.ISO_8601).utcOffset("00:00").format('h:mm A')
 
 	pickOrder: (order) =>
-		console.log order
 		ko.mapping.fromJS(order, @selectedOrder)
 		switch @lastFetchedState
 			when 'received'
@@ -126,7 +123,6 @@ class HomeVM
 				if error
 					console.log error
 				else
-					console.log success
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 					@receivedOrdersCount(parseInt(@receivedOrdersCount()) - 1) unless @lastFetchedState is 'shopping'
 					$("#{modal} .actions .button:last-child").removeClass('loading')
@@ -155,7 +151,6 @@ class HomeVM
 			if error
 				console.log error
 			else
-				console.log success
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				ko.mapping.fromJS(success, @selectedOrder)
 				@shouldShowAsterisk(false)
@@ -172,17 +167,15 @@ class HomeVM
 		link.rel  = 'stylesheet'
 		link.type = 'text/css'
 		link.href = '../../semantic/out/semantic.min.css'
-		link.media = 'print'
 		link2 = document.createElement('link')
 		link2.rel  = 'stylesheet'
 		link2.type = 'text/css'
 		link2.href = '../../stylesheets/print.css'
-		link2.media = 'print'
 		head.appendChild(link)
 		head.appendChild(link2)
+
 		setTimeout( ->
 				newWin.print()
-				newWin.close()
 			, 100)
 
 	printList: ->
@@ -195,37 +188,30 @@ class HomeVM
 		link.rel  = 'stylesheet'
 		link.type = 'text/css'
 		link.href = '../../semantic/out/semantic.min.css'
-		link.media = 'print'
 		link2 = document.createElement('link')
 		link2.rel  = 'stylesheet'
 		link2.type = 'text/css'
 		link2.href = '../../stylesheets/print.css'
-		link2.media = 'print'
 		head.appendChild(link)
 		head.appendChild(link2)
 		setTimeout( ->
 				newWin.print()
-				newWin.close()
 			, 100)
 
 	fetchInStoreShoppers: ->
-		console.log 'IN STORE SHOPPERS'
 		RESTfulService.makeRequest('GET', '/shoppers/in-store', '', (error, success, headers) =>
 			if error
 				console.log error
 			else
-				console.log success
 				@inStoreShoppers(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
 
 	fetchDeliveryShoppers: ->
-		console.log 'DELIVERING SHOPPERS'
 		RESTfulService.makeRequest('GET', '/shoppers/delivery', '', (error, success, headers) =>
 			if error
 				console.log error
 			else
-				console.log success
 				@deliveringShoppers(success)
 				Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 		)
@@ -264,7 +250,6 @@ class HomeVM
 			if error
 				console.log error
 			else
-				console.log success
 				@activeOrders(success)
 				if success.length > 0
 					Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
@@ -326,7 +311,6 @@ class HomeVM
 			if error
 				console.log error
 			else
-				console.log success
 				if success.length > 0
 					@activeOrders(success)
 					@receivedOrders(success) if @lastFetchedState is 'received'

@@ -316,17 +316,20 @@ html
 							span data-bind="text: $data.comment()"
 				tfoot
 					tr
-						th colspan="3"
+						th colspan="2"
 							|Items: &nbsp;&nbsp;
 							|<!-- ko text: selectedOrder.products().length --><!--/ko-->
-						th Valor orden:
+						th colspan="2" style="text-align: right;" Valor orden:
 						th data-bind="text: '$'+(selectedOrder.totalPrice()).toLocaleString()"
 					tr data-bind="visible: selectedOrder.discount() > 0"
 						th style="text-align: right;" colspan="4" Descuento:
 						th data-bind="text: '-$'+(selectedOrder.discount()).toLocaleString()"
 					tr
+						th style="text-align: right;" colspan="4" Domicilio:
+						th $6,000
+					tr
 						th style="text-align: right;" colspan="4" Valor a pagar:
-						th data-bind="text: '$'+(selectedOrder.totalPrice() - selectedOrder.discount()).toLocaleString()"
+						th data-bind="text: '$'+(selectedOrder.totalPrice() - selectedOrder.discount() + 6000).toLocaleString()"
 			.footer
 				p
 					|Shopper:&nbsp;
