@@ -9,12 +9,13 @@ class  Api::V1::OrdersControllerTest < ActionController::TestCase
   # NOTE: Discount applied TEST for orders > 80.000
   test "A costumer buy products" do
     sign_in :user, users(:user)
-    post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 3 }, { id: products(:jack).id, quantity: 2 } ], arrival_time: "14:00", expiry_time: "16:00", scheduled_date: "2099-11-06"
+    post :create, user_id: users(:user).id, products: [ { id: products(:johnny).id, quantity: 3 }, { id: products(:jack).id, quantity: 2 } ], arrival_time: "14:00", expiry_time: "16:00", scheduled_date: "2099-11-06", payment: 'CASH'
     response = JSON.parse(@response.body)
 
     assert_equal(13450 * 3 + 20000 * 2, response['totalPrice'].to_f)
     assert_equal(15000, response['discount'].to_i)
     assert_equal(true, response['active'])
+    assert_match("CASH", response['payment'])
     assert_match("RECEIVED", response['status'])
   end
 

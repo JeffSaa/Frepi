@@ -6,7 +6,7 @@ class Api::V1::Administrator::ProductsController < Api::V1::ApiController
 
   def index
     if params[:page]
-      @products = Product.actives.order(:id).paginate(per_page: params[:per_page], page: params[:page])
+      @products = Product.availables.order(:id).paginate(per_page: params[:per_page], page: params[:page])
       set_pagination_headers :products
       render json: @products
     else

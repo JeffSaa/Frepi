@@ -12,8 +12,9 @@ class Supervisor < ActiveRecord::Base
   belongs_to :city
 
   # Validations
-  validates :active, :email, presence: true
+  validates :email, presence: true
   validates :identification, uniqueness: true, presence: true
+  validates :active, inclusion: { in: [true, false] }
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
   validates :company_email, allow_nil: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/ }
   validates :first_name, :last_name, presence: true, length: { minimum: 3 }, format: { with: /\A[^0-9`!@#\$%\^&*+_=]+\z/ }

@@ -38,8 +38,7 @@ class  Api::V1::Shoppers::ShoppersController < Api::V1::ApiController
   end
 
   def destroy
-    @shopper.active = false
-    @shopper.save
+    @shopper.update(active: false)
     render json: @shopper
   end
 

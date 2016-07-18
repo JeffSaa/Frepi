@@ -1,8 +1,13 @@
 class Order < ActiveRecord::Base
   include ActiveModel::Serializers::JSON
 
+  # Enums
   STATUS = %w(RECEIVED SHOPPING DELIVERING DISPATCHED)
-  enum status: STATUS
+  # NOTE: PAYMENT_TERMINAL means 'datafono'
+  PAYMENT_TYPE = %w(CASH PAYMENT_TERMINAL)
+
+  enum status:  STATUS
+  enum payment: PAYMENT_TYPE
 
   # Scopes
   scope :in_progress, -> { where(active: true, notification_email: false).where('status >= 0 AND status <= 2') }
@@ -24,7 +29,9 @@ class Order < ActiveRecord::Base
   validates :status, inclusion: { in: STATUS }
   validates :active, inclusion: { in: [true, false] }
   validates :total_price, numericality: true
+  validates :payment, inclusion: { in:  PAYMENT_TYPE }
   validates_time :expiry_time, on_or_after: :arrival_time
+  
   validates_datetime :scheduled_date
 
   # Callbacks
