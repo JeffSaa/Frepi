@@ -61,6 +61,7 @@ class PerformanceVM extends AdminPageVM
 			start_date : startDate
 			end_date : endDate
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', '/administrator/statistics/earnings', data, (error, success, headers) =>
 				@isLoading(false)
@@ -75,7 +76,7 @@ class PerformanceVM extends AdminPageVM
 						@currentSucursals(success)
 
 						if @sucursalsPages.allPages.length is 0
-							totalPages = Math.ceil(headers.totalItems/10)
+							totalPages = Math.ceil(headers.totalItems/30)
 							for i in [0..totalPages]
 								obj =
 									num: i+1
@@ -123,6 +124,7 @@ class PerformanceVM extends AdminPageVM
 			start_date : startDate
 			end_date : endDate
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', '/administrator/statistics/products', data, (error, success, headers) =>
 				@isLoading(false)
@@ -137,7 +139,7 @@ class PerformanceVM extends AdminPageVM
 						@shouldShowProductsAlert(false)
 
 						if @productsPages.allPages.length is 0
-							totalPages = Math.ceil(headers.totalItems/10)
+							totalPages = Math.ceil(headers.totalItems/30)
 							for i in [0..totalPages]
 								obj =
 									num: i+1
@@ -185,6 +187,7 @@ class PerformanceVM extends AdminPageVM
 			start_date : startDate
 			end_date : endDate
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', '/administrator/statistics/shoppers', data, (error, success, headers) =>
 				@isLoading(false)
@@ -199,7 +202,7 @@ class PerformanceVM extends AdminPageVM
 						@shouldShowShoppersAlert(false)
 
 						if @shoppersPages.allPages.length is 0
-							totalPages = Math.ceil(headers.totalItems/10)
+							totalPages = Math.ceil(headers.totalItems/30)
 							for i in [0..totalPages]
 								obj =
 									num: i+1

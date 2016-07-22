@@ -27,7 +27,7 @@ class window.AdminPageVM
 		console.log tempUser
 		console.log @user
 
-	setPaginationItemsToShow: (objPage, DOMParent) ->
+	setPaginationItemsToShow: (objPage, DOMParent, itemsPerPage = 10) ->
 		numShownPages = objPage.showablePages().length
 
 		# Select which item should be set as active in the pagination list

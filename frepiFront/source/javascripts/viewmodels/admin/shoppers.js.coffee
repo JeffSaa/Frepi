@@ -128,6 +128,7 @@ class ShoppersVM extends AdminPageVM
 		@isLoading(true)
 		data =
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', "/shoppers", data, (error, success, headers) =>
 			@isLoading(false)
@@ -139,7 +140,7 @@ class ShoppersVM extends AdminPageVM
 				console.log success
 				if success.length > 0
 					if @shoppersPages.allPages.length is 0
-						totalPages = Math.ceil(headers.totalItems/10)
+						totalPages = Math.ceil(headers.totalItems/30)
 						@shoppersPages.allPages.push({num: i+1}) for i in [0..totalPages]
 						@shoppersPages.activePage = 1
 						@shoppersPages.lowerLimit = 0

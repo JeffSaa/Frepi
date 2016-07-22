@@ -153,6 +153,7 @@ class AdminsVM extends AdminPageVM
 	fetchAdmins: (numPage = 1) =>
 		data =
 			page : numPage
+			per_page: 30
 
 		RESTfulService.makeRequest('GET', "/administrator/admins", data, (error, success, headers) =>
 			@isLoading(false)
@@ -164,7 +165,7 @@ class AdminsVM extends AdminPageVM
 				console.log success
 				if success.length > 0
 					if @adminsPages.allPages.length is 0
-						totalPages = Math.ceil(headers.totalItems/10)
+						totalPages = Math.ceil(headers.totalItems/30)
 						for i in [0..totalPages]
 							@adminsPages.allPages.push({num: i+1})
 
@@ -208,6 +209,7 @@ class AdminsVM extends AdminPageVM
 		@isLoading(true)
 		data =
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', "/administrator/users", data, (error, success, headers) =>
 			@isLoading(false)
@@ -219,7 +221,7 @@ class AdminsVM extends AdminPageVM
 				console.log success
 				if success.length > 0
 					if @usersPages.allPages.length is 0
-						totalPages = Math.ceil(headers.totalItems/10)
+						totalPages = Math.ceil(headers.totalItems/30)
 						for i in [0..totalPages]
 							@usersPages.allPages.push({num: i+1})
 

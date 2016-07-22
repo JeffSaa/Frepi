@@ -146,7 +146,6 @@ class ProductsVM extends AdminPageVM
 				)
 
 	showDelete: (product) =>
-		console.log product
 		@chosenProduct.id(product.id)
 		@chosenProduct.name(product.name)
 		@chosenProduct.sucursalID(product.sucursal.id)
@@ -177,6 +176,7 @@ class ProductsVM extends AdminPageVM
 		@isLoading(true)
 		data =
 			page : numPage
+			per_page: 30
 
 		RESTfulService.makeRequest('GET', "/administrator/products", data, (error, success, headers) =>
 			@isLoading(false)
@@ -190,7 +190,7 @@ class ProductsVM extends AdminPageVM
 				if success.length > 0
 					@shouldShowProductsAlert(false)
 					if @productsPages.allPages.length is 0
-						totalPages = Math.ceil(headers.totalItems/10)
+						totalPages = Math.ceil(headers.totalItems/30)
 						for i in [0..totalPages]
 							@productsPages.allPages.push({num: i+1})
 

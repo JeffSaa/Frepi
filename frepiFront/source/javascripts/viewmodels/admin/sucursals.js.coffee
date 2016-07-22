@@ -128,6 +128,7 @@ class SucursalsVM extends AdminPageVM
 		@isLoading(true)
 		data =
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', "/stores/1/sucursals", data, (error, success, headers) =>
 			@isLoading(false)
@@ -139,7 +140,7 @@ class SucursalsVM extends AdminPageVM
 				console.log success
 				if success.length > 0
 					if @sucursalsPages.allPages.length is 0
-						totalPages = Math.ceil(headers.totalItems/10)
+						totalPages = Math.ceil(headers.totalItems/30)
 						for i in [0..totalPages]
 							@sucursalsPages.allPages.push({num: i+1})
 

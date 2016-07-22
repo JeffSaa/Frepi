@@ -128,6 +128,7 @@ class SupervisorsVM extends AdminPageVM
 		@isLoading(true)
 		data =
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', "/supervisors", data, (error, success, headers) =>
 			@isLoading(false)
@@ -139,7 +140,7 @@ class SupervisorsVM extends AdminPageVM
 				console.log success
 				if success.length > 0
 					if @supervisorsPages.allPages.length is 0
-						totalPages = Math.ceil(headers.totalItems/10)
+						totalPages = Math.ceil(headers.totalItems/30)
 						for i in [0..totalPages]
 							@supervisorsPages.allPages.push({num: i+1})
 

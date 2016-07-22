@@ -191,6 +191,7 @@ class CategoriesVM extends AdminPageVM
 		@isLoading(true)
 		data =
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', "/categories", data, (error, success, headers) =>
 			@isLoading(false)
@@ -202,7 +203,7 @@ class CategoriesVM extends AdminPageVM
 				console.log success
 				if success.length > 0
 					if @categoriesPages.allPages.length is 0
-						totalPages = Math.ceil(headers.totalItems/10)
+						totalPages = Math.ceil(headers.totalItems/30)
 						@categoriesPages.allPages.push({num: i+1}) for i in [0..totalPages]
 						@categoriesPages.activePage = 1
 						@categoriesPages.lowerLimit = 0

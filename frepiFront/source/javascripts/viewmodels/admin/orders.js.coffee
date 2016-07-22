@@ -72,6 +72,7 @@ class OrdersVM extends AdminPageVM
 		@isLoading(true)
 		data =
 			page : numPage
+			per_page : 30
 
 		RESTfulService.makeRequest('GET', "/orders", data, (error, success, headers) =>
 			@isLoading(false)
@@ -80,7 +81,7 @@ class OrdersVM extends AdminPageVM
 			else
 				console.log success
 				if @ordersPages.allPages.length is 0
-					totalPages = Math.ceil(headers.totalItems/10)
+					totalPages = Math.ceil(headers.totalItems/30)
 					for i in [0..totalPages]
 						@ordersPages.allPages.push({num: i+1})
 
