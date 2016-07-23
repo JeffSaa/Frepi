@@ -48,7 +48,6 @@ class ProfileVM extends TransactionalPageVM
 			if error
 				console.log 'An error has ocurred while fetching the orders!'
 			else
-				console.log success
 				# Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 				@setDOMElems()
 				@currentOrders(success)
@@ -72,10 +71,8 @@ class ProfileVM extends TransactionalPageVM
 		return orders
 
 	shouldShowOrders: ->
-		console.log 'Showing orders'
 		if Config.getItem('showOrders') is 'true'
 			$('.secondary.menu .item').tab('change tab', 'history')
-		console.log 'Orders shown'
 
 	setDOMElements: ->
 		$('#edit-email form').form({
@@ -224,6 +221,49 @@ class ProfileVM extends TransactionalPageVM
 	# showShoppingCart: ->
 	# 	$('#shopping-cart').sidebar('show')
 
+	rebuyOrder: ->
+		for productOrder in @chosenOrder.products()
+			product = @getProductByID(productOrder.product.id)
+			if !product
+				@session.currentOrder.products.push(
+					comment: productOrder.comment
+					frepiPrice: productOrder.product.frepiPrice
+					id: productOrder.product.id
+					image: productOrder.product.image
+					name: productOrder.product.name
+					size: productOrder.product.size
+					quantity: productOrder.quantity
+					subcategoryId: productOrder.product.subcategory.id
+					totalPrice: parseInt(productOrder.product.frepiPrice) * productOrder.quantity
+				)
+				$("##{productOrder.product.id} .image .label .quantity").text(productOrder.quantity)
+				$("##{productOrder.product.id} .image .label").addClass('show')
+			else
+				oldProduct = product
+				newProduct =
+					comment: oldProduct.comment
+					frepiPrice: oldProduct.frepiPrice or oldProduct.frepi_price
+					id: oldProduct.id
+					image: oldProduct.image
+					name: oldProduct.name
+					size: oldProduct.size
+					quantity: oldProduct.quantity + productOrder.quantity
+					subcategoryId: oldProduct.subcategoryId
+					totalPrice: parseInt(((oldProduct.frepiPrice or oldProduct.frepi_price)*(oldProduct.quantity + productOrder.quantity)))
+
+				@session.currentOrder.products.replace(oldProduct, newProduct)
+				$("##{productOrder.product.id} .image .label .quantity").text(oldProduct.quantity + productOrder.quantity)
+
+		@session.currentOrder.price(parseInt((@session.currentOrder.price() + @chosenOrder.totalPrice())))
+
+		if @session.currentOrder.products().length isnt 1
+			@session.currentOrder.numberProducts("#{@session.currentOrder.products().length} items")
+		else
+			@session.currentOrder.numberProducts("1 item")
+
+		@saveOrder()
+		$('#order-details').modal('hide')
+
 	cancelOrder: ->
 		$('#order-details .red.button').addClass('loading')
 		RESTfulService.makeRequest('DELETE', "/users/#{@user.id}/orders/#{@chosenOrder.id()}", '', (error, success, headers) =>
@@ -231,7 +271,6 @@ class ProfileVM extends TransactionalPageVM
 			if error
 				console.log 'An error has ocurred while cancelling the orders!'
 			else
-				console.log success
 				@currentOrders.remove( (order) =>
 						return order.id is @chosenOrder.id()
 					)
@@ -266,7 +305,6 @@ class ProfileVM extends TransactionalPageVM
 							console.log 'An error has ocurred while updating the user!'
 						else
 							console.log 'User has been updated'
-							console.log success
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
 							# credentials = JSON.parse(Config.getItem('credentials'))
@@ -289,7 +327,6 @@ class ProfileVM extends TransactionalPageVM
 							console.log 'An error has ocurred while updating the user!'
 						else
 							console.log 'User has been updated'
-							console.log success
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
 							# credentials = JSON.parse(Config.getItem('credentials'))
@@ -319,7 +356,6 @@ class ProfileVM extends TransactionalPageVM
 							console.log 'An error has ocurred while updating the user!'
 						else
 							console.log 'User has been updated'
-							console.log success
 							Config.setItem('userObject', JSON.stringify(success))
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							@setUserInfo()
@@ -427,7 +463,7 @@ class ProfileVM extends TransactionalPageVM
 		@chosenOrder.arrivalDate("#{@parseDate(order.scheduledDate)}, #{@parseTime(order.arrivalTime)}")
 		@chosenOrder.address(order.address)
 		@chosenOrder.products(order.products)
-		@chosenOrder.totalPrice(order.totalPrice.toLocaleString())
+		@chosenOrder.totalPrice(order.totalPrice)
 		$('#order-details').modal('show')
 
 profile = new ProfileVM

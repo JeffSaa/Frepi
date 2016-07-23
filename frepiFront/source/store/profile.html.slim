@@ -79,11 +79,16 @@
 					span data-bind="visible: !$data.acquired" &nbsp;- No adquirido
 			p
 				strong Precio total:
-				|<!--ko text: ' $'+chosenOrder.totalPrice()--><!--/ko-->
+				<!--ko if: chosenOrder.totalPrice() -->
+				|<!--ko text: ' $'+chosenOrder.totalPrice().toLocaleString()--><!--/ko-->
+				<!--/ko-->
 		.actions
 			.ui.red.button data-bind="visible: chosenOrder.status() === 'RECEIVED', click: cancelOrder"
 				i.ban.icon
 				|Cancelar orden
+			.ui.orange.button data-bind="visible: chosenOrder.status() !== 'RECEIVED', click: rebuyOrder"
+				i.refresh.icon
+				|Recomprar orden
 			.ui.green.ok.button
 				i.check.icon
 				|Ok

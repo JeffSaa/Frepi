@@ -234,7 +234,6 @@ class window.TransactionalPageVM
 			@saveOrder()
 
 	removeItem: (item) ->
-		console.log item
 		@session.currentOrder.price(parseInt((@session.currentOrder.price() - item.totalPrice)))
 		@session.currentOrder.products.remove(item)
 		$("##{item.id} .image .label").removeClass('show')
@@ -373,7 +372,6 @@ class window.TransactionalPageVM
 			)
 
 	hideLoader: (product) ->
-		console.log "img #{product.name} loaded"
 		$("##{product.id} .image img.loading").hide()
 		$("##{product.id} .image .loader").hide()
 		$("##{product.id} .image img.product").show()
