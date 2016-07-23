@@ -11,16 +11,9 @@ class window.LoginService
 		FBInfo = {}
 		FB.login(((response) ->
 				if response.status is 'connected'
-					console.log 'User logged into FrepiTest'
-					console.log "FB user ID is #{response.authResponse.userID}"
-
 					RESTfulService.makeRequest('POST', '/auth/facebook/callback', {uid: response.authResponse.userID}, (error, success, headers) =>
 							if error
-								console.log 'First time this user is trying to log with FB'
-								console.log 'Now the request with user info is going to be sent...'
 								FB.api('/me', {fields: 'email, first_name, last_name, picture.height(400).width(400)'}, (responseAPI) ->
-										console.log 'Successful login for: ' + responseAPI.name
-										console.log 'Successful login for: ' + responseAPI.email
 										FBInfo =
 											email: responseAPI.email
 											name: responseAPI.first_name
@@ -28,24 +21,20 @@ class window.LoginService
 											image: responseAPI.picture.data.url
 											uid: responseAPI.id
 
-										console.log responseAPI
 										RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBInfo, (error, success, headers) =>
 												if error
 													console.log 'The user couldnt be created'
 													callback(error, null)
 												else
-													console.log success
 													Config.destroyLocalStorage()
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
 										)
 								)
 							else
-								console.log success
 								Config.destroyLocalStorage()
 								Config.setItem('headers', JSON.stringify(headers))
 								Config.setItem('userObject', JSON.stringify(success.user))
-								console.log 'FB user is registered in our DB'
 
 							callback(null, success)
 					)
@@ -60,7 +49,6 @@ class window.LoginService
 			})
 
 	@regularLogin: (callback) =>
-		console.log 'normal log'
 		$form = $('.ui.login.form')
 		$form.removeClass('error')
 		if $form.form('is valid')

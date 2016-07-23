@@ -381,7 +381,6 @@ class window.TransactionalPageVM
 				if error
 					console.log 'An error ocurred while trying to login'
 				else
-					console.log success
 					@setUserInfo()
 					$('.login.modal').modal('hide')
 					$('#shopping-cart').sidebar('hide')
