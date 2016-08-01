@@ -1,5 +1,5 @@
 class OrderExpiredMailer < ApplicationMailer
-  ADMIN = ['ernestodelae@frepi.com.co', 'butron4@hotmail.com', 'amcamargo95@gmail.com', 'borref22@gmail.com', 'pablobutca@gmail.com']
+  #ADMIN = ['ernestodelae@frepi.com.co', 'butron4@hotmail.com', 'amcamargo95@gmail.com', 'borref22@gmail.com', 'pablobutca@gmail.com']
   
   # TODO: ADD information about products (ask about it to ernesto)
   def notification_email(orders)
@@ -11,6 +11,7 @@ class OrderExpiredMailer < ApplicationMailer
       order.notification_email = true
       order.save
     end
-    mail to: ADMIN, subject: 'Ordenes vencidas!'
+    administrators = User.where(administrator: true).pluck(:email)
+    mail to: administrators, subject: 'Ordenes vencidas!'
   end
 end

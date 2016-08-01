@@ -1,12 +1,13 @@
 class OrderCreatedMailer < ApplicationMailer
 
-  ADMIN = ['ernestodelae@frepi.com.co', 'butron4@hotmail.com', 'amcamargo95@gmail.com', 'borref22@gmail.com', 'pablobutca@gmail.com']
+  #ADMIN = ['ernestodelae@frepi.com.co', 'butron4@hotmail.com', 'amcamargo95@gmail.com', 'borref22@gmail.com', 'pablobutca@gmail.com']
   
 
   def notification_email(order, user)
     @order = order
     @user = user
-    mail to: ADMIN, subject: 'Orden Creada!'
+    administrators = User.where(administrator: true).pluck(:email)
+    mail to: administrators, subject: 'Orden Creada!'
   end
 
 
@@ -14,6 +15,5 @@ class OrderCreatedMailer < ApplicationMailer
     @order = order
     @user = user
     mail to: user.email, subject: 'Gracias por tu compra'
-
   end
 end
