@@ -5,6 +5,11 @@
 
 <%= form_tag products_path, multipart: true do %>
   <%= file_field_tag :file %>
+  <input type="hidden" name='uid' value= <%= params[:uid] %> />
+  <input type="hidden" name='client' value= <%=  params[:client] %> />
+  <input type="hidden" name='access-token' value= <%= params['access-token'] %> />
+  <input type="hidden" name='provider' value= <%= params[:provider] %> />
+
   <%= submit_tag "Import" %>
 <% end %>
 
@@ -20,5 +25,8 @@
     }});  
   }
   httpGet('http://ec2-54-68-79-250.us-west-2.compute.amazonaws.com:8080/products/logs');
+
+  var retrievedObject = localStorage.getItem('userImport');
+  console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
 </script>

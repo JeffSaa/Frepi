@@ -1,6 +1,6 @@
 class ProductsController < ActionController::Base
   before_action  :handle_options_request, :set_access_control_headers
-  #before_action  :require_admin
+  before_action  :require_admin
 
   def new
   end
@@ -13,11 +13,10 @@ class ProductsController < ActionController::Base
       flash[:notice] = 'File updloaded! wait it is processing'
       system "RAILS_ENV=production rake products_utilities:upload_file &"
     else
-      
       flash[:notice] = 'You must select a valid file'
     end
-    render 'products/new'
     
+    render 'products/new'
   end
 
   def logs
@@ -33,8 +32,10 @@ class ProductsController < ActionController::Base
 
 
   def require_admin
-    if current_user.nil? || current_user.administrator == false
+    user = User.find_by(provider: params[:provider], uid: params[:uid])
+    if !user || !user.valid_token?(params['access-token'], params['client']) || !user.administrator
       redirect_to new_session_path
+      flash['notice'] = 'You must be logged in'
     end
   end
 

@@ -1,4 +1,8 @@
-<%= form_for(:session, url: sessions_path) do |f| %>
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
+<% end %>
+
+<%= form_for('', url: user_session_path, remote: true) do |f| %>
 
   <%= f.label :email %>
   <%= f.text_field :email %>
@@ -9,6 +13,34 @@
   <%= f.submit "Sign in" %>
 <% end %>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script type="text/javascript">
 
+  $('form').submit(function() {  
+      var valuesToSubmit = $(this).serialize();
+      $.ajax({
+          type: "POST",
+          url: $(this).attr('action'), //sumbits it to the given url of the form
+          data: valuesToSubmit,
+          dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+      }).success(function(json, textStatus, request) {
+          if (json.data.administrator) {
+           window.location.replace('<%= new_product_path %>?' + 
+            'uid=' + request.getResponseHeader("uid") +
+            '&client=' + request.getResponseHeader("client") +
+            '&access-token=' + request.getResponseHeader("access-token") +
+            '&provider=' + json.data.provider
+            );
+          } else {
+            alert('You must be an administrator');
+          }
+      }).error(function(response) {
+        alert('Invalid credentials');
+      });
+      return false; // prevents normal behaviour
+  });
+
+
+</script>
 
   
