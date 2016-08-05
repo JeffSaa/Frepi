@@ -169,15 +169,15 @@ section.content
 				th Sucursal
 				th Unds Vendidas
 				th Acciones
-		thead
-			tr
-				th colspan="7"
-					form#product-searcher.ui.form.item data-bind="submit: searchProduct"
-						.ui.search.field
-							.ui.icon.input
-								input.prompt name="value" type="text" placeholder="Buscar..."
-								i.circular.search.link.icon data-bind="click: searchProduct"
-						button style="display: none;" type="submit"
+		// thead
+		//	tr
+		//		th colspan="7"
+		//			form#product-searcher.ui.form.item data-bind="submit: searchProduct"
+		//				.ui.search.field
+		//					.ui.icon.input
+		//						input.prompt name="value" type="text" placeholder="Buscar..."
+		//						i.circular.search.link.icon data-bind="click: searchProduct"
+		//				button style="display: none;" type="submit"
 		tbody data-bind="foreach: currentProducts, visible: !shouldShowProductsAlert()"
 			tr
 				td data-bind="text: $data.id"

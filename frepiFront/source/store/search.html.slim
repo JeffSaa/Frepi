@@ -32,4 +32,6 @@
 						.ui.right.floated.dark-green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
 							i.shopping.add.to.cart.icon
 
+		button.ui.red.load-more.button data-bind="click: fetchNextPage, visible: shouldShowLoadMore" Ver más productos
+
 script src="../javascripts/viewmodels/store/search.js" type="text/javascript"

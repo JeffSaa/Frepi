@@ -77,7 +77,6 @@ class window.TransactionalPageVM
 		$('#choose-store').modal('hide')
 
 	chooseDeparment: (subdeparment) =>
-		console.log subdeparment
 		if subdeparment.categoryId
 			@session.currentDeparmentID = subdeparment.categoryId
 			@session.currentSubcategorID = subdeparment.id

@@ -596,6 +596,23 @@ header #shopping-cart .icon {
   position: absolute;
   width: 100%;
 }*/
+.blank.card {
+	height: 100%;
+	.image {
+		background-color: $dark-green-colour;
+		height: 100%;
+		.text {
+			color: lighten($dark-green-colour, 55%);
+			font-size: 1.125em;
+			left: 50%;
+			line-height: 1.45;
+			position: absolute;
+			text-align: center;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+}
 
 .discount.message.item { display: none; flex-direction: column; }
 .discount.message.item .strong { font-size: 1rem; }
@@ -640,6 +657,11 @@ header #shopping-cart .icon {
   font-style: italic;
   font-weight: lighter;
   padding: 2rem 2rem 0;
+}
+
+.load-more.button {
+	display: block;
+	margin: 4rem auto 0;
 }
 
 /**

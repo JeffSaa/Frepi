@@ -3,7 +3,7 @@ class SearchVM extends TransactionalPageVM
 		super()
 		@deparment = ko.mapping.fromJS(DefaultModels.DEPARMENT)
 		@subcategories = ko.observableArray()
-		@products = ko.observableArray()
+		@products = ko.observableArray([])
 		@valueSearchingFor = ko.observable()
 
 		# Modal variables
@@ -12,6 +12,10 @@ class SearchVM extends TransactionalPageVM
 		@selectedProductImage = ko.observable()
 		@selectedProductName = ko.observable()
 		@selectedProductPrice = ko.observable()
+		@shouldShowLoadMore = ko.observable(false)
+		@pages =
+			currentPage: 1
+			totalNumber: 0
 
 		@setExistingSession()
 		@setUserInfo()
@@ -30,9 +34,30 @@ class SearchVM extends TransactionalPageVM
 			# console.log 'An error has ocurred while fetching the categories!'
 				console.log error
 			else
-				console.log success
-				@products(success)
+				if success.length > 0
+					@pages.totalNumber = Math.ceil(headers.totalItems/10)
+					@products(success)
+					@setCartItemsLabels()
+					if @pages.totalNumber > 1 then @shouldShowLoadMore(true)
+		)
+
+	fetchNextPage: =>
+		$loadMoreButton = $('.load-more.button');
+		data =
+			search: @session.stringToSearch
+			page: @pages.currentPage + 1
+
+		$loadMoreButton.addClass('loading')
+		RESTfulService.makeRequest('GET', "/search/products", data, (error, success, headers) =>
+			$loadMoreButton.removeClass('loading')
+			if error
+			# console.log 'An error has ocurred while fetching the categories!'
+				console.log error
+			else
+				@pages.currentPage += 1
+				@products.push.apply(@products, success)
 				@setCartItemsLabels()
+				if @pages.totalNumber <= @pages.currentPage then @shouldShowLoadMore(false)
 		)
 
 	profile: ->

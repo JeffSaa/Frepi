@@ -3,6 +3,7 @@ class StoreVM extends TransactionalPageVM
 		super()
 		@shouldShowError = ko.observable(false)
 		@shouldDisplayLoader = ko.observable(true)
+		@showDepartmentButton = ko.observable($(window).width() < 991)
 		# Methods to execute on instance
 		@setExistingSession()
 		@session.categories([])
@@ -37,6 +38,9 @@ class StoreVM extends TransactionalPageVM
 		Config.setItem('showOrders', 'true')
 		window.location.href = '../store/profile.html'
 
+	ogi: ->
+		console.log 'ogi ogi ogi'
+
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
@@ -52,7 +56,8 @@ class StoreVM extends TransactionalPageVM
 		else
 			$('#shopping-cart').addClass('wide')
 
-		$(window).resize(->
+		$(window).resize(=>
+			@showDepartmentButton($(window).width() < 976)
 			if $(window).width() < 480
 				$('#shopping-cart').removeClass('wide')
 			else
