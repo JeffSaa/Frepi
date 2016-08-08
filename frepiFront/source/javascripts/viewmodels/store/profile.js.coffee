@@ -190,10 +190,12 @@ class ProfileVM extends TransactionalPageVM
 			)
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
+				mobileTransition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
 
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('setting', 'mobileTransition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 		$('.circular.image .ui.dimmer')
 			.dimmer(

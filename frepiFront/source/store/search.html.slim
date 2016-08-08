@@ -10,7 +10,7 @@
 
 		h3.ui.header data-bind="visible: products().length != 0"
 				|Resultados
-				.ui.tiny.teal.label data-bind="text: products().length"
+				.ui.tiny.teal.label data-bind="text: totalResultsNumber"
 
 		.ui.five.column.doubling.grid data-bind="foreach: products"
 			.column

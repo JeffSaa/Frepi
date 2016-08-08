@@ -463,15 +463,18 @@ class window.TransactionalPageVM
 
 		$('.ui.accordion')
 			.accordion()
+
 		$('#shopping-cart').sidebar({
 				dimPage: false
 				transition: 'overlay'
+				mobileTransition: 'overlay'
 				onHide: ->
 					$('#shopping-cart .checkout').removeClass('hide')
 					$('#shopping-cart .sign-up-banner').removeClass('show')
 			})
 			.sidebar('attach events', '#store-secondary-navbar .right.menu button', 'show')
 			.sidebar('attach events', '#shopping-cart i', 'show')
+
 		$('#product-desc')
 			.modal(
 				onHidden: ->

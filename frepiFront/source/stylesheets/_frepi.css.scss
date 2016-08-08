@@ -651,15 +651,18 @@ header #shopping-cart .icon {
   font-style: italic;
   font-weight: normal;
 }
-.products .no-results-message {
+.search .no-results-message {
   color: rgba(0, 0, 0, .7);
+	display: none;
 	font-size: 1.5em;
   font-style: italic;
   font-weight: lighter;
   padding: 2rem 2rem 0;
 }
 
-.load-more.button {
+.search section.products { display: none; }
+
+.search .load-more.button {
 	display: block;
 	margin: 4rem auto 0;
 }

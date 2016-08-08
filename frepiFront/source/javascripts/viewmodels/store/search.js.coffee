@@ -5,6 +5,7 @@ class SearchVM extends TransactionalPageVM
 		@subcategories = ko.observableArray()
 		@products = ko.observableArray([])
 		@valueSearchingFor = ko.observable()
+		@totalResultsNumber = ko.observable(0)
 
 		# Modal variables
 		@selectedProduct = null
@@ -25,21 +26,26 @@ class SearchVM extends TransactionalPageVM
 		@setSizeSidebar()
 
 	fetchProducts: =>
-		data =
-			search: @session.stringToSearch
+		if @session.stringToSearch
+			data =
+				search: @session.stringToSearch
 
-		# currentButton = clickedButton.toElement if !!clickedButton
-		RESTfulService.makeRequest('GET', "/search/products", data, (error, success, headers) =>
-			if error
-			# console.log 'An error has ocurred while fetching the categories!'
-				console.log error
-			else
-				if success.length > 0
-					@pages.totalNumber = Math.ceil(headers.totalItems/10)
-					@products(success)
-					@setCartItemsLabels()
-					if @pages.totalNumber > 1 then @shouldShowLoadMore(true)
-		)
+			# currentButton = clickedButton.toElement if !!clickedButton
+			RESTfulService.makeRequest('GET', "/search/products", data, (error, success, headers) =>
+				if error
+				# console.log 'An error has ocurred while fetching the categories!'
+					console.log error
+				else
+					$('.search section.products').css('display', 'block')
+					if success.length > 0
+						@pages.totalNumber = Math.ceil(headers.totalItems/10)
+						@totalResultsNumber(headers.totalItems)
+						@products(success)
+						@setCartItemsLabels()
+						if @pages.totalNumber > 1 then @shouldShowLoadMore(true)
+					else
+						$('.search .no-results-message').css('display', 'block')
+			)
 
 	fetchNextPage: =>
 		$loadMoreButton = $('.load-more.button');
@@ -73,9 +79,20 @@ class SearchVM extends TransactionalPageVM
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
+				mobileTransition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
+		console.log $('#departments-menu .ui.dropdown')
+		$('#departments-menu .ui.dropdown').on('hover', ( ->
+			console.log 'hover'
+		))
+		$('#departments-menu .ui.dropdown')
+			.dropdown(
+					on: 'hover'
+
+				)
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('setting', 'mobileTransition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 		$('#modal-dropdown').dropdown()
 

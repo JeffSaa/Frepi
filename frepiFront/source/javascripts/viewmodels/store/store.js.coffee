@@ -38,15 +38,14 @@ class StoreVM extends TransactionalPageVM
 		Config.setItem('showOrders', 'true')
 		window.location.href = '../store/profile.html'
 
-	ogi: ->
-		console.log 'ogi ogi ogi'
-
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
+				mobileTransition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('setting', 'mobileTransition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 		$('#modal-dropdown').dropdown()
 
