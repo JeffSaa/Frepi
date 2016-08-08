@@ -95,6 +95,12 @@ class SearchVM extends TransactionalPageVM
 			.sidebar('setting', 'mobileTransition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 		$('#modal-dropdown').dropdown()
+		setTimeout((->
+				$('#departments-menu .ui.dropdown').dropdown({
+					on: 'hover'
+				})
+			), 100)
+
 
 	setSizeSidebar: ->
 		if $(window).width() < 480
