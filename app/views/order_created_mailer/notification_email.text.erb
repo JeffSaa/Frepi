@@ -27,7 +27,7 @@ Información de la Orden:
   3. Comentario de la Orden: <%= @order.comment %>
   4. Telefono de la orden: <%= @order.telephone %>
   5. Fecha de creación: <%= @order.date.to_formatted_s(:long) %>
-  6. Fecha de llegada: <%= @order.scheduled_date.to_formatted_s(:short) %>
+  6. Fecha de llegada: <%= @order.scheduled_date.strftime('%d-%m-%Y') %> <%= @order.arrival_time.strftime("a las %I:%M %p") %>
   
   7. Productos:
       <% @order.orders_products.each do |order_product| %>
