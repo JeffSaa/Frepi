@@ -171,10 +171,19 @@ html
 												label Dirección
 												input name="address" type="text" data-bind="textInput: address, event: {focus: inputGotFocus}" placeholder="Ej: Cra 45 # 65 - 56"
 												.ui.pointing.red.prompt.label Información incorrecta
-											.phone.field
-												label Teléfono
-												input name="phoneNumber" type="text" data-bind="textInput: phoneNumber, event: {focus: inputGotFocus}" placeholder="Ej: 310 645 8888"
-												.ui.pointing.red.prompt.label Información incorrecta
+											.two.fields
+												.phone.field
+													label Teléfono
+													input name="phoneNumber" type="text" data-bind="textInput: phoneNumber, event: {focus: inputGotFocus}" placeholder="Ej: 310 645 8888"
+													.ui.pointing.red.prompt.label Información incorrecta
+												.payment.field
+													label Método de pago
+													select.ui.dropdown data-bind="options: paymentTypes,
+																												optionsText: 'text',
+																												value: selectedPaymentMethod,
+																												event: {change: setPaymentMethod},
+																												optionsCaption: 'Seleccione...'"
+													.ui.pointing.red.prompt.label Selecciona el método de pago
 											.instructions.field
 												label Instrucciones
 												textarea name="instructions" rows="3" data-bind="textInput: comment" placeholder="Ej: Dejar en portería o llámame cuando llegue"
@@ -214,6 +223,9 @@ html
 										.clearfix.line
 											span.title Dirección
 											span.value data-bind="text: address"
+										.clearfix.line
+											span.title Método de pago
+											span.value data-bind="text: selectedPaymentMethod() ? selectedPaymentMethod().text : ''"
 										.clearfix.line
 											span.title Fecha llegada
 											span.value data-bind="text: selectedDate()+' / '+selectedHour()"

@@ -22,8 +22,13 @@ class CheckoutVM
 		@selectedExpiredHour = ko.observable()
 		@availableDays = ko.observableArray()
 		@availableHours = ko.observableArray()
+		@paymentTypes = ko.observableArray([
+				{text: 'Efectivo', value: 'CASH'},
+				{text: 'Datáfono', value: 'PAYMENT_TERMINAL'}
+			])
 		@userName = ko.observable()
 		@comment = ko.observable()
+		@selectedPaymentMethod = ko.observable()
 		@address = ko.observable(@user.address)
 		@phoneNumber = ko.observable(@user.phoneNumber or @user.phone_number)
 		@setDOMElements()
@@ -61,7 +66,7 @@ class CheckoutVM
 
 	seeConfirm: ->
 		isInvalidPhone = !@phoneNumber() or not @isValidPhoneNumber(@phoneNumber())
-		if !!@selectedDay() and !!@selectedHour() and !!@address() and !isInvalidPhone
+		if !!@selectedDay() and !!@selectedHour() and !!@address() and !!@selectedPaymentMethod() and !isInvalidPhone
 			$('#delivery-icon').removeClass('active')
 			$('#confirm-icon').addClass('active')
 			$('#delivery').transition('fade right')
@@ -70,6 +75,7 @@ class CheckoutVM
 			$('.address.field').addClass('error') if !@address()
 			$('.date.field').addClass('error') if !@selectedDay()
 			$('.time.field').addClass('error') if !@selectedHour()
+			$('.payment.field').addClass('error') if !@selectedPaymentMethod()
 			$('.phone.field').addClass('error') if isInvalidPhone
 
 	logout: ->
@@ -77,7 +83,7 @@ class CheckoutVM
 			if error
 			else
 				Config.destroyLocalStorage()
-				window.location.href = '../index.html'
+				window.location.href = 'index.html'
 		)
 
 	cancel: ->
@@ -98,11 +104,11 @@ class CheckoutVM
 			address					: @address()
 			comment 				: @comment()
 			telephone				: @phoneNumber()
+			payment					: @selectedPaymentMethod().value
 			products 				:	productsToSend
 			arrivalTime			: @selectedHour()
 			scheduledDate		: @selectedDate()
 			expiryTime			: @selectedExpiredHour()
-
 
 		$('.generate.button').addClass('loading')
 		RESTfulService.makeRequest('POST', "/users/#{@user.id}/orders", data, (error, success, headers) =>
@@ -166,6 +172,8 @@ class CheckoutVM
 			expireHour = moment(@selectedHour(), 'H:mm').add(1, 'hours')
 			@selectedExpiredHour(expireHour.format('H:mm'))
 
+	setPaymentMethod: =>
+		$('.payment.field').removeClass('error')
 
 	setAvailableDeliveryDateTime: =>
 		if moment().hours() < 17
