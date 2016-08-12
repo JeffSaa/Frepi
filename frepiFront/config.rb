@@ -61,7 +61,7 @@ set :images_dir, 'images'
 set :layout, false
 
 # Relative path active
-set :relative_links, true
+# set :relative_links, true
 
 page "/store/*", :layout => "store"
 page "/admin/*", :layout => "admin"

@@ -24,7 +24,6 @@ class ChangePasswordVM
 					else
 						$form.form('add errors', ['No se pudo establecer conexión'])
 				else
-					console.log success
 					$('.success.segment').transition('fade down')
 			)
 

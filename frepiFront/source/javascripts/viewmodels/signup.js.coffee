@@ -36,11 +36,9 @@ class SignUpVM
 							)
 						$form.form('add errors', errors)
 					else
-						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-						Config.setItem('credentials', JSON.stringify({email: data.email, password: data.password}))
 						Config.setItem('userObject', JSON.stringify(success))
-						window.location.href = '../store/index.html'
+						window.location.href = '../../store/index.html'
 				)
 
 	signWithFB: ->
@@ -74,22 +72,21 @@ class SignUpVM
 													Config.setItem('headers', JSON.stringify(headers))
 													Config.setItem('userObject', JSON.stringify(success.user))
 													if success.user.administrator
-														window.location.href = '../admin/index.html'
+														window.location.href = '../../admin/index.html'
 													else
-														window.location.href = '../store/index.html'
+														window.location.href = '../../store/index.html'
 										)
 								)
 							else
-								console.log success
 								Config.setItem('accessToken', headers.accessToken)
 								Config.setItem('client', headers.client)
 								Config.setItem('uid', headers.uid)
 								Config.setItem('userObject', JSON.stringify(success.user))
 								console.log 'FB user is registered in our DB'
 								if success.user.administrator
-									window.location.href = '../admin/index.html'
+									window.location.href = '../../admin/index.html'
 								else
-									window.location.href = '../store/index.html'
+									window.location.href = '../../store/index.html'
 					)
 				else if response.status is 'not_authorized'
 					console.log 'Doesnt logged into FrepiTest!'

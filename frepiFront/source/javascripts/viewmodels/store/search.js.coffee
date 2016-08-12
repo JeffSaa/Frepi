@@ -5,6 +5,7 @@ class SearchVM extends TransactionalPageVM
 		@subcategories = ko.observableArray()
 		@products = ko.observableArray()
 		@valueSearchingFor = ko.observable()
+		@totalResultsNumber = ko.observable(0)
 
 		# Modal variables
 		@selectedProduct = null
@@ -12,6 +13,10 @@ class SearchVM extends TransactionalPageVM
 		@selectedProductImage = ko.observable()
 		@selectedProductName = ko.observable()
 		@selectedProductPrice = ko.observable()
+		@shouldShowLoadMore = ko.observable(false)
+		@pages =
+			currentPage: 1
+			totalNumber: 0
 
 		@setExistingSession()
 		@setUserInfo()
@@ -21,18 +26,44 @@ class SearchVM extends TransactionalPageVM
 		@setSizeSidebar()
 
 	fetchProducts: =>
+		if @session.stringToSearch
+			data =
+				search: @session.stringToSearch
+
+			# currentButton = clickedButton.toElement if !!clickedButton
+			RESTfulService.makeRequest('GET', "/search/products", data, (error, success, headers) =>
+				if error
+				# console.log 'An error has ocurred while fetching the categories!'
+					console.log error
+				else
+					$('.search section.products').css('display', 'block')
+					if success.length > 0
+						@pages.totalNumber = Math.ceil(headers.totalItems/10)
+						@totalResultsNumber(headers.totalItems)
+						@products(success)
+						@setCartItemsLabels()
+						if @pages.totalNumber > 1 then @shouldShowLoadMore(true)
+					else
+						$('.search .no-results-message').css('display', 'block')
+			)
+
+	fetchNextPage: =>
+		$loadMoreButton = $('.load-more.button');
 		data =
 			search: @session.stringToSearch
+			page: @pages.currentPage + 1
 
-		# currentButton = clickedButton.toElement if !!clickedButton
+		$loadMoreButton.addClass('loading')
 		RESTfulService.makeRequest('GET', "/search/products", data, (error, success, headers) =>
+			$loadMoreButton.removeClass('loading')
 			if error
 			# console.log 'An error has ocurred while fetching the categories!'
 				console.log error
 			else
-				console.log success
-				@products(success)
+				@pages.currentPage += 1
+				@products.push.apply(@products, success)
 				@setCartItemsLabels()
+				if @pages.totalNumber <= @pages.currentPage then @shouldShowLoadMore(false)
 		)
 
 	profile: ->
@@ -48,9 +79,11 @@ class SearchVM extends TransactionalPageVM
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
+				mobileTransition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('setting', 'mobileTransition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 		$('#modal-dropdown').dropdown()
 

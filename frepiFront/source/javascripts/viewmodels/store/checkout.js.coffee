@@ -129,9 +129,11 @@ class CheckoutVM
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
+				mobileTransition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar .basic.button', 'show')
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('setting', 'mobileTransition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 		$('.time.field')
 			.popup({inline: true})

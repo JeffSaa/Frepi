@@ -106,9 +106,11 @@ class DeparmentVM extends TransactionalPageVM
 	setDOMElements: ->
 		$('#departments-menu').sidebar({
 				transition: 'overlay'
+				mobileTransition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('setting', 'mobileTransition', 'overlay')
 			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
 		# $('#shopping-cart').sidebar({
 		# 		dimPage: false

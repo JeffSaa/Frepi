@@ -468,6 +468,7 @@ class window.TransactionalPageVM
 		$('#shopping-cart').sidebar({
 				dimPage: false
 				transition: 'overlay'
+				mobileTransition: 'overlay'
 				onHide: ->
 					$('#shopping-cart .checkout').removeClass('hide')
 					$('#shopping-cart .sign-up-banner').removeClass('show')

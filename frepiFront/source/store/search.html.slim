@@ -10,7 +10,7 @@
 
 		h3.ui.header data-bind="visible: products().length != 0"
 				|Resultados
-				.ui.tiny.teal.label data-bind="text: products().length"
+				.ui.tiny.teal.label data-bind="text: totalResultsNumber"
 
 		.ui.five.column.doubling.grid data-bind="foreach: products"
 			.column
@@ -29,7 +29,9 @@
 							i.dollar.icon
 						span.centering data-bind="text: ($data.frepi_price).toLocaleString()"
 						br
-						.ui.right.floated.green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
+						.ui.right.floated.dark-green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
 							i.shopping.add.to.cart.icon
+
+		button.ui.red.load-more.button data-bind="click: fetchNextPage, visible: shouldShowLoadMore" Ver más productos
 
 script src="../javascripts/viewmodels/store/search.js" type="text/javascript"
