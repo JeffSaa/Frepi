@@ -90,7 +90,9 @@ class CheckoutVM
 		window.location.href = 'store/index.html'
 
 	generate: ->
+
 		productsToSend = []
+		
 		for product in @session.currentOrder.products()
 			productsToSend.push({
 					comment: product.comment
@@ -102,7 +104,7 @@ class CheckoutVM
 			address					: @address()
 			comment 				: @comment()
 			telephone				: @phoneNumber()
-			paymentType			: @selectedPaymentMethod().value
+			payment					: @selectedPaymentMethod().value
 			products 				:	productsToSend
 			arrivalTime			: @selectedHour()
 			scheduledDate		: @selectedDate()

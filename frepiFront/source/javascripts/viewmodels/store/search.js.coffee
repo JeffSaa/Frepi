@@ -81,15 +81,6 @@ class SearchVM extends TransactionalPageVM
 				transition: 'overlay'
 				mobileTransition: 'overlay'
 			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
-		console.log $('#departments-menu .ui.dropdown')
-		$('#departments-menu .ui.dropdown').on('hover', ( ->
-			console.log 'hover'
-		))
-		$('#departments-menu .ui.dropdown')
-			.dropdown(
-					on: 'hover'
-
-				)
 		$('#mobile-menu')
 			.sidebar('setting', 'transition', 'overlay')
 			.sidebar('setting', 'mobileTransition', 'overlay')
@@ -100,7 +91,6 @@ class SearchVM extends TransactionalPageVM
 					on: 'hover'
 				})
 			), 100)
-
 
 	setSizeSidebar: ->
 		if $(window).width() < 480

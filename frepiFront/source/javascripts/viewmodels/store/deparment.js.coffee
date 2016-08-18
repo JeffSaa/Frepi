@@ -8,7 +8,6 @@ class DeparmentVM extends TransactionalPageVM
 		@currentSubcatBtn = null
 
 		# Display variables
-		@shouldDisplayNoResultAlert = ko.observable(false)
 		@shouldDisplayLoader = ko.observable(true)
 
 		# Modal variables
@@ -34,14 +33,12 @@ class DeparmentVM extends TransactionalPageVM
 				# console.log 'An error has ocurred while fetching the categories!'
 				console.log error
 			else
-				console.log success
 				ko.mapping.fromJS(success, @deparment)
 				RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}/subcategories", '', (error, success, headers) =>
 					if error
 					# console.log 'An error has ocurred while fetching the categories!'
 						console.log error
 					else
-						console.log success
 						@setDOMElems()
 						@subcategories(success)
 						if @session.currentSubcategorID
@@ -55,12 +52,12 @@ class DeparmentVM extends TransactionalPageVM
 	fetchAllProducts: =>
 		@products([])
 		@shouldDisplayLoader(true)
-		@shouldDisplayNoResultAlert(false)
 		$('h1 + .horizontal.list .button').addClass('basic')
 		$('.list .item.all .button').removeClass('basic')
 
 		RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}/products", '', (error, success, headers) =>
 			@shouldDisplayLoader(false)
+			$('section.products').css('display', 'block')
 			if error
 			# console.log 'An error has ocurred while fetching the categories!'
 				console.log error
@@ -69,19 +66,19 @@ class DeparmentVM extends TransactionalPageVM
 					@products(success)
 					@setCartItemsLabels()
 				else
-					@shouldDisplayNoResultAlert(true)
+					$('.products .no-results-message').css('display', 'block')
 		)
 
 	fetchProducts: (subcategory) =>
 		@products([])
 		@shouldDisplayLoader(true)
-		@shouldDisplayNoResultAlert(false)
 		$('h1 + .horizontal.list .button').addClass('basic')
 		$("#subcat#{subcategory.id}").removeClass('basic')
 
 		# currentButton = clickedButton.toElement if !!clickedButton
 		RESTfulService.makeRequest('GET', "/subcategories/#{subcategory.id}/products", '', (error, success, headers) =>
 			@shouldDisplayLoader(false)
+			$('section.products').css('display', 'block')
 			if error
 			# console.log 'An error has ocurred while fetching the categories!'
 				console.log error
@@ -90,7 +87,7 @@ class DeparmentVM extends TransactionalPageVM
 					@products(success)
 					@setCartItemsLabels()
 				else
-					@shouldDisplayNoResultAlert(true)
+					$('.products .no-results-message').css('display', 'block')
 		)
 
 	profile: ->

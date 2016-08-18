@@ -36,9 +36,7 @@ class SignUpVM
 							)
 						$form.form('add errors', errors)
 					else
-						console.log success
 						Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
-						Config.setItem('credentials', JSON.stringify({email: data.email, password: data.password}))
 						Config.setItem('userObject', JSON.stringify(success))
 						window.location.href = '../store/index.html'
 				)

@@ -190,12 +190,12 @@
 
   .status-tag {
     display: inline-block;
-    width: 110px;
+    width: 48%;
   }
 
   #status {
     margin: 0 auto;
-    width: 220px;
+    width: 240px;
   }
 
   .profile #guide-status #status span {
@@ -210,8 +210,8 @@
     display: inline-block;
   }
 
-  .profile .table thead tr th:nth-of-type(3),
-  .profile .table tbody tr td:nth-of-type(3),
+  .profile .table thead tr th:nth-of-type(2),
+  .profile .table tbody tr td:nth-of-type(2),
   .profile .table .label {
     display: none;
   }

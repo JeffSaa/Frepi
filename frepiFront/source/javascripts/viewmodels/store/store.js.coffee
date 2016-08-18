@@ -11,18 +11,17 @@ class StoreVM extends TransactionalPageVM
 		@fetchCategories()
 		@setDOMElements()
 		@setSizeSidebar()
-		console.log 'Is signed Up? ' + @session.signedUp()
 
 	fetchCategories: ->
 		RESTfulService.makeRequest('GET', "/stores/#{@session.currentStore.id()}/categories", '', (error, success, headers) =>
-			$('.active.fetching.loader').hide()
 			@shouldDisplayLoader(false)
+			$('section.products').css('display', 'block')
 			if error
 				# console.log 'An error has ocurred while fetching the categories!'
-				@shouldShowError(true)
+				# @shouldShowError(true)
+				$('#error-container').css('display', 'block')
 				console.log error
 			else
-				console.log success
 				@session.categories(success)
 				@setDOMElems()
 				@setCartItemsLabels()

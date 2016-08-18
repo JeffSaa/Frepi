@@ -9,11 +9,11 @@
 			.item
 				.ui.basic.dark-green.button data-bind="text: $data.name, attr: {id: 'subcat'+$data.id}, click: $root.fetchProducts"
 
-	section.products
-		h2.ui.centered.header.no-results-message data-bind="visible: shouldDisplayNoResultAlert"
-			|Estamos trabajando duro para agregar nuevos productos todos los días
+	.ui.active.fetching.large.text.loader data-bind="visible: shouldDisplayLoader" Buscando los productos
 
-		.ui.active.fetching.large.text.loader data-bind="visible: shouldDisplayLoader" Buscando los productos
+	section.products
+		h2.ui.centered.header.no-results-message
+			|Estamos trabajando duro para agregar nuevos productos todos los días		
 
 		.ui.five.column.doubling.grid data-bind="foreach: products"
 			.column

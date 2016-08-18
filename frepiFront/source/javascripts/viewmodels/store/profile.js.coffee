@@ -309,9 +309,6 @@ class ProfileVM extends TransactionalPageVM
 							console.log 'User has been updated'
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
-							# credentials = JSON.parse(Config.getItem('credentials'))
-							# credentials.user = newEmail
-							# Config.setItem('credentials', JSON.stringify(credentials))
 							@setUserInfo()
 							$('#edit-email').modal('hide')
 					)
@@ -331,9 +328,6 @@ class ProfileVM extends TransactionalPageVM
 							console.log 'User has been updated'
 							Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
 							Config.setItem('userObject', JSON.stringify(success))
-							# credentials = JSON.parse(Config.getItem('credentials'))
-							# credentials.password = newPassword
-							# Config.setItem('credentials', JSON.stringify(credentials))
 							@setUserInfo()
 
 							$('#edit-password').modal('hide')

@@ -83,6 +83,9 @@ class HomeVM
 					@refresh()
 			)
 
+	parsePaymentMethod: (method) ->
+		return if method is 'CASH' then 'EFECTIVO' else 'DATÁFONO'
+
 	parseDate: (date) ->
 		return moment(date, moment.ISO_8601).format('dddd, DD MMMM YYYY')
 

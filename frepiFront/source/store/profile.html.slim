@@ -154,14 +154,12 @@
 			table.ui.celled.unstackable.table data-bind="visible: !showEmptyMessage()"
 				thead
 					tr
-						th.three.wide Fecha creación
 						th.three.wide Fecha entrega
 						th.three.wide Productos
 						th.two.wide Valor($)
 						th.two.wide Estado
 				tbody data-bind="foreach: currentOrders"
 					tr data-bind="click: $root.showOrderDetails"
-						td data-bind="text: $root.dateFormatter($data.date)"
 						td data-bind="text: $root.parseDate($data.scheduledDate)+', '+$root.parseTime($data.arrivalTime)"
 						td data-bind="text: $root.productsText($data.products)"
 						td data-bind="text: $data.totalPrice.toLocaleString()"

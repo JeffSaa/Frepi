@@ -15,6 +15,7 @@ class window.DefaultModels
 		shopper: []
 		status: "RECEIVED"
 		totalPrice: "23.79"
+		payment: "ASD"
 		user:
 			active: true
 			address: "366 West Green"

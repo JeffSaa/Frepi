@@ -15,42 +15,44 @@
 				.sub.header
 					|*Válido para compras mayores a $80,000
 
-	#frepi-categories.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
-		section
-			h2.ui.header
-				|<!--ko text: $data.name--><!--/ko-->
-				a.ui.tiny.teal.see.more.label data-bind="click: $root.chooseDeparment"
-					i.plus.icon
-					|Ver más
-			#products-x-categories.ui.five.column.doubling.grid data-bind="foreach: $data.products"
-				.column
-					.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}, attr: {id: $data.id}"
-						.image
-							img.loading src="../images/blank_loader.png"
-								.ui.active.small.loader
-							img.product data-bind="attr: {src: $data.image, alt: $data.name}, event: { load: $root.hideLoader }"
-							.ui.blue.left.corner.label
-								span.quantity 1
-						.content
-							.truncated.header data-bind="text: $data.name"
-							.meta data-bind="text: $data.size"
-						.extra.content
-							span.centering
-								i.dollar.icon
-							span.centering data-bind="text: ($data.frepiPrice).toLocaleString()"
-							br
-							.ui.right.floated.dark-green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
-								i.shopping.add.to.cart.icon
-				<!-- ko if: ($index() === ($parent.products.length - 1) && $root.showDepartmentButton()) -->
-				.column
-					.ui.fluid.link.blank.card data-bind="click: function(){$root.chooseDeparment({id: $parent.id})}, clickBubble: false"
-						.image
-							.text
-								|Ver más de
+	
+	section#frepi-categories.products
+		.ui.container data-bind="foreach: session.categories, visible: !shouldShowError()"
+			article
+				h2.ui.header
+					|<!--ko text: $data.name--><!--/ko-->
+					a.ui.tiny.teal.see.more.label data-bind="click: $root.chooseDeparment"
+						i.plus.icon
+						|Ver más
+				#products-x-categories.ui.five.column.doubling.grid data-bind="foreach: $data.products"
+					.column
+						.ui.fluid.link.card data-bind="click: function(data){$root.showProduct(data)}, attr: {id: $data.id}"
+							.image
+								img.loading src="../images/blank_loader.png"
+									.ui.active.small.loader
+								img.product data-bind="attr: {src: $data.image, alt: $data.name}, event: { load: $root.hideLoader }"
+								.ui.blue.left.corner.label
+									span.quantity 1
+							.content
+								.truncated.header data-bind="text: $data.name"
+								.meta data-bind="text: $data.size"
+							.extra.content
+								span.centering
+									i.dollar.icon
+								span.centering data-bind="text: ($data.frepiPrice).toLocaleString()"
 								br
-								strong
-									|<!--ko text: $parent.name--><!--/ko-->
-				<!-- /ko -->
-		.ui.divider
+								.ui.right.floated.dark-green.button data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false"
+									i.shopping.add.to.cart.icon
+					<!-- ko if: ($index() === ($parent.products.length - 1) && $root.showDepartmentButton()) -->
+					.column
+						.ui.fluid.link.blank.card data-bind="click: function(){$root.chooseDeparment({id: $parent.id})}, clickBubble: false"
+							.image
+								.text
+									|Ver más de
+									br
+									strong
+										|<!--ko text: $parent.name--><!--/ko-->
+					<!-- /ko -->
+			.ui.divider
 
 script src="../javascripts/viewmodels/store/store.js" type="text/javascript"
