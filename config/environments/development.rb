@@ -57,7 +57,7 @@ Rails.application.configure do
     # password: 'de6834ad958b8b4f38445294478b8903'
     #}
 
-    Rails.application.routes.default_url_options[:host] = 'frepi.co'
+  Rails.application.routes.default_url_options[:host] = 'frepi.co'
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {

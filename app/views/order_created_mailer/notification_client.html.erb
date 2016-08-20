@@ -5,15 +5,12 @@
     <meta charset="utf-8" />
        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Varela+Round">
     <link rel="stylesheet" type="text/css" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css">
-     
+
   </head>
   <body>
      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Varela+Round">
     <link rel="stylesheet" type="text/css" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css">
      <style type="text/css">
-
-      
-      @import "https://fonts.googleapis.com/css?family=Varela+Round";
       @import "https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css";
 
       body {
@@ -31,14 +28,14 @@
         text-decoration: none;
       }
 
-      
+
       .header {
         position: relative;
       }
 
       .container {
         background-color: white;
-        
+
         color: #00A870;
         left: 7.5%;
         margin-bottom: 7.5%;
@@ -78,7 +75,7 @@
         text-align: right;
       }
 
-      
+
       .message {
         font-size: 1.75em;
         line-height: 2rem;
@@ -182,7 +179,7 @@
             </diV>
           </div>
 
-          <div class="message" style="font-size:1.75em;line-height:2rem;padding-top:4em;padding-bottom:3em;padding-right:1em;padding-left:1em;text-align:center;" >
+          <div class="message" style="font-size:1.75em;padding-top:4em;padding-bottom:3em;padding-right:1em;padding-left:1em;text-align:center;" >
             Hemos recibido tu orden <%= @order.created_at.strftime("el dia %d/%m/%Y")%> <%= @order.created_at.strftime("a las %I:%M %p") %>,
             estamos trabajando en ella y te la enviaremos <%= @order.scheduled_date.strftime("el dia %d/%m/%Y")%>  <%= @order.arrival_time.strftime("a las %I:%M %p") %>.
           </div>
