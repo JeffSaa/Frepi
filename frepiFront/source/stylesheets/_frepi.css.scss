@@ -6,7 +6,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .working-banner h1 {
@@ -611,12 +612,13 @@ header #shopping-cart .icon {
 			position: absolute;
 			text-align: center;
 			top: 50%;
-			transform: translate(-50%, -50%);
+			-webkit-transform: translate(-50%, -50%);
+			        transform: translate(-50%, -50%);
 		}
 	}
 }
 
-.discount.message.item { display: none; flex-direction: column; }
+.discount.message.item { display: none; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; }
 .discount.message.item .strong { font-size: 1rem; }
 .discount.message.item .sub.header { font-size: .714285em; margin-top: .142857em; }
 
@@ -662,7 +664,7 @@ header #shopping-cart .icon {
   padding: 2rem 2rem 0;
 }
 
-// .search section.products { display: none; }
+/* .search section.products { display: none; }*/
 
 section.products { display: none; }
 
@@ -718,7 +720,11 @@ section.products { display: none; }
 
 #shopping-cart .checkout .items+.item {
 	bottom: 0;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 	position: absolute;
 	width: 100%;
 }

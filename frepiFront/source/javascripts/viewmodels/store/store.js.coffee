@@ -25,6 +25,7 @@ class StoreVM extends TransactionalPageVM
 				@session.categories(success)
 				@setDOMElems()
 				@setCartItemsLabels()
+				$('.ui.blank.card').css('height', $('#products-x-categories .column').first().height())
 		)
 
 	profile: ->
@@ -56,6 +57,7 @@ class StoreVM extends TransactionalPageVM
 
 		$(window).resize(=>
 			@showDepartmentButton($(window).width() < 976)
+			$('.ui.blank.card').css('height', $('#products-x-categories .column').first().height())
 			if $(window).width() < 480
 				$('#shopping-cart').removeClass('wide')
 			else
