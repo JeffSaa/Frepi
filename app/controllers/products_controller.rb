@@ -11,11 +11,12 @@ class ProductsController < ActionController::Base
       file = params[:file].read
       File.open(File.join(Rails.root, 'public', 'products.xlsx'), 'wb') { |f| f.write file }
       flash[:notice] = 'File updloaded! wait it is processing'
-      system "RAILS_ENV=production rake products_utilities:upload_file &"
+      system "RAILS_ENV=production rake products_utilities:upload_file &" if Rails.env.production?
+      system "RAILS_ENV=development rake products_utilities:upload_file &"
     else
       flash[:notice] = 'You must select a valid file'
     end
-    
+
     render 'products/new'
   end
 
