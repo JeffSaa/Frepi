@@ -12,7 +12,7 @@ class ProductsController < ActionController::Base
       File.open(File.join(Rails.root, 'public', 'products.xlsx'), 'wb') { |f| f.write file }
       flash[:notice] = 'File updloaded! wait it is processing'
       if Rails.env.production?
-        system "RAILS_ENV=production rake products_utilities:upload_file &" 
+        system "RAILS_ENV=production rake products_utilities:upload_file &"
       else
         system "RAILS_ENV=development rake products_utilities:upload_file &"
       end
