@@ -10,26 +10,28 @@
       StoreVM.__super__.constructor.call(this);
       this.shouldShowError = ko.observable(false);
       this.shouldDisplayLoader = ko.observable(true);
+      this.showDepartmentButton = ko.observable($(window).width() < 991);
       this.setExistingSession();
+      this.session.categories([]);
       this.setUserInfo();
       this.fetchCategories();
       this.setDOMElements();
       this.setSizeSidebar();
-      console.log('Is signed Up? ' + this.session.signedUp());
     }
 
     StoreVM.prototype.fetchCategories = function() {
       return RESTfulService.makeRequest('GET', "/stores/" + (this.session.currentStore.id()) + "/categories", '', (function(_this) {
         return function(error, success, headers) {
           _this.shouldDisplayLoader(false);
+          $('section.products').css('display', 'block');
           if (error) {
-            _this.shouldShowError(true);
+            $('#error-container').css('display', 'block');
             return console.log(error);
           } else {
-            console.log(success);
             _this.session.categories(success);
             _this.setDOMElems();
-            return _this.setCartItemsLabels();
+            _this.setCartItemsLabels();
+            return $('.ui.blank.card').css('height', $('#products-x-categories .column').first().height());
           }
         };
       })(this));
@@ -49,9 +51,10 @@
 
     StoreVM.prototype.setDOMElements = function() {
       $('#departments-menu').sidebar({
-        transition: 'overlay'
+        transition: 'overlay',
+        mobileTransition: 'overlay'
       }).sidebar('attach events', '#store-secondary-navbar button.basic', 'show');
-      $('#mobile-menu').sidebar('setting', 'transition', 'overlay').sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show');
+      $('#mobile-menu').sidebar('setting', 'transition', 'overlay').sidebar('setting', 'mobileTransition', 'overlay').sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show');
       return $('#modal-dropdown').dropdown();
     };
 
@@ -61,13 +64,17 @@
       } else {
         $('#shopping-cart').addClass('wide');
       }
-      return $(window).resize(function() {
-        if ($(window).width() < 480) {
-          return $('#shopping-cart').removeClass('wide');
-        } else {
-          return $('#shopping-cart').addClass('wide');
-        }
-      });
+      return $(window).resize((function(_this) {
+        return function() {
+          _this.showDepartmentButton($(window).width() < 976);
+          $('.ui.blank.card').css('height', $('#products-x-categories .column').first().height());
+          if ($(window).width() < 480) {
+            return $('#shopping-cart').removeClass('wide');
+          } else {
+            return $('#shopping-cart').addClass('wide');
+          }
+        };
+      })(this));
     };
 
     return StoreVM;

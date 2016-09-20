@@ -34,13 +34,13 @@
   };
 
   setMenuVisibility = function() {
-    if ($(window).outerWidth() < 480) {
+    if ($(window).width() < 482) {
       $('nav .right.menu').addClass('hidden');
     } else {
       $('nav .right.menu').removeClass('hidden');
     }
     return $(window).resize(function() {
-      if ($(window).outerWidth() < 480) {
+      if ($(window).width() < 482) {
         return $('nav .right.menu').addClass('hidden');
       } else {
         return $('nav .right.menu').removeClass('hidden');

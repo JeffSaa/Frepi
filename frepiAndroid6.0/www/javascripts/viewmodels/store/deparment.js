@@ -15,7 +15,6 @@
       this.subcategories = ko.observableArray();
       this.products = ko.observableArray();
       this.currentSubcatBtn = null;
-      this.shouldDisplayNoResultAlert = ko.observable(false);
       this.shouldDisplayLoader = ko.observable(true);
       this.selectedProduct = null;
       this.selectedProductCategory = ko.observable();
@@ -36,13 +35,11 @@
           if (error) {
             return console.log(error);
           } else {
-            console.log(success);
             ko.mapping.fromJS(success, _this.deparment);
             return RESTfulService.makeRequest('GET', "/categories/" + _this.session.currentDeparmentID + "/subcategories", '', function(error, success, headers) {
               if (error) {
                 return console.log(error);
               } else {
-                console.log(success);
                 _this.setDOMElems();
                 _this.subcategories(success);
                 if (_this.session.currentSubcategorID) {
@@ -62,12 +59,12 @@
     DeparmentVM.prototype.fetchAllProducts = function() {
       this.products([]);
       this.shouldDisplayLoader(true);
-      this.shouldDisplayNoResultAlert(false);
       $('h1 + .horizontal.list .button').addClass('basic');
       $('.list .item.all .button').removeClass('basic');
       return RESTfulService.makeRequest('GET', "/categories/" + this.session.currentDeparmentID + "/products", '', (function(_this) {
         return function(error, success, headers) {
           _this.shouldDisplayLoader(false);
+          $('section.products').css('display', 'block');
           if (error) {
             return console.log(error);
           } else {
@@ -75,7 +72,7 @@
               _this.products(success);
               return _this.setCartItemsLabels();
             } else {
-              return _this.shouldDisplayNoResultAlert(true);
+              return $('.products .no-results-message').css('display', 'block');
             }
           }
         };
@@ -85,12 +82,12 @@
     DeparmentVM.prototype.fetchProducts = function(subcategory) {
       this.products([]);
       this.shouldDisplayLoader(true);
-      this.shouldDisplayNoResultAlert(false);
       $('h1 + .horizontal.list .button').addClass('basic');
       $("#subcat" + subcategory.id).removeClass('basic');
       return RESTfulService.makeRequest('GET', "/subcategories/" + subcategory.id + "/products", '', (function(_this) {
         return function(error, success, headers) {
           _this.shouldDisplayLoader(false);
+          $('section.products').css('display', 'block');
           if (error) {
             return console.log(error);
           } else {
@@ -98,7 +95,7 @@
               _this.products(success);
               return _this.setCartItemsLabels();
             } else {
-              return _this.shouldDisplayNoResultAlert(true);
+              return $('.products .no-results-message').css('display', 'block');
             }
           }
         };
@@ -119,9 +116,10 @@
 
     DeparmentVM.prototype.setDOMElements = function() {
       $('#departments-menu').sidebar({
-        transition: 'overlay'
+        transition: 'overlay',
+        mobileTransition: 'overlay'
       }).sidebar('attach events', '#store-secondary-navbar button.basic', 'show');
-      $('#mobile-menu').sidebar('setting', 'transition', 'overlay').sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show');
+      $('#mobile-menu').sidebar('setting', 'transition', 'overlay').sidebar('setting', 'mobileTransition', 'overlay').sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show');
       return $('#modal-dropdown').dropdown();
     };
 

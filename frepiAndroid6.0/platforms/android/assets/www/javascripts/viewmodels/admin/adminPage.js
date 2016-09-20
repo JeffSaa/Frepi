@@ -31,35 +31,50 @@
       return console.log(this.user);
     };
 
-    AdminPageVM.prototype.setPaginationItemsToShow = function(objPage, DOMParent) {
-      var activePage, midPoint, module, moduleFive, numShownPages, possibleUpperLimit;
+    AdminPageVM.prototype.setPaginationItemsToShow = function(objPage, DOMParent, itemsPerPage) {
+      var activePage, lessThanLimit, module, numShownPages, possibleUpperLimit, totalPages;
+      if (itemsPerPage == null) {
+        itemsPerPage = 10;
+      }
       numShownPages = objPage.showablePages().length;
       module = objPage.activePage % 10;
-      moduleFive = module % 5;
-      if (module === 0 || moduleFive === 0) {
-        activePage = 5;
-      } else {
-        if (moduleFive === 1 && objPage.activePage !== 1) {
-          activePage = 6;
-        } else {
-          activePage = numShownPages < 10 ? module : moduleFive;
-        }
+      activePage = module;
+      if (activePage === 0) {
+        activePage = objPage.showablePages().length;
       }
-      midPoint = parseInt((objPage.lowerLimit + objPage.upperLimit) / 2);
-      if (!(numShownPages < 10)) {
-        if (objPage.activePage > midPoint) {
-          objPage.lowerLimit = midPoint;
-          possibleUpperLimit = objPage.lowerLimit + 10;
-          if (possibleUpperLimit < objPage.allPages.length) {
-            objPage.upperLimit = possibleUpperLimit;
+      lessThanLimit = false;
+      if ((objPage.activePage <= objPage.lowerLimit && objPage.activePage !== 1) || objPage.activePage === (objPage.allPages.length - 1)) {
+        lessThanLimit = true;
+      }
+      if (objPage.activePage === objPage.lowerLimit + 1) {
+        $(DOMParent + " .pagination .pages .item").removeClass('active');
+        $(DOMParent + " .pagination .pages .item:nth-of-type(" + 1. + ")").addClass('active');
+        return;
+      }
+      if (lessThanLimit) {
+        if (objPage.activePage === (objPage.allPages.length - 1)) {
+          objPage.lowerLimit = (objPage.allPages.length - 1) - activePage;
+          objPage.upperLimit = objPage.activePage;
+        } else {
+          objPage.lowerLimit -= 10;
+          objPage.upperLimit = objPage.lowerLimit + 10;
+          activePage = 10;
+        }
+      } else {
+        if (module === 1) {
+          possibleUpperLimit = objPage.upperLimit + 10;
+          objPage.lowerLimit = objPage.activePage === 1 ? 0 : objPage.lowerLimit += 10;
+          if (possibleUpperLimit >= objPage.allPages.length) {
+            totalPages = objPage.allPages.length - 1;
+            if (objPage.activePage === 1) {
+              objPage.upperLimit = totalPages < 10 ? totalPages : 10;
+            } else {
+              objPage.upperLimit = totalPages;
+            }
           } else {
-            objPage.upperLimit = objPage.allPages.length - 1;
+            objPage.upperLimit = possibleUpperLimit;
           }
         }
-      }
-      if ((objPage.activePage - 1) === objPage.lowerLimit && (objPage.activePage - 1) !== 0) {
-        objPage.upperLimit = numShownPages < 10 ? objPage.showablePages()[4].num : midPoint;
-        objPage.lowerLimit = objPage.upperLimit - 10;
       }
       objPage.showablePages(objPage.allPages.slice(objPage.lowerLimit, objPage.upperLimit));
       $(DOMParent + " .pagination .pages .item").removeClass('active');

@@ -77,7 +77,8 @@
       data = {
         start_date: startDate,
         end_date: endDate,
-        page: numPage
+        page: numPage,
+        per_page: 30
       };
       return RESTfulService.makeRequest('GET', '/administrator/statistics/earnings', data, (function(_this) {
         return function(error, success, headers) {
@@ -93,7 +94,7 @@
               _this.shouldShowSucursalsAlert(false);
               _this.currentSucursals(success);
               if (_this.sucursalsPages.allPages.length === 0) {
-                totalPages = Math.ceil(headers.totalItems / 10);
+                totalPages = Math.ceil(headers.totalItems / 30);
                 for (i = j = 0, ref = totalPages; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
                   obj = {
                     num: i + 1,
@@ -152,7 +153,8 @@
       data = {
         start_date: startDate,
         end_date: endDate,
-        page: numPage
+        page: numPage,
+        per_page: 30
       };
       return RESTfulService.makeRequest('GET', '/administrator/statistics/products', data, (function(_this) {
         return function(error, success, headers) {
@@ -168,7 +170,7 @@
               _this.currentProducts(success);
               _this.shouldShowProductsAlert(false);
               if (_this.productsPages.allPages.length === 0) {
-                totalPages = Math.ceil(headers.totalItems / 10);
+                totalPages = Math.ceil(headers.totalItems / 30);
                 for (i = j = 0, ref = totalPages; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
                   obj = {
                     num: i + 1,
@@ -227,7 +229,8 @@
       data = {
         start_date: startDate,
         end_date: endDate,
-        page: numPage
+        page: numPage,
+        per_page: 30
       };
       return RESTfulService.makeRequest('GET', '/administrator/statistics/shoppers', data, (function(_this) {
         return function(error, success, headers) {
@@ -243,7 +246,7 @@
               _this.currentShoppers(success);
               _this.shouldShowShoppersAlert(false);
               if (_this.shoppersPages.allPages.length === 0) {
-                totalPages = Math.ceil(headers.totalItems / 10);
+                totalPages = Math.ceil(headers.totalItems / 30);
                 for (i = j = 0, ref = totalPages; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
                   obj = {
                     num: i + 1,

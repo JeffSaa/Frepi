@@ -98,7 +98,6 @@
     };
 
     TransactionalPageVM.prototype.chooseDeparment = function(subdeparment) {
-      console.log(subdeparment);
       if (subdeparment.categoryId) {
         this.session.currentDeparmentID = subdeparment.categoryId;
         this.session.currentSubcategorID = subdeparment.id;
@@ -275,7 +274,6 @@
     };
 
     TransactionalPageVM.prototype.removeItem = function(item) {
-      console.log(item);
       this.session.currentOrder.price(parseInt(this.session.currentOrder.price() - item.totalPrice));
       this.session.currentOrder.products.remove(item);
       $("#" + item.id + " .image .label").removeClass('show');
@@ -401,13 +399,53 @@
       }
     };
 
+    TransactionalPageVM.prototype.resetPassword = function() {
+      var $form, data;
+      $form = $('.reset-password .form');
+      $form.removeClass('error');
+      if ($form.form('is valid')) {
+        data = {
+          email: $form.form('get value', 'email'),
+          redirect_url: '/'
+        };
+        $('.reset-password .green.button').addClass('loading');
+        return RESTfulService.makeRequest('POST', "/auth/password", data, (function(_this) {
+          return function(error, success, headers) {
+            $('.reset-password .green.button').removeClass('loading');
+            if (error) {
+              $form.addClass('error');
+              console.log('An error has ocurred while reseting the password!');
+              console.log(error);
+              if (error.responseJSON) {
+                return $form.form('add errors', error.responseJSON.errors);
+              } else {
+                return $form.form('add errors', ['No se pudo establecer conexión']);
+              }
+            } else {
+              console.log(success);
+              $('.reset-password .green.button').addClass('disabled');
+              $('.reset-password .success.segment').transition('fade down');
+              return setTimeout((function() {
+                return $('.reset-password.modal').modal('hide');
+              }), 5000);
+            }
+          };
+        })(this));
+      }
+    };
+
+    TransactionalPageVM.prototype.hideLoader = function(product) {
+      $("#" + product.id + " .image img.loading").hide();
+      $("#" + product.id + " .image .loader").hide();
+      return $("#" + product.id + " .image img.product").show();
+    };
+
     TransactionalPageVM.prototype.login = function() {
       return LoginService.regularLogin((function(_this) {
         return function(error, success) {
           if (error) {
             return console.log('An error ocurred while trying to login');
           } else {
-            console.log(success);
             _this.setUserInfo();
             $('.login.modal').modal('hide');
             return $('#shopping-cart').sidebar('hide');
@@ -508,11 +546,14 @@
         })(this)
       });
       $('.ui.dropdown:not(#user-account)').dropdown();
-      $('#departments-menu .ui.dropdown').dropdown();
+      $('#departments-menu .ui.dropdown').dropdown({
+        on: 'hover'
+      });
       $('.ui.accordion').accordion();
       $('#shopping-cart').sidebar({
         dimPage: false,
         transition: 'overlay',
+        mobileTransition: 'overlay',
         onHide: function() {
           $('#shopping-cart .checkout').removeClass('hide');
           return $('#shopping-cart .sign-up-banner').removeClass('show');
@@ -526,6 +567,13 @@
           return $("#product-desc .ribbon.label").removeClass('show');
         }
       });
+      $('.reset-password.modal').modal({
+        onHidden: function() {
+          $('.reset-password .success.segment').attr('style', 'display: none !important');
+          $('.reset-password .green.button').removeClass('disabled');
+          return $('.reset-password form').form('clear');
+        }
+      }).modal('attach events', '.reset.trigger', 'show').modal('attach events', '.reset-password .cancel.button', 'hide');
       $('.login.modal').modal({
         onShow: function() {
           return $('#mobile-menu').sidebar('hide');
@@ -543,6 +591,24 @@
           return $('#sign-up.modal form').form('clear');
         }
       }).modal('attach events', '.sign-up.trigger', 'show').modal('attach events', '#sign-up.modal .cancel.button', 'hide');
+      $('.reset-password .form').form({
+        fields: {
+          email: {
+            identifier: 'email',
+            rules: [
+              {
+                type: 'empty',
+                prompt: 'Olvidaste poner el correo'
+              }, {
+                type: 'email',
+                prompt: 'La dirección de correo no es válida'
+              }
+            ]
+          }
+        },
+        inline: true,
+        keyboardShortcuts: false
+      });
       $('#product-desc form').form({
         fields: {
           quantity: {

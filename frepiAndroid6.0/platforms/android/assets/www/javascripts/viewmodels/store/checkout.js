@@ -3,10 +3,9 @@
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   CheckoutVM = (function() {
-    RouteValidator.checkCart();
-
     function CheckoutVM() {
       this.setAvailableDeliveryDateTime = bind(this.setAvailableDeliveryDateTime, this);
+      this.setPaymentMethod = bind(this.setPaymentMethod, this);
       this.setExpireHour = bind(this.setExpireHour, this);
       this.setHours = bind(this.setHours, this);
       this.session = {
@@ -32,8 +31,18 @@
       this.selectedExpiredHour = ko.observable();
       this.availableDays = ko.observableArray();
       this.availableHours = ko.observableArray();
+      this.paymentTypes = ko.observableArray([
+        {
+          text: 'Efectivo',
+          value: 'CASH'
+        }, {
+          text: 'Datáfono',
+          value: 'PAYMENT_TERMINAL'
+        }
+      ]);
       this.userName = ko.observable();
       this.comment = ko.observable();
+      this.selectedPaymentMethod = ko.observable();
       this.address = ko.observable(this.user.address);
       this.phoneNumber = ko.observable(this.user.phoneNumber || this.user.phone_number);
       this.setDOMElements();
@@ -79,7 +88,7 @@
     CheckoutVM.prototype.seeConfirm = function() {
       var isInvalidPhone;
       isInvalidPhone = !this.phoneNumber() || !this.isValidPhoneNumber(this.phoneNumber());
-      if (!!this.selectedDay() && !!this.selectedHour() && !!this.address() && !isInvalidPhone) {
+      if (!!this.selectedDay() && !!this.selectedHour() && !!this.address() && !!this.selectedPaymentMethod() && !isInvalidPhone) {
         $('#delivery-icon').removeClass('active');
         $('#confirm-icon').addClass('active');
         $('#delivery').transition('fade right');
@@ -94,6 +103,9 @@
         if (!this.selectedHour()) {
           $('.time.field').addClass('error');
         }
+        if (!this.selectedPaymentMethod()) {
+          $('.payment.field').addClass('error');
+        }
         if (isInvalidPhone) {
           return $('.phone.field').addClass('error');
         }
@@ -104,7 +116,7 @@
       return RESTfulService.makeRequest('DELETE', "/auth/sign_out", '', (function(_this) {
         return function(error, success, headers) {
           if (error) {
-            return console.log('An error has ocurred');
+
           } else {
             Config.destroyLocalStorage();
             return window.location.href = 'store/index.html';
@@ -119,7 +131,6 @@
 
     CheckoutVM.prototype.generate = function() {
       var data, j, len, product, productsToSend, ref;
-      console.log('Its here, generating order');
       productsToSend = [];
       ref = this.session.currentOrder.products();
       for (j = 0, len = ref.length; j < len; j++) {
@@ -134,19 +145,17 @@
         address: this.address(),
         comment: this.comment(),
         telephone: this.phoneNumber(),
+        payment: this.selectedPaymentMethod().value,
         products: productsToSend,
         arrivalTime: this.selectedHour(),
         scheduledDate: this.selectedDate(),
         expiryTime: this.selectedExpiredHour()
       };
-      console.log('DATA TO SEND');
-      console.log(data);
       $('.generate.button').addClass('loading');
       return RESTfulService.makeRequest('POST', "/users/" + this.user.id + "/orders", data, (function(_this) {
         return function(error, success, headers) {
           $('.generate.button').removeClass('loading');
           if (error) {
-            console.log('An error has ocurred while updating the user!');
             return _this.headerMessage('Ha ocurrido un error generando la orden. Intenta más tarde.');
           } else {
             _this.session.currentOrder.numberProducts('0 items');
@@ -171,9 +180,10 @@
 
     CheckoutVM.prototype.setDOMElements = function() {
       $('#departments-menu').sidebar({
-        transition: 'overlay'
+        transition: 'overlay',
+        mobileTransition: 'overlay'
       }).sidebar('attach events', '#store-secondary-navbar .basic.button', 'show');
-      $('#mobile-menu').sidebar('setting', 'transition', 'overlay').sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show');
+      $('#mobile-menu').sidebar('setting', 'transition', 'overlay').sidebar('setting', 'mobileTransition', 'overlay').sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show');
       $('.time.field').popup({
         inline: true
       });
@@ -193,12 +203,10 @@
     };
 
     CheckoutVM.prototype.setHours = function() {
-      console.log('It should set the new hours');
       $('.date.field').removeClass('error');
       if (!!this.selectedDay()) {
         this.availableHours(this.selectedDay().availableHours);
         this.selectedDate(this.selectedDay().date);
-        console.log("availableHours " + (this.selectedDay().availableHours) + ", length " + (this.selectedDay().availableHours.length));
         if (this.selectedDay().availableHours.length === 0) {
           return $('.hours.dropdown').addClass('disabled');
         } else {
@@ -219,6 +227,10 @@
       }
     };
 
+    CheckoutVM.prototype.setPaymentMethod = function() {
+      return $('.payment.field').removeClass('error');
+    };
+
     CheckoutVM.prototype.setAvailableDeliveryDateTime = function() {
       var aftertomorrow, today, tomorrow;
       if (moment().hours() < 17) {
@@ -232,8 +244,6 @@
       }
       tomorrow = moment().add(1, 'days').hours(7).minutes(0);
       aftertomorrow = moment().add(2, 'days').hours(7).minutes(0);
-      console.log('today moment');
-      console.log(today);
       this.availableDateTime = {
         today: {
           date: today.format('YYYY-MM-DD'),
@@ -248,8 +258,7 @@
           availableHours: this.generateAvailableHours(aftertomorrow)
         }
       };
-      this.availableDays([this.availableDateTime.today, this.availableDateTime.tomorrow, this.availableDateTime.aftertomorrow]);
-      return console.log(this.availableDays());
+      return this.availableDays([this.availableDateTime.today, this.availableDateTime.tomorrow, this.availableDateTime.aftertomorrow]);
     };
 
     CheckoutVM.prototype.generateAvailableHours = function(startHour) {
@@ -326,6 +335,10 @@
     return CheckoutVM;
 
   })();
+
+  RouteValidator.checkUser();
+
+  RouteValidator.checkCart();
 
   checkout = new CheckoutVM;
 

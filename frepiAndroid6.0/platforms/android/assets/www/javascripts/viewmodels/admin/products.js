@@ -80,7 +80,6 @@
               console.log('An error has ocurred in the authentication.');
               return console.log(error);
             } else {
-              console.log(success);
               if (headers.accessToken) {
                 Config.setItem('headers', JSON.stringify(headers));
               }
@@ -117,9 +116,8 @@
               console.log('An error has ocurred in the product update.');
               return console.log(error);
             } else {
-              console.log(success);
               _this.shouldSetProductInfo = true;
-              _this.fetchProducts();
+              _this.fetchProducts(_this.productsPages.activePage);
               return $('.update.modal').modal('hide');
             }
           };
@@ -135,7 +133,6 @@
           if (error) {
             return console.log('An error has ocurred while fetching the subcategories!');
           } else {
-            console.log(success);
             _this.currentProducts.remove(function(product) {
               return product.id === _this.chosenProduct.id();
             });
@@ -192,7 +189,6 @@
     };
 
     ProductsVM.prototype.showDelete = function(product) {
-      console.log(product);
       this.chosenProduct.id(product.id);
       this.chosenProduct.name(product.name);
       this.chosenProduct.sucursalID(product.sucursal.id);
@@ -236,7 +232,8 @@
       }
       this.isLoading(true);
       data = {
-        page: numPage
+        page: numPage,
+        per_page: 30
       };
       return RESTfulService.makeRequest('GET', "/administrator/products", data, (function(_this) {
         return function(error, success, headers) {
@@ -249,11 +246,10 @@
           } else {
             _this.shouldShowProductsAlert(false);
             console.log('After fetching products');
-            console.log(success);
             if (success.length > 0) {
               _this.shouldShowProductsAlert(false);
               if (_this.productsPages.allPages.length === 0) {
-                totalPages = Math.ceil(headers.totalItems / 10);
+                totalPages = Math.ceil(headers.totalItems / 30);
                 for (i = j = 0, ref = totalPages; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
                   _this.productsPages.allPages.push({
                     num: i + 1
@@ -284,7 +280,6 @@
           if (error) {
             return console.log('An error has ocurred while fetching the categories!');
           } else {
-            console.log(success);
             _this.availableCategories(success);
             if (headers.accessToken) {
               Config.setItem('headers', JSON.stringify(headers));
@@ -306,7 +301,6 @@
           if (error) {
             return console.log('An error has ocurred while fetching the subcategories!');
           } else {
-            console.log(success);
             _this.availableSubcategories(success);
             if (_this.shouldSetProductInfo && $('.update.modal').modal('is active')) {
               console.log("It's here setting the info");
@@ -329,7 +323,6 @@
           if (error) {
             return console.log('An error has ocurred while updating the user!');
           } else {
-            console.log(success);
             _this.availableSucursals(success);
             if (headers.accessToken) {
               Config.setItem('headers', JSON.stringify(headers));
@@ -403,7 +396,6 @@
           } else {
             _this.shouldShowProductsAlert(false);
             console.log('After searching products with ' + valueInput);
-            console.log(success);
             _this.currentProducts.removeAll();
             _this.productsPages.allPages = [];
             if (success.length > 0) {

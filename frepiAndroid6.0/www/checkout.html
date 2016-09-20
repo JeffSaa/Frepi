@@ -24,8 +24,7 @@
     <meta content="#22B676" name="theme-color" />
     <!--Add semantic's CSS-->
     <link href="semantic/out/semantic.min.css" rel="stylesheet" type="text/css" />
-    <link href="stylesheets/frepi.css" rel="stylesheet" type="text/css" />
-    <link href="stylesheets/responsive-frepi.css" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/global.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <nav class="ui vertical left sidebar borderless menu" id="mobile-menu">
@@ -226,10 +225,22 @@
                           Información incorrecta
                         </div>
                       </div>
-                      <div class="phone field">
-                        <label>Teléfono</label><input data-bind="textInput: phoneNumber, event: {focus: inputGotFocus}" name="phoneNumber" placeholder="Ej: 310 645 8888" type="text" />
-                        <div class="ui pointing red prompt label">
-                          Información incorrecta
+                      <div class="two fields">
+                        <div class="phone field">
+                          <label>Teléfono</label><input data-bind="textInput: phoneNumber, event: {focus: inputGotFocus}" name="phoneNumber" placeholder="Ej: 310 645 8888" type="text" />
+                          <div class="ui pointing red prompt label">
+                            Información incorrecta
+                          </div>
+                        </div>
+                        <div class="payment field">
+                          <label>Método de pago</label><select class="ui dropdown" data-bind="options: paymentTypes,
+optionsText: 'text',
+value: selectedPaymentMethod,
+event: {change: setPaymentMethod},
+optionsCaption: 'Seleccione...'"></select>
+                          <div class="ui pointing red prompt label">
+                            Selecciona el método de pago
+                          </div>
                         </div>
                       </div>
                       <div class="instructions field">
@@ -285,6 +296,9 @@ optionsCaption: 'Hora'"></select>
                     </div>
                     <div class="clearfix line">
                       <span class="title">Dirección</span><span class="value" data-bind="text: address"></span>
+                    </div>
+                    <div class="clearfix line">
+                      <span class="title">Método de pago</span><span class="value" data-bind="text: selectedPaymentMethod() ? selectedPaymentMethod().text : ''"></span>
                     </div>
                     <div class="clearfix line">
                       <span class="title">Fecha llegada</span><span class="value" data-bind="text: selectedDate()+' / '+selectedHour()"></span>

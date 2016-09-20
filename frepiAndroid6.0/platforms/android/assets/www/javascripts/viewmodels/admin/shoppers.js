@@ -173,7 +173,8 @@
       }
       this.isLoading(true);
       data = {
-        page: numPage
+        page: numPage,
+        per_page: 30
       };
       return RESTfulService.makeRequest('GET', "/shoppers", data, (function(_this) {
         return function(error, success, headers) {
@@ -187,7 +188,7 @@
             console.log(success);
             if (success.length > 0) {
               if (_this.shoppersPages.allPages.length === 0) {
-                totalPages = Math.ceil(headers.totalItems / 10);
+                totalPages = Math.ceil(headers.totalItems / 30);
                 for (i = j = 0, ref = totalPages; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
                   _this.shoppersPages.allPages.push({
                     num: i + 1

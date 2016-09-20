@@ -60,7 +60,6 @@
           if (error) {
             return console.log('An error has ocurred while fetching the orders!');
           } else {
-            console.log(success);
             _this.setDOMElems();
             return _this.currentOrders(success);
           }
@@ -91,11 +90,9 @@
     };
 
     ProfileVM.prototype.shouldShowOrders = function() {
-      console.log('Showing orders');
       if (Config.getItem('showOrders') === 'true') {
-        $('.secondary.menu .item').tab('change tab', 'history');
+        return $('.secondary.menu .item').tab('change tab', 'history');
       }
-      return console.log('Orders shown');
     };
 
     ProfileVM.prototype.setDOMElements = function() {
@@ -223,9 +220,10 @@
         cache: false
       });
       $('#departments-menu').sidebar({
-        transition: 'overlay'
+        transition: 'overlay',
+        mobileTransition: 'overlay'
       }).sidebar('attach events', '#store-secondary-navbar button.basic', 'show');
-      $('#mobile-menu').sidebar('setting', 'transition', 'overlay').sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show');
+      $('#mobile-menu').sidebar('setting', 'transition', 'overlay').sidebar('setting', 'mobileTransition', 'overlay').sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show');
       return $('.circular.image .ui.dimmer').dimmer({
         on: 'hover'
       });
@@ -252,6 +250,53 @@
       });
     };
 
+    ProfileVM.prototype.rebuyOrder = function() {
+      var i, len, newProduct, oldProduct, product, productOrder, ref;
+      ref = this.chosenOrder.products();
+      for (i = 0, len = ref.length; i < len; i++) {
+        productOrder = ref[i];
+        product = this.getProductByID(productOrder.product.id);
+        if (!product) {
+          this.session.currentOrder.products.push({
+            comment: productOrder.comment,
+            frepiPrice: productOrder.product.frepiPrice,
+            id: productOrder.product.id,
+            image: productOrder.product.image,
+            name: productOrder.product.name,
+            size: productOrder.product.size,
+            quantity: productOrder.quantity,
+            subcategoryId: productOrder.product.subcategory.id,
+            totalPrice: parseInt(productOrder.product.frepiPrice) * productOrder.quantity
+          });
+          $("#" + productOrder.product.id + " .image .label .quantity").text(productOrder.quantity);
+          $("#" + productOrder.product.id + " .image .label").addClass('show');
+        } else {
+          oldProduct = product;
+          newProduct = {
+            comment: oldProduct.comment,
+            frepiPrice: oldProduct.frepiPrice || oldProduct.frepi_price,
+            id: oldProduct.id,
+            image: oldProduct.image,
+            name: oldProduct.name,
+            size: oldProduct.size,
+            quantity: oldProduct.quantity + productOrder.quantity,
+            subcategoryId: oldProduct.subcategoryId,
+            totalPrice: parseInt((oldProduct.frepiPrice || oldProduct.frepi_price) * (oldProduct.quantity + productOrder.quantity))
+          };
+          this.session.currentOrder.products.replace(oldProduct, newProduct);
+          $("#" + productOrder.product.id + " .image .label .quantity").text(oldProduct.quantity + productOrder.quantity);
+        }
+      }
+      this.session.currentOrder.price(parseInt(this.session.currentOrder.price() + this.chosenOrder.totalPrice()));
+      if (this.session.currentOrder.products().length !== 1) {
+        this.session.currentOrder.numberProducts((this.session.currentOrder.products().length) + " items");
+      } else {
+        this.session.currentOrder.numberProducts("1 item");
+      }
+      this.saveOrder();
+      return $('#order-details').modal('hide');
+    };
+
     ProfileVM.prototype.cancelOrder = function() {
       $('#order-details .red.button').addClass('loading');
       return RESTfulService.makeRequest('DELETE', "/users/" + this.user.id + "/orders/" + (this.chosenOrder.id()), '', (function(_this) {
@@ -260,7 +305,6 @@
           if (error) {
             return console.log('An error has ocurred while cancelling the orders!');
           } else {
-            console.log(success);
             _this.currentOrders.remove(function(order) {
               return order.id === _this.chosenOrder.id();
             });
@@ -320,7 +364,6 @@
                   return console.log('An error has ocurred while updating the user!');
                 } else {
                   console.log('User has been updated');
-                  console.log(success);
                   if (headers.accessToken) {
                     Config.setItem('headers', JSON.stringify(headers));
                   }
@@ -346,7 +389,6 @@
                   return console.log('An error has ocurred while updating the user!');
                 } else {
                   console.log('User has been updated');
-                  console.log(success);
                   if (headers.accessToken) {
                     Config.setItem('headers', JSON.stringify(headers));
                   }
@@ -377,7 +419,6 @@
                   return console.log('An error has ocurred while updating the user!');
                 } else {
                   console.log('User has been updated');
-                  console.log(success);
                   Config.setItem('userObject', JSON.stringify(success));
                   if (headers.accessToken) {
                     Config.setItem('headers', JSON.stringify(headers));
@@ -521,7 +562,7 @@
       this.chosenOrder.arrivalDate((this.parseDate(order.scheduledDate)) + ", " + (this.parseTime(order.arrivalTime)));
       this.chosenOrder.address(order.address);
       this.chosenOrder.products(order.products);
-      this.chosenOrder.totalPrice(order.totalPrice.toLocaleString());
+      this.chosenOrder.totalPrice(order.totalPrice);
       return $('#order-details').modal('show');
     };
 

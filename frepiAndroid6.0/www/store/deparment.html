@@ -25,8 +25,7 @@
     <!--Add semantic's CSS-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700" rel="stylesheet" type="text/css" />
     <link href="../semantic/out/semantic.min.css" rel="stylesheet" type="text/css" />
-    <link href="../stylesheets/frepi.css" rel="stylesheet" type="text/css" />
-    <link href="../stylesheets/responsive-frepi.css" rel="stylesheet" type="text/css" />
+    <link href="../stylesheets/global.css" rel="stylesheet" type="text/css" />
     <script src="../cordova.js"></script>
     <script src="../../javascripts/plugins/openFB.js" type="text/javascript"></script>
     <script src="../javascripts/plugins/crypto-js.min.js" type="text/javascript"></script>
@@ -108,6 +107,39 @@
         </div>
       </div>
     </div>
+    <div class="reset-password ui small modal">
+      <div class="header">
+        Restaurar contraseña
+      </div>
+      <div class="content">
+        <p>
+          Te enviaremos un correo para que restaures tu contraseña
+        </p>
+        <div class="ui success hidden segment">
+          <h3 class="ui header">
+            <i class="checkmark icon"></i>
+            <div class="content">
+              Listo!
+              <div class="sub header">
+                Hemos envíado un correo con instrucciones para restaurar tu contraseña
+              </div>
+            </div>
+          </h3>
+        </div>
+        <form class="ui form" data-bind="submit: resetPassword">
+          <div class="field">
+            <label>Correo</label><input name="email" type="email" />
+          </div>
+          <div class="ui error message"></div>
+          <div class="buttons-to-right">
+            <div class="ui cancel button">
+              Cancelar
+            </div>
+            <button class="ui green right labeled icon button" type="submit">Restaurar<i class="checkmark icon"></i></button>
+          </div>
+        </form>
+      </div>
+    </div>
     <div class="ui small login modal">
       <i class="close icon"></i>
       <div class="header">
@@ -122,6 +154,7 @@
             <label>Contraseña</label><input name="password" placeholder="Contraseña" type="password" />
           </div>
           <div class="ui error message"></div>
+          <strong>¿Olvidaste tu contraseña?&nbsp;</strong><a class="reset trigger">Recuperala</a>
           <div class="buttons-to-right">
             <div class="ui cancel button">
               Cancelar
@@ -232,7 +265,7 @@
         <div class="ui dropdown item">
           <i class="chevron right icon"></i><!--ko text: $data.name--><!--/ko-->
           <div class="menu" data-bind="foreach: $data.subcategories">
-            <a class="item" data-bind="text: $data.name, click: $root.chooseDeparment"></a>
+            <!-- ko if: ($index() === 0) --><a class="item" data-bind="click: function() {$root.chooseDeparment({id: $parent.id})}"><strong>Todo</strong></a><!-- /ko --><a class="item" data-bind="text: $data.name, click: $root.chooseDeparment"></a>
           </div>
         </div>
       </div>
@@ -289,7 +322,10 @@
           </div>
         </div>
         <div class="item">
-          <button class="ui fluid large green button" data-bind="click: checkout, css: {disabled: session.currentOrder.price() < 34000}">Pagar</button>
+          <p>
+            <i class="info circle icon"></i><strong>Pedido mínimo de $34,000</strong>
+          </p>
+          <button class="ui fluid large dark-green button" data-bind="click: checkout, css: {disabled: session.currentOrder.price() < 34000}">Pagar</button>
         </div>
       </div>
       <div class="sign-up-banner">
@@ -335,10 +371,13 @@
               <div class="item login trigger">
                 <i class="sign in icon"></i>Entrar
               </div>
+              <div class="item sign-up trigger">
+                <i class="add user icon"></i>Crear cuenta
+              </div>
             </div>
           </div>
           <div id="shopping-cart">
-            <i class="circular inverted orange shop icon"></i>
+            <i class="circular dark-red inverted shop icon"></i>
           </div>
         </div>
         <div class="ui fixed borderless menu" id="store-secondary-navbar">
@@ -366,28 +405,30 @@
             <div class="ui horizontal list" data-bind="foreach: subcategories">
               <!-- ko if: $index() === 0 -->
               <div class="item all">
-                <div class="ui basic teal button" data-bind="click: $root.fetchAllProducts">
+                <div class="ui basic dark-green button" data-bind="click: $root.fetchAllProducts">
                   Todo
                 </div>
               </div>
               <!-- /ko -->
               <div class="item">
-                <div class="ui basic teal button" data-bind="text: $data.name, attr: {id: 'subcat'+$data.id}, click: $root.fetchProducts"></div>
+                <div class="ui basic dark-green button" data-bind="text: $data.name, attr: {id: 'subcat'+$data.id}, click: $root.fetchProducts"></div>
               </div>
             </div>
           </section>
+          <div class="ui active fetching large text loader" data-bind="visible: shouldDisplayLoader">
+            Buscando los productos
+          </div>
           <section class="products">
-            <h2 class="ui centered header no-results-message" data-bind="visible: shouldDisplayNoResultAlert">
-              Estamos trabajando duro para agregar nuevos productos todos los días
+            <h2 class="ui centered header no-results-message">
+              Estamos trabajando duro para agregar nuevos productos todos los días		
             </h2>
-            <div class="ui active fetching large text loader" data-bind="visible: shouldDisplayLoader">
-              Buscando los productos
-            </div>
             <div class="ui five column doubling grid" data-bind="foreach: products">
               <div class="column">
                 <div class="ui fluid link card" data-bind="click: function(data){$root.showProduct(data)}, attr: {id: $data.id}">
                   <div class="image">
-                    <img alt="Product's image" data-bind="attr: {src: $data.image}" />
+                    <img class="loading" src="../images/blank_loader.png" />
+                    <div class="ui active small loader"></div>
+                    <img class="product" data-bind="attr: {src: $data.image, alt: $data.name}, event: { load: $root.hideLoader }" />
                     <div class="ui blue left corner label">
                       <span class="quantity">1</span>
                     </div>
@@ -398,7 +439,7 @@
                   </div>
                   <div class="extra content">
                     <span class="centering"><i class="dollar icon"></i></span><span class="centering" data-bind="text: ($data.frepiPrice).toLocaleString()"></span><br />
-                    <div class="ui right floated green button" data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false">
+                    <div class="ui right floated dark-green button" data-bind="click: function(data){$root.addToCart(data, 1)}, clickBubble: false">
                       <i class="shopping add to cart icon"></i>
                     </div>
                   </div>

@@ -13,7 +13,7 @@
       session = Config.getItem('currentSession');
       if (session) {
         parsedSession = JSON.parse(session);
-        if (!(parsedSession.currentOrder.products.length > 0)) {
+        if (!parsedSession.currentOrder.products.length > 0 || parsedSession.currentOrder.price < 34000) {
           return window.location.href = "store/index.html";
         }
       } else {
