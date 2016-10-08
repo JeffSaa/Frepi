@@ -11,17 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161008173120) do
+ActiveRecord::Schema.define(version: 20161008192436) do
 
   create_table "bills", force: :cascade do |t|
     t.string   "overwierw"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.integer  "business_id"
     t.integer  "user_id"
+    t.integer  "order_id",    default: 0
   end
 
   add_index "bills", ["business_id"], name: "index_bills_on_business_id"
+  add_index "bills", ["order_id"], name: "index_bills_on_order_id"
   add_index "bills", ["user_id"], name: "index_bills_on_user_id"
 
   create_table "businesses", force: :cascade do |t|
