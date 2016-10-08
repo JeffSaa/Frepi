@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722223810) do
+ActiveRecord::Schema.define(version: 20161008173120) do
+
+  create_table "bills", force: :cascade do |t|
+    t.string   "overwierw"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "business_id"
+    t.integer  "user_id"
+  end
+
+  add_index "bills", ["business_id"], name: "index_bills_on_business_id"
+  add_index "bills", ["user_id"], name: "index_bills_on_user_id"
+
+  create_table "businesses", force: :cascade do |t|
+    t.string   "nit"
+    t.string   "name"
+    t.string   "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",             null: false
@@ -46,27 +65,8 @@ ActiveRecord::Schema.define(version: 20160722223810) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "orders", force: :cascade do |t|
-    t.boolean  "active",                       default: true,  null: false
-    t.integer  "status",                       default: 0,     null: false
-    t.integer  "total_price",        limit: 8,                 null: false
-    t.datetime "date",                                         null: false
-    t.datetime "scheduled_date",                               null: false
-    t.time     "arrival_time",                                 null: false
-    t.time     "expiry_time",                                  null: false
-    t.boolean  "notification_email",           default: false, null: false
-    t.string   "comment"
-    t.string   "address"
-    t.date     "shopping_at"
-    t.integer  "user_id",                                      null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "telephone"
-    t.integer  "discount",                     default: 0
-    t.integer  "payment",                      default: 0
-  end
-
-  add_index "orders", ["user_id"], name: "index_orders_on_user_id"
+# Could not dump table "orders" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "orders_products", force: :cascade do |t|
     t.integer  "order_id"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20160722223810) do
     t.decimal  "iva",                      precision: 5, scale: 2, default: 0.0
     t.boolean  "active",                                           default: true
     t.decimal  "percentage",               precision: 5, scale: 2, default: 0.0
+    t.integer  "business_price",                                   default: 0
   end
 
   add_index "products", ["subcategory_id"], name: "index_products_on_subcategory_id"

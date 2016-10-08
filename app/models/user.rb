@@ -13,9 +13,9 @@ class User < ActiveRecord::Base
   # Associations
   has_many   :complaints
   has_many   :orders
+  has_many   :bills
   belongs_to :city
-  has_many    :bills
-  
+
   # Validations
   validates :latitude, :longitude, numericality: true, allow_nil: true
   validates :administrator, :active,  inclusion: { in: [true, false] }

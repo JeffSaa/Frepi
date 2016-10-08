@@ -15,6 +15,7 @@ class Order < ActiveRecord::Base
   scope :created_between, lambda { |start_date, end_date| where("created_at >= ? AND created_at <= ?", start_date, end_date ) }
 
   # Associations
+  belongs_to  :business
   belongs_to  :user, counter_cache: :counter_orders
   has_many    :shopper, through: :shoppers_order
   has_many    :sucursals, through: :products
@@ -23,7 +24,8 @@ class Order < ActiveRecord::Base
   has_many    :shoppers_order,  dependent: :destroy
   has_many    :orders_products, dependent: :destroy
   has_many    :orders_schedules, dependent: :destroy
-
+  has_one     :bill
+  
   # Validations
   validates :user, :total_price, :scheduled_date, :expiry_time, :arrival_time, presence: true
   validates :status, inclusion: { in: STATUS }
@@ -31,7 +33,7 @@ class Order < ActiveRecord::Base
   validates :total_price, numericality: true
   validates :payment, inclusion: { in:  PAYMENT_TYPE }
   validates_time :expiry_time, on_or_after: :arrival_time
-  
+
   validates_datetime :scheduled_date
 
   # Callbacks
