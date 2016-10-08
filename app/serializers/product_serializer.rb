@@ -1,10 +1,10 @@
 class ProductSerializer < ActiveModel::Serializer
   attributes :id, :reference_code, :name, :store_price, :frepi_price, :image,
              :available, :sales_count, :description, :size, :iva, :percentage,
-             :active
+             :active, :business_price
 
   has_one    :sucursal, :subcategory, :category
-  
+
   def sucursal
     object.sucursals.first
   end
