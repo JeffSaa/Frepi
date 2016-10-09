@@ -6,7 +6,7 @@ class Business < ActiveRecord::Base
   # Validations
   validates :nit,   uniqueness: true
   validates :name,  presence: true
-  validates :email, presence: true
+  validates :address, presence: true
 
   # Callbacks
   before_save :format_attributes
