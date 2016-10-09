@@ -9,7 +9,7 @@ PASSWORD =  'frepi123'
 EMAILS = %w(admin@frepi.com client@frepi.com supervisor@frepi.com in-store-shopper@gmail.com delivery-shopper@gmail.com)
 
 if Rails.env.development?
-  
+
   # ---------------------------------- ROLES ----------------------------------- #
 
   # --- Default Frepi Admin --- #
@@ -62,6 +62,11 @@ if Rails.env.development?
                   password: PASSWORD, password_confirmation: PASSWORD)
   end
 
+  # --- businesses Random --- #
+  500.times do |_|
+    Business.create!(nit: Faker::Number.number(10), name: Faker::Company.name,
+    address: Faker::Address.street_address)
+  end
 
   # --- Supervisors Random --- #
   3.times do |_|
@@ -193,8 +198,8 @@ if Rails.env.development?
 else
 
   User.create!( name: 'Ernesto', last_name: 'De la Espriella',
-               email: 'frepicolombia@gmail.com', city_id: city.id, 
-               administrator: true, password: PASSWORD, 
+               email: 'frepicolombia@gmail.com', city_id: city.id,
+               administrator: true, password: PASSWORD,
                password_confirmation: PASSWORD)
 
   # Categories
@@ -204,9 +209,9 @@ else
   # => Hierbas frescas
   # => Verduras y vegetales empacados
 
-  
+
   category_frutas_verduras = Category.create!(name: 'Frutas y verduras', store_partner_id: StorePartner.first.id)
-  
+
   category_frutas_verduras.subcategories.create!(name: 'Verduras frescas')
   category_frutas_verduras.subcategories.create!(name: 'Hierbas frescas')
   category_frutas_verduras.subcategories.create!(name: 'Verduras y vegetales empacados')
