@@ -3,6 +3,7 @@ class Api::V1::BusinessesController <  Api::V1::ApiController
   skip_before_action :authenticate_user!
   skip_before_action :require_administrator
   skip_before_action :authenticate_supervisor!
+  before_action :find_business, except: [:index, :create]
 
   def index
     page = params[:page] || 1
@@ -19,6 +20,7 @@ class Api::V1::BusinessesController <  Api::V1::ApiController
   end
 
   def show
+    render json: @business, status: :ok
   end
 
   def create
@@ -39,5 +41,13 @@ class Api::V1::BusinessesController <  Api::V1::ApiController
   private
   def business_params
     params.permit(:nit, :name, :address)
+  end
+
+  def find_business
+    begin
+      @business = Business.find(params[:id])
+    rescue => e
+      render(json: { error: e.message }, status: :not_found)
+    end
   end
 end
