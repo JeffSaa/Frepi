@@ -36,7 +36,12 @@ class Api::V1::BusinessesController <  Api::V1::ApiController
   end
 
   def destroy
-
+    begin
+      @business.destroy
+      render json: @business, status: :ok
+    rescue => e
+      render(json: { error: e.message }, status: :internal_server_error)
+    end
   end
 
   private
