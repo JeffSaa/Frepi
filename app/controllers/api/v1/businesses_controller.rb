@@ -36,6 +36,7 @@ class Api::V1::BusinessesController <  Api::V1::ApiController
   end
 
   def destroy
+
   end
 
   private
