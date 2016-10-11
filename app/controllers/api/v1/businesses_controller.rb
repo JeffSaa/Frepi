@@ -33,6 +33,16 @@ class Api::V1::BusinessesController <  Api::V1::ApiController
   end
 
   def update
+    @business.assign_attributes(business_params)
+    begin
+      if @business.save
+        render json: @business, status: :ok
+      else
+        render json: { errors: @business.errors }, status: :bad_request
+      end
+    rescue => e
+      render json: { errors: e.message }, status: :internal_server_error
+    end
   end
 
   def destroy
@@ -40,7 +50,7 @@ class Api::V1::BusinessesController <  Api::V1::ApiController
       @business.destroy
       render json: @business, status: :ok
     rescue => e
-      render(json: { error: e.message }, status: :internal_server_error)
+      render(json: { errors: e.message }, status: :internal_server_error)
     end
   end
 
