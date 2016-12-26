@@ -92,6 +92,7 @@ class CheckoutVM
 	generate: ->
 
 		productsToSend = []
+		$('.successful.modal').modal('show')
 		
 		for product in @session.currentOrder.products()
 			productsToSend.push({
