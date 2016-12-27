@@ -119,7 +119,7 @@
 
           } else {
             Config.destroyLocalStorage();
-            return window.location.href = 'store/index.html';
+            return window.location.href = '/';
           }
         };
       })(this));
@@ -132,6 +132,7 @@
     CheckoutVM.prototype.generate = function() {
       var data, j, len, product, productsToSend, ref;
       productsToSend = [];
+      $('.successful.modal').modal('show');
       ref = this.session.currentOrder.products();
       for (j = 0, len = ref.length; j < len; j++) {
         product = ref[j];

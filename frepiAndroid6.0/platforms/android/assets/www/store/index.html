@@ -21,13 +21,11 @@
     <link color="#5bbad5" href="images/favicons/safari-pinned-tab.svg" rel="mask-icon" />
     <meta content="#00aba9" name="msapplication-TileColor" />
     <meta content="images/favicons/mstile-144x144.png" name="msapplication-TileImage" />
-    <meta content="#22B676" name="theme-color" />
+    <meta content="#ffffff" name="theme-color" />
     <!--Add semantic's CSS-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700" rel="stylesheet" type="text/css" />
     <link href="../semantic/out/semantic.min.css" rel="stylesheet" type="text/css" />
     <link href="../stylesheets/global.css" rel="stylesheet" type="text/css" />
-    <script src="../cordova.js"></script>
-    <script src="../../javascripts/plugins/openFB.js" type="text/javascript"></script>
     <script src="../javascripts/plugins/crypto-js.min.js" type="text/javascript"></script>
     <script src="../javascripts/jquery/jquery-2.1.4.min.js" type="text/javascript"></script>
     <script src="../semantic/out/semantic.min.js" type="text/javascript"></script>
@@ -385,12 +383,6 @@
             <button class="ui basic grey button"><i class="sidebar icon"></i>Departamentos</button>
           </div>
           <a class="link item" data-bind="click: store"><i class="home large grey icon"></i></a>
-          <div class="discount message item" data-bind="visible: shouldShowDiscountMessage">
-            <strong>&nbsp;Tienes $15,000 de descuento*</strong>
-            <div class="sub header">
-              *Válido para compras mayores a $80,000
-            </div>
-          </div>
           <div class="right menu">
             <div class="item">
               <button class="ui labeled icon button"><i class="shop icon"></i><!--ko text: session.currentOrder.numberProducts--><!--/ko--></button>
@@ -413,12 +405,7 @@
           </div>
           <div class="ui container" data-bind="visible: shouldShowDiscountMessage">
             <div class="ui discount success message">
-              <h4 class="ui header">
-                <i class="money icon"></i>&nbsp;Tienes $15,000 de descuento*
-                <div class="sub header">
-                  *Válido para compras mayores a $80,000
-                </div>
-              </h4>
+              <h4 class="ui header"></h4>
             </div>
           </div>
           <section class="products" id="frepi-categories">
@@ -467,8 +454,6 @@
             </div>
           </section>
         </div>
-        <script src="../cordova.js"></script>
-        <script src="../javascripts/plugins/openFB.js"></script>
         <script src="../javascripts/viewmodels/store/store.js" type="text/javascript"></script>
       </div>
       <footer>

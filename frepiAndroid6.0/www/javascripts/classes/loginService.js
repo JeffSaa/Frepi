@@ -3,77 +3,55 @@
     function LoginService() {}
 
     LoginService.initFB = function() {
-      return openFB.init({
-        appId: '433427986841087'
+      return FB.init({
+        appId: 433427986841087,
+        cookie: true,
+        version: 'v2.4'
       });
     };
 
     LoginService.FBLogin = function(callback) {
-      var FBcredentials, token;
+      var FBInfo;
       LoginService.initFB();
-      FBcredentials = {};
-      token = null;
-      return openFB.login((function(response) {
-        console.log(response);
+      FBInfo = {};
+      return FB.login((function(response) {
         if (response.status === 'connected') {
-          token = response.authResponse.accessToken;
-          return openFB.api({
-            path: '/me',
-            success: (function(_this) {
-              return function(responseAPI) {
-                var idFB;
-                idFB = void 0;
-                idFB = responseAPI.id;
-                return RESTfulService.makeRequest('POST', '/auth/facebook/callback', {
-                  uid: idFB
-                }, function(error, success, headers) {
-                  if (error) {
-                    console.log('First time this user is trying to log with FB');
-                    console.log('Now the request with user info is going to be sent...');
-                    openFB.api({
-                      path: '/' + idFB,
-                      params: {
-                        'fields': 'email,first_name,last_name,picture.height(400).width(400)',
-                        'access_token': token
-                      },
-                      success: function(responseAPI) {
-                        console.log('Successful login for: ' + responseAPI.name);
-                        console.log('Successful login for: ' + responseAPI.email);
-                        FBcredentials = {
-                          email: responseAPI.email,
-                          name: responseAPI.first_name,
-                          last_name: responseAPI.last_name,
-                          image: responseAPI.picture.data.url,
-                          uid: responseAPI.id
-                        };
-                        console.log(responseAPI);
-                        return RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBcredentials, (function(_this) {
-                          return function(error, success, headers) {
-                            if (error) {
-                              console.log('The user couldnt be created');
-                              return callback(error, null);
-                            } else {
-                              console.log(success);
-                              Config.destroyLocalStorage();
-                              Config.setItem('headers', JSON.stringify(headers));
-                              return Config.setItem('userObject', JSON.stringify(success.user));
-                            }
-                          };
-                        })(this));
+          return RESTfulService.makeRequest('POST', '/auth/facebook/callback', {
+            uid: response.authResponse.userID
+          }, (function(_this) {
+            return function(error, success, headers) {
+              if (error) {
+                FB.api('/me', {
+                  fields: 'email, first_name, last_name, picture.height(400).width(400)'
+                }, function(responseAPI) {
+                  FBInfo = {
+                    email: responseAPI.email,
+                    name: responseAPI.first_name,
+                    last_name: responseAPI.last_name,
+                    image: responseAPI.picture.data.url,
+                    uid: responseAPI.id
+                  };
+                  return RESTfulService.makeRequest('POST', '/auth/facebook/callback', FBInfo, (function(_this) {
+                    return function(error, success, headers) {
+                      if (error) {
+                        console.log('The user couldnt be created');
+                        return callback(error, null);
+                      } else {
+                        Config.destroyLocalStorage();
+                        Config.setItem('headers', JSON.stringify(headers));
+                        return Config.setItem('userObject', JSON.stringify(success.user));
                       }
-                    });
-                  } else {
-                    console.log(success);
-                    Config.destroyLocalStorage();
-                    Config.setItem('headers', JSON.stringify(headers));
-                    Config.setItem('userObject', JSON.stringify(success.user));
-                    console.log('FB user is registered in our DB');
-                  }
-                  return callback(null, success);
+                    };
+                  })(this));
                 });
-              };
-            })(this)
-          });
+              } else {
+                Config.destroyLocalStorage();
+                Config.setItem('headers', JSON.stringify(headers));
+                Config.setItem('userObject', JSON.stringify(success.user));
+              }
+              return callback(null, success);
+            };
+          })(this));
         } else if (response.status === 'not_authorized') {
           console.log('Doesnt logged into FrepiTest!');
           return callback(response.status, null);
@@ -88,7 +66,6 @@
 
     LoginService.regularLogin = function(callback) {
       var $form, data;
-      console.log('normal log');
       $form = $('.ui.login.form');
       $form.removeClass('error');
       if ($form.form('is valid')) {

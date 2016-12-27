@@ -218,7 +218,7 @@
             return console.log('An error has ocurred');
           } else {
             Config.destroyLocalStorage();
-            return window.location.href = '../store/index.html';
+            return window.location.href = '../';
           }
         };
       })(this));

@@ -44,14 +44,9 @@
               });
               return $form.form('add errors', errors);
             } else {
-              console.log(success);
               if (headers.accessToken) {
                 Config.setItem('headers', JSON.stringify(headers));
               }
-              Config.setItem('credentials', JSON.stringify({
-                email: data.email,
-                password: data.password
-              }));
               Config.setItem('userObject', JSON.stringify(success));
               return window.location.href = '../store/index.html';
             }
