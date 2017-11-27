@@ -1,0 +1,173 @@
+.ui.small.admin.delete.category.modal
+	.header Eliminar Categoria
+	.content
+		p
+			|Está a punto de eliminar la categoria&nbsp;
+			strong data-bind="text: chosenCategory.name"
+			|, ¿Desea hacerlo?
+	.actions
+		.ui.cancel.button
+			i.remove.icon
+			|No
+		.ui.green.button data-bind="click: deleteCategory"
+			i.check.icon
+			|Si
+.ui.small.admin.delete.subcategory.modal
+	.header Eliminar Subcategoria
+	.content
+		p
+			|Está a punto de eliminar la subcategoria&nbsp;
+			strong data-bind="text: chosenSubcategory.name"
+			|, ¿Desea hacerlo?
+	.actions
+		.ui.cancel.button
+			i.remove.icon
+			|No
+		.ui.green.button data-bind="click: deleteSubcategory"
+			i.check.icon
+			|Si
+.ui.small.admin.create.category.modal
+	.header Crear Categoria
+	.content
+		form.ui.form data-bind="submit: createCategory"
+			.field
+				label Nombre
+				input type="text" name="name" placeholder="Nombre"
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Crear Categoria
+					i.checkmark.icon
+
+.ui.small.admin.create.subcategory.modal
+	.header Crear Subcategoria
+	.content
+		form.ui.form data-bind="submit: createSubcategory"
+			.field
+				label Nombre
+				input type="text" name="name" placeholder="Nombre"
+			.field
+				label Categoria que pertenece
+				.ui.fluid.selection.category.dropdown
+					input name="categoryID" type="hidden"
+					i.dropdown.icon
+					.default.text Selecciona una...
+					.menu data-bind="foreach: currentCategories"
+						.item data-bind="attr: {'data-value': $data.id}"
+							|<!--ko text: $data.name--><!--/ko-->
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Crear Subcategoria
+					i.checkmark.icon
+
+.ui.small.admin.edit.category.modal
+	.header Editar Categoria
+	.content
+		form.ui.form.edit.category data-bind="submit: updateCategory"
+			.field
+				label Nombre
+				input type="text" name="name" placeholder="Nombre"
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Editar Categoria
+					i.checkmark.icon
+
+.ui.small.admin.edit.subcategory.modal
+	.header Editar Subcategoria
+	.content
+		form.ui.form data-bind="submit: updateSubcategory"
+			.field
+				label Nombre
+				input type="text" name="name" placeholder="Nombre"
+			.field
+				label Categoria que pertenece
+				.ui.fluid.selection.category.dropdown
+					input name="categoryID" type="hidden"
+					i.dropdown.icon
+					.default.text Selecciona una...
+					.menu data-bind="foreach: currentCategories"
+						.item data-bind="attr: {'data-value': $data.id}"
+							|<!--ko text: $data.name--><!--/ko-->
+			.buttons-to-right
+				.ui.cancel.button Cancelar
+				button.ui.labeled.green.submit.icon.button type="submit"
+					|Editar Subcategoria
+					i.checkmark.icon
+
+header
+	h2 Categorias y subcategorias
+
+section.content
+	article
+		h3 Categorias
+		button.ui.green.create.category.button
+			i.plus.icon
+			|Agregar categoria
+		table.ui.celled.categories.table
+			thead
+				tr
+					th ID
+					th Nombre
+					th # subcat
+					th Acciones
+			tbody data-bind="foreach: currentCategories"
+				tr
+					td data-bind="text: $data.id"
+					td data-bind="text: $data.name"
+					td data-bind="text: $data.address"
+					td
+						i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdate"
+						i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDelete"
+			tfoot
+				tr
+					th colspan="4"
+					/	.ui.right.floated.pagination.menu
+					/		a.icon.item data-bind="click: setPrevCategoryPage"
+					/			i.left.chevron.icon
+					/		.pages.item data-bind="foreach: categoriesPages.showablePages"
+					/			a.item data-bind="text: $data.num, click: $root.fetchCategoryPage"
+					/		a.icon.item data-bind="click: setNextCategoryPage"
+					/			i.right.chevron.icon
+	article.subcategories
+		h3 Subcategorias
+		button.ui.green.create.subcategory.button
+			i.plus.icon
+			|Agregar subcategoria
+		p
+			strong Categoria
+		.ui.selection.category.dropdown
+			input name="categoryID" type="hidden"
+			i.dropdown.icon
+			.default.text Selecciona una...
+			.menu data-bind="foreach: currentCategories"
+				.item data-bind="attr: {'data-value': $data.id}"
+					|<!--ko text: $data.name--><!--/ko-->
+		table.ui.celled.subcategories.table
+			thead
+				tr
+					th ID
+					th Nombre
+					th # productos
+					th Acciones
+			tbody data-bind="foreach: currentSubcategories"
+				tr
+					td data-bind="text: $data.id"
+					td data-bind="text: $data.name"
+					td data-bind="text: $data.address"
+					td
+						i.bordered.inverted.blue.pencil.link.icon data-bind="click: $root.showUpdateSubcategory"
+						i.bordered.inverted.red.trash.link.icon data-bind="click: $root.showDeleteSubcategory"
+			tfoot
+				tr
+					th colspan="4"
+						/.ui.right.floated.pagination.menu
+						/	a.icon.item data-bind="click: setPrevSubcategoryPage"
+						/		i.left.chevron.icon
+						/	.pages.item data-bind="foreach: subcategoriesPages.showablePages"
+						/		a.item data-bind="text: $data.num, click: $root.fetchSubcategoryPage"
+						/	a.icon.item data-bind="click: setNextSubcategoryPage"
+						/		i.right.chevron.icon
+
+script src="../javascripts/viewmodels/admin/categories.js" type="text/javascript"

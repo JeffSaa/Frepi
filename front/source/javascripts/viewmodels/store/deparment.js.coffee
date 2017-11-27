@@ -1,0 +1,126 @@
+class DeparmentVM extends TransactionalPageVM
+	constructor: ->
+		super()
+		@deparment = ko.mapping.fromJS(DefaultModels.DEPARMENT)
+		@subcategories = ko.observableArray()
+		@products = ko.observableArray()
+
+		@currentSubcatBtn = null
+
+		# Display variables
+		@shouldDisplayLoader = ko.observable(true)
+
+		# Modal variables
+		@selectedProduct = null
+		@selectedProductCategory = ko.observable()
+		@selectedProductImage = ko.observable()
+		@selectedProductName = ko.observable()
+		@selectedProductPrice = ko.observable()
+
+		@setExistingSession()
+		@setUserInfo()
+		@setDeparment()
+		@setSizeSidebar()
+		@setSizeButtons()
+
+		# TODO: Change size of buttons on mobile devices
+
+		@setDOMElements()
+
+	setDeparment: ->
+		RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}", '', (error, success, headers) =>
+			if error
+				# console.log 'An error has ocurred while fetching the categories!'
+				console.log error
+			else
+				ko.mapping.fromJS(success, @deparment)
+				RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}/subcategories", '', (error, success, headers) =>
+					if error
+					# console.log 'An error has ocurred while fetching the categories!'
+						console.log error
+					else
+						@setDOMElems()
+						@subcategories(success)
+						if @session.currentSubcategorID
+							@fetchProducts({id: @session.currentSubcategorID})
+						else
+							@fetchAllProducts()
+						# Config.setItem('headers', JSON.stringify(headers)) if headers.accessToken
+				)
+		)
+
+	fetchAllProducts: =>
+		@products([])
+		@shouldDisplayLoader(true)
+		$('h1 + .horizontal.list .button').addClass('basic')
+		$('.list .item.all .button').removeClass('basic')
+
+		RESTfulService.makeRequest('GET', "/categories/#{@session.currentDeparmentID}/products", '', (error, success, headers) =>
+			@shouldDisplayLoader(false)
+			$('section.products').css('display', 'block')
+			if error
+			# console.log 'An error has ocurred while fetching the categories!'
+				console.log error
+			else
+				if success.length > 0
+					@products(success)
+					@setCartItemsLabels()
+				else
+					$('.products .no-results-message').css('display', 'block')
+		)
+
+	fetchProducts: (subcategory) =>
+		@products([])
+		@shouldDisplayLoader(true)
+		$('h1 + .horizontal.list .button').addClass('basic')
+		$("#subcat#{subcategory.id}").removeClass('basic')
+
+		# currentButton = clickedButton.toElement if !!clickedButton
+		RESTfulService.makeRequest('GET', "/subcategories/#{subcategory.id}/products", '', (error, success, headers) =>
+			@shouldDisplayLoader(false)
+			$('section.products').css('display', 'block')
+			if error
+			# console.log 'An error has ocurred while fetching the categories!'
+				console.log error
+			else
+				if success.length > 0
+					@products(success)
+					@setCartItemsLabels()
+				else
+					$('.products .no-results-message').css('display', 'block')
+		)
+
+	profile: ->
+		@saveOrder()
+		Config.setItem('showOrders', 'false')
+		window.location.href = '../store/profile.html'
+
+	orders: ->
+		@saveOrder()
+		Config.setItem('showOrders', 'true')
+		window.location.href = '../store/profile.html'
+
+	setDOMElements: ->
+		$('#departments-menu').sidebar({
+				transition: 'overlay'
+				mobileTransition: 'overlay'
+			}).sidebar('attach events', '#store-secondary-navbar button.basic', 'show')
+		$('#mobile-menu')
+			.sidebar('setting', 'transition', 'overlay')
+			.sidebar('setting', 'mobileTransition', 'overlay')
+			.sidebar('attach events', '#store-primary-navbar #store-frepi-logo .sidebar', 'show')
+		$('#modal-dropdown').dropdown()
+
+	setSizeButtons: ->
+		if $(window).width() < 480
+			$('.horizontal.list .button').addClass('mini')
+
+		$(window).resize(->
+			if $(window).width() < 480
+				$('.horizontal.list .button').addClass('mini')
+			else
+				$('.horizontal.list .button').removeClass('mini')
+		)
+
+store = new DeparmentVM
+ko.applyBindings(store)
